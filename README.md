@@ -11,4 +11,4 @@ Security Administration (NNS).
 ### Sphinx
 
 Sample Sphinx documentation for consideration is provided within the
-`doc/sphinx` folder.
+`doc/sphinx` folder. More information can be read [here](doc/sphinx/README.md).
