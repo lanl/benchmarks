@@ -155,6 +155,16 @@ are some notes below that may be helpful.
   has packages that support preview rendering of RST files.
 
 
+
+Build Script
+============
+
+The aforementioned script that builds this is replicated below for reference.
+
+.. literalinclude:: ../build_doc.py
+   :language: python
+
+
 .. [Sphinx] G. Brandl, 'Overview -- Sphinx 4.0.0+ documentation', 2021. [Online]. Available: https://www.sphinx-doc.org. [Accessed: 12- Jan- 2021]
 .. [Python] Python Software Foundation, 'Welcome to Python.org', 2021. [Online]. Available: https://www.python.org. [Accessed: 12- Jan- 2021]
 .. [RST] Docutils Authors, 'A ReStructuredText Primer -- Docutils 3.0 documentation', 2015. [Online]. Available: https://docutils.readthedocs.io/en/sphinx-docs/user/rst/quickstart.html. [Accessed: 12- Jan- 2021]
