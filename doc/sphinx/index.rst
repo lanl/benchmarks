@@ -12,6 +12,7 @@ ATS Benchmarks Project
    :caption: Main:
 
    0_intro/introduction
+   8_sparta/sparta
 
 .. toctree::
    :numbered:
