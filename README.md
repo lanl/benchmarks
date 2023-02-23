@@ -3,7 +3,7 @@
 This is a repository that contains items relevant for benchmarking activities
 relating to Advanced Simulation & Computing (ASC) Advanced Technology Systems
 (HPC). ASC is a Program under the Department of Energy (DOE) National Nuclear
-Security Administration (NNS).
+Security Administration (NNSA).
 
 
 ## Documentation
