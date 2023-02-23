@@ -27,8 +27,43 @@ From their [site]_:
 Characteristics
 ===============
 
+Problem
+-------
+
 Be sure to insert a compelling problem description. Also discuss how this is
 within the repository.
+
+The primary input file that controls the simulation is ``in.cylinder``. An
+excerpt from this input file that has its key parameters is provided below.
+
+.. code-block::
+
+   <snip>
+    37 ###################################
+    38 # Simulation initialization standards
+    39 ###################################
+    40 variable            ppc equal 34
+   <snip>
+   149 ###################################
+   150 # Unsteady Output
+   151 ###################################
+   <snip>
+   174 run                 1000
+
+These parameters are described below.
+
+``ppc``
+   This sets the **p**\ articles **p**\ er **c**\ ell variable. This variable
+   controls the size of the problem and, accordingly, the amount of memory it
+   uses.
+
+``run``
+   This sets how many iterations it will run for, which also controls the wall
+   time required for termination.
+
+
+Figure of Merit
+---------------
 
 
 Building
