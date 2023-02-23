@@ -33,7 +33,7 @@ Problem
 Be sure to insert a compelling problem description. Also discuss how this is
 within the repository.
 
-The primary input file that controls the simulation is ``in.cylinder``. An
+The primary input file that controls the simulation is "in.cylinder". An
 excerpt from this input file that has its key parameters is provided below.
 
 .. code-block::
@@ -64,6 +64,36 @@ These parameters are described below.
 
 Figure of Merit
 ---------------
+
+Each SPARTA simulation writes out a file named "log.sparta". At the end of this
+simulation is a block that resembles the following example.
+
+.. code-block::
+
+   Step CPU Np Natt Ncoll Maxlevel
+          0            0   446441        0        0        5
+         50   0.95011643   446367     3671     2981        5
+        100    2.1636236   446384     5096     4079        5
+        150     3.459164   446330     5588     4380        5
+        200    4.7954215   446424     5895     4606        5
+        250    6.1550201   446373     6104     4720        5
+        300    7.5329763   446354     6083     4669        5
+        350    8.9225474   446391     6178     4775        5
+        400    10.324853   446388     6380     4915        5
+        450    11.736653   446369     6349     4769        5
+        500    13.157484   446307     6470     4903        5
+        550    14.587244   446341     6363     4751        5
+        600    16.023752   446378     6457     4845        5
+        650    17.468165   446372     6475     4829        5
+        700    18.918792   446382     6514     4789        5
+        750    20.375701   446378     6623     4842        5
+        800    21.840051   446423     6550     4798        5
+        850    23.309482   446431     6615     4876        5
+        900    24.784149   446377     6676     4950        5
+        950    26.263906   446406     6746     4862        5
+       1000    27.748297   446377     6542     4847        5
+   Loop time of 27.7483 on 1 procs for 1000 steps with 446377 particles
+
 
 
 Building
