@@ -27,13 +27,59 @@ From their [site]_:
 Characteristics
 ===============
 
-Be sure to insert a compelling problem description.
+Be sure to insert a compelling problem description. Also discuss how this is
+within the repository.
 
 
 Building
 ========
 
-Be sure to provide instructions on how to build.
+Instructions are provided on how to build SPARTA for the following systems:
+
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`BuildATS2`)
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`BuildATS3`)
+
+
+.. _BuildATS2:
+
+ATS-2/Sierra
+------------
+
+Instructions for building on Sierra are provided below.
+
+.. code-block:: bash
+
+   module load cuda/11.2.0
+   module load gcc/8.3.1
+   git clone https://github.com/sparta/sparta.git sparta
+   pushd "sparta/src"
+   make yes-kokkos
+   make -j 64 vortex_kokkos
+   ls -lh `pwd -P`/spa_vortex_kokkos
+   popd
+
+
+.. _BuildATS3:
+
+ATS-3/Crossroads
+----------------
+
+Instructions for building on Crossroads are provided below.
+
+.. code-block:: bash
+
+   module unload intel
+   module unload openmpi-intel
+   module use /apps/modules/modulefiles-apps/cde/v3/
+   module load cde/v3/devpack/intel-ompi
+   module list
+   git clone https://github.com/sparta/sparta.git sparta
+   cp -a Makefile.manzano_kokkos "sparta/src/MAKE"
+   pushd "sparta/src"
+   make yes-kokkos
+   make -j 16 manzano_kokkos
+   ls -lh `pwd -P`/spa_manzano_kokkos
+   popd
 
 
 Running
