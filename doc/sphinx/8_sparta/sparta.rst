@@ -85,6 +85,54 @@ Instructions for building on Crossroads are provided below.
 Running
 =======
 
+Instructions are provided on how to run SPARTA for the following systems:
+
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`RunATS2`)
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`RunATS3`)
+
+
+.. _RunATS2:
+
+ATS-2/Sierra
+------------
+
+An example of how to run the test case with a single GPU on Sierra is provided
+below.
+
+.. code-block:: bash
+
+   module load gcc/8.3.1
+   module load cuda/11.2.0
+   jsrun \
+       -M "-gpu -disable_gdr" \
+       -n 1 -a 1 -c 1 -g 1 -d packed \
+       "sparta/src/spa_vortex_kokkos" -in "in.cylinder" \
+       -k on g 1 -sf kk -pk kokkos reduction atomic \
+       >"sparta.out" 2>&1
+
+
+.. _RunATS3:
+
+ATS-3/Crossroads
+----------------
+
+An example of how to run the test case on Crossroads is provided below.
+
+.. code-block:: bash
+
+   module unload intel
+   module unload openmpi-intel
+   module use /apps/modules/modulefiles-apps/cde/v3/
+   module load cde/v3/devpack/intel-ompi
+   mpiexec \
+       --np ${num_procs} \
+       --bind-to socket \
+       --map-by socket:span \
+       "sparta/src/spa_manzano_kokkos" -in "in.cylinder" \
+       >"sparta.out" 2>&1
+
+
+
 Verification of Results
 =======================
 
