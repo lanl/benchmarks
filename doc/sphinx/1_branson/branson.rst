@@ -133,6 +133,7 @@ Example FOM Results
 
 .. figure:: plots/cpu-strong.png
    :alt: CPU Strong Scaling (Fixed problem size, 10M Particles)
+   :caption: CPU Strong Scaling (Fixed problem size, 10M Particles)
    :align: center
 
 Verification of Results
