@@ -112,9 +112,8 @@ Example FOM Results
    :align: center
 
    +--------+----------+---------------------+
-   |cores   | runtime  |     throughput      |
-   |        |          |                     | 
-   |        |          |  (particles/second) |
+   |cores   | runtime  | | throughput        |
+   |        |          | | (particles/second)|
    +========+==========+=====================+
    |1       | 1201.9   |      8.32E+03       |
    +--------+----------+---------------------+
@@ -133,8 +132,9 @@ Example FOM Results
 
 .. figure:: plots/cpu-strong.png
    :alt: CPU Strong Scaling (Fixed problem size, 10M Particles)
-   :caption: CPU Strong Scaling (Fixed problem size, 10M Particles)
    :align: center
+   
+   CPU Strong Scaling (Fixed problem size, 10M Particles)
 
 Verification of Results
 =======================
