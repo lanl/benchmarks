@@ -115,7 +115,7 @@ Running
 
 The driver for AMG2023 is called 'amg'. Type
 
-   ``mpirun -np 1 amg -help``
+   ``amg -help``
 
 to get usage information.  This prints out the following:
 
@@ -125,17 +125,18 @@ Usage:
 
  amg [<options>]
  
-  -P <Px> <Py> <Pz>  : define MPI process topology 
+   -problem <ID>: problem ID
+       1 = solves 1 problem with AMG-PCG (default) 
+       2 = solves 1 problem AMG-GMRES(100)
 
-  -n <nx> <ny> <nz>  : define size per MPI process for problems on cube
+  -n <nx> <ny> <nz>: problem size per MPI process (default: nx=ny=nz=10)
 
-  -problem <p>       : <p> needs to be 1 (default) or 2
+  -P <px> <py> <pz>: processor topology (default: px=py=pz=1)
 
-  -printstats        : print out detailed info on AMG setup and number of iterations
- 
-  -printallstats     : print out detailed info on AMG setup and solve
- 
-  -printsystem       : print out the system
+  -print       : prints the system
+  -printstats  : prints preconditioning and convergence stats
+  -printallstats  : prints preconditioning and convergence stats
+                    including residual norms for each iteration
 ..
 
 All arguments are optional.  A very important option for AMG2023 is the '-P' option. 
