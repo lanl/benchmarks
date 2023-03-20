@@ -31,10 +31,9 @@ Problem
 -------
 
 This is not a sensitive problem and will be present within the upstream SPARTA
-repository shortly.
-
-The primary input file that controls the simulation is "in.cylinder". An
-excerpt from this input file that has its key parameters is provided below.
+repository shortly. The primary input file that controls the simulation is
+"in.cylinder". An excerpt from this input file that has its key parameters is
+provided below.
 
 .. code-block::
 
@@ -94,13 +93,15 @@ simulation is a block that resembles the following example.
        1000    27.748297   446377     6542     4847        5
    Loop time of 27.7483 on 1 procs for 1000 steps with 446377 particles
 
-The quantity of interest (QOI) is "mega cell steps per second," which can be computed
-from the above table by multiplying the third column by the first, dividing the
-result by the second column, and finally dividing by 1,000,000.
+The quantity of interest (QOI) is "mega cell steps per second," which can be
+computed from the above table by multiplying the third column (no. of cells) by
+the first (no. of steps), dividing the result by the second column (elapsed time
+in seconds), and finally dividing by 1,000,000 (normalize).
 
 The number of steps must be large enough so the times mentioned in the second
-column exceed 600 (i.e., 10 minutes). The figure of merit (FOM) is the harmonic
-mean of the QOI computed from the times between 300 and 600.
+column exceed 600 (i.e., so it runs for at least 10 minutes). The figure of
+merit (FOM) is the harmonic mean of the QOI computed from the times between 300
+and 600 seconds.
 
 
 Building
