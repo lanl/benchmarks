@@ -141,7 +141,7 @@ Instructions for building on Manzano are provided below.
 
 .. _BuildATS2:
 
-ATS-2/Sierra
+ATS-2/Vortex
 ------------
 
 Instructions for building on Sierra are provided below.
@@ -194,7 +194,7 @@ An example of how to run the test case on Manzano is provided below.
 
 .. _RunATS2:
 
-ATS-2/Sierra
+ATS-2/Vortex
 ------------
 
 An example of how to run the test case with a single GPU on Sierra is provided
@@ -231,20 +231,35 @@ CTS-1/Manzano (Intel Cascade Lake)
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
    is available.
 
-.. csv-table:: SPARTA Performance on Manzano
+Strong scaling performance of SPARTA is provided within the following table and
+figure.
+
+.. csv-table:: SPARTA Strong Scaling Performance on Manzano
    :file: cts1.csv
    :widths: 10, 10, 10
    :header-rows: 1
 
 .. image:: cts1.png
    :width: 512
-   :alt: SPARTA Performance on Manzano
+   :alt: SPARTA Strong Scaling Performance on Manzano
 
 
 .. _ResultsATS2:
 
-ATS-2/Sierra
+ATS-2/Vortex
 ------------
+
+Throughput performance of SPARTA on ATS-2/Vortex (a small version of
+ATS-2/Sierra) is provided within the following table and figure.
+
+.. csv-table:: SPARTA Throughput Performance on ATS-2/Vortex
+   :file: ats2.csv
+   :widths: 10, 10
+   :header-rows: 1
+
+.. image:: ats2.png
+   :width: 512
+   :alt: SPARTA Throughput Performance on ATS-2/Vortex
 
 
 References
