@@ -30,8 +30,8 @@ Characteristics
 Problem
 -------
 
-Be sure to insert a compelling problem description. Also discuss how this is
-within the repository.
+This is not a sensitive problem and will be present within the upstream SPARTA
+repository shortly.
 
 The primary input file that controls the simulation is "in.cylinder". An
 excerpt from this input file that has its key parameters is provided below.
@@ -94,6 +94,13 @@ simulation is a block that resembles the following example.
        1000    27.748297   446377     6542     4847        5
    Loop time of 27.7483 on 1 procs for 1000 steps with 446377 particles
 
+The quantity of interest (QOI) is "mega cell steps per second," which can be computed
+from the above table by multiplying the third column by the first, dividing the
+result by the second column, and finally dividing by 1,000,000.
+
+The number of steps must be large enough so the times mentioned in the second
+column exceed 600 (i.e., 10 minutes). The figure of merit (FOM) is the harmonic
+mean of the QOI computed from the times between 300 and 600.
 
 
 Building
@@ -101,8 +108,35 @@ Building
 
 Instructions are provided on how to build SPARTA for the following systems:
 
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`BuildATS2`)
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`BuildATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`BuildATS2`)
+
+
+.. _BuildATS3:
+
+CTS-1/Manzano (Intel Cascade Lake)
+----------------------------------
+
+.. note::
+   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
+   is available.
+
+Instructions for building on Manzano are provided below.
+
+.. code-block:: bash
+
+   module unload intel
+   module unload openmpi-intel
+   module use /apps/modules/modulefiles-apps/cde/v3/
+   module load cde/v3/devpack/intel-ompi
+   module list
+   git clone https://github.com/sparta/sparta.git sparta
+   cp -a Makefile.manzano_kokkos "sparta/src/MAKE"
+   pushd "sparta/src"
+   make yes-kokkos
+   make -j 16 manzano_kokkos
+   ls -lh `pwd -P`/spa_manzano_kokkos
+   popd
 
 
 .. _BuildATS2:
@@ -124,12 +158,25 @@ Instructions for building on Sierra are provided below.
    popd
 
 
-.. _BuildATS3:
+Running
+=======
 
-ATS-3/Crossroads
-----------------
+Instructions are provided on how to run SPARTA for the following systems:
 
-Instructions for building on Crossroads are provided below.
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`RunATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`RunATS2`)
+
+
+.. _RunATS3:
+
+CTS-1/Manzano (Intel Cascade Lake)
+----------------------------------
+
+.. note::
+   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
+   is available.
+
+An example of how to run the test case on Manzano is provided below.
 
 .. code-block:: bash
 
@@ -137,23 +184,12 @@ Instructions for building on Crossroads are provided below.
    module unload openmpi-intel
    module use /apps/modules/modulefiles-apps/cde/v3/
    module load cde/v3/devpack/intel-ompi
-   module list
-   git clone https://github.com/sparta/sparta.git sparta
-   cp -a Makefile.manzano_kokkos "sparta/src/MAKE"
-   pushd "sparta/src"
-   make yes-kokkos
-   make -j 16 manzano_kokkos
-   ls -lh `pwd -P`/spa_manzano_kokkos
-   popd
-
-
-Running
-=======
-
-Instructions are provided on how to run SPARTA for the following systems:
-
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`RunATS2`)
-* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`RunATS3`)
+   mpiexec \
+       --np ${num_procs} \
+       --bind-to socket \
+       --map-by socket:span \
+       "sparta/src/spa_manzano_kokkos" -in "in.cylinder" \
+       >"sparta.out" 2>&1
 
 
 .. _RunATS2:
@@ -176,30 +212,40 @@ below.
        >"sparta.out" 2>&1
 
 
-.. _RunATS3:
-
-ATS-3/Crossroads
-----------------
-
-An example of how to run the test case on Crossroads is provided below.
-
-.. code-block:: bash
-
-   module unload intel
-   module unload openmpi-intel
-   module use /apps/modules/modulefiles-apps/cde/v3/
-   module load cde/v3/devpack/intel-ompi
-   mpiexec \
-       --np ${num_procs} \
-       --bind-to socket \
-       --map-by socket:span \
-       "sparta/src/spa_manzano_kokkos" -in "in.cylinder" \
-       >"sparta.out" 2>&1
-
-
 
 Verification of Results
 =======================
+
+Results from SPARTA are provided on the following systems:
+
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`ResultsATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`ResultsATS2`)
+
+
+.. _ResultsATS3:
+
+CTS-1/Manzano (Intel Cascade Lake)
+----------------------------------
+
+.. note::
+   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
+   is available.
+
+.. csv-table:: SPARTA Performance on Manzano
+   :file: cts1.csv
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. image:: cts1.png
+   :width: 512
+   :alt: SPARTA Performance on Manzano
+
+
+.. _ResultsATS2:
+
+ATS-2/Sierra
+------------
+
 
 References
 ==========
