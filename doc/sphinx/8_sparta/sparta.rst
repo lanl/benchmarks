@@ -93,8 +93,8 @@ simulation is a block that resembles the following example.
        1000    27.748297   446377     6542     4847        5
    Loop time of 27.7483 on 1 procs for 1000 steps with 446377 particles
 
-The quantity of interest (QOI) is "mega cell steps per second," which can be
-computed from the above table by multiplying the third column (no. of cells) by
+The quantity of interest (QOI) is "mega particle steps per second," which can be
+computed from the above table by multiplying the third column (no. of particles) by
 the first (no. of steps), dividing the result by the second column (elapsed time
 in seconds), and finally dividing by 1,000,000 (normalize).
 
