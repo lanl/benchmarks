@@ -112,6 +112,8 @@ Instructions are provided on how to build SPARTA for the following systems:
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`BuildATS3`)
 * Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`BuildATS2`)
 
+If submodules were cloned within this repository, then the source code to build
+SPARTA is already present at the top level within the "sparta" folder.
 
 .. _BuildATS3:
 

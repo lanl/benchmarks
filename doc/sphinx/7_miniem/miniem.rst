@@ -76,6 +76,8 @@ Instructions are provided on how to build MiniEM for the following systems:
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`MiniEMBuildATS3`)
 * Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`MiniEMBuildATS2`)
 
+If submodules were cloned within this repository, then the source code to build
+MiniEM is already present at the top level within the "trilinos" folder.
 
 .. _MiniEMBuildATS3:
 

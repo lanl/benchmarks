@@ -2,3 +2,6 @@
 	path = branson
 	url = git@github.com:lanl/branson.git
 	branch = ats5
+[submodule "trilinos"]
+	path = trilinos
+	url = https://github.com/trilinos/Trilinos.git
