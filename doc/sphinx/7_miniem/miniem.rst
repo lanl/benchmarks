@@ -2,7 +2,14 @@
 MiniEM
 ******
 
-This is the documentation for the ATS-5 Benchmark MiniEM.
+This is the documentation for the ATS-5 Benchmark MiniEM. The content herein was
+created by the following authors (in alphabetical order).
+
+- `Anthony M. Agelastos <mailto:amagela@sandia.gov>`_
+- `David I. Collins <mailto:dcollin@sandia.gov>`_
+- `Christian A. Glusa <mailto:caglusa@sandia.gov>`_
+- `Roger P. Pawlowski <mailto:rppawlo@sandia.gov>`_
+- `Joel O. Stevenson <mailto:josteve@sandia.gov>`_
 
 
 Purpose

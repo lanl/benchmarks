@@ -2,7 +2,13 @@
 SPARTA
 ******
 
-This is the documentation for the ATS-5 Benchmark [SPARTA]_.
+This is the documentation for the ATS-5 Benchmark [SPARTA]_. The content herein
+was created by the following authors (in alphabetical order).
+
+- `Anthony M. Agelastos <mailto:amagela@sandia.gov>`_
+- `Michael A. Gallis <mailto:magalli@sandia.gov>`_
+- `Stan Moore <mailto:stamoor@sandia.gov>`_
+- `Joel O. Stevenson <mailto:josteve@sandia.gov>`_
 
 
 Purpose
