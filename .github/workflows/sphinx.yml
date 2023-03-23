@@ -30,6 +30,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Install Gnuplot
+        run: sudo apt -y install gnuplot
       - name: Install Sphinx
         run: sudo pip install sphinx
       - name: Install Sphinx RTD Theme
