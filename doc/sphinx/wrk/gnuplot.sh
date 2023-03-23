@@ -7,7 +7,9 @@ do_single()
     m_dir=`dirname "${1}"`
     m_gp=`basename "${1}"`
     cd ${m_dir}
+    set -x
     "${APP_GNUPLOT}" "${m_gp}"
+    set +x
 }
 export -f do_single
 
