@@ -13,6 +13,13 @@ do_single()
 }
 export -f do_single
 
+echo "GNUPLOT INFO: execution within ` pwd -P `"
+echo "GNUPLOT INFO: gnuplot: ` which gnuplot `"
+echo "GNUPLOT INFO: find: ` which find `"
+echo "GNUPLOT INFO: xargs: ` which xargs `"
+echo "GNUPLOT INFO: dirname: ` which dirname `"
+echo "GNUPLOT INFO: basename: ` which basename `"
+
 find .. -name "*.gp" -print0 \
     | xargs -0 -I file bash -c "do_single file"
 
