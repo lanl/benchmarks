@@ -11,6 +11,10 @@ created by the following authors (in alphabetical order).
 - `Roger P. Pawlowski <mailto:rppawlo@sandia.gov>`_
 - `Joel O. Stevenson <mailto:josteve@sandia.gov>`_
 
+This material is based upon work supported by the Sandia National Laboratories
+(SNL), a multimission laboratory managed and operated by National Technology
+and Engineering Solutions of Sandia under the U.S. Department of Energy's
+National Nuclear Security Administration under contract DE-NA0003525.
 
 Purpose
 =======
