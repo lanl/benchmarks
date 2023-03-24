@@ -8,24 +8,28 @@ created by the following authors (in alphabetical order).
 - `Anthony M. Agelastos <mailto:amagela@sandia.gov>`_
 - `David I. Collins <mailto:dcollin@sandia.gov>`_
 - `Christian A. Glusa <mailto:caglusa@sandia.gov>`_
+- `Douglas M. Pase <mailto:dmpase@sandia.gov>`_
 - `Roger P. Pawlowski <mailto:rppawlo@sandia.gov>`_
 - `Joel O. Stevenson <mailto:josteve@sandia.gov>`_
 
 This material is based upon work supported by the Sandia National Laboratories
-(SNL), a multimission laboratory managed and operated by National Technology
-and Engineering Solutions of Sandia under the U.S. Department of Energy's
-National Nuclear Security Administration under contract DE-NA0003525.
+(SNL), a multimission laboratory managed and operated by National Technology and
+Engineering Solutions of Sandia under the U.S. Department of Energy's National
+Nuclear Security Administration under contract DE-NA0003525.
+
 
 Purpose
 =======
 
 MiniEM solves a first order formulation of Maxwell's equations of
-electromagnetics. MiniEM is the [Trilinos]_ proxy driver for the electromagnetics
-sub-problem solved by EMPIRE and exercises the relevant Trilinos components
-(i.e., Tpetra, Belos, MueLu, Ifpack2, Intrepid2, Panzer).
+electromagnetics. MiniEM is the [Trilinos]_ proxy driver for the
+electromagnetics sub-problem solved by EMPIRE and exercises the relevant
+Trilinos components (i.e., Tpetra, Belos, MueLu, Ifpack2, Intrepid2, Panzer).
+
 
 Characteristics
 ===============
+
 
 Problem
 -------
@@ -75,8 +79,71 @@ region (the first floating point number on the same line as the number of
 timesteps, is "656.961" in this example).
 
 The number of steps must be large enough so the timestepper time exceeds 600
-(i.e., so it runs for at least 10 minutes). The figure of merit (FOM) is the
-QOI for a simulation above the 10 minute mark.
+(i.e., so it runs for at least 10 minutes). The figure of merit (FOM) is the QOI
+for a simulation above the 10 minute mark.
+
+
+System Information
+==================
+
+The platforms utilized for benchmarking activities are listed and described below.
+
+* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
+  known as Manzano at SNL (see :ref:`MiniEMSystemCTS1`)
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`MiniEMSystemATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`MiniEMSystemATS2`)
+
+
+.. _MiniEMSystemCTS3:
+
+CTS-1/Manzano
+-------------
+
+.. note::
+   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
+   is available.
+
+The Manzano HPC cluster has 1,488 compute nodes connected together by a
+high-bandwidth, low-latency Intel OmniPath network where each compute node uses
+two Intel Xeon Platinum 8268 (Cascade Lake) processors. Each processor has 24
+cores, and each node has 48 physical cores and 96 virtual cores. Each core has a
+base frequency of 2.9 GHz and a max frequency of 3.9 GHz. Cores support two
+AVX512 SIMD units each, with peak floating-point performance (RPEAK) of 2.9 GHz
+x 32 FLOP/clock x 48 cores = 4.45 TF/s. Measured DGEMM performance is just under
+3.5 TF/s per node (78.5% efficiency).
+
+Compute nodes are a Non-Uniform Memory Access (NUMA) design, with each processor
+representing a separate NUMA domain. Each processor (domain) supports six
+channels of 2,933 MT/s DDR4 memory. Total memory capacity is 4 GB/core, or 192
+GB/node. Memory bandwidth for the node is 12 channels x 8 bytes / channel x
+2.933 GT/s = 281.568 GB/s, and measured STREAM TRIAD throughput for local memory
+access is approximately 215 GB/s (76% efficiency). Cache design uses three
+levels of cache, with L1 using separate instruction and data caches, L2 unifying
+instruction and data, and L3 being shared across all cores in the processor. The
+cache size is 1.5 MB/core, 35.75 MB/processor, or 71.5 MB/node.
+
+
+.. _MiniEMSystemATS3:
+
+ATS-3/Crossroads
+----------------
+
+This system is not available yet but is slated to be the reference platform.
+
+
+.. _MiniEMSystemATS2:
+
+ATS-2/Sierra
+------------
+
+This system has a plethora of compute nodes that are made up of Power9
+processors with four NVIDIA V100 GPUs.
+
+A Sierra application and regression testbed system named Vortex, housed at SNL,
+was used for benchmarking for convenience. Vortex has the same compute node
+hardware as Sierra.
 
 
 Building
@@ -84,16 +151,19 @@ Building
 
 Instructions are provided on how to build MiniEM for the following systems:
 
-* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`MiniEMBuildATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`MiniEMBuildATS2`)
+* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
+  known as Manzano at SNL (see :ref:`MiniEMBuildCTS1`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`MiniEMBuildATS2`)
 
 If submodules were cloned within this repository, then the source code to build
 MiniEM is already present at the top level within the "trilinos" folder.
 
-.. _MiniEMBuildATS3:
 
-CTS-1/Manzano (Intel Cascade Lake)
-----------------------------------
+.. _MiniEMBuildCTS1:
+
+CTS-1/Manzano
+-------------
 
 .. note::
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
@@ -141,14 +211,16 @@ Running
 
 Instructions are provided on how to run MiniEM for the following systems:
 
-* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`MiniEMRunATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`MiniEMRunATS2`)
+* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
+  known as Manzano at SNL (see :ref:`MiniEMRunCTS1`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`MiniEMRunATS2`)
 
 
-.. _MiniEMRunATS3:
+.. _MiniEMRunCTS1:
 
-CTS-1/Manzano (Intel Cascade Lake)
-----------------------------------
+CTS-1/Manzano
+-------------
 
 .. note::
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
@@ -213,34 +285,37 @@ below.
            >"miniem-sim.out" 2>&1
 
 
-
 Verification of Results
 =======================
 
 Results from MiniEM are provided on the following systems:
 
-* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`MiniEMResultsATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`MiniEMResultsATS2`)
+* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
+  known as Manzano at SNL (see :ref:`MiniEMResultsCTS1`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`MiniEMResultsATS2`)
 
 
-.. _MiniEMResultsATS3:
+.. _MiniEMResultsCTS1:
 
-CTS-1/Manzano (Intel Cascade Lake)
-----------------------------------
+CTS-1/Manzano
+-------------
 
 .. note::
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
    is available.
 
-Strong scaling performance of MiniEM is provided within the following table and
-figure.
+Strong scaling performance of MiniEM on CTS-1/Manzano is provided within the
+following table and figure.
 
 .. csv-table:: MiniEM Strong Scaling Performance on Manzano
    :file: cts1.csv
+   :align: center
    :widths: 10, 10, 10
    :header-rows: 1
 
 .. image:: cts1.png
+   :align: center
    :width: 512
    :alt: MiniEM Strong Scaling Performance on Manzano
 
@@ -250,15 +325,17 @@ figure.
 ATS-2/Vortex
 ------------
 
-Throughput performance of MiniEM on ATS-2/Vortex (a small version of
-ATS-2/Sierra) is provided within the following table and figure.
+Throughput performance of MiniEM on ATS-2/Vortex is provided within the
+following table and figure.
 
 .. csv-table:: MiniEM Throughput Performance on ATS-2/Vortex
    :file: ats2.csv
+   :align: center
    :widths: 10, 10
    :header-rows: 1
 
 .. image:: ats2.png
+   :align: center
    :width: 512
    :alt: MiniEM Throughput Performance on ATS-2/Vortex
 

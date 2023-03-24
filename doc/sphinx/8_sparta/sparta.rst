@@ -8,12 +8,14 @@ was created by the following authors (in alphabetical order).
 - `Anthony M. Agelastos <mailto:amagela@sandia.gov>`_
 - `Michael A. Gallis <mailto:magalli@sandia.gov>`_
 - `Stan Moore <mailto:stamoor@sandia.gov>`_
+- `Douglas M. Pase <mailto:dmpase@sandia.gov>`_
 - `Joel O. Stevenson <mailto:josteve@sandia.gov>`_
 
 This material is based upon work supported by the Sandia National Laboratories
-(SNL), a multimission laboratory managed and operated by National Technology
-and Engineering Solutions of Sandia under the U.S. Department of Energy's
-National Nuclear Security Administration under contract DE-NA0003525.
+(SNL), a multimission laboratory managed and operated by National Technology and
+Engineering Solutions of Sandia under the U.S. Department of Energy's National
+Nuclear Security Administration under contract DE-NA0003525.
+
 
 Purpose
 =======
@@ -36,6 +38,7 @@ From their [site]_:
 
 Characteristics
 ===============
+
 
 Problem
 -------
@@ -114,21 +117,87 @@ merit (FOM) is the harmonic mean of the QOI computed from the times between 300
 and 600 seconds.
 
 
+System Information
+==================
+
+The platforms utilized for benchmarking activities are listed and described below.
+
+* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
+  known as Manzano at SNL (see :ref:`SystemCTS1`)
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`SystemATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`SystemATS2`)
+
+
+.. _SystemCTS3:
+
+CTS-1/Manzano
+-------------
+
+.. note::
+   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
+   is available.
+
+The Manzano HPC cluster has 1,488 compute nodes connected together by a
+high-bandwidth, low-latency Intel OmniPath network where each compute node uses
+two Intel Xeon Platinum 8268 (Cascade Lake) processors. Each processor has 24
+cores, and each node has 48 physical cores and 96 virtual cores. Each core has a
+base frequency of 2.9 GHz and a max frequency of 3.9 GHz. Cores support two
+AVX512 SIMD units each, with peak floating-point performance (RPEAK) of 2.9 GHz
+x 32 FLOP/clock x 48 cores = 4.45 TF/s. Measured DGEMM performance is just under
+3.5 TF/s per node (78.5% efficiency).
+
+Compute nodes are a Non-Uniform Memory Access (NUMA) design, with each processor
+representing a separate NUMA domain. Each processor (domain) supports six
+channels of 2,933 MT/s DDR4 memory. Total memory capacity is 4 GB/core, or 192
+GB/node. Memory bandwidth for the node is 12 channels x 8 bytes / channel x
+2.933 GT/s = 281.568 GB/s, and measured STREAM TRIAD throughput for local memory
+access is approximately 215 GB/s (76% efficiency). Cache design uses three
+levels of cache, with L1 using separate instruction and data caches, L2 unifying
+instruction and data, and L3 being shared across all cores in the processor. The
+cache size is 1.5 MB/core, 35.75 MB/processor, or 71.5 MB/node.
+
+
+.. _SystemATS3:
+
+ATS-3/Crossroads
+----------------
+
+This system is not available yet but is slated to be the reference platform.
+
+
+.. _SystemATS2:
+
+ATS-2/Sierra
+------------
+
+This system has a plethora of compute nodes that are made up of Power9
+processors with four NVIDIA V100 GPUs.
+
+A Sierra application and regression testbed system named Vortex, housed at SNL,
+was used for benchmarking for convenience. Vortex has the same compute node
+hardware as Sierra.
+
+
 Building
 ========
 
 Instructions are provided on how to build SPARTA for the following systems:
 
-* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`BuildATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`BuildATS2`)
+* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
+  known as Manzano at SNL (see :ref:`BuildCTS1`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`BuildATS2`)
 
 If submodules were cloned within this repository, then the source code to build
 SPARTA is already present at the top level within the "sparta" folder.
 
-.. _BuildATS3:
 
-CTS-1/Manzano (Intel Cascade Lake)
-----------------------------------
+.. _BuildCTS1:
+
+CTS-1/Manzano
+-------------
 
 .. note::
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
@@ -176,14 +245,16 @@ Running
 
 Instructions are provided on how to run SPARTA for the following systems:
 
-* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`RunATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`RunATS2`)
+* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
+  known as Manzano at SNL (see :ref:`RunCTS1`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`RunATS2`)
 
 
-.. _RunATS3:
+.. _RunCTS1:
 
-CTS-1/Manzano (Intel Cascade Lake)
-----------------------------------
+CTS-1/Manzano
+-------------
 
 .. note::
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
@@ -231,14 +302,16 @@ Verification of Results
 
 Results from SPARTA are provided on the following systems:
 
-* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`ResultsATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`ResultsATS2`)
+* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
+  known as Manzano at SNL (see :ref:`ResultsCTS1`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`ResultsATS2`)
 
 
-.. _ResultsATS3:
+.. _ResultsCTS1:
 
-CTS-1/Manzano (Intel Cascade Lake)
-----------------------------------
+CTS-1/Manzano
+-------------
 
 .. note::
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
@@ -249,10 +322,12 @@ figure.
 
 .. csv-table:: SPARTA Strong Scaling Performance on Manzano
    :file: cts1.csv
+   :align: center
    :widths: 10, 10, 10
    :header-rows: 1
 
 .. image:: cts1.png
+   :align: center
    :width: 512
    :alt: SPARTA Strong Scaling Performance on Manzano
 
@@ -262,8 +337,8 @@ figure.
 ATS-2/Vortex
 ------------
 
-Throughput performance of SPARTA on ATS-2/Vortex (a small version of
-ATS-2/Sierra) is provided within the following table and figure.
+Throughput performance of SPARTA on ATS-2/Vortex is provided within the
+following table and figure.
 
 .. csv-table:: SPARTA Throughput Performance on ATS-2/Vortex
    :file: ats2.csv
