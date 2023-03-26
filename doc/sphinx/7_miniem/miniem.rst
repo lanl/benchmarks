@@ -159,6 +159,7 @@ Building
 
 Instructions are provided on how to build MiniEM for the following systems:
 
+* Generic (see :ref:`MiniEMBuildGeneric`)
 * Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
   known as Manzano at SNL (see :ref:`MiniEMBuildCTS1`)
 * Advanced Technology System 2 (ATS-2), also known as Sierra (see
@@ -166,6 +167,26 @@ Instructions are provided on how to build MiniEM for the following systems:
 
 If submodules were cloned within this repository, then the source code to build
 MiniEM is already present at the top level within the "trilinos" folder.
+
+
+.. _MiniEMBuildGeneric:
+
+Generic
+-------
+
+The following requirements are present for MiniEM.
+
+* CMake version 3.23 or greater
+* GNU GCC version 8.0 or greater
+* OpenMPI version 3.1 or greater
+
+Then, a suitable environment will need to be set.
+
+* Set ``NETLIB_OPTIMIZED_BLAS_LIBS`` to something suitable on the new system
+* Set the usual ``AR``, ``NM``, ``RANLIB``, ``LD``, ``CXX``, ``CC``, ``FC``, ``F77``, ``F90``, ``CPPFLAGS``, ``CFLAGS``, ``CXXFLAGS``, ``FFLAGS``, ``FCFLAGS``, ``LDFLAGS``
+
+Then, build zlib, HDF5, PnetCDF, netCDF, Netlib, and Trilinos in a similar
+manner to what's in ``recipe.sh`` (to be included within the repository soon).
 
 
 .. _MiniEMBuildCTS1:

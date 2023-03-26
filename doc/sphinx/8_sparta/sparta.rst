@@ -194,6 +194,7 @@ Building
 
 Instructions are provided on how to build SPARTA for the following systems:
 
+* Generic (see :ref:`BuildGeneric`)
 * Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
   known as Manzano at SNL (see :ref:`BuildCTS1`)
 * Advanced Technology System 2 (ATS-2), also known as Sierra (see
@@ -201,6 +202,14 @@ Instructions are provided on how to build SPARTA for the following systems:
 
 If submodules were cloned within this repository, then the source code to build
 SPARTA is already present at the top level within the "sparta" folder.
+
+
+.. _BuildGeneric:
+
+Generic
+-------
+
+Refer to SPARTA's [build]_ documentation for generic instructions.
 
 
 .. _BuildCTS1:
@@ -369,3 +378,7 @@ References
 .. [site] M. Gallis and S. Plimpton and S. Moore, 'SPARTA Direct Simulation
           Monte Carlo Simulator', 2023. [Online]. Available:
           https://sparta.github.io. [Accessed: 22- Feb- 2023]
+.. [build] M. Gallis and S. Plimpton and S. Moore, 'SPARTA Documentation Getting
+           Started', 2023. [Online]. Available:
+           https://sparta.github.io/doc/Section_start.html#start_2. [Accessed:
+           26- Mar- 2023]
