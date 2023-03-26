@@ -360,10 +360,12 @@ following table and figure.
 
 .. csv-table:: SPARTA Throughput Performance on ATS-2/Vortex
    :file: ats2.csv
+   :align: center
    :widths: 10, 10
    :header-rows: 1
 
 .. image:: ats2.png
+   :align: center
    :width: 512
    :alt: SPARTA Throughput Performance on ATS-2/Vortex
 

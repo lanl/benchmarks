@@ -190,7 +190,7 @@ Then, a suitable environment will need to be set.
 * Set the usual ``AR``, ``NM``, ``RANLIB``, ``LD``, ``CXX``, ``CC``, ``FC``, ``F77``, ``F90``, ``CPPFLAGS``, ``CFLAGS``, ``CXXFLAGS``, ``FFLAGS``, ``FCFLAGS``, ``LDFLAGS``
 
 Then, build zlib, HDF5, PnetCDF, netCDF, Netlib, and Trilinos in a similar
-manner to what's in ``recipe.sh`` (to be included within the repository soon).
+manner to what's in :ref:`MiniEMBuildRecipe`.
 
 
 .. _MiniEMBuildCTS1:
@@ -388,3 +388,13 @@ References
                    [Accessed: 26- Mar- 2023]
 .. [Maxwell-Large] Trilinos developers, 'maxwell-large.xml', 2023. [Online]. Available: https://github.com/trilinos/Trilinos/blob/master/packages/panzer/mini-em/example/BlockPrec/maxwell-large.xml. [Accessed: 22- Feb- 2023]
 .. [Sierra-LLNL] Lawrence Livermore National Laboratory, 'Sierra | HPC @ LLNL', 2023. [Online]. Available: https://hpc.llnl.gov/hardware/compute-platforms/sierra. [Accessed: 26- Mar- 2023]
+
+
+.. _MiniEMBuildRecipe:
+
+Build Recipe
+============
+
+.. literalinclude:: recipe.sh
+   :language: bash
+   :linenos:
