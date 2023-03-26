@@ -174,6 +174,10 @@ MiniEM is already present at the top level within the "trilinos" folder.
 Generic
 -------
 
+MiniEM is a part of Trilinos, so building Trilinos and its dependencies is
+required. The [TrilinosBuild]_ documentation provides a lot of guidance.
+Information to augment the official Trilinos documentation is provided below.
+
 The following requirements are present for MiniEM.
 
 * CMake version 3.23 or greater
@@ -378,5 +382,9 @@ References
               Thornquist and R. S. Tuminaro and J. M. Willenbring and A.
               Williams and K. S. Stanley, 'An Overview of the Trilinos Project',
               2005, ACM Trans. Math. Softw., Volume 31, No. 3, ISSN 0098-3500.
+.. [TrilinosBuild] R. A. Bartlett, 'Trilinos Configure, Build, Test, and Install
+                   Reference Guide', 2023. [Online]. Available:
+                   https://docs.trilinos.org/files/TrilinosBuildReference.html.
+                   [Accessed: 26- Mar- 2023]
 .. [Maxwell-Large] Trilinos developers, 'maxwell-large.xml', 2023. [Online]. Available: https://github.com/trilinos/Trilinos/blob/master/packages/panzer/mini-em/example/BlockPrec/maxwell-large.xml. [Accessed: 22- Feb- 2023]
 .. [Sierra-LLNL] Lawrence Livermore National Laboratory, 'Sierra | HPC @ LLNL', 2023. [Online]. Available: https://hpc.llnl.gov/hardware/compute-platforms/sierra. [Accessed: 26- Mar- 2023]
