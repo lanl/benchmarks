@@ -40,6 +40,13 @@ Characteristics
 ===============
 
 
+Application Version
+-------------------
+
+The target application version corresponds to the Git SHA that the SPARTA git
+submodule at the root of this repository is set to, i.e., within ``sparta``.
+
+
 Problem
 -------
 
