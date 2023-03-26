@@ -344,6 +344,11 @@ following table and figure.
 References
 ==========
 
-.. [Trilinos] M. A. Heroux and R. A. Bartlett and V. E. Howle and R. J. Hoekstra and J. J. Hu and T. G. Kolda and R. B. Lehoucq and K. R. Long and R. P. Pawlowski and E. T. Phipps and A. G. Salinger and H. K. Thornquist and R. S. Tuminaro and J. M. Willenbring and A. Williams and K. S. Stanley, 'An Overview of the Trilinos Project', 2005, ACM Trans. Math. Softw., Volume 31, No. 3, ISSN 0098-3500.
+.. [Trilinos] M. A. Heroux and R. A. Bartlett and V. E. Howle and R. J. Hoekstra
+              and J. J. Hu and T. G. Kolda and R. B. Lehoucq and K. R. Long
+              and R. P. Pawlowski and E. T. Phipps and A. G. Salinger and H. K.
+              Thornquist and R. S. Tuminaro and J. M. Willenbring and A.
+              Williams and K. S. Stanley, 'An Overview of the Trilinos Project',
+              2005, ACM Trans. Math. Softw., Volume 31, No. 3, ISSN 0098-3500.
 .. [Maxwell-Large] Trilinos developers, 'maxwell-large.xml', 2023. [Online]. Available: https://github.com/trilinos/Trilinos/blob/master/packages/panzer/mini-em/example/BlockPrec/maxwell-large.xml. [Accessed: 22- Feb- 2023]
 .. [Sierra-LLNL] Lawrence Livermore National Laboratory, 'Sierra | HPC @ LLNL', 2023. [Online]. Available: https://hpc.llnl.gov/hardware/compute-platforms/sierra. [Accessed: 26- Mar- 2023]

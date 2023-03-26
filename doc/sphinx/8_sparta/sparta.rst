@@ -354,5 +354,10 @@ following table and figure.
 References
 ==========
 
-.. [SPARTA]  S. J. Plimpton and S. G. Moore and A. Borner and A. K. Stagg and T. P. Koehler and J. R. Torczynski and M. A. Gallis, 'Direct Simulation Monte Carlo on petaflop supercomputers and beyond', 2019, Physics of Fluids, 31, 086101.
-.. [site] M. Gallis and S. Plimpton and S. Moore, 'SPARTA Direct Simulation Monte Carlo Simulator', 2023. [Online]. Available: https://sparta.github.io. [Accessed: 22- Feb- 2023]
+.. [SPARTA] S. J. Plimpton and S. G. Moore and A. Borner and A. K. Stagg
+            and T. P. Koehler and J. R. Torczynski and M. A. Gallis, 'Direct
+            Simulation Monte Carlo on petaflop supercomputers and beyond',
+            2019, Physics of Fluids, 31, 086101.
+.. [site] M. Gallis and S. Plimpton and S. Moore, 'SPARTA Direct Simulation
+          Monte Carlo Simulator', 2023. [Online]. Available:
+          https://sparta.github.io. [Accessed: 22- Feb- 2023]
