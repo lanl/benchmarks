@@ -173,7 +173,8 @@ ATS-2/Sierra
 ------------
 
 This system has a plethora of compute nodes that are made up of Power9
-processors with four NVIDIA V100 GPUs.
+processors with four NVIDIA V100 GPUs. Please refer to [Sierra-LLNL]_ for more
+detailed information.
 
 A Sierra application and regression testbed system named Vortex, housed at SNL,
 was used for benchmarking for convenience. Vortex has the same compute node

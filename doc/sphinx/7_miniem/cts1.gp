@@ -2,7 +2,7 @@
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
 set output "cts1.png"
 
-set title "MiniEM Strong Scaling Performance on CTS-1/Manzano" font "serif,24"
+set title "MiniEM Strong Scaling Performance on CTS-1/Manzano" font "serif,22"
 set xlabel "No. Processing Elements"
 set ylabel "Figure of Merit (time steps/sec)"
 
