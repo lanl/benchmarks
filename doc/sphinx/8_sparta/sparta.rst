@@ -344,10 +344,12 @@ figure.
    :widths: 10, 10, 10
    :header-rows: 1
 
-.. image:: cts1.png
+.. figure:: cts1.png
    :align: center
-   :width: 512
+   :scale: 50%
    :alt: SPARTA Strong Scaling Performance on Manzano
+
+   SPARTA Strong Scaling Performance on Manzano
 
 
 .. _ResultsATS2:
@@ -364,10 +366,12 @@ following table and figure.
    :widths: 10, 10
    :header-rows: 1
 
-.. image:: ats2.png
+.. figure:: ats2.png
    :align: center
-   :width: 512
+   :scale: 50%
    :alt: SPARTA Throughput Performance on ATS-2/Vortex
+
+   SPARTA Throughput Performance on ATS-2/Vortex
 
 
 References

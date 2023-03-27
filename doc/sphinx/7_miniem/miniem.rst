@@ -347,10 +347,12 @@ following table and figure.
    :widths: 10, 10, 10
    :header-rows: 1
 
-.. image:: cts1.png
+.. figure:: cts1.png
    :align: center
-   :width: 512
+   :scale: 50%
    :alt: MiniEM Strong Scaling Performance on Manzano
+
+   MiniEM Strong Scaling Performance on Manzano
 
 
 .. _MiniEMResultsATS2:
@@ -367,10 +369,12 @@ following table and figure.
    :widths: 10, 10
    :header-rows: 1
 
-.. image:: ats2.png
+.. figure:: ats2.png
    :align: center
-   :width: 512
+   :scale: 50%
    :alt: MiniEM Throughput Performance on ATS-2/Vortex
+
+   MiniEM Throughput Performance on ATS-2/Vortex
 
 
 References
