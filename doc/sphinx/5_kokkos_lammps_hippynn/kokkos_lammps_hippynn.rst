@@ -95,65 +95,66 @@ Building on nv-devkit
 Building on nv-devkit builds the python environment through spack, since conda building is not available. 
 
 .. code-block::
-  gcc_ver=11.2.0
-  gcc_openblas=8.4.0
-  module load gcc/$gcc_ver
-  git clone https://github.com/spack/spack.git
-  source spack/share/spack/setup-env.sh
-  
-  spack compiler find
-  
-  module load gcc/$gcc_openblas
-  
-  spack compiler find
-  
-  module load gcc/$gcc_ver
-  
-  spack install py-torch%gcc@$gcc_ver cuda=True cuda_arch=80 mkldnn=False ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-  spack install py-cupy%gcc@$gcc_ver ^nccl cuda_arch=80 ^py-numpy@1.22.4
-  spack install py-numba%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-  spack install py-scipy%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-  spack install py-matplotlib%gcc@$gcc_ver  ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-  spack install py-h5py%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-  
-  spack load py-torch py-cupy py-numba py-numpy py-scipy py-matplotlib py-h5py
-  
-  #Install HIPPYNN
-  git clone git@github.com:lanl/hippynn.git
-  cd hippynn
-  git fetch origin lammps_kokkos_mliap
-  git checkout lammps_kokkos_mliap
-  pip install -e --no-deps ./
-  
-  #Build Lammps instructions
-  git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap --branch v1.0.0
-  cd  lammps-kokkos-mliap
-  mkdir build
-  cd build
-  cmake ../cmake 
-   -DCMAKE_VERBOSE_MAKEFILE=ON 
-   -DLAMMPS_EXCEPTIONS=ON 
-   -DBUILD_SHARED_LIBS=ON 
-   -DBUILD_MPI=ON 
-   -DKokkos_ARCH_AMPERE90=ON 
-   -DKokkos_ENABLE_CUDA=ON 
-   -DCMAKE_CXX_STANDARD=17 
-   -DPKG_KOKKOS=ON 
-   -DPKG_MANYBODY=ON 
-   -DPKG_MOLECULE=ON 
-   -DPKG_KSPACE=ON 
-   -DPKG_REPLICA=ON 
-   -DPKG_ASPHERE=ON 
-   -DPKG_RIGID=ON 
-   -DPKG_MPIIO=ON 
-   -DCMAKE_POSITION_INDEPENDENT_CODE=ON 
-   -DPKG_ML-SNAP=on 
-   -DPKG_ML-IAP=on 
-   -DPKG_PYTHON=on 
-   -DMLIAP_ENABLE_PYTHON=on
-  
-  make -j 12
-  make install-python
+
+   gcc_ver=11.2.0
+   gcc_openblas=8.4.0
+   module load gcc/$gcc_ver
+   git clone https://github.com/spack/spack.git
+   source spack/share/spack/setup-env.sh
+   
+   spack compiler find
+   
+   module load gcc/$gcc_openblas
+   
+   spack compiler find
+   
+   module load gcc/$gcc_ver
+   
+   spack install py-torch%gcc@$gcc_ver cuda=True cuda_arch=80 mkldnn=False ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
+   spack install py-cupy%gcc@$gcc_ver ^nccl cuda_arch=80 ^py-numpy@1.22.4
+   spack install py-numba%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
+   spack install py-scipy%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
+   spack install py-matplotlib%gcc@$gcc_ver  ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
+   spack install py-h5py%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
+   
+   spack load py-torch py-cupy py-numba py-numpy py-scipy py-matplotlib py-h5py
+   
+   #Install HIPPYNN
+   git clone git@github.com:lanl/hippynn.git
+   cd hippynn
+   git fetch origin lammps_kokkos_mliap
+   git checkout lammps_kokkos_mliap
+   pip install -e --no-deps ./
+   
+   #Build Lammps instructions
+   git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap --branch v1.0.0
+   cd  lammps-kokkos-mliap
+   mkdir build
+   cd build
+   cmake ../cmake 
+    -DCMAKE_VERBOSE_MAKEFILE=ON 
+    -DLAMMPS_EXCEPTIONS=ON 
+    -DBUILD_SHARED_LIBS=ON 
+    -DBUILD_MPI=ON 
+    -DKokkos_ARCH_AMPERE90=ON 
+    -DKokkos_ENABLE_CUDA=ON 
+    -DCMAKE_CXX_STANDARD=17 
+    -DPKG_KOKKOS=ON 
+    -DPKG_MANYBODY=ON 
+    -DPKG_MOLECULE=ON 
+    -DPKG_KSPACE=ON 
+    -DPKG_REPLICA=ON 
+    -DPKG_ASPHERE=ON 
+    -DPKG_RIGID=ON 
+    -DPKG_MPIIO=ON 
+    -DCMAKE_POSITION_INDEPENDENT_CODE=ON 
+    -DPKG_ML-SNAP=on 
+    -DPKG_ML-IAP=on 
+    -DPKG_PYTHON=on 
+    -DMLIAP_ENABLE_PYTHON=on
+   
+   make -j 12
+   make install-python
 
 
 Running
