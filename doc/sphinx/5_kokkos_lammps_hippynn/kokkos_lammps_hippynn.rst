@@ -133,27 +133,27 @@ Building on nv-devkit builds the python environment through spack, since conda b
    cd  lammps-kokkos-mliap
    mkdir build
    cd build
-   cmake ../cmake 
-    -DCMAKE_VERBOSE_MAKEFILE=ON 
-    -DLAMMPS_EXCEPTIONS=ON 
-    -DBUILD_SHARED_LIBS=ON 
-    -DBUILD_MPI=ON 
-    -DKokkos_ARCH_AMPERE90=ON 
-    -DKokkos_ENABLE_CUDA=ON 
-    -DCMAKE_CXX_STANDARD=17 
-    -DPKG_KOKKOS=ON 
-    -DPKG_MANYBODY=ON 
-    -DPKG_MOLECULE=ON 
-    -DPKG_KSPACE=ON 
-    -DPKG_REPLICA=ON 
-    -DPKG_ASPHERE=ON 
-    -DPKG_RIGID=ON 
-    -DPKG_MPIIO=ON 
-    -DCMAKE_POSITION_INDEPENDENT_CODE=ON 
-    -DPKG_ML-SNAP=on 
-    -DPKG_ML-IAP=on 
-    -DPKG_PYTHON=on 
-    -DMLIAP_ENABLE_PYTHON=on
+   cmake ../cmake \
+    -DCMAKE_VERBOSE_MAKEFILE=ON \
+    -DLAMMPS_EXCEPTIONS=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_MPI=ON \
+    -DKokkos_ARCH_AMPERE90=ON \
+    -DKokkos_ENABLE_CUDA=ON \
+    -DCMAKE_CXX_STANDARD=17 \
+    -DPKG_KOKKOS=ON \
+    -DPKG_MANYBODY=ON \
+    -DPKG_MOLECULE=ON \
+    -DPKG_KSPACE=ON \
+    -DPKG_REPLICA=ON \
+    -DPKG_ASPHERE=ON \
+    -DPKG_RIGID=ON \
+    -DPKG_MPIIO=ON \
+    -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+    -DPKG_ML-SNAP=on \
+    -DPKG_ML-IAP=on \
+    -DPKG_PYTHON=on \
+    -DMLIAP_ENABLE_PYTHON=on \
    
    make -j 12
    make install-python
