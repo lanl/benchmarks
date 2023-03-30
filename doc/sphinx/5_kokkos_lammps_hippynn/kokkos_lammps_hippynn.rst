@@ -34,61 +34,63 @@ Building the Lammps Python interface environment is somewhat challenging. Below 
 Building on Chicoma
 -------------------
 
-#Load modules:
-module switch PrgEnv-cray PrgEnv-gnu
-module load cuda/11.6
-module load cpe-cuda
-module load cray-libsci
-module load cray-fftw
-module load python/3.9-anaconda-2021.11
-module load cmake
-module load cudatoolkit/22.3_11.6
+.. code-block::
 
-#Create virtual python environment
-virtenvpath = <Set Path> 
-conda create --prefix=${virtenvpath} python=3.10
-source activate ${virtenvpath}
-conda install pytorch-gpu cudatoolkit=11.6 cupy -c pytorch -c nvidia
-conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
-
-#Install HIPPYNN
-git clone git@github.com:lanl/hippynn.git
-cd hippynn
-git fetch origin lammps_kokkos_mliap
-git checkout lammps_kokkos_mliap
-pip install -e --no-deps ./
-
-#Install Lammps: 
-git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap.git
-git checkout lammps-kokkos-mliap
-mkdir build
-cd build
-export CMAKE_PREFIX_PATH="${FFTW_ROOT}" 
-cmake ../cmake 
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-  -DCMAKE_VERBOSE_MAKEFILE=ON \
-  -DLAMMPS_EXCEPTIONS=ON \
-  -DBUILD_SHARED_LIBS=ON \
-  -DBUILD_MPI=ON \
-  -DKokkos_ENABLE_OPENMP=ON \
-  -DKokkos_ENABLE_CUDA=ON \
-  -DKokkos_ARCH_ZEN2=ON \
-  -DPKG_KOKKOS=ON \
-  -DCMAKE_CXX_STANDARD=17 \
-  -DPKG_MANYBODY=ON \
-  -DPKG_MOLECULE=ON \
-  -DPKG_KSPACE=ON \
-  -DPKG_REPLICA=ON \
-  -DPKG_ASPHERE=ON \
-  -DPKG_RIGID=ON \
-  -DPKG_MPIIO=ON \
-  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-  -DPKG_ML-SNAP=on \
-  -DPKG_ML-IAP=on \
-  -DPKG_PYTHON=on \
-  -DMLIAP_ENABLE_PYTHON=on
-make -j 12
-make install-python
+   #Load modules:
+   module switch PrgEnv-cray PrgEnv-gnu
+   module load cuda/11.6
+   module load cpe-cuda
+   module load cray-libsci
+   module load cray-fftw
+   module load python/3.9-anaconda-2021.11
+   module load cmake
+   module load cudatoolkit/22.3_11.6
+   
+   #Create virtual python environment
+   virtenvpath = <Set Path> 
+   conda create --prefix=${virtenvpath} python=3.10
+   source activate ${virtenvpath}
+   conda install pytorch-gpu cudatoolkit=11.6 cupy -c pytorch -c nvidia
+   conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
+   
+   #Install HIPPYNN
+   git clone git@github.com:lanl/hippynn.git
+   cd hippynn
+   git fetch origin lammps_kokkos_mliap
+   git checkout lammps_kokkos_mliap
+   pip install -e --no-deps ./
+   
+   #Install Lammps: 
+   git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap.git
+   git checkout lammps-kokkos-mliap
+   mkdir build
+   cd build
+   export CMAKE_PREFIX_PATH="${FFTW_ROOT}" 
+   cmake ../cmake 
+     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+     -DCMAKE_VERBOSE_MAKEFILE=ON \
+     -DLAMMPS_EXCEPTIONS=ON \
+     -DBUILD_SHARED_LIBS=ON \
+     -DBUILD_MPI=ON \
+     -DKokkos_ENABLE_OPENMP=ON \
+     -DKokkos_ENABLE_CUDA=ON \
+     -DKokkos_ARCH_ZEN2=ON \
+     -DPKG_KOKKOS=ON \
+     -DCMAKE_CXX_STANDARD=17 \
+     -DPKG_MANYBODY=ON \
+     -DPKG_MOLECULE=ON \
+     -DPKG_KSPACE=ON \
+     -DPKG_REPLICA=ON \
+     -DPKG_ASPHERE=ON \
+     -DPKG_RIGID=ON \
+     -DPKG_MPIIO=ON \
+     -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+     -DPKG_ML-SNAP=on \
+     -DPKG_ML-IAP=on \
+     -DPKG_PYTHON=on \
+     -DMLIAP_ENABLE_PYTHON=on
+   make -j 12
+   make install-python
 
 Building on nv-devkit
 -------------------------
