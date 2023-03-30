@@ -21,20 +21,22 @@ considered unclassified with unlimited distribution under SAND2023-01070O.
 Purpose
 =======
 
-From their [site]_:
+Heavily pulled from their [site]_:
 
    SPARTA is an acronym for **S**\ tochastic **PA**\ rallel **R**\ arefied-gas
-   **T**\ ime-accurate **A**\ nalyzer. SPARTA is a parallel DSMC or Direct
-   Simulation Monte Carlo code for performing simulations of low-density gases
-   in 2d or 3d. Particles advect through a hierarchical Cartesian grid that
-   overlays the simulation box. The grid is used to group particles by grid cell
-   for purposes of performing collisions and chemistry. Physical objects with
-   triangulated surfaces can be embedded in the grid, creating cut and split
-   grid cells. The grid is also used to efficiently find particle/surface
+   **T**\ ime-accurate **A**\ nalyzer. SPARTA is a parallel Direct Simulation
+   Monte Carlo (DSMC) code for performing simulations of low-density gases in
+   2d or 3d. Particles advect through a hierarchical Cartesian grid that
+   overlays the simulation box. The grid is used to group particles by grid
+   cell for purposes of performing collisions and chemistry. Physical objects
+   with triangulated surfaces can be embedded in the grid, creating cut and
+   split grid cells. The grid is also used to efficiently find particle/surface
    collisions. SPARTA runs on single processors or in parallel using
    message-passing techniques and a spatial-decomposition of the simulation
    domain. The code is designed to be easy to modify or extend with new
-   functionality.
+   functionality. Running SPARTA and the input command syntax is very similar
+   to the LAMMPS molecular dynamics code (but SPARTA and LAMMPS use different
+   underlying algorithms).
 
 
 Characteristics
