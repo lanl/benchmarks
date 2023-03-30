@@ -2,3 +2,6 @@ doc/sphinx/_build
 doc/sphinx/output.log
 doc/sphinx/7_miniem/*.png
 doc/sphinx/8_sparta/*.png
+
+
+*.bak

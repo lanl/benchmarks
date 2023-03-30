@@ -1,0 +1,10 @@
+# Artifacts from training script
+hippynn_lammps_model.pt
+model_results.txt
+model_files/
+
+# Training data file
+Ag_warm_nospin.xyz
+
+# Initial box for LAMMPS
+ag_box.data
