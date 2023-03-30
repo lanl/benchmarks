@@ -4,6 +4,7 @@ import numpy as np
 torch.set_default_dtype(torch.float32)
 
 import hippynn
+from hippynn.experiment import SetupParams, setup_and_train, test_model
 hippynn.settings.WARN_LOW_DISTANCES = False
 
 max_epochs=2000
@@ -88,8 +89,9 @@ def setup_network(network_params):
     en_peratom = physics.PerAtom("T/Atom", sys_energy)
     en_peratom.db_name = "EpA"
 
-    from hippynn.graphs import loss
 
+    from hippynn.graphs import loss
+    
     rmse_energy = loss.MSELoss(en_peratom.pred, en_peratom.true) ** (1 / 2)
     mae_energy = loss.MAELoss(en_peratom.pred, en_peratom.true)
     rsq_energy = loss.Rsq(en_peratom.pred, en_peratom.true)
@@ -152,7 +154,6 @@ def fit_model(training_modules,database):
         stopping_key=early_stopping_key,
     )
 
-    from hippynn.experiment import SetupParams, setup_and_train, test_model
 
     experiment_params = SetupParams(controller=controller)
 
@@ -179,8 +180,13 @@ if __name__=="__main__":
     database, first_frame = get_dataset(db_info)
 
     print("Training model")
-    fit_model(training_modules,database)
-
+    with hippynn.tools.active_directory("model_files"):
+        fit_model(training_modules,database)
+    
+    print("Writing test results")
+    with hippynn.tools.log_terminal("model_results.txt",'wt'):
+        test_model(database, training_modules.evaluator, 128, "Final Training")
+    
     print("Exporting lammps interfaice")
     ase.io.write('ag_box.data',first_frame,format='lammps-data')
     from hippynn.interfaces.lammps_interface import MLIAPInterface

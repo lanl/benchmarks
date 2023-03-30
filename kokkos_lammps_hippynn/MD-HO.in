@@ -11,7 +11,7 @@ atom_style 	atomic
 read_data	ag_box.data
 timestep  	0.001 # picoseconds (units metal)
 
-pair_style hybrid/overlay mliap unified TEST_AG_MODEL.pt zbl 2.0 2.5
+pair_style hybrid/overlay mliap unified hippynn_lammps_model.pt zbl 2.0 2.5
 pair_coeff * * mliap Ag
 pair_coeff * * zbl 47.0 47.0
 mass 1 107.8682

@@ -1,0 +1,6 @@
+# Artifacts from training script
+hippynn_lammps_model.pt
+model_results.txt
+model_files/
+ag_box.data
+
