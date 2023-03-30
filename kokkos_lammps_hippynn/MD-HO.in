@@ -18,7 +18,7 @@ mass 1 107.8682
 
 #scale atom positions to required lattice
 change_box      all x scale 1.0 y scale 1.0 z scale 1.0 remap units box
-replicate      25 24 24
+replicate      ${xrep} ${yrep} ${zrep}
 
 thermo 		1000
 thermo_style	custom step pe ke temp pxx pyy pzz pxy pxz pyz
@@ -46,7 +46,7 @@ fix             4 all temp/rescale 100 ${tau} ${tau} 1.0 1.0
 run             10000
 unfix           4
 
-write_restart   Ag-equil.restart
+#write_restart   Ag-equil.restart
 
 #Run Equilibration
 run             5000

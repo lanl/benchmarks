@@ -1,2 +1,3 @@
 doc/sphinx/_build
 doc/sphinx/output.log
+*.bak

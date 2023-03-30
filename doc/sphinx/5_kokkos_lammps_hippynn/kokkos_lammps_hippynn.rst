@@ -7,7 +7,7 @@ This is the documentation for the ATS-5 Benchmark for HIPPYNN driven kokkos-Lamm
 Purpose
 =======
 
-To benchmark perfromance of Lammps driven Molecular Dynamics. The problem configured in this test is a small Ag model built using the data included in the Alegro paper (DOI: )   
+To benchmark perfromance of Lammps driven Molecular Dynamics. The problem configured in this test is a small Ag model built using the data included in the Allegro paper (DOI: https://doi.org/10.1038/s41467-023-36329-y)   
 
 Characteristics
 ===============
@@ -29,7 +29,7 @@ The figure of merrit is the throughput of the MD simulations, whch is reported b
 Building
 ========
 
-Building the Lammps Python interface environment is somewhat challenging. Below is an outline of the process used to get the environment working on Chicoma
+Building the Lammps Python interface environment is somewhat challenging. Below is an outline of the process used to get the environment working on Chicoma. Also, in the benchmarks/kokkos_lammps_hippynn/benchmark-env.yml file is a list of the packages installed in the test environment. Most of these will not affect performance, but the pytorch (1.11.0) and cuda (11.2) versions should be kept the same. 
 
 Building on Chicoma
 -------------------
@@ -64,7 +64,29 @@ git checkout lammps-kokkos-mliap
 mkdir build
 cd build
 export CMAKE_PREFIX_PATH="${FFTW_ROOT}" 
-
+cmake ../cmake 
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DLAMMPS_EXCEPTIONS=ON \
+  -DBUILD_SHARED_LIBS=ON \
+  -DBUILD_MPI=ON \
+  -DKokkos_ENABLE_OPENMP=ON \
+  -DKokkos_ENABLE_CUDA=ON \
+  -DKokkos_ARCH_ZEN2=ON \
+  -DPKG_KOKKOS=ON \
+  -DCMAKE_CXX_STANDARD=17 \
+  -DPKG_MANYBODY=ON \
+  -DPKG_MOLECULE=ON \
+  -DPKG_KSPACE=ON \
+  -DPKG_REPLICA=ON \
+  -DPKG_ASPHERE=ON \
+  -DPKG_RIGID=ON \
+  -DPKG_MPIIO=ON \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+  -DPKG_ML-SNAP=on \
+  -DPKG_ML-IAP=on \
+  -DPKG_PYTHON=on \
+  -DMLIAP_ENABLE_PYTHON=on
 make -j 12
 make install-python
 
@@ -108,29 +130,28 @@ git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap --branch v1.0.0
 cd  lammps-kokkos-mliap
 mkdir build
 cd build
-cmake ../cmake \
- -DCMAKE_BUILD_TYPE=RelWithDebInfo \
- -DCMAKE_VERBOSE_MAKEFILE=ON \
- -DLAMMPS_EXCEPTIONS=ON \
- -DBUILD_SHARED_LIBS=ON \
- -DBUILD_MPI=ON \
- -DKokkos_ARCH_AMPERE90=ON \
- -DKokkos_ENABLE_CUDA=ON \
- -DCMAKE_CXX_STANDARD=17 \
- -DPKG_KOKKOS=ON \
- -DPKG_MANYBODY=ON \
- -DPKG_MOLECULE=ON \
- -DPKG_KSPACE=ON \
- -DPKG_REPLICA=ON \
- -DPKG_ASPHERE=ON \
- -DPKG_RIGID=ON \
- -DPKG_MPIIO=ON \
- -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
- -DPKG_ML-SNAP=on \
- -DPKG_ML-IAP=on \
- -DPKG_PYTHON=on \
+cmake ../cmake 
+ -DCMAKE_VERBOSE_MAKEFILE=ON 
+ -DLAMMPS_EXCEPTIONS=ON 
+ -DBUILD_SHARED_LIBS=ON 
+ -DBUILD_MPI=ON 
+ -DKokkos_ARCH_AMPERE90=ON 
+ -DKokkos_ENABLE_CUDA=ON 
+ -DCMAKE_CXX_STANDARD=17 
+ -DPKG_KOKKOS=ON 
+ -DPKG_MANYBODY=ON 
+ -DPKG_MOLECULE=ON 
+ -DPKG_KSPACE=ON 
+ -DPKG_REPLICA=ON 
+ -DPKG_ASPHERE=ON 
+ -DPKG_RIGID=ON 
+ -DPKG_MPIIO=ON 
+ -DCMAKE_POSITION_INDEPENDENT_CODE=ON 
+ -DPKG_ML-SNAP=on 
+ -DPKG_ML-IAP=on 
+ -DPKG_PYTHON=on 
  -DMLIAP_ENABLE_PYTHON=on
- 
+
 make -j 12
 make install-python
 
@@ -138,42 +159,89 @@ make install-python
 Running
 =======
 
-In the benchmarks/kokkos_lammps_hippynn folder, the file RunLammps-2node.bash is configured to be submitted to a SLURM queue. To evaluate different numbers of GPUs, the Slurm configuration will need to be changed. The MD-HO.in file does not need to be adjusted based upon the number of GPUs used in the simulation. It wiil build the atomic configuration from ag_box.DATA, load the Ag potential from TEST_AG_MODEL.pt, equilibrate the system at 300K, then run 10000 steps of timed MD. It is the last MD simulation that should be examined for performance. 
+Once the software is downloaded, compiled and the environment configured, go to the benchmarks/kokkos_lammps_hippynn folder. The exports.bash file will need to be modified to first configure the environment that was constructed in the previous step. This usually consists of "module load" and "source activate <python environment>" commands. Additionally the ${lmpexec} environment variable will need to be set to the absolute path to your lammps executable, compiled in the previous step. 
 
+If using a slurm queueing system, the submit_all_benchmarks.bash file can be used to submit the parallel benchmarks, though it does assume 4 GPUs per node. Alternativly, for single device performance, the "Run_Strong_Single.bash" file can simply be executed to build the single device performance data. 
+
+Finally, the figures of merrit values can be extracted and plotted with the "Benchmark-Plotting.py" script. This will execute even if not all benchmarks are complete. 
 
 Results from Chicoma
 ====================
 
-.. table:: Lammps-kokkos-HIPPYNN MD with 1022400 Ag atoms
+Two quantities are extracted from the MD simulations to evaluate performance, though they are directly correlated. The throughput (grad/s) should be viewed as the figure of merit, though ns/day is more useful for users who wish to know the physical processes they can simulate. Thus both are reported here. 
+
+Single GPU Strong Scaling
+-------------------------
+
+.. table::Single GPU strong scaling test
    :align: center
 
-+---------------------+---------------------+
-| GPUs                | throughput (grad/s) |
-+=====================+=====================+
-|   1                 | 3.2770e+06          |
-+---------------------+---------------------+
-|   2                 | 5.4930e+06          |
-+---------------------+---------------------+
-|   4                 | 1.0691e+07          |
-+---------------------+---------------------+
-|   8                 | 2.3110e+07          |
-+---------------------+---------------------+
-|  16                 | 3.8727e+07          |
-+---------------------+---------------------+
-|  32                 | 6.7029e+07          |
-+---------------------+---------------------+
-|  64                 | 1.0883e+08          |
-+---------------------+---------------------+
-| 128                 | 1.4102e+08          |
-+---------------------+---------------------+
++---------------------+---------------------+---------------------+
+| # Atoms             | ns/day              | throughput (grad/s) |
++=====================+=====================+=====================+
+|    568              | 109.02400           | 1.4335e+05          |
++---------------------+---------------------+---------------------+
+|   1136              | 88.93500            | 2.3386e+05          |
++---------------------+---------------------+---------------------+
+|   2272              | 102.20700           | 5.3753e+05          |
++---------------------+---------------------+---------------------+
+|   3408              | 94.76500            | 7.4759e+05          |
++---------------------+---------------------+---------------------+
+|   4544              | 78.37400            | 8.2438e+05          |
++---------------------+---------------------+---------------------+
+|   6816              | 70.02900            | 1.1050e+06          |
++---------------------+---------------------+---------------------+
+|   9088              | 61.48800            | 1.2940e+06          |
++---------------------+---------------------+---------------------+
+|  11360              | 61.37100            | 1.6140e+06          |
++---------------------+---------------------+---------------------+
+|  13632              | 57.42300            | 1.8120e+06          |
++---------------------+---------------------+---------------------+
+|  15904              | 51.28900            | 1.8880e+06          |
++---------------------+---------------------+---------------------+
+|  18176              | 46.69000            | 1.9640e+06          |
++---------------------+---------------------+---------------------+
+
+.. figure:: plots/StrongSingle-t.png
+   :alt: Throughput strong scaling of Lammps-kokkos-HIPPYNN on 1 device. (Larger is better)
+   :align: center
+
+.. figure:: plots/StrongSingle-s.png
+   :alt: ns/day strong scaling of Lammps-kokkos-HIPPYNN on 1 device. (Larger is better)
+   :align: center
+
+Multiple GPU Weak Scaling 
+-------------------------
+
+.. table:: Weak Scaling with 85200 atoms per GPU
+   :align: center
+
++---------------------+---------------------+---------------------+
+| # GPUs (A-100)      | ns/day              | throughput (grad/s) |
++=====================+=====================+=====================+
+|      4              | 2.73600             | 2.1590e+06          |
++---------------------+---------------------+---------------------+
+|      8              | 3.10300             | 4.8960e+06          |
++---------------------+---------------------+---------------------+
+|     16              | 2.72100             | 8.5860e+06          |
++---------------------+---------------------+---------------------+
+|     32              | 2.72400             | 1.7191e+07          |
++---------------------+---------------------+---------------------+
+|     64              | 2.72200             | 3.4354e+07          |
++---------------------+---------------------+---------------------+
+|    128              | 2.72100             | 6.8689e+07          |
++---------------------+---------------------+---------------------+
 
 
-.. figure:: plots/Ag-MD-throughput.png
-   :alt: Strong scaling of Lammps-kokkos-HIPPYNN on 1 milion atom MD simulation of Ag
+.. figure:: plots/WeakParallel-t.png
+   :alt: Throughput weak scaling with 85200 atoms per GPU. (Larger is better)
+   :align: center
+
+.. figure:: plots/WeakParallel-s.png
+   :alt: ns/day weak scaling with 85200 atoms per GPU. (Larger is better)
    :align: center
 
 Calculation performed on Chicoma. 
-
 
 Verification of Results
 =======================
