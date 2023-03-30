@@ -2,5 +2,9 @@
 hippynn_lammps_model.pt
 model_results.txt
 model_files/
-ag_box.data
 
+# Training data file
+Ag_warm_nospin.xyz
+
+# Initial box for LAMMPS
+ag_box.data

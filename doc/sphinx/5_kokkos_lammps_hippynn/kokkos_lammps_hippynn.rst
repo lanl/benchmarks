@@ -29,6 +29,7 @@ The figure of merrit is the throughput of the MD simulations, whch is reported b
 Building
 ========
 
+
 Building the Lammps Python interface environment is somewhat challenging. Below is an outline of the process used to get the environment working on Chicoma. Also, in the benchmarks/kokkos_lammps_hippynn/benchmark-env.yml file is a list of the packages installed in the test environment. Most of these will not affect performance, but the pytorch (1.11.0) and cuda (11.2) versions should be kept the same. 
 
 Building on Chicoma
@@ -56,8 +57,8 @@ Building on Chicoma
    #Install HIPPYNN
    git clone git@github.com:lanl/hippynn.git
    cd hippynn
-   git fetch origin lammps_kokkos_mliap
-   git checkout lammps_kokkos_mliap
+   git fetch
+   git checkout f8ed7390beb8261c8eec75580c683f5121226b30
    pip install -e --no-deps ./
    
    #Install Lammps: 
@@ -124,8 +125,8 @@ Building on nv-devkit builds the python environment through spack, since conda b
    #Install HIPPYNN
    git clone git@github.com:lanl/hippynn.git
    cd hippynn
-   git fetch origin lammps_kokkos_mliap
-   git checkout lammps_kokkos_mliap
+   git fetch
+   git checkout f8ed7390beb8261c8eec75580c683f5121226b30
    pip install -e --no-deps ./
    
    #Build Lammps instructions
@@ -162,7 +163,43 @@ Building on nv-devkit builds the python environment through spack, since conda b
 Running
 =======
 
-Once the software is downloaded, compiled and the environment configured, go to the benchmarks/kokkos_lammps_hippynn folder. The exports.bash file will need to be modified to first configure the environment that was constructed in the previous step. This usually consists of "module load" and "source activate <python environment>" commands. Additionally the ${lmpexec} environment variable will need to be set to the absolute path to your lammps executable, compiled in the previous step. 
+Once the software is downloaded, compiled and the environment configured, go to the benchmarks/kokkos_lammps_hippynn folder. The exports.bash file will need to be modified to first configure the environment that was constructed in the previous step. This usually consists of "module load" and "source activate <python environment>" commands.Additionally the ${lmpexec} environment variable will need to be set to the absolute path to your lammps executable, compiled in the previous step.
+
+External Files
+--------------
+The data used to train the network is located here: https://doi.org/10.24435/materialscloud:fr-ts , in particular, Ag_warm_nospin.xyz.
+
+Download the file and put it into the benchmarks/kokkos_lammps_hippynn directory.
+
+Model Training
+--------------
+Train a network using ``python train_model.py``. This will read the dataset downloaded above and train a network to it.
+The process takes approximately 25 minutes and 500 epochs. This will write several files to disk. The final errors of
+the model are captured in ``model_results.txt``. An example is shown here::
+
+                        train         valid          test
+    -----------------------------------------------------
+    EpA-RMSE :        0.46335       0.49286       0.45089
+    EpA-MAE  :        0.36372        0.4036       0.36639
+    EpA-RSQ  :        0.99893       0.99888       0.99884
+    ForceRMSE:         21.255         21.74        20.967
+    ForceMAE :         16.759        17.145        16.591
+    ForceRsq :         0.9992       0.99916       0.99922
+    T-Hier   :     0.00086736    0.00089796    0.00087634
+    L2Reg    :         193.15        193.15        193.15
+    Loss-Err :       0.046285       0.04785      0.045731
+    Loss-Reg :      0.0010605     0.0010911     0.0010695
+    Loss     :       0.047346      0.048941        0.0468
+    -----------------------------------------------------
+
+The numbers will vary from run to run due random seeds and the non-deterministic nature of asynchronous GPU execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0.40 (meV/atom). The test Force MAE "Force MAE" should be below 18 (meV/Angstrom).
+
+The training script will also output the initial box file ``ag_box.data`` as well as an file used to run the resulting potential with LAMMPS, ``hippynn_lammps_model.pt``. Several other files for the training run are put in a directory, ``model_files``.
+
+Following this process, benchmarks can be run.
+
+Running the Benchmark
+----------------------
 
 If using a slurm queueing system, the submit_all_benchmarks.bash file can be used to submit the parallel benchmarks, though it does assume 4 GPUs per node. Alternativly, for single device performance, the "Run_Strong_Single.bash" file can simply be executed to build the single device performance data. 
 
