@@ -53,6 +53,14 @@ submodule at the root of this repository is set to, i.e., within ``sparta``.
 Problem
 -------
 
+This problem models 2D hypersonic flow of nitrogen over a circle with periodic
+boundary conditions in the z dimension, which physically translates to 3D flow
+over a cylinder of infinite length. Particles are continuously emitted from the
+4 faces of the simulation box during the simulation, bounce off the circle, and
+then exit. The hierarchical cartesian grid is statically adapted to 6 levels
+around the circle. The memory array used to hold particles is reordered by grid
+cell every 100 timesteps to improve data locality and cache access patterns.
+
 This is not a sensitive problem and will be present within the upstream SPARTA
 repository shortly. The primary input file that controls the simulation is
 "in.cylinder". An excerpt from this input file that has its key parameters is
