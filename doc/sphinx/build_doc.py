@@ -148,7 +148,7 @@ def do_wrk_scripts(logger):
     files.extend(glob.glob("*.bash"))
     for fl in files:
         logger.info("Executing BSH/BASH script {}...".format(fl))
-        do_cmd("./" + fl)
+        do_cmd("bash ./" + fl)
 
     os.chdir(dir_base)
 
