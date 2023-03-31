@@ -1,33 +1,43 @@
 ******
-Branson
+Parthenon-VIBE
 ******
 
-This is the documentation for the ATS-5 Benchmark Branson - 3D hohlraum single node. 
-
-
+This is the documentation for the ATS-5 Benchmark, Parthenon-VIBE. 
 Purpose
 =======
 
 From their [site]_:
 
-Branson is not an acronym.
+A benchmark that solves the Vector Inviscid Burgers' Equation on a block-AMR mesh.
 
-Branson is a proxy application for parallel Monte Carlo transport. 
-It contains a particle passing method for domain decomposition. 
 
-   
-
-Characteristics
 ===============
 
 Problem
 -------
-The benchmark performance problem is a single node 3D hohlraum problem that is meant to be run with a 30 group build of Branson. 
-It is in replicated mode which means there is very little MPI communication (end of cycle reductions).
+The benchmark performance problem solves 
+.. math::
+
+   \partial_t \mathbf{u} + \nabla\cdot\left(\frac{1}{2}\mathbf{u} \mathbf{u}\right) = 0
+
+and evolves one or more passive scalar quantities :math:`q^i` according to
+
+.. math:: 
+   \partial_t q^i + \nabla \cdot \left( q^i \mathbf{u} \right) = 0
+
+
+as well as computing an auxiliary quantity :math:`d`` that resemebles a kinetic energy
+
+.. math:: 
+   d = \frac{1}{2} q^0 \mathbf{u}\cdot\mathbf{u}.
+
+Parthenon-VIBE makes use of a Godunov-type finite volume scheme with options for slope-limited linear or WENO5 reconstruction, HLL fluxes, and second order Runge-Kutta time integration.
+Characteristics
+
 
 Figure of Merit
 ---------------
-The Figure of Merit is defined as particles/second and is obtained by dividing the number of particles in the problem divided by the total runtime. 
+The Figure of Merit is defined as cell zone-cycles / wallsecond which is the number of AMR zones processed per second of execution time. 
 
 
 Building
@@ -41,73 +51,54 @@ Accessing the sources
 
    cd <path to benchmarks>
    git submodule update --init --recursive
-   cd branson
+   cd parthenon-vibe
  
 ..
 
 
 Build requirements:
 
-* C/C++ compiler(s) with support for C11 and C++14.
-* `CMake 3.9X <https://cmake.org/download/>`_
+* CMake 3.16 or greater
+* C++17 compatible compiler
+* Kokkos 3.6 or greater
+* MPI 
 
-* MPI 3.0+
-
-  * `OpenMPI 1.10+ <https://www.open-mpi.org/software/ompi/>`_
-  * `mpich <http://www.mpich.org>`_
-
-* There is only one CMake user option right now: ``CMAKE_BUILD_TYPE`` which can be  
-  set on the command line with ``-DCMAKE_BUILD_TYPE=<Debug|Release>`` and the
-  default is Release.
-* If cmake has trouble finding your installed TPLs, you can try
-  
- * appending their locations to ``CMAKE_PREFIX_PATH``,
- * try running ``ccmake .`` from the build directory and changing the values of
-    build system variables related to TPL locations.
-
-* If building a CUDA enabled version of Branson use the ``CUDADIR`` environment variable to specify your CUDA directory. 
+To build Parthenon on CPU, including this benchmark, with minimal external dependencies, start here:
 
 .. code-block:: bash
 
-   EXPORT CXX=`which g++`
-   cd $build_dir
-   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install-location> ${branson_source_dir}/src
-   make -j
+   parthenon$ mkdir build && cd build
+   parthenon$ cmake -DPARTHENON_DISABLE_HDF5=ON -DPARTHENON_DISABLE_OPENMP=ON -DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF ../
+   parthenon$ make -j
 
 .. 
 
-Testing the build:
+To build for execution on a single GPU, it should be sufficient to add the following flags to the CMake configuration line
 
 .. code-block:: bash
+   
+   cmake -DPARTHENON_DISABLE_MPI=ON -DKokkos_ENABLE_CUDA=ON -DKokkos_ARCH_AMPERE80=ON
 
-   cd $build_dir
-   ctest -j 32
+..
 
-.. 
+where `Kokkos_ARCH` should be set appropriately for the machine (see [here](https://kokkos.github.io/kokkos-core-wiki/keywords.html)).
+
 
 
 Running
 =======
 
-* The ``inputs`` folder contains the 3D hohlraum
- 3D hohlraums and should be run with a 30 group build of Branson (see Special builds section above).
-* The ``3D_hohlraum_single_node.xml`` problem is meant to be run on a full node. 
- It is run with:
+
+The benchmark includes an input file ``_burgers.pin_`` that specifies the base (coarsest level) mesh size, the size of a mesh block, the number of levels, and a variety of other parameters that control the behavior of Parthenon and the benchmark problem configuration.
+
+
+The executable `burgers-benchmark` will be built in `parthenon/build/benchmarks/burgers/` and can be run as, e.g.
 
 .. code-block:: bash
 
-   mpirun -n <procs_on_node> <path/to/branson> 3D_hohlaum_single_node.xml
+   mpirun -n 36 ./burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin
 
 ..
-
-For strong scaling on a CPU the memory footprint of Branson must be between 28% and 34% of the computational device's main memory.
-The memory footprint can be controlled by editing "photons" in the input file. 
-On a dual socket Intel Haswell (E5-2695 v4 2.10GHz) with 128GByte of total system memory using 120000000 photons is ~41.1GByte (Resident set size) or approximately %32.7. 
-
-For throughput curves on a GPU the memory footprint of Branson must vary between 5% and 90% in increments of at most 5% of the computational device's main memory.
-The memory footprint can be controlled by editing "photons" in the input file. 
-
-
 
 
 Example FOM Results 
@@ -206,4 +197,4 @@ Verification of Results
 References
 ==========
 
-.. [site] Alex R. Long, 'Branson', 2023. [Online]. Available: https://github.com/lanl/branson. [Accessed: 22- Feb- 2023]
+.. [site]  'Parthenon', 2023. [Online]. Available: https://github.com/parthenon-hpc-lab/parthenon. [Accessed: 20- Mar- 2023]

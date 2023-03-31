@@ -14,6 +14,7 @@ ATS Benchmarks Project
    0_intro/introduction
    1_branson/branson
    2_amg/amg
+   3_vibe/vibe
    8_sparta/sparta
 
 .. toctree::
