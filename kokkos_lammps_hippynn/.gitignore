@@ -8,3 +8,5 @@ Ag_warm_nospin.xyz
 
 # Initial box for LAMMPS
 ag_box.data
+
+# Bakup file
