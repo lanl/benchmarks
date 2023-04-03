@@ -210,10 +210,10 @@ Results from Chicoma
 
 Two quantities are extracted from the MD simulations to evaluate performance, though they are directly correlated. The throughput (grad/s) should be viewed as the figure of merit, though ns/day is more useful for users who wish to know the physical processes they can simulate. Thus both are reported here. 
 
-Single GPU Strong Scaling
+Single GPU Throughput Scaling
 -------------------------
 
-.. table::Single GPU strong scaling test
+.. table::Single GPU throughput scaling test
    :align: center
 
 +---------------------+---------------------+---------------------+
@@ -250,36 +250,6 @@ Single GPU Strong Scaling
    :alt: ns/day strong scaling of Lammps-kokkos-HIPPYNN on 1 device. (Larger is better)
    :align: center
 
-Multiple GPU Weak Scaling 
--------------------------
-
-.. table:: Weak Scaling with 85200 atoms per GPU
-   :align: center
-
-+---------------------+---------------------+---------------------+
-| # GPUs (A-100)      | ns/day              | throughput (grad/s) |
-+=====================+=====================+=====================+
-|      4              | 2.73600             | 2.1590e+06          |
-+---------------------+---------------------+---------------------+
-|      8              | 3.10300             | 4.8960e+06          |
-+---------------------+---------------------+---------------------+
-|     16              | 2.72100             | 8.5860e+06          |
-+---------------------+---------------------+---------------------+
-|     32              | 2.72400             | 1.7191e+07          |
-+---------------------+---------------------+---------------------+
-|     64              | 2.72200             | 3.4354e+07          |
-+---------------------+---------------------+---------------------+
-|    128              | 2.72100             | 6.8689e+07          |
-+---------------------+---------------------+---------------------+
-
-
-.. figure:: plots/WeakParallel-t.png
-   :alt: Throughput weak scaling with 85200 atoms per GPU. (Larger is better)
-   :align: center
-
-.. figure:: plots/WeakParallel-s.png
-   :alt: ns/day weak scaling with 85200 atoms per GPU. (Larger is better)
-   :align: center
 
 Calculation performed on Chicoma. 
 
