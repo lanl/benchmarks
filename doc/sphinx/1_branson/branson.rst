@@ -108,11 +108,13 @@ For throughput curves on a GPU the memory footprint of Branson must vary between
 The memory footprint can be controlled by editing "photons" in the input file. 
 
 
+Results from Branson are provided on the following systems:
 
+* Commodity Technology System 1 (CTS-1) with Intel Broadwell processors,
+* IBM Power9 with Nvidia V100 GPU, 
 
-Example FOM Results 
-===================
-
+CTS-1
+------------
 Strong scaling performance of Branson CTS-1 (problem size of 10 million particles) is provided within the following table and
 figure.
 
@@ -127,65 +129,25 @@ figure.
    :scale: 50%
    :alt: Branson Strong Scaling Performance on CTS-1
 
+Branson Strong Scaling Performance on CTS-1
 
+Power9+V100
+------------
 
+Throughput performance of Branson on Power9+V100 is provided within the
+following table and figure.
 
-.. table:: Power9/V100 single GPU throughput as a function of problem size
+.. csv-table:: Branson Throughput Performance on Power9+V100
+   :file: gpu.csv
    :align: center
+   :widths: 10, 10
+   :header-rows: 1
 
-
-   +-----------+-------------+------------+
-   | particles | runtime     | throughput |
-   +===========+=============+============+
-   | 100000    | 0.519094667 | 1.93E+05   |
-   +-----------+-------------+------------+
-   | 200000    | 0.579010333 | 3.45E+05   |
-   +-----------+-------------+------------+
-   | 300000    | 0.678844333 | 4.42E+05   |
-   +-----------+-------------+------------+
-   | 400000    | 0.759374333 | 5.27E+05   |
-   +-----------+-------------+------------+
-   | 500000    | 0.837198333 | 5.97E+05   |
-   +-----------+-------------+------------+
-   | 600000    | 0.925370667 | 6.48E+05   |
-   +-----------+-------------+------------+
-   | 700000    | 1.013963333 | 6.90E+05   |
-   +-----------+-------------+------------+
-   | 800000    | 1.102606667 | 7.26E+05   |
-   +-----------+-------------+------------+
-   | 900000    | 1.18851     | 7.57E+05   |
-   +-----------+-------------+------------+
-   | 1000000   | 1.276283333 | 7.84E+05   |
-   +-----------+-------------+------------+
-   | 2000000   | 2.105656667 | 9.50E+05   |
-   +-----------+-------------+------------+
-   | 3000000   | 3.07436     | 9.76E+05   |
-   +-----------+-------------+------------+
-   | 4000000   | 4.105593333 | 9.74E+05   |
-   +-----------+-------------+------------+
-   | 5000000   | 5.221723333 | 9.58E+05   |
-   +-----------+-------------+------------+
-   | 6000000   | 6.508423333 | 9.22E+05   |
-   +-----------+-------------+------------+
-   | 8000000   | 8.99235     | 8.90E+05   |
-   +-----------+-------------+------------+
-   | 9000000   | 10.2506     | 8.78E+05   |
-   +-----------+-------------+------------+
-   | 10000000  | 11.63873333 | 8.59E+05   |
-   +-----------+-------------+------------+
-   | 15000000  | 18.89953333 | 7.94E+05   |
-   +-----------+-------------+------------+
-   | 20000000  | 26.9172     | 7.43E+05   |
-   +-----------+-------------+------------+
-   | 50000000  | 91.69766667 | 5.45E+05   |
-   +-----------+-------------+------------+
-
-
-.. figure:: plots/gpu-throughput.png
-   :alt: GPU throughput as a function of  problem size
+.. figure:: gpu.png
    :align: center
-
-   GPU throughput as a function of problem size
+   :scale: 50%
+   :alt: Branson Throughput Performance on Power9+V100
+Branson Throughput Performance on Power9+V100
 
 
 Verification of Results
