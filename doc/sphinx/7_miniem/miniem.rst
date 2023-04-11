@@ -340,8 +340,9 @@ CTS-1/Manzano
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
    is available.
 
-Strong scaling performance of MiniEM on CTS-1/Manzano is provided within the
-following table and figure.
+Strong scaling performance (i.e., fixed problem size being run on different MPI
+rank counts) of MiniEM on CTS-1/Manzano is provided within the following table
+and figure.
 
 .. csv-table:: MiniEM Strong Scaling Performance and Memory on Manzano with 66x66x66 elements
    :file: cts1.csv
@@ -369,8 +370,10 @@ following table and figure.
 ATS-2/Vortex
 ------------
 
-Throughput performance of MiniEM on ATS-2/Vortex is provided within the
-following table and figure.
+Throughput performance, i.e., changing the problem size but fixing the resources
+being used to a single MPI rank atop the Power9 CPU and a single Nvidia V100
+GPU, of MiniEM on ATS-2/Vortex is provided within the following table and
+figure.
 
 .. csv-table:: MiniEM Throughput Performance and Memory on ATS-2/Vortex
    :file: ats2.csv
