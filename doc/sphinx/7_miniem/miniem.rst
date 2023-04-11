@@ -62,7 +62,9 @@ Useful parameters from within this input deck are shown below.
 These parameters are described below.
 
 ``X Elements, Y Elements, Z Elements``
-   This sets the size of the problem.
+   This sets the size of the problem, which is the product of these 3
+   quantities. These parameters are set to other values with the cases shown
+   herein.
 
 
 Figure of Merit
@@ -341,10 +343,10 @@ CTS-1/Manzano
 Strong scaling performance of MiniEM on CTS-1/Manzano is provided within the
 following table and figure.
 
-.. csv-table:: MiniEM Strong Scaling Performance on Manzano
+.. csv-table:: MiniEM Strong Scaling Performance on Manzano with 66x66x66 elements
    :file: cts1.csv
    :align: center
-   :widths: 10, 10, 10
+   :widths: 10, 10, 10, 10
    :header-rows: 1
 
 .. figure:: cts1.png
@@ -353,6 +355,13 @@ following table and figure.
    :alt: MiniEM Strong Scaling Performance on Manzano
 
    MiniEM Strong Scaling Performance on Manzano
+
+.. figure:: cts1mem.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Strong Scaling Memory on Manzano
+
+   MiniEM Strong Scaling Memory on Manzano
 
 
 .. _MiniEMResultsATS2:
