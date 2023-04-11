@@ -69,9 +69,11 @@ Build requirements:
 
 .. code-block:: bash
 
-   EXPORT CXX=`which g++`
-   cd $build_dir
-   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install-location> ${branson_source_dir}/src
+   export CXX=`which g++`
+   cd <path/to/branson> 
+   mkdir build 
+   cd build 
+   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install-location> <path/to/branson/src>
    make -j
 
 .. 
@@ -96,7 +98,7 @@ Running
 
 .. code-block:: bash
 
-   mpirun -n <procs_on_node> <path/to/branson> 3D_hohlaum_single_node.xml
+   mpirun -n <procs_on_node> <install-location/BRANSON> <path/to/branson/inputs/3D_hohlaum_single_node.xml>
 
 ..
 
