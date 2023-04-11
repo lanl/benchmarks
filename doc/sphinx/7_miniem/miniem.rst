@@ -343,7 +343,7 @@ CTS-1/Manzano
 Strong scaling performance of MiniEM on CTS-1/Manzano is provided within the
 following table and figure.
 
-.. csv-table:: MiniEM Strong Scaling Performance on Manzano with 66x66x66 elements
+.. csv-table:: MiniEM Strong Scaling Performance and Memory on Manzano with 66x66x66 elements
    :file: cts1.csv
    :align: center
    :widths: 10, 10, 10, 10
@@ -372,10 +372,10 @@ ATS-2/Vortex
 Throughput performance of MiniEM on ATS-2/Vortex is provided within the
 following table and figure.
 
-.. csv-table:: MiniEM Throughput Performance on ATS-2/Vortex
+.. csv-table:: MiniEM Throughput Performance and Memory on ATS-2/Vortex
    :file: ats2.csv
    :align: center
-   :widths: 10, 10
+   :widths: 10, 10, 10
    :header-rows: 1
 
 .. figure:: ats2.png
@@ -384,6 +384,13 @@ following table and figure.
    :alt: MiniEM Throughput Performance on ATS-2/Vortex
 
    MiniEM Throughput Performance on ATS-2/Vortex
+
+.. figure:: ats2mem.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Throughput Memory on ATS-2/Vortex
+
+   MiniEM Throughput Memory on ATS-2/Vortex
 
 
 References
