@@ -113,33 +113,21 @@ The memory footprint can be controlled by editing "photons" in the input file.
 Example FOM Results 
 ===================
 
-.. table:: CTS-1 problem size of 10 million particles
+Strong scaling performance of Branson CTS-1 (problem size of 10 million particles) is provided within the following table and
+figure.
+
+.. csv-table:: Branson Strong Scaling Performance on CTS-1
+   :file: cpu.csv
    :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
 
-   +--------+----------+---------------------+
-   | |cores | |runtime | | throughput        |
-   | |      | |        | | (particles/second)|
-   +========+==========+=====================+
-   |1       | 1201.9   |      8.32E+03       |
-   +--------+----------+---------------------+
-   |2       | 616.6    |      1.62E+04       |
-   +--------+----------+---------------------+
-   |4       | 317.7    |      3.15E+04       |
-   +--------+----------+---------------------+
-   |8       | 174.3    |      5.74E+04       |
-   +--------+----------+---------------------+
-   |16      | 96.6     |      1.04E+05       |
-   +--------+----------+---------------------+
-   |32      | 49.1     |      2.04E+05       |
-   +--------+----------+---------------------+
-   |36      | 43.6     |      2.29E+05       |
-   +--------+----------+---------------------+
-
-.. figure:: plots/cpu-strong.png
-   :alt: CPU Strong Scaling (Fixed problem size, 10M Particles)
+.. figure:: cpu.png
    :align: center
+   :scale: 50%
+   :alt: Branson Strong Scaling Performance on CTS-1
 
-   CPU Strong Scaling (Fixed problem size, 10M Particles)
+
 
 
 .. table:: Power9/V100 single GPU throughput as a function of problem size
