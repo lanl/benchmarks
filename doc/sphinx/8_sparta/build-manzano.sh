@@ -13,7 +13,6 @@ module use /apps/modules/modulefiles-apps/cde/v3/
 module load cde/v3/devpack/intel-ompi
 module list
 
-git clone https://github.com/sparta/sparta.git "${dir_src}"
 pushd "${dir_src}"
 git clean -fdx
 git reset --hard
