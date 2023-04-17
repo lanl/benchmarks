@@ -99,6 +99,7 @@ Each SPARTA simulation writes out a file named "log.sparta". At the end of this
 simulation is a block that resembles the following example.
 
 .. code-block::
+   :emphasize-lines: 8-14
 
    Step CPU Np Natt Ncoll Maxlevel
           0            0   446441        0        0        5
@@ -231,22 +232,14 @@ CTS-1/Manzano
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
    is available.
 
-Instructions for building on Manzano are provided below.
+Instructions for building on Manzano are provided below. These instructions
+assume this repository has been cloned and that the current working directory is
+at the top level of this repository.
 
 .. code-block:: bash
 
-   module unload intel
-   module unload openmpi-intel
-   module use /apps/modules/modulefiles-apps/cde/v3/
-   module load cde/v3/devpack/intel-ompi
-   module list
-   git clone https://github.com/sparta/sparta.git sparta
-   cp -a Makefile.manzano_kokkos "sparta/src/MAKE"
-   pushd "sparta/src"
-   make yes-kokkos
-   make -j 16 manzano_kokkos
-   ls -lh `pwd -P`/spa_manzano_kokkos
-   popd
+   cd doc/sphinx/8_sparta
+   ./build-manzano.sh
 
 
 .. _BuildATS2:
