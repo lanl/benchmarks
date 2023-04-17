@@ -61,12 +61,29 @@ then exit. The hierarchical cartesian grid is statically adapted to 6 levels
 around the circle. The memory array used to hold particles is reordered by grid
 cell every 100 timesteps to improve data locality and cache access patterns.
 
-This is not a sensitive problem and will be present within the upstream SPARTA
-repository shortly. The primary input file that controls the simulation is
-"in.cylinder". An excerpt from this input file that has its key parameters is
+This problem is present within the upstream SPARTA repository. The components of
+this problem are listed below (paths given are within SPARTA repository). Each
+of these files will need to be copied into a run directory for the simulation.
+
+``examples/cylinder/in.cylinder``
+   This is the primary input file that controls the simulation. Some parameters
+   within this file may need to be changed depending upon what is being run
+   (i.e., these parameters control how long this simulation runs for and how
+   much memory it uses).
+
+``examples/cylinder/circle_R0.5_P10000.surf``
+   This is the mesh file and will remain unchanged.
+
+``examples/cylinder/air.*``
+   These three files (i.e., ``air.species``, ``air.tce``, and ``air.vss``)
+   contain the composition and reactions inherent with the air. These files,
+   like the mesh file, are not to be edited.
+
+An excerpt from this input file that has its key parameters is
 provided below.
 
 .. code-block::
+   :emphasize-lines: 5,11
 
    <snip>
     37 ###################################
