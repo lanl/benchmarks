@@ -117,21 +117,53 @@ Results from Branson are provided on the following systems:
 
 CTS-1
 ------------
-Strong scaling performance of Branson CTS-1 (problem size of 10 million particles) is provided within the following table and
+Strong scaling performance of Branson CTS-1 66M Particles is provided within the following table and
 figure.
 
-.. csv-table:: Branson Strong Scaling Performance on CTS-1
-   :file: cpu.csv
+.. csv-table:: Branson Strong Scaling Performance on CTS-1 66M particles
+   :file: cpu_66M.csv
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
 
-.. figure:: cpu.png
+.. figure:: cpu_66M.png
    :align: center
    :scale: 50%
-   :alt: Branson Strong Scaling Performance on CTS-1
+   :alt: Branson Strong Scaling Performance on CTS-1 66M particles
 
-Branson Strong Scaling Performance on CTS-1
+Branson Strong Scaling Performance on CTS-1 66M particles   
+
+Strong scaling performance of Branson CTS-1 133M Particles is provided within the following table and
+figure.
+
+.. csv-table:: Branson Strong Scaling Performance on CTS-1 133M particles
+   :file: cpu_133M.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cpu_133M.png
+   :align: center
+   :scale: 50%
+   :alt: Branson Strong Scaling Performance on CTS-1 133M particles
+
+Branson Strong Scaling Performance on CTS-1 133M particles  
+
+Strong scaling performance of Branson CTS-1 200M Particles is provided within the following table and
+figure.
+
+.. csv-table:: Branson Strong Scaling Performance on CTS-1 200M particles
+   :file: cpu_200M.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cpu_200M.png
+   :align: center
+   :scale: 50%
+   :alt: Branson Strong Scaling Performance on CTS-1 200M particles
+
+Branson Strong Scaling Performance on CTS-1 200M particles  
 
 Power9+V100
 ------------
