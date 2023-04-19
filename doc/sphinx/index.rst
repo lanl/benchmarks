@@ -15,6 +15,7 @@ ATS Benchmarks Project
    1_branson/branson
    2_amg/amg
    3_vibe/vibe
+   4_spatter/spatter
    5_kokkos_lammps_hippynn/kokkos_lammps_hippynn
    7_miniem/miniem
    8_sparta/sparta
