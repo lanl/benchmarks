@@ -9,7 +9,7 @@ import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--program', help='Program to sample', required=False, default='spatter')
-parser.add_argument('-u', '--user', help='User running program', required=False, default='jereddt')
+parser.add_argument('-u', '--user', help='User running program', required=False, default=None)
 parser.add_argument('-f', '--outfile', help='Output file', required=False, default='output.txt')
 parser.add_argument('-n', '--collections', help='Number of collections', required=False, default=1000)
 parser.add_argument('-t', '--interval', help='Interval between collections (seconds)', required=False, default=0.01)
@@ -18,12 +18,13 @@ args = vars(parser.parse_args())
 program = args['program']
 user = args['user']
 outfile = args['outfile']
-collections = args['collections']
-dt = args['interval']
+collections = int(args['collections'])
+dt = float(args['interval'])
 
 print("Running with:")
 print("Program:", program)
-print("User:", user)
+if user is not None:
+  print("User:", user)
 print("Output File:", outfile)
 print("Num Collections:", collections)
 print("Interval:", dt)
@@ -41,7 +42,10 @@ outputs = [None] * collections
 print("Starting top sampling")
 
 for i in range(collections):
-  outputs[i] = subprocess.Popen(["top", "-b", "-n", "1", "-u", user], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+  if user is not None:
+    outputs[i] = subprocess.Popen(["top", "-b", "-n", "1", "-u", user], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+  else:
+    outputs[i] = subprocess.Popen(["top", "-b", "-n", "1"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
   if (i + 1) % ((i + 1) / 10) == 0:
     print("Collection:", i + 1, "of", collections)
   time.sleep(dt)
@@ -60,7 +64,7 @@ for out in data:
   total_shr = 0.0
 
   found = False
-  
+
   # first get the timestamp, just use the first instance of spatter in multicore runs
   for line in as_lines:
     if program in line and line.split()[7] == 'R':
