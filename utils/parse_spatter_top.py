@@ -97,6 +97,11 @@ for out in data:
     res.append(total_res)
     shr.append(total_shr)
 
+print("Max values:")
+print("virt =",max(virt)/1.0e6)
+print("Res =",max(res)/1.0e6)
+print("Shr =",max(shr)/1.0e6)
+
 with open(outfile, "w") as txt_file:
   fmt = "%-8s %-8s %-8s %-8s\n"
   txt_file.write(fmt % ("Time", "Virt", "Res", "Shr"))
