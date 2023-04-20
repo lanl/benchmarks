@@ -51,7 +51,7 @@ Accessing the sources
 
    cd <path to benchmarks>
    git submodule update --init --recursive
-   cd parthenon-vibe
+   cd parthenon
  
 ..
 
@@ -68,10 +68,17 @@ To build Parthenon on CPU, including this benchmark, with minimal external depen
 .. code-block:: bash
 
    parthenon$ mkdir build && cd build
-   parthenon$ cmake -DPARTHENON_DISABLE_HDF5=ON -DPARTHENON_DISABLE_OPENMP=ON -DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF ../
-   parthenon$ make -j
+   build$ export CXXFLAGS="-mavx2 -fno-math-errno -march=broadwell"
+   build$ cmake -DPARTHENON_DISABLE_HDF5=ON -DPARTHENON_DISABLE_OPENMP=ON -DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF -DREGRESSION_GOLD_STANDARD_SYNC=OFF ../
+   build$ make -j
 
 .. 
+
+On a CTS-1 machine the relevant modules are:
+
+.. code-block:: bash
+   
+   build$ module load intel-classic/2021.2.0 intel-mpi/2019.9.304 cmake/3.22.3
 
 To build for execution on a single GPU, it should be sufficient to add the following flags to the CMake configuration line
 
