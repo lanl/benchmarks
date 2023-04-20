@@ -107,11 +107,33 @@ The executable `burgers-benchmark` will be built in `parthenon/build/benchmarks/
 
 ..
 
-The mesh size parameters are chosen to mimic a relatively realistic use case: a :math:`128^3` base mesh with 2 levels of refinement and :math:`32^3` mesh regions (called mesh blocks). This setup has a high water mark of about 40GB of memory, which is roughly 30% of the memory available on a CTS-1 machine. Memory was measured using the tool ``parse_spatter_top.py`` found in this repository. It was independently verified with the [Kokkos Tools Memory High Water Mark](https://github.com/kokkos/kokkos-tools/wiki/MemoryHighWater) tool.
+Varying the ``parthenon/mesh/nx*`` parameters will change the memory footprint. The memory footprint scales roughly as the product of ``parthenon/mesh/nx1``, ``parthen/mesh/nx2``, and ``parthenon/mesh/nx3``. The ``parthen/meshblock/nx*`` parameters select the granularity of refinement: the mesh is distributed accross MPI ranks and refined/de-refined in chunks of this size. ``parthenon/mesh/nx1`` must be evenly divisible by ``parthenon/meshblock/nx1`` and the same for the other dimensions. Smaller meshblock sizes mean finer granularity and a problem that can be broken up accross more cores. However, each meshblock carries with it some overhead, so smaller meshblock sizes may hinder performance.
+
+Results from Branson are provided on the following systems:
+
+* Commodity Technology System 1 (CTS-1) with Intel Broadwell processors,
+* An Nvidia A100 GPU hosted on an [Nvidia Arm HPC Developer Kit](https://developer.nvidia.com/arm-hpc-devkit)
+
+CTS-1
+--------
+
+The mesh and meshblock size parameters are chosen to balance
+realism/performance with memory footprint. For the following tests we
+examine memory footprints of 10%, 20%, and 30%, correpsonding to
+resident memory high water marks on a CTS-1 system of 13GB, 24GB, and
+40GB. Memory was measured using the tool ``parse_spatter_top.py``
+found in this repository. It was independently verified with the
+[Kokkos Tools Memory High Water
+Mark](https://github.com/kokkos/kokkos-tools/wiki/MemoryHighWater)
+tool. Increasing the `parthenon/mesh/nx*` parameters will increase the
+memory footprint.
+
 
 
 Example FOM Results 
 ===================
+
+
 
 .. table:: CTS-1 problem size of 10 million particles
    :align: center
