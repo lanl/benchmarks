@@ -15,9 +15,9 @@ A benchmark that solves the Vector Inviscid Burgers' Equation on a block-AMR mes
 
 Problem
 -------
-The benchmark performance problem solves 
-.. math::
+The benchmark performance problem solves
 
+.. math::
    \partial_t \mathbf{u} + \nabla\cdot\left(\frac{1}{2}\mathbf{u} \mathbf{u}\right) = 0
 
 and evolves one or more passive scalar quantities :math:`q^i` according to
