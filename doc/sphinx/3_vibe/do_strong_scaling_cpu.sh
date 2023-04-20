@@ -30,13 +30,12 @@ echo "${HEADER}" > ${TIMING_FILE_NAME}
 # loop
 i=0
 IDEAL1=0
-#for count in 4 8 18 26 36; do
-for count in 36; do
+for count in 4 8 18 26 36; do
     echo "Core count = ${count}"
     outfile=$(printf "strong-scale-%d.out" ${count})
     errfile=$(printf "strong-scale-%d.err" ${count})
     echo "saving to output file ${outfile}"
-    ARGS="${EXEC} -i ${INP} parthenon/mesh/nx1=${NX} parthenon/mesh/nx2=${NX} parthenon/mesh/nx3=${NX} parthenon/meshblock/nx1=${NXB} parthenon/meshblock/nx2=${NXB} parthenon/meshblock/nx3=${NXB} parthenon/time/nlim=50"
+    ARGS="${EXEC} -i ${INP} parthenon/mesh/nx1=${NX} parthenon/mesh/nx2=${NX} parthenon/mesh/nx3=${NX} parthenon/meshblock/nx1=${NXB} parthenon/meshblock/nx2=${NXB} parthenon/meshblock/nx3=${NXB} parthenon/time/nlim=250"
     CMD="mpirun -n ${count} -outfile-pattern ${outfile} -errfile-pattern ${errfile} ${ARGS}"
     echo ${CMD}
     ${CMD}
