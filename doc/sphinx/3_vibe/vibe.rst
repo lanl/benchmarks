@@ -37,6 +37,7 @@ Characteristics
 
 Figure of Merit
 ---------------
+
 The Figure of Merit is defined as cell zone-cycles / wallsecond which is the number of AMR zones processed per second of execution time. 
 
 
@@ -78,7 +79,7 @@ On a CTS-1 machine the relevant modules are:
 
 .. code-block:: bash
    
-   build$ module load intel-classic/2021.2.0 intel-mpi/2019.9.304 cmake/3.22.3
+   intel-classic/2021.2.0 intel-mpi/2019.9.304 cmake/3.22.3
 
 To build for execution on a single GPU, it should be sufficient to add the following flags to the CMake configuration line
 
@@ -89,7 +90,6 @@ To build for execution on a single GPU, it should be sufficient to add the follo
 ..
 
 where `Kokkos_ARCH` should be set appropriately for the machine (see [here](https://kokkos.github.io/kokkos-core-wiki/keywords.html)).
-
 
 
 Running
@@ -103,9 +103,11 @@ The executable `burgers-benchmark` will be built in `parthenon/build/benchmarks/
 
 .. code-block:: bash
 
-   mpirun -n 36 ./burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin
+   mpirun -n 36 burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin parthenon/mesh/nx1=128 parthenon/mesh/nx2=128 parthenon/mesh/nx3=128 parthenon/meshblock/nx1=32 parthenon/meshblock/nx2=32 parthenon/meshblock/nx3=32 parthenon/nlim=250
 
 ..
+
+The mesh size parameters are chosen to mimic a relatively realistic use case: a :math:`128^3` base mesh with 2 levels of refinement and :math:`32^3` mesh regions (called mesh blocks). This setup has a high water mark of about 40GB of memory, which is roughly 30% of the memory available on a CTS-1 machine. Memory was measured using the tool ``parse_spatter_top.py`` found in this repository. It was independently verified with the [Kokkos Tools Memory High Water Mark](https://github.com/kokkos/kokkos-tools/wiki/MemoryHighWater) tool.
 
 
 Example FOM Results 
