@@ -39,12 +39,13 @@ for count in 4 8 18 26 36; do
     CMD="mpirun -n ${count} -outfile-pattern ${outfile} -errfile-pattern ${errfile} ${ARGS}"
     echo ${CMD}
     ${CMD}
+    wait
     zc=$(grep 'zone-cycles/wallsecond = ' ${outfile} | cut -d '=' -f 2 | xargs)
     echo ${zc}
     if (( ${i} == 0 )); then
        IDEAL1=$(echo "print(\"%.7e\" % (${zc}/4))" | python3)
     fi
-    IDEAL=$(echo "print(\"%.7e\" % (${count}*${IDEAL1})" | python3)
+    IDEAL=$(echo "print(\"%.7e\" % (${count}*${IDEAL1}))" | python3)
     OUTSTR="${count}, ${zc}, ${IDEAL}"
     echo "${OUTSTR}"
     echo "${OUTSTR}" >> ${TIMING_FILE_NAME}
