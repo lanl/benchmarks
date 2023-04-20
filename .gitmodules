@@ -8,3 +8,6 @@
 [submodule "sparta"]
 	path = sparta
 	url = https://github.com/sparta/sparta.git
+[submodule "spatter"]
+	path = spatter
+	url = git@github.com:lanl/spatter.git
