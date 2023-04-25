@@ -170,6 +170,22 @@ Strong scaling performance of Parthenon-VIBE with a 60% memory footprint on CTS-
    :scale: 50%
    :alt: VIBE Strong Scaling Performance on CTS-1 60% Memory Footprint
 
+A100
+-----
+
+Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the following table and figure.
+
+.. csv-table:: VIBE Throughput Performance on A100
+   :file: gpu.csv
+   :align: center
+   :widths: 10, 10
+   :header-rows: 1
+
+.. figure:: gpu.png
+   :align: center
+   :scale: 50%
+   :alt: VIBE Throughput Performance on A100
+
 Verification of Results
 =======================
 
