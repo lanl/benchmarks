@@ -103,7 +103,7 @@ The executable `burgers-benchmark` will be built in `parthenon/build/benchmarks/
 
 .. code-block:: bash
 
-   mpirun -n 36 burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin parthenon/mesh/nx1=128 parthenon/mesh/nx2=128 parthenon/mesh/nx3=128 parthenon/meshblock/nx1=32 parthenon/meshblock/nx2=32 parthenon/meshblock/nx3=32 parthenon/nlim=250
+   mpirun -n 36 burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin parthenon/mesh/nx1=128 parthenon/mesh/nx2=128 parthenon/mesh/nx3=128 parthenon/meshblock/nx1=16 parthenon/meshblock/nx2=16 parthenon/meshblock/nx3=16 parthenon/nlim=250
 
 ..
 
@@ -119,108 +119,56 @@ CTS-1
 
 The mesh and meshblock size parameters are chosen to balance
 realism/performance with memory footprint. For the following tests we
-examine memory footprints of 10%, 20%, and 30%, correpsonding to
-resident memory high water marks on a CTS-1 system of 13GB, 24GB, and
-40GB. Memory was measured using the tool ``parse_spatter_top.py``
-found in this repository. It was independently verified with the
-[Kokkos Tools Memory High Water
+examine memory footprints of 20%, 40%, and 60%. Memory was measured
+using the tool ``parse_spatter_top.py`` found in this repository. It
+was independently verified with the [Kokkos Tools Memory High Water
 Mark](https://github.com/kokkos/kokkos-tools/wiki/MemoryHighWater)
 tool. Increasing the `parthenon/mesh/nx*` parameters will increase the
 memory footprint.
 
+Included with this repository is a ``do_strong_scaling_cpu.sh``
+script, which takes one argument, specifying the desired memory
+footprint on a CTS-1 system. Running it will generate a csv file
+containing scaling numbers.
 
+Strong scaling performance of Parthenon-VIBE with a 20% memory footprint on CTS-1 machines is provided within the following table and figure.
 
-Example FOM Results 
-===================
-
-
-
-.. table:: CTS-1 problem size of 10 million particles
+.. csv-table:: VIBE Strong Scaling Performance on CTS-1 20% Memory Footprint
+   :file: cpu_20.csv
    :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
 
-   +--------+----------+---------------------+
-   | |cores | |runtime | | throughput        |
-   | |      | |        | | (particles/second)|
-   +========+==========+=====================+
-   |1       | 1201.9   |      8.32E+03       |
-   +--------+----------+---------------------+
-   |2       | 616.6    |      1.62E+04       |
-   +--------+----------+---------------------+
-   |4       | 317.7    |      3.15E+04       |
-   +--------+----------+---------------------+
-   |8       | 174.3    |      5.74E+04       |
-   +--------+----------+---------------------+
-   |16      | 96.6     |      1.04E+05       |
-   +--------+----------+---------------------+
-   |32      | 49.1     |      2.04E+05       |
-   +--------+----------+---------------------+
-   |36      | 43.6     |      2.29E+05       |
-   +--------+----------+---------------------+
-
-.. figure:: plots/cpu-strong.png
-   :alt: CPU Strong Scaling (Fixed problem size, 10M Particles)
+.. figure:: cpu_20.png
    :align: center
+   :scale: 50%
+   :alt: VIBE Strong Scaling Performance on CTS-1 20% Memory Footprint
 
-   CPU Strong Scaling (Fixed problem size, 10M Particles)
+Strong scaling performance of Parthenon-VIBE with a 40% memory footprint on CTS-1 machines is provided within the following table and figure.
 
-
-.. table:: Power9/V100 single GPU throughput as a function of problem size
+.. csv-table:: VIBE Strong Scaling Performance on CTS-1 40% Memory Footprint
+   :file: cpu_40.csv
    :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
 
-
-   +-----------+-------------+------------+
-   | particles | runtime     | throughput |
-   +===========+=============+============+
-   | 100000    | 0.519094667 | 1.93E+05   |
-   +-----------+-------------+------------+
-   | 200000    | 0.579010333 | 3.45E+05   |
-   +-----------+-------------+------------+
-   | 300000    | 0.678844333 | 4.42E+05   |
-   +-----------+-------------+------------+
-   | 400000    | 0.759374333 | 5.27E+05   |
-   +-----------+-------------+------------+
-   | 500000    | 0.837198333 | 5.97E+05   |
-   +-----------+-------------+------------+
-   | 600000    | 0.925370667 | 6.48E+05   |
-   +-----------+-------------+------------+
-   | 700000    | 1.013963333 | 6.90E+05   |
-   +-----------+-------------+------------+
-   | 800000    | 1.102606667 | 7.26E+05   |
-   +-----------+-------------+------------+
-   | 900000    | 1.18851     | 7.57E+05   |
-   +-----------+-------------+------------+
-   | 1000000   | 1.276283333 | 7.84E+05   |
-   +-----------+-------------+------------+
-   | 2000000   | 2.105656667 | 9.50E+05   |
-   +-----------+-------------+------------+
-   | 3000000   | 3.07436     | 9.76E+05   |
-   +-----------+-------------+------------+
-   | 4000000   | 4.105593333 | 9.74E+05   |
-   +-----------+-------------+------------+
-   | 5000000   | 5.221723333 | 9.58E+05   |
-   +-----------+-------------+------------+
-   | 6000000   | 6.508423333 | 9.22E+05   |
-   +-----------+-------------+------------+
-   | 8000000   | 8.99235     | 8.90E+05   |
-   +-----------+-------------+------------+
-   | 9000000   | 10.2506     | 8.78E+05   |
-   +-----------+-------------+------------+
-   | 10000000  | 11.63873333 | 8.59E+05   |
-   +-----------+-------------+------------+
-   | 15000000  | 18.89953333 | 7.94E+05   |
-   +-----------+-------------+------------+
-   | 20000000  | 26.9172     | 7.43E+05   |
-   +-----------+-------------+------------+
-   | 50000000  | 91.69766667 | 5.45E+05   |
-   +-----------+-------------+------------+
-
-
-.. figure:: plots/gpu-throughput.png
-   :alt: GPU throughput as a function of  problem size
+.. figure:: cpu_40.png
    :align: center
+   :scale: 50%
+   :alt: VIBE Strong Scaling Performance on CTS-1 40% Memory Footprint
 
-   GPU throughput as a function of problem size
+Strong scaling performance of Parthenon-VIBE with a 60% memory footprint on CTS-1 machines is provided within the following table and figure.
 
+.. csv-table:: VIBE Strong Scaling Performance on CTS-1 60% Memory Footprint
+   :file: cpu_60.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cpu_60.png
+   :align: center
+   :scale: 50%
+   :alt: VIBE Strong Scaling Performance on CTS-1 60% Memory Footprint
 
 Verification of Results
 =======================

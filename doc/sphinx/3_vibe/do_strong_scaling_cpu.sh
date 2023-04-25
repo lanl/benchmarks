@@ -4,17 +4,20 @@ set +x
 set +e
 
 FOOTPRINT=$1
-if (( ${FOOTPRINT} == 10 )); then
+if (( ${FOOTPRINT} == 20 )); then
     NX=64
     NXB=16
-elif (( ${FOOTPRINT} == 20 )); then
-    NX=96
-    NXB=16
-elif (( ${FOOTPRINT} == 30 )); then
+    NL=3
+elif (( ${FOOTPRINT} == 40 )); then
     NX=128
-    NXB=32
+    NXB=16
+    NL=3
+elif (( ${FOOTPRINT} == 60 )); then
+    NX=160
+    NXB=16
+    NL=3
 else
-    echo "Unknown footprint. Footprint must be 10, 20, or 30."
+    echo "Unknown footprint. Available footprints are 20, 40, 60."
     exit 1
 fi
 TIMING_FILE_NAME="cpu_${FOOTPRINT}.csv"
@@ -35,7 +38,7 @@ for count in 4 8 18 26 36; do
     outfile=$(printf "strong-scale-%d.out" ${count})
     errfile=$(printf "strong-scale-%d.err" ${count})
     echo "saving to output file ${outfile}"
-    ARGS="${EXEC} -i ${INP} parthenon/mesh/nx1=${NX} parthenon/mesh/nx2=${NX} parthenon/mesh/nx3=${NX} parthenon/meshblock/nx1=${NXB} parthenon/meshblock/nx2=${NXB} parthenon/meshblock/nx3=${NXB} parthenon/time/nlim=250"
+    ARGS="${EXEC} -i ${INP} parthenon/mesh/nx1=${NX} parthenon/mesh/nx2=${NX} parthenon/mesh/nx3=${NX} parthenon/meshblock/nx1=${NXB} parthenon/meshblock/nx2=${NXB} parthenon/meshblock/nx3=${NXB} parthenon/time/nlim=250 parthenon/mesh/numlevel=${NL}"
     CMD="mpirun -n ${count} -outfile-pattern ${outfile} -errfile-pattern ${errfile} ${ARGS}"
     echo ${CMD}
     ${CMD}
