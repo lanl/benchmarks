@@ -17,6 +17,7 @@ ATS Benchmarks Project
    3_vibe/vibe
    4_spatter/spatter
    5_kokkos_lammps_hippynn/kokkos_lammps_hippynn
+   6_umt/umt
    7_miniem/miniem
    8_sparta/sparta
 
