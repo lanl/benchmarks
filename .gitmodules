@@ -4,7 +4,7 @@
 	branch = ats5
 [submodule "umt"]
    path = umt
-	url = https://github.com/llnl/umt.git
+   url = https://github.com/LLNL/UMT.git
 [submodule "trilinos"]
 	path = trilinos
 	url = https://github.com/trilinos/Trilinos.git
