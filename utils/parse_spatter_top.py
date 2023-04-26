@@ -11,8 +11,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--program', help='Program to sample', required=False, default='spatter')
 parser.add_argument('-u', '--user', help='User running program', required=False, default=None)
 parser.add_argument('-f', '--outfile', help='Output file', required=False, default='output.txt')
-parser.add_argument('-n', '--collections', help='Number of collections', required=False, default=1000)
-parser.add_argument('-t', '--interval', help='Interval between collections (seconds)', required=False, default=0.01)
+parser.add_argument('-n', '--collections', help='Number of collections', required=False, default=1000, type=int)
+parser.add_argument('-t', '--interval', help='Interval between collections (seconds)', required=False, default=0.01, type=float)
 args = vars(parser.parse_args())
 
 program = args['program']
@@ -76,27 +76,23 @@ for out in data:
       break
 
   # next get each memory amount for each instance of spatter (one per MPI rank)
+  def parse(x):
+    if "g" in x:
+      return float(x.strip("g"))*(1024*1024)
+    elif "m" in x:
+      return float(x.strip("m"))*(1024)
+    else:
+      return int(x)
   for line in as_lines:
     if program in line and line.split()[7] == 'R':
       line = line.split()
       virt_raw = line[4]
       res_raw = line[5]
       shr_raw = line[6]
-      if("g" in virt_raw):
-        virt_raw = virt_raw.strip("g")
-        total_virt = total_virt +  float(virt_raw)*(1024*1024)
-      else:
-        total_virt = total_virt + int(virt_raw)
-      if("g" in res_raw):
-        res_raw = res_raw.strip("g")
-        total_res = total_res +  float(res_raw)*(1024*1024)
-      else:
-        total_res = total_res + int(res_raw)
-      if("g" in shr_raw):
-        shr_raw = shr_raw.strip("g")
-        total_shr = total_shr + float(shr_raw)*(1024*1024)
-      else:
-        total_shr = total_shr + int(shr_raw)
+      
+      total_virt += parse(virt_raw)
+      total_res += parse(res_raw)
+      total_shr += parse(shr_raw)
       # reset flag so we keep looking for output from spatter
       found = True
 
@@ -104,6 +100,11 @@ for out in data:
     virt.append(total_virt)
     res.append(total_res)
     shr.append(total_shr)
+
+print("Max values:")
+print("virt =",max(virt)/1.0e6)
+print("Res =",max(res)/1.0e6)
+print("Shr =",max(shr)/1.0e6)
 
 with open(outfile, "w") as txt_file:
   fmt = "%-8s %-8s %-8s %-8s\n"
