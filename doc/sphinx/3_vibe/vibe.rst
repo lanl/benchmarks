@@ -3,15 +3,13 @@ Parthenon-VIBE
 ******
 
 This is the documentation for the ATS-5 Benchmark, Parthenon-VIBE. 
+
 Purpose
 =======
 
 From their [site]_:
 
 A benchmark that solves the Vector Inviscid Burgers' Equation on a block-AMR mesh.
-
-
-===============
 
 Problem
 -------
