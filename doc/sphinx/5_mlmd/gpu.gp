@@ -7,7 +7,7 @@ set xlabel "No. Atoms"
 set ylabel "Figure of Merit (grads/sec)"
 
 # set xrange [1:64]
-set key left top
+set key right top
 
 # set logscale x 2
 # set logscale y 2

@@ -7,7 +7,7 @@ set xlabel "No. Particles"
 set ylabel "Figure of Merit (Particles/sec)"
 
 # set xrange [1:64]
-set key left top
+set key right top
 
 # set logscale x 2
 # set logscale y 2
