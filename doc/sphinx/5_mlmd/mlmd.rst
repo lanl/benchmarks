@@ -1,8 +1,8 @@
 ******
-Lammps-kokkos-HIPPYNN
+MLMD
 ******
 
-This is the documentation for the ATS-5 Benchmark for HIPPYNN driven kokkos-Lammps Molecular Dynamics. 
+This is the documentation for the ATS-5 MLMD Benchmark for HIPPYNN driven kokkos-Lammps Molecular Dynamics. 
 
 Purpose
 =======
@@ -212,46 +212,22 @@ Two quantities are extracted from the MD simulations to evaluate performance, th
 
 Single GPU Throughput Scaling
 -------------------------
+Throughput performance of MLMD Simulation+Inference is provided within the
+following table and figure.
 
-.. table::Single GPU throughput scaling test
+.. csv-table::  MLMD throughput performance on Chicaoma
+   :file: gpu.csv
    :align: center
+   :widths: 10, 10
+   :header-rows: 1
 
-+---------------------+---------------------+---------------------+
-| # Atoms             | ns/day              | throughput (grad/s) |
-+=====================+=====================+=====================+
-|    568              | 109.02400           | 1.4335e+05          |
-+---------------------+---------------------+---------------------+
-|   1136              | 88.93500            | 2.3386e+05          |
-+---------------------+---------------------+---------------------+
-|   2272              | 102.20700           | 5.3753e+05          |
-+---------------------+---------------------+---------------------+
-|   3408              | 94.76500            | 7.4759e+05          |
-+---------------------+---------------------+---------------------+
-|   4544              | 78.37400            | 8.2438e+05          |
-+---------------------+---------------------+---------------------+
-|   6816              | 70.02900            | 1.1050e+06          |
-+---------------------+---------------------+---------------------+
-|   9088              | 61.48800            | 1.2940e+06          |
-+---------------------+---------------------+---------------------+
-|  11360              | 61.37100            | 1.6140e+06          |
-+---------------------+---------------------+---------------------+
-|  13632              | 57.42300            | 1.8120e+06          |
-+---------------------+---------------------+---------------------+
-|  15904              | 51.28900            | 1.8880e+06          |
-+---------------------+---------------------+---------------------+
-|  18176              | 46.69000            | 1.9640e+06          |
-+---------------------+---------------------+---------------------+
 
-.. figure:: plots/StrongSingle-t.png
-   :alt: Throughput strong scaling of Lammps-kokkos-HIPPYNN on 1 device. (Larger is better)
+.. figure:: gpu.png
    :align: center
+   :scale: 50%
+   :alt: MLMD throughput performance on Chicaoma
+MLMD throughput performance on Chicaoma 
 
-.. figure:: plots/StrongSingle-s.png
-   :alt: ns/day strong scaling of Lammps-kokkos-HIPPYNN on 1 device. (Larger is better)
-   :align: center
-
-
-Calculation performed on Chicoma. 
 
 Verification of Results
 =======================
