@@ -94,34 +94,19 @@ Running
 Example FOM Results 
 ===================
 
-* Grabbed from Branson example, need to update with UMT numbers from whippet (1-112 cores)
-.. table:: CTS-1 problem size of 10 million particles
+Strong scaling of UMT on CTS-2 (Sapphire Rapids) for Sweep Performance Problem #1 (SPP #1):
+
+.. csv-table:: UMT SPP #1 on CTS-2
+   :file: spp-1_spr_abridged.csv
    :align: center
-
-   +--------+----------+---------------------+
-   | |cores | |runtime | | throughput        |
-   | |      | |        | | (#unknowns/second)|
-   +========+==========+=====================+
-   |1       | 1201.9   |      8.32E+03       |
-   +--------+----------+---------------------+
-   |2       | 616.6    |      1.62E+04       |
-   +--------+----------+---------------------+
-   |4       | 317.7    |      3.15E+04       |
-   +--------+----------+---------------------+
-   |8       | 174.3    |      5.74E+04       |
-   +--------+----------+---------------------+
-   |16      | 96.6     |      1.04E+05       |
-   +--------+----------+---------------------+
-   |32      | 49.1     |      2.04E+05       |
-   +--------+----------+---------------------+
-   |36      | 43.6     |      2.29E+05       |
-   +--------+----------+---------------------+
-
-.. figure:: plots/cpu-strong.png
-   :alt: CPU Strong Scaling (Fixed problem size, <add here>M Unknowns)
+   :widths: 10, 10, 10
+   :header-rows: 1
+		 
+.. figure:: spp-1_spr_complete.png
+   :alt: CPU Strong Scaling (Fixed problem size, SPP #1)
    :align: center
-
-   CPU Strong Scaling (Fixed problem size, <add here>M Unknowns)
+   :scale: 50%
+   CPU Strong Scaling on CTS-2
 
 
 
