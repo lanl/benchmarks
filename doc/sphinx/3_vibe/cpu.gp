@@ -2,7 +2,7 @@
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
 set output "cpu_20.png"
 
-set title "Parthenon-VIBE Strong Scaling Performance on CTS-1, 20% Memory Footrpint" font "serif,22"
+set title "Parthenon-VIBE Strong Scaling Performance on CTS-1, 20% Memory Footprint" font "serif,22"
 set xlabel "No. Processing Elements"
 set ylabel "Figure of Merit (zone-cycles/sec)"
 
