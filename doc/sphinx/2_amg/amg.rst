@@ -142,35 +142,6 @@ The '-n' option allows one to specify the local problem size per MPI process, le
 Example Scalability Results 
 ===========================
 
-Previous versions of AMG2023 have been run on the following platforms:
-
-*  BG/Q  - up to over 1,000,000 MPI processes
-*  BG/P  - up to 125,000 MPI processes
-*  and more
-
-Consider increasing both problem size and number of processors in tandem. On scalable architectures, time-to-solution for AMG2023 will initially increase, then it will level off at a modest numbers of processors, remaining roughly constant for larger numbers of processors.  Iteration counts will also increase slightly for small to modest sized problems, then level off at a roughly constant number for larger problem sizes.
-
-For example, we get the following timing results (in seconds) for a system with a 3D 27-point stencil, distributed on a logical P x Q x R processor  topology, with fixed local problem size per process given as 96 x 96 x 96:
-
-.. table:: Weak scaling on BG/Q
-   :align: center
-
-   +------------+--------+------------+------------+
-   | P x Q x R  |  procs | setup time | solve time |
-   +------------+--------+------------+------------+
-   |  8x 8x 8   |    512 |     14.91  |   51.05    |
-   +------------+--------+------------+------------+
-   | 16x16x 8   |   2048 |     15.31  |   53.35    |
-   +------------+--------+------------+------------+
-   | 32x16x16   |   8192 |     16.00  |   57.78    |
-   +------------+--------+------------+------------+
-   | 32x32x32   |  32768 |     17.55  |   65.19    |
-   +------------+--------+------------+------------+
-   | 64x32x32   |  65536 |     17.49  |   64.93    |
-   +------------+--------+------------+------------+
-
-These results were obtained on BG/Q using MPI and OpenMP with 4 OpenMP threads per MPI task and configuring hypre with --enable-hopscotch --enable-persistent and --enable-bigint.
-
 To measure strong scalability, it is important to change the size per process with the process topology:
 
 The following results were achieved on RZTopaz for a 3D 7-pt Laplace problem on a 300 x 300 x 300 grid.
