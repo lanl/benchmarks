@@ -19,8 +19,9 @@ Characteristics
 
 Problem
 -------
-The benchmark performance problem <add test name here> is a single node problem on a 3D unstructured mesh.
-TODO - either add more problem description here, or expand the 'test problem' section of UMT README.md and reference that.
+The benchmark performance problem is a single node problem on a 3D unstructured mesh.  Two variants exist:
+- UMTSP #1, a configuration with 72 directions and 128 energy bins to solve per mesh cell.
+- UMTSP #2, a configuration with 32 directions and 16 energy bins to solve per mesh cell.
 
 Figure of Merit
 ---------------
@@ -94,6 +95,7 @@ Running
 Example FOM Results 
 ===================
 
+# TODO - Look into combining both UMTSP1 and UMTSP2 on same gnuplot graph?
 Strong scaling of UMT on CTS-2 (Sapphire Rapids) for Sweep Problem #1 (UMTSP #1):
 
 .. csv-table:: UMT SP #1 on CTS-2
@@ -108,10 +110,21 @@ Strong scaling of UMT on CTS-2 (Sapphire Rapids) for Sweep Problem #1 (UMTSP #1)
    :scale: 50%
    CPU Strong Scaling on CTS-2
 
+.. csv-table:: UMT SP #2 on CTS-2
+   :file: umtsp2_strong_scaling_cpu_abridged.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+		 
+.. figure:: umtsp2-strong_scaling_cpu.png
+   :alt: CPU Strong Scaling (Fixed problem size, UMT SP #2)
+   :align: center
+   :scale: 50%
+   CPU Strong Scaling on CTS-2
 
 Throughput study of UMT on Power9/V100, single GPU, as a function of problem size for Sweep Problem #1 (UMTSP #1):
 # TODO - add runtime in this table??
-.. csv-table:: Power9/V100 single GPU throughput
+.. csv-table:: UMT SP #2 throughput on Power9 and V100
    :file: umtsp1_throughput_gpu.csv
    :align: center
    :widths: 10, 10, 10
@@ -119,11 +132,21 @@ Throughput study of UMT on Power9/V100, single GPU, as a function of problem siz
 
 # TODO - need to either update the gnuplot script to not expect 'ideal' column, or add the ideal.		 
 .. figure:: plots/umtsp1-throughput_gpu.png
-   :alt: GPU throughput as a function of  problem size
+   :alt: UMT SP #1 GPU throughput as a function of problem size.
    :align: center
 
-   GPU throughput as a function of problem size
+Throughput study of UMT on Power9/V100, single GPU, as a function of problem size for Sweep Problem #2 (UMTSP #2):
+# TODO - add runtime in this table??
+.. csv-table:: UMT SP #2 throughput on Power9 and V100
+   :file: umtsp2_throughput_gpu.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
 
+# TODO - need to either update the gnuplot script to not expect 'ideal' column, or add the ideal.
+.. figure:: plots/umtsp2-throughput_gpu.png
+   :alt: UMT SP #2 GPU throughput as a function of  problem size
+   :align: center
 
 Verification of Results
 =======================
