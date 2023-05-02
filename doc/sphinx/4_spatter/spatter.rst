@@ -1,6 +1,6 @@
-******
+*******
 Spatter
-******
+*******
 
 This is the documentation for the ATS-5 Benchmark Spatter - Scatter/Gather kernels. 
 
@@ -8,21 +8,32 @@ This is the documentation for the ATS-5 Benchmark Spatter - Scatter/Gather kerne
 Purpose
 =======
 
+Micro-benchmark scatter/gather performance of current and future node-level architectures.
+
+From the [Spatter]_ Benchmark Repository:
+
+With this benchmark, we aim to characterize the performance of memory systems in a new way. We want to be able to make comparisons across architectures about how well data can be rearranged, and we want to be able to use benchmark results to predict the runtimes of sparse algorithms on these various architectures.
+
+See [Spatter-Paper]_ for earlier details and results. Additionally, see [LANL-Memory-Wall]_ and [Spatter]_ for enhancements and additional features.
 
 Characteristics
 ===============
 
+
 Problem
 -------
+
+We have profiled the Flag and xRAGE applications to collect relevant gather/scatter patterns. These have been collected into a repository [LANL-Spatter]_, along with several utility scripts which allow us to perform weak scaling and strong scaling experiments with this data. The Flag patterns were obtained from a problem utilizing a 2D static mesh, while the xRAGE patterns were obtained from a 3D simulation of an asteroid impact.
 
 Figure of Merit
 ---------------
 
+The Figure of Merit is defined as the measured bandwidth in MB/s. This is measured for each rank to obtain the average bandwidth per rank. This is obtained by taking the total data movement divided by the runtime for the gather/scatter operation for each rank.
 
 Building
 ========
 
-Accessing the benchmark, memory access patterns, and scaling scripts
+Accessing the benchmark, memory access patterns, and scaling scripts [LANL-Spatter]
 
 .. code-block:: bash
 
@@ -34,68 +45,68 @@ Accessing the benchmark, memory access patterns, and scaling scripts
 
 Set-up:
 
-.. code-block:: bash
-
-    git lfs pull
-    tar -xvzf patterns/flag/static_2d/001.json.tar.gz
-    tar -xvzf patterns/flag/static_2d/001.nonfp.json.tar.gz
-    tar -xvzf patterns/flag/static_2d/001.fp.json.tar.gz
-    tar -xvzf patterns/xrage/asteroid/spatter.json.tar.gz
-    mv spatter.json patterns/xrage/asteroid/spatter.json
-
-..
-
-Create a Module Environment
-Copy the current Darwin Module Environment File
-
-For a base CPU Module file: 
+The setup script will initialize your configuration file (scripts/config.sh) with CTS-1 defaults, and will build Spatter with GCC and MPI for the CPU. See the Spatter documentation and other build scripts (scripts/build_cpu.sh and scripts/build_cuda.sh) for further instructions for building with different compilers or for GPUs.
 
 .. code-block:: bash
 
-    cp modules/darwin_skylake.mod modules/<name>.mod
+    bash scripts/setup.sh
 
 ..
 
-For a base GPU Module file: 
+This setup script performs the following:
 
-.. code-block::
+#. Untars the Pattern JSON files located in the patterns directory
 
-    cp modules/darwin_a100.mod modules/<name>.mod
+   * patterns/flag/static_2d/001.fp.json
 
-..
+   * patterns/flag/static_2d/001.nonfp.json
 
-Edit the modules required on your system
+   * patterns/flag/static_2d/001.json
 
-For CPU builds, you need CMake, an Intel Compiler, and MPI at a minimum For GPU builds (CUDA), you need CMake, nvcc, gcc, and MPI
+   * patterns/xrage/asteroid/spatter.json
 
-For plotting (see scripts/plot_mpi.py), you will need a Python 3 installation with matplotlib and pandas
+#. Generates a default module file located in modules/custom.mod
 
-Editing the Configuration
-Edit the configuration bash script (scripts/config.sh)
+   * Contains generic module load statements for cmake, openmpi, and gcc
 
-Change the HOMEDIR to the path to the root of this repository (absolute path). Change the MODULEFILE to your new module file (absolute path). Change threadlist and ranklist and sizelist as appropriate for your system. This sets the number of OpenMP threads or MPI ranks Spatter will scale through You may leave SPATTER unchanged unless you have another Spatter binary on your system. If so, you may update this variable to point to you Spatter binary. Otherwise, we will build Spatter in the next
-step.
+#. Populates the configuration file (scripts/config.sh) with reasonable defaults for a CTS-1 system
 
+   * HOMEDIR is set to the directory this repository sits in
 
-Build requirements:
+   * MODULEFILE is set to modules/custom.mod
 
-Building Spatter on CPUs:
+   * SPATTER is set to path of the Spatter executable
+
+   * ranklist is set to sweep from 1-36 threads/ranks respectively for a CTS-1 type system
+
+   * boundarylist is set to reasonable defaults for scaling experiments (specifies the maximum value of a pattern index, limiting the size of the data array)
+
+   * (STRONG SCALING ONLY) sizelist is set to reasonable defaults for strong scaling experiments (specifies the size of the pattern to truncate at)
+
+#. Attempts to build Spatter with CMake, GCC, and MPI
+
+You will need GCC and MPI loaded into your environment (include them in your modules/custom.mod)
+
+Optional Manual Build
+---------------------
+
+In the case you need to build manually, the following scripts can be modified to build for CPU:
 
 .. code-block:: bash
-   
-   cd ${HOMEDIR}
-   bash scripts/build_omp_mpi_intel.sh
+
+    bash scripts/build_cpu.sh
 
 ..
 
-Building Spatter on NVIDIA GPUs:
+and to build for GPUs which support CUDA:
 
 .. code-block:: bash
 
-    cd ${HOMEDIR}
-    bash scripts/builds_cuda.sh
+    bash scripts/build_cuda.sh
 
 ..
+
+Further build documentation can be found here: [Spatter]_
 
 
 Running
@@ -108,7 +119,8 @@ The scripts/scaling.sh script has the following options:
 * a: Application name 
 * p: Problem name 
 * f: Pattern name 
-* n: Architecture/Partition 
+* n: User-defined run name (for saving results) 
+* b: Boundary limit (option, default: off for weak scaling, on for strong scaling)
 * c: Core binding (optional, default: off) 
 * g: Plotting/Post-processing (optional, default: on) 
 * r: Toggle MPI scaling (optional, default: off) 
@@ -116,13 +128,66 @@ The scripts/scaling.sh script has the following options:
 * w: Toggle Weak/Strong Scaling (optional, default: off = strong scaling) 
 * h: Print usage message
 
-The Application name, Problem name, and Pattern name each correspond to subdirectories in this repository containing patterns stored as Spatter JSON input files. The JSON file of interest should be located at ///.json
+The Application name, Problem name, and Pattern name each correspond to subdirectories in this repository containing patterns stored as Spatter JSON input files.
 
-The results of the weak scaling experiment will be stored in the spatter.weakscaling or spatter.strongscaling directory, within the /// subdirectory.
 
-If MPI scaling is enabled, full bandwidth results will be stored in the mpi_r)1t.txt files. Additionally, the r subdirectories hold sorted bandwidth data for each rank from each pattern that was found in the Spatter JSON input file. These files will be labeled r/r_1t_<pattern_num>p.txt.
+CTS-1
+------------
 
-If OpenMP threading is turned on, full bandwidth results will be stored in the openmp_1r_t.txt files.
+Weak-scaling experiment for the 8 patterns in patterns/flag/static_2d/001.json with core-binding turned on and plotting enabled. This experiment was ran at 1, 2, 4, 8, 16, 18, 32, and 36 ranks. Results will be found in spatter.weakscaling/CTS1/flag/static_2d/001/ and Figures will be found in figures/CTS1/flag/static_2d/001/
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001 -n CTS1 -c -r -w
+
+..
+
+.. csv-table:: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 Patterns
+   :file: cpu_weak_average_001.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: cpu_weak_average_001.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 Patterns
+
+
+Weak-scaling experiment for the x patterns in patterns/xrage/asteroid/spatter.json with core-binding turned on and plotting enabled. This experiment was ran at 1, 2, 4, 8, 16, and 18 ranks due to memory constraints. Results will be found in spatter.weakscaling/CTS1/xrage/asteroid/spatter/ and Figures will be found in figures/CTS1/xrage/asteroid/spatter/
+
+First, modifying the ranklist in scripts/config.sh to the following:
+
+.. code-block:: bash
+
+   ranks=( 1 2 4 8 16 18 )
+
+..
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a xrage -p asteroid -f spatter -n CTS1 -c -r -w
+
+..
+
+.. csv-table:: Spatter Weak Scaling Performance on CTS-1 xRAGE Asteroid Patterns
+   :file: cpu_weak_average_asteroid.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: cpu_weak_average_asteroid.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Weak Scaling Performance on CTS-1 xRAGE Asteroid Patterns
+
+
+
+
+Power9+V100
+------------
+
+Strong-Scaling experiment with plotting enabled. Results will be found in spatter.strongscaling/A100/flag/static_2d/001 and Figures will be found in figures/CTS1/flag/static_2d/001.
 
 .. code-block:: bash
 
@@ -132,20 +197,6 @@ If OpenMP threading is turned on, full bandwidth results will be stored in the o
 
 ..
 
-Running Spatter Serially
-Simply update the threadlist and ranklist variables in scripts/config.sh to the value of ( 1  )
-
-.. code-block:: bash
-
-    bash scripts/scaling.sh -a flag -p static_2d -f 001 -n A100 -r
-
-..
-
-CTS-1
-------------
-
-Power9+V100
-------------
 
 Verification of Results
 =======================
@@ -153,4 +204,7 @@ Verification of Results
 References
 ==========
 
-.. [Spatter] Jered Dominguez-Trujillo, Kevin Sheridan, Galen Shipman, 'Spatter', 2023. [Online]. Available: https://github.com/lanl/spatter. [Accessed: 19- Apr- 2023]
+.. [Spatter] Patrick Lavin, Jeffrey Young, Jered Dominguez-Trujillo, Agustin Vaca Valverde, Vincent Huang, James Wood, 'Spatter', 2023. [Online]. Available: https://github.com/hpcgarage/spatter
+.. [Spatter-Paper] Lavin, P., Young, J., Vuduc, R., Riedy, J., Vose, A. and Ernst, D., Evaluating Gather and Scatter Performance on CPUs and GPUs. In The International Symposium on Memory Systems (pp. 209-222). September 2020.
+.. [LANL-Spatter] Jered Dominguez-Trujillo, Kevin Sheridan, Galen Shipman, 'Spatter', 2023. [Online]. Available: https://github.com/lanl/spatter. [Accessed: 19- Apr- 2023]
+.. [LANL-Memory-Wall] G. M. Shipman, J. Dominguez-Trujillo, K. Sheridan and S. Swaminarayan, "Assessing the Memory Wall in Complex Codes," 2022 IEEE/ACM Workshop on Memory Centric High Performance Computing (MCHPC), Dallas, TX, USA, 2022, pp. 30-35, doi: 10.1109/MCHPC56545.2022.00009.
