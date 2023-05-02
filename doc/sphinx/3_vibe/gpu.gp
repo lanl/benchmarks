@@ -2,12 +2,12 @@
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
 set output "gpu.png"
 
-set title "Branson Throughput Performance on Power9+V100" font "serif,22"
-set xlabel "No. Particles"
-set ylabel "Figure of Merit (Particles/sec)"
+set title "VIBE Throughput Performance on an A100" font "serif,22"
+set xlabel "Base Mesh Size/Axis"
+set ylabel "Figure of Merit (zone-cycles/sec)"
 
 # set xrange [1:64]
-set key right top
+set key left top
 
 # set logscale x 2
 # set logscale y 2
