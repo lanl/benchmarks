@@ -1,13 +1,14 @@
 import torch
 import ase.io
 import numpy as np
+import time
 torch.set_default_dtype(torch.float32)
 
 import hippynn
 from hippynn.experiment import SetupParams, setup_and_train, test_model
 hippynn.settings.WARN_LOW_DISTANCES = False
 
-max_epochs=2000
+max_epochs=5000
 
 network_params = {
     "possible_species": [0, 47],
@@ -147,7 +148,7 @@ def fit_model(training_modules,database):
     controller = PatienceController(
         optimizer=optimizer,
         scheduler=scheduler,
-        batch_size=4,
+        batch_size=128,
         eval_batch_size=128,
         max_epochs=max_epochs,
         termination_patience=50,
@@ -161,6 +162,8 @@ def fit_model(training_modules,database):
     print(experiment_params)
 
     # Parameters describing the training procedure.
+    print(controller.current_epoch)
+    sTime = time.time()
 
     setup_and_train(
         training_modules=training_modules,
@@ -168,8 +171,13 @@ def fit_model(training_modules,database):
         setup_params=experiment_params,
     )
 
+    elTime = time.time()-sTime
+    EpTime = elTime/controller.current_epoch
+
+
     with hippynn.tools.log_terminal("model_results.txt",'wt'):
         test_model(database, training_modules.evaluator, 128, "Final Training")
+        print("FOM Average Epoch time: {:12.8f}".format(EpTime))
     
 
 if __name__=="__main__":
