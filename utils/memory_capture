@@ -1,0 +1,132 @@
+#!/usr/bin/env python3
+
+import json
+import pathlib
+import time
+
+import argparse
+
+try:
+    import psutil
+except ImportError:
+    raise ImportError("Please install psutil before running: pip install psutil")
+
+## OPTIONS FOR NAME, INTERVAL, UNITS
+
+UNITS={
+    "b": 1,
+    "k": 1024,
+    "m": 1024**2,
+    "g": 1024**3
+}
+
+NAME="branson_memory.json"
+
+UNIT="MB"
+
+def get_proc_mem(p):
+    return p.memory_full_info()._asdict()
+
+PROC_MEM_KEYS = get_proc_mem(psutil.Process()).keys()
+
+def get_args():
+    parser = argparse.ArgumentParser(
+        prog='memory_capture',
+        description="Give a pid and record the (RAM) memory usage in a json file.")
+
+    parser.add_argument('-m', "--memory_type", type=str, default='rss',
+                        help='') #MEMORY_TYPE
+    parser.add_argument('-o','--output_file', type=str, default="memcapture.json",
+                        help='') #OUTPUT FILE
+    parser.add_argument('-u', '--units', type=str, default='m',
+                        help='Memory units, only the first letter (g,m,k,b)'),  #UNIT
+    parser.add_argument('-i', '--interval', type=float, default=0.5,
+                        help='Time to wait between memory queries. (s)') #INTERVAL
+    parser.add_argument('-v', '--verbose', action="store_true",
+                        help='Display given arguments in output')
+    parser.add_argument('pid', type=int,
+                        help='') #PID
+
+    return parser
+
+def pretty_print_args(args):
+    keys=' '.join(PROC_MEM_KEYS)
+    for argo in vars(args):
+        print(f"  - {argo}: {getattr(args, argo)}")
+    print(f"  ---- Memory type keys: {keys}")
+
+# Throws an error for invalid memory types.
+# Creates requested output folder if path doesn't exist.
+def validate_args(args):
+
+    if not args.memory_type in PROC_MEM_KEYS:
+        KeyError(f'''{args.memory_type} is not a valid memory type argument.
+                valid memory types are: {PROC_MEM_KEYS.keys()}''')
+
+    if not args.units.lower() in UNITS.keys():
+        KeyError(f"{args.units} is not a valid unit argument.")
+
+    outpath = pathlib.Path(args.output_file).resolve()
+    outdir = outpath.parent
+    try:
+        outdir.mkdir(parents=True, exist_ok=True)
+    except:
+        PermissionError(f"You do not have permission to write {outpath}.")
+
+    outjson = outpath.with_suffix('.json')
+    if outjson.is_file():
+        fname   = outjson.stem+'_'+str(args.pid)+'.json'
+        outjson = outdir.joinpath(fname)
+
+    return outjson
+
+
+def ps_mem(pid):
+    psaux = sp.run(['ps', 'aux'], universal_newlines=True, stdout=sp.PIPE)
+    pstxt = psaux.stdout.splitlines()
+    ps_dict = {"header": pstxt[0]}
+
+    for psline in pstxt[1:]:
+        ps_info = psline.strip().split()
+        if ps_info[1] == str(pid):
+            ps_dict['detail'] = psline
+            break
+
+    return ps_dict
+
+
+def mem_grab(memtype, mem_unit, proc):
+    mems = get_proc_mem(proc)
+    return mems[memtype] / mem_unit
+
+
+def memory_track(pid, memtype, interval, unit):
+    memory_usage = {}
+    process      = psutil.Process(pid)
+    unitkey      = UNITS[unit.lower()]
+    get_memory   = lambda: mem_grab(memtype, unitkey, process)
+
+    while process.is_running():
+        ttime     = time.time()
+        memory_usage[ttime] = get_memory()
+        time.sleep(interval)
+
+    return memory_usage
+
+
+if __name__ == '__main__':
+    args = get_args().parse_args()
+
+    if args.verbose:
+        pretty_print_args(args)
+
+    outpath = validate_args(args)
+    pid  = args.pid
+    memory_dict  = {"pid": pid, 'time': time.strftime('%b %d %Y %H:%M:%S')}
+    memory_dict['initial'] = ps_mem(pid)
+    memory_dict['units']   = args.units
+    memory_dict['memory']  = memory_track(pid, args.memory_type, args.interval, args.units)
+
+    with open(outpath, 'w') as fjs:
+        json.dump(memory_dict, fjs)
+
