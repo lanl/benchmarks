@@ -20,8 +20,9 @@ Characteristics
 Problem
 -------
 The benchmark performance problem is a single node problem on a 3D unstructured mesh.  Two variants exist:
-- UMTSP #1, a configuration with 72 directions and 128 energy bins to solve per mesh cell.
-- UMTSP #2, a configuration with 32 directions and 16 energy bins to solve per mesh cell.
+- UMTSP #1, a configuration with a higher number of unknowns per spatial element with 72 directions and 128 energy bins to solve per mesh cell.
+- UMTSP #2, a configuration with low number of unknowns per spatial element with 32 directions and 16 energy bins to solve per mesh cell.
+
 
 Figure of Merit
 ---------------
@@ -30,7 +31,7 @@ The Figure of Merit is defined as the number of unknowns solved per second.
 The number of unknowns solved by UMT is defined as:
 
 .. code-block:: bash
-   degrees of freedom =  <# mesh cells> * <# corners per cell> * <# total angles> * <number of energy groups>
+   number of unknowns =  <# mesh cells> * <# corner sub-cell elements per cell> * <# directions> * <number of energy bins>
 ..
 
 The number of corners in a mesh cell is 8 for the 3D unstructured mesh problem.  For a 2D problem it would be 4.
@@ -59,20 +60,15 @@ Build requirements:
   * `mpich <http://www.mpich.org>`_
   * `mvapich2 https://mvapich.cse.ohio-state.edu>`_
 
-  If OpenMP threading is used, the MPI implementation must support MPI_THREAD_MULTIPLE.
+If OpenMP threading is used, the MPI implementation must support MPI_THREAD_MULTIPLE.
 
-
-* TODO - add documentation on building the TPLS and UMT ( reference the existing docs in BUILDING.md in the UMT repo ).  Beef this up to make it easier.
-* TODO - add example build instructions for typical linux distro for cpus, and also for a cpu+gpu machine.
-* TODO - add documentation on avaiable cmake options, or else add this to BUILDING.md in UMT repo.
+Instructions for building the code can be found in the github repo under BUILDING.md.  The repo contains a shell script for building UMT and its required libraries.  A brief walkthrough is also provided there if the user wants to use Spack to build the libraries and UMT.
+* `Spack <https://github.com/spack/spack>`
 
 Generating the problem input
 =======
 
-* TODO docs on how to create mesh size appropriate for run.  Refer to python helper scripts, put some sample output.
-* TODO - add the refinement args into 'makeUnstructured' executable so vendor can just make and refine the mesh in one step and skip calling 'test_driver' to refine it below.
-
-For strong scaling on a CPU the memory footprint of UMT should be between 45%-55% of the computational device's main memory.  A python script /path/to/script/here is provided to assist in generating the correct command to generate a mesh to use a specified amount of memory.
+For strong scaling on a CPU the memory footprint of UMT should be between 45%-55% of the computational device's main memory.  Python scripts in the github repo /benchmarks directory are provided to assist in generating the correct command to create a mesh to use a specified amount of memory.
 
 Example of creating a mesh sized to use 128GB of memory ( 50% of a test node with 256GB ).  Will refine the mesh once, splitting each mesh cell edge into 27 edges and produce a mesh called 'refined_mesh.mesh'.
 .. code-block:: bash
@@ -83,12 +79,13 @@ Example of creating a mesh sized to use 128GB of memory ( 50% of a test node wit
 Running
 =======
 
-* To run the included <problem name here> 3D test problem:
+* To run the included UMTSP1 or UMTSP2 3D test problem:
 
-* TODO - the run line should have been produced by the python script, refer to that.
 .. code-block:: bash
-  mpirun -n 1 test_driver -c 1 -G128 -A3 -P3 -i ./refined_mesh.mesh
+  mpirun -n 1 test_driver -c 1 -b # -i ./refined_mesh.mesh
 ..
+
+where b = 1 for UMTSP#1 or b = 2 for UMTSP#2.
 
 
 
@@ -151,7 +148,7 @@ Throughput study of UMT on Power9/V100, single GPU, as a function of problem siz
 Verification of Results
 =======================
 
-* TODO - add 
+Correctness on the UMTSP#1 and UMTSP#2 problems are checked by verifying that the amount of radiation energy in the problem is within tolerance.  The test driver will automatically check this value at the end of the run and output if the test is a pass or fail.
 
 References
 ==========
