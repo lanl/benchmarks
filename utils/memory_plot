@@ -1,0 +1,25 @@
+#!/usr/bin/python3
+
+import json
+import pathlib
+import time
+
+import matplotlib.pyplot
+
+'''
+* Gather list of json files (allow user to separate with flag)
+* Normalize times
+* Take title/name information if given or available
+* Get date and time of run with datetime.
+* Plot and save if requested.
+'''
+
+def readjson(f):
+    with open(f, 'r') as fi:
+        json.read(fi)
+
+def plot(fig, ax):
+    pass
+
+if __name__ == '__main__':
+    pass

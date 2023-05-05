@@ -196,6 +196,8 @@ The numbers will vary from run to run due random seeds and the non-deterministic
 
 The training script will also output the initial box file ``ag_box.data`` as well as an file used to run the resulting potential with LAMMPS, ``hippynn_lammps_model.pt``. Several other files for the training run are put in a directory, ``model_files``.
 
+The "Figure of Merit" for the training task is printed near the end of the ``model_files/model_results.txt`` and is lead with the line "FOM Average Epoch time:" This is the average time to compute an epoch over the training proceedure
+
 Following this process, benchmarks can be run.
 
 Running the Benchmark
@@ -209,6 +211,10 @@ Results from Chicoma
 ====================
 
 Two quantities are extracted from the MD simulations to evaluate performance, though they are directly correlated. The throughput (grad/s) should be viewed as the figure of merit, though ns/day is more useful for users who wish to know the physical processes they can simulate. Thus both are reported here. 
+
+Training HIPNN Model
+--------------------
+For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. On Chicoma, this was found to be 0.27951446 seconds. 
 
 Single GPU Throughput Scaling
 -------------------------
