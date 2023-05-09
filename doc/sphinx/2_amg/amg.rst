@@ -328,6 +328,92 @@ We performed a similar test for Problem 2 using a total grid size of 256 x 256 x
    :alt: FOMs for Problem 2 on RZWhippet using MPI or OpenMP.
    :align: center
 
+Strong Scaling on RZWhippet
+---------------------------
+
+We present strong scaling results for varying problem sizes on RZWhippet below. The code was configured and compiled using MPI only with optimization -O2.
+
+Strong scaling results of AMG2023 for problem 1 on a grid size of 120 x 120 x 120 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120
+   :file: cpu1_120.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cpu1_120.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120
+
+Strong scaling results of AMG2023 for problem 1 on a grid size of 160 x 160 x 160 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160
+   :file: cpu1_160.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cpu1_160.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160
+
+Strong scaling results of AMG2023 for problem 1 on a grid size of 200 x 200 x 200 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200
+   :file: cpu1_200.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cpu1_200.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200
+
+Strong scaling results of AMG2023 for problem 2 on a grid size of 200 x 200 x 200 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200
+   :file: cpu2_200.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cpu2_200.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200
+
+Strong scaling results of AMG2023 for problem 2 on a grid size of 256 x 256 x 256 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256
+   :file: cpu2_256.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cpu2_256.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256
+
+Strong scaling results of AMG2023 for problem 2 on a grid size of 320 x 320 x 320 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
+   :file: cpu2_320.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cpu2_320.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
+
+V-100
+-----
+
 We have also performed runs on 1 NVIDIA V-100 GPU increasing the problem size n x n x n.
 For these runs hypre 2.27.0 was configured as follows:
 
@@ -375,9 +461,6 @@ In addition, aggressive coarsening is used on the first level, significantly dec
  |  200    | 7.728E+09 | 4.593E+08 | 1.546E+10 |   0.959    |   0.542    |    19      |
  +---------+-----------+-----------+-----------+------------+------------+------------+
 
-.. figure:: plots/GPU-FOM-1.png
-   :alt: Total FOMs for Problem 1 on 1 NVIDIA V-100
-   :align: center
 
 .. table:: FOMs, times and number of iterations for Problem 2 with grid size n x n x n on 1 V-100 
 
@@ -435,9 +518,32 @@ In addition, aggressive coarsening is used on the first level, significantly dec
  |  320    | 5.255E+09 | 2.447E+08 | 1.027E+10 |   1.487    |   1.241    |    35      |
  +---------+-----------+-----------+-----------+------------+------------+------------+
 
-.. figure:: plots/GPU-FOM-2.png
-   :alt: Total FOMs for Problem 2 on 1 NVIDIA V-100.
+
+The FOMs of AMG2023 on V100 for Problem 1 is provided in the following table and figure:
+
+.. csv-table:: AMG2023 FOM on V100 for Problem 1 (27-pt stencil, AMG-GMRES)
+   :file: gpu1.csv
    :align: center
+   :widths: 10, 10
+   :header-rows: 1
+
+.. figure:: gpu1.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 FOM on V100 for Problem 1 (27-pt stencil, AMG-GMRES)
+
+The FOMs of AMG2023 on V100 for Problem 2 is provided in the following table and figure:
+
+.. csv-table:: AMG2023 FOM on V100 for Problem 2 (7-pt stencil, AMG-PCG)
+   :file: gpu2.csv
+   :align: center
+   :widths: 10, 10
+   :header-rows: 1
+
+.. figure:: gpu2.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 FOM on V100 for Problem 2 (7-pt stencil, AMG-PCG)
 
 
 References
