@@ -101,7 +101,7 @@ Strong scaling of UMT on CTS-2 (Sapphire Rapids) for Sweep Problem #1 (UMTSP #1)
    :widths: 10, 10, 10
    :header-rows: 1
 		 
-.. figure:: umtsp1-strong_scaling_cpu.png
+.. figure:: umtsp1_strong_scaling_cpu.png
    :alt: CPU Strong Scaling (Fixed problem size, UMT SP #1)
    :align: center
    :scale: 50%
