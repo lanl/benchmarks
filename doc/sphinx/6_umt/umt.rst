@@ -72,8 +72,10 @@ For strong scaling on a CPU the memory footprint of UMT should be between 45%-55
 
 Example of creating a mesh sized to use 128GB of memory ( 50% of a test node with 256GB ).  Will refine the mesh once, splitting each mesh cell edge into 27 edges and produce a mesh called 'refined_mesh.mesh'.
 .. code-block:: bash
+
    makeUnstructuredBox 
    mpirun -n 1 test_driver -i unstructBox3D.mesh -c 0 -r 1 -R 27 -o .
+
 ..
 
 Running
@@ -82,7 +84,9 @@ Running
 * To run the included UMTSP1 or UMTSP2 3D test problem:
 
 .. code-block:: bash
-  mpirun -n 1 test_driver -c 1 -b # -i ./refined_mesh.mesh
+
+   mpirun -n 1 test_driver -c 1 -b # -i ./refined_mesh.mesh
+
 ..
 
 where b = 1 for UMTSP#1 or b = 2 for UMTSP#2.
@@ -105,7 +109,7 @@ Strong scaling of UMT on CTS-2 (Sapphire Rapids) for Sweep Problem #1 (UMTSP #1)
    :alt: CPU Strong Scaling (Fixed problem size, UMT SP #1)
    :align: center
    :scale: 50%
-   CPU Strong Scaling on CTS-2
+CPU Strong Scaling on CTS-2
 
 .. csv-table:: UMT SP #2 on CTS-2
    :file: umtsp2_strong_scaling_cpu_abridged.csv
