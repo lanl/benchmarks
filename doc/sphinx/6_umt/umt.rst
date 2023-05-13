@@ -30,9 +30,10 @@ The Figure of Merit is defined as the number of unknowns solved per second.
 
 The number of unknowns solved by UMT is defined as:
 
-.. code-block:: bash
-   number of unknowns =  <# mesh cells> * <# corner sub-cell elements per cell> * <# directions> * <number of energy bins>
-..
+.. code-block:: 
+
+   number of unknowns =  <# mesh cells> * <# corner sub-cell elements per cell> * <# directions> * <# energy bins>
+
 
 The number of corners in a mesh cell is 8 for the 3D unstructured mesh problem.  For a 2D problem it would be 4.
 
@@ -45,8 +46,9 @@ Accessing the source
 * UMT can be found on github and cloned via:
 
 .. code-block:: bash
+
    git clone https://github.com/LLNL/UMT.git
-..
+
 
 
 Build requirements:
@@ -73,9 +75,10 @@ For strong scaling on a CPU the memory footprint of UMT should be between 45%-55
 Example of creating a mesh sized to use 128GB of memory ( 50% of a test node with 256GB ).  Will refine the mesh once, splitting each mesh cell edge into 27 edges and produce a mesh called 'refined_mesh.mesh'.
 
 .. code-block:: bash
+		
    makeUnstructuredBox 
    mpirun -n 1 test_driver -i unstructBox3D.mesh -c 0 -r 1 -R 27 -o .
-..
+
 
 Running
 =======
@@ -83,8 +86,8 @@ Running
 * To run the included UMTSP1 or UMTSP2 3D test problem:
 
 .. code-block:: bash
+		
    mpirun -n 1 test_driver -c 1 -b $num -i ./refined_mesh.mesh
-..
 
 where num = 1 for UMTSP#1 or num = 2 for UMTSP#2.
 
@@ -106,7 +109,8 @@ Strong scaling of UMT on CTS-2 (Sapphire Rapids) for Sweep Problem #1 (UMTSP #1)
    :alt: CPU Strong Scaling (Fixed problem size, UMT SP #1)
    :align: center
    :scale: 50%
-CPU Strong Scaling on CTS-2
+
+   CPU Strong Scaling on CTS-2
 
 .. csv-table:: UMT SP #2 on CTS-2
    :file: umtsp2_strong_scaling_cpu_abridged.csv
@@ -118,6 +122,7 @@ CPU Strong Scaling on CTS-2
    :alt: CPU Strong Scaling (Fixed problem size, UMT SP #2)
    :align: center
    :scale: 50%
+	   
    CPU Strong Scaling on CTS-2
 
 Throughput study of UMT on Power9/V100, single GPU, as a function of problem size for Sweep Problem #1 (UMTSP #1):
