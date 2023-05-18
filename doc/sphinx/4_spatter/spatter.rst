@@ -116,6 +116,8 @@ Running a Scaling Experiment
 This will perform a weak scaling experiment
 
 The scripts/scaling.sh script has the following options: 
+
+
 * a: Application name 
 * p: Problem name 
 * f: Pattern name 
@@ -128,11 +130,16 @@ The scripts/scaling.sh script has the following options:
 * w: Toggle Weak/Strong Scaling (optional, default: off = strong scaling) 
 * h: Print usage message
 
+
 The Application name, Problem name, and Pattern name each correspond to subdirectories in this repository containing patterns stored as Spatter JSON input files.
 
 
 CTS-1
 ------------
+
+
+Flag Static 2D 001
+~~~~~~~~~~~~~~~~~~
 
 Weak-scaling experiment for the 8 patterns in patterns/flag/static_2d/001.json with core-binding turned on and plotting enabled. This experiment was ran at 1, 2, 4, 8, 16, 18, 32, and 36 ranks. Results will be found in spatter.weakscaling/CTS1/flag/static_2d/001/ and Figures will be found in figures/CTS1/flag/static_2d/001/
 
@@ -143,16 +150,61 @@ Weak-scaling experiment for the 8 patterns in patterns/flag/static_2d/001.json w
 ..
 
 .. csv-table:: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 Patterns
-   :file: cpu_weak_average_001.csv
+   :file: cts1_weak_average_001.csv
    :align: center
    :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8
    :header-rows: 1
 
-.. figure:: cpu_weak_average_001.png
+.. figure:: cts1_weak_average_001.png
    :align: center
    :scale: 50%
    :alt: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 Patterns
 
+
+Flag Static 2D 001.FP
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001.fp -n CTS1 -c -r -w
+
+..
+
+.. csv-table:: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 FP Patterns
+   :file: cts1_weak_average_001fp.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: cts1_weak_average_001fp.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 FP Patterns
+
+
+Flag Static 2D 001.NONFP
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001.nonfp -n CTS1 -c -r -w
+
+..
+
+.. csv-table:: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 Non-FP Patterns
+   :file: cts1_weak_average_001nonfp.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: cts1_weak_average_001nonfp.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 Non-FP Patterns
+
+
+xRAGE Asteroid
+~~~~~~~~~~~~~~
 
 Weak-scaling experiment for the x patterns in patterns/xrage/asteroid/spatter.json with core-binding turned on and plotting enabled. This experiment was ran at 1, 2, 4, 8, 16, and 18 ranks due to memory constraints. Results will be found in spatter.weakscaling/CTS1/xrage/asteroid/spatter/ and Figures will be found in figures/CTS1/xrage/asteroid/spatter/
 
@@ -171,17 +223,125 @@ First, modifying the ranklist in scripts/config.sh to the following:
 ..
 
 .. csv-table:: Spatter Weak Scaling Performance on CTS-1 xRAGE Asteroid Patterns
-   :file: cpu_weak_average_asteroid.csv
+   :file: cts1_weak_average_asteroid.csv
    :align: center
    :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8, 8
    :header-rows: 1
 
-.. figure:: cpu_weak_average_asteroid.png
+.. figure:: cts1_weak_average_asteroid.png
    :align: center
    :scale: 50%
    :alt: Spatter Weak Scaling Performance on CTS-1 xRAGE Asteroid Patterns
 
 
+Skylake
+------------
+
+
+Flag Static 2D 001
+~~~~~~~~~~~~~~~~~~
+
+Weak-scaling experiment for the 8 patterns in patterns/flag/static_2d/001.json with core-binding turned on and plotting enabled. This experiment was ran at 1, 2, 4, 8, 16, 22, 32, and 44 ranks. Results will be found in spatter.weakscaling/Skylake/flag/static_2d/001/ and Figures will be found in figures/Skylake/flag/static_2d/001/
+
+First, modifying the ranklist in scripts/config.sh to the following:
+
+.. code-block:: bash
+
+   ranks=( 1 2 4 8 16 22 32 44 )
+
+..
+
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001 -n Skylake -c -r -w
+
+..
+
+.. csv-table:: Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 Patterns
+   :file: skylake_weak_average_001.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: skylake_weak_average_001.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 Patterns
+
+
+Flag Static 2D 001.FP
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001.fp -n Skylake -c -r -w
+
+..
+
+.. csv-table:: Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 FP Patterns
+   :file: skylake_weak_average_001fp.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: skylake_weak_average_001fp.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 FP Patterns
+
+
+
+Flag Static 2D 001.NONFP
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001.nonfp -n Skylake -c -r -w
+
+..
+
+.. csv-table:: Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 Non-FP Patterns
+   :file: skylake_weak_average_001nonfp.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: skylake_weak_average_001nonfp.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 Non-FP Patterns
+
+
+xRAGE Asteroid
+~~~~~~~~~~~~~~
+
+Weak-scaling experiment for the 9 patterns in patterns/xrage/asteroid/spatter.json with core-binding turned on and plotting enabled. This experiment was ran at 1, 2, 4, 8, 16, and 22 ranks due to memory constraints. Results will be found in spatter.weakscaling/Skylake/xrage/asteroid/spatter/ and Figures will be found in figures/Skylake/xrage/asteroid/spatter/
+
+First, modifying the ranklist in scripts/config.sh to the following:
+
+.. code-block:: bash
+
+   ranks=( 1 2 4 8 16 22 )
+
+..
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a xrage -p asteroid -f spatter -n Skylake -c -r -w
+
+..
+
+.. csv-table:: Spatter Weak Scaling Performance on Skylake xRAGE Asteroid Patterns
+   :file: skylake_weak_average_asteroid.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: skylake_weak_average_asteroid.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Weak Scaling Performance on Skylake xRAGE Asteroid Patterns
 
 
 Power9+V100
@@ -197,9 +357,6 @@ Strong-Scaling experiment with plotting enabled. Results will be found in spatte
 
 ..
 
-
-Verification of Results
-=======================
 
 References
 ==========
