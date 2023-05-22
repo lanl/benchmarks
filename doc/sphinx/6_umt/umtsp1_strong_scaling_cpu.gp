@@ -1,6 +1,6 @@
 #!/usr/bin/gnuplot
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
-set output "umtsp1-strong_scaling_cpu.png"
+set output "umtsp1_strong_scaling_cpu.png"
 
 set title "UMT Strong Scaling Performance on CTS-2, SP #1" font "serif,22"
 set xlabel "No. Cores"
