@@ -19,9 +19,9 @@ Characteristics
 
 Problem
 -------
-The benchmark performance problem is a single node problem on a 3D unstructured mesh.  Two variants exist:
-- UMTSP #1, a configuration with a higher number of unknowns per spatial element with 72 directions and 128 energy bins to solve per mesh cell.
-- UMTSP #2, a configuration with low number of unknowns per spatial element with 32 directions and 16 energy bins to solve per mesh cell.
+The benchmark performance problem is a single node problem on a 3D unstructured mesh.  Two variants of interest exist:
+- UMT SPP #1, a configuration with a high number of unknowns per spatial element with 72 directions and 128 energy bins to solve per mesh cell.
+- UMT SPP #2, a configuration with a low number of unknowns per spatial element with 32 directions and 16 energy bins to solve per mesh cell.
 
 
 Figure of Merit
@@ -31,10 +31,10 @@ The Figure of Merit is defined as the number of unknowns solved per second.
 The number of unknowns solved by UMT is defined as:
 
 .. code-block:: bash
-   number of unknowns =  <# mesh cells> * <# corner sub-cell elements per cell> * <# directions> * <number of energy bins>
+   number of unknowns =  <# mesh cells> * <# sub-cell 'corner' elements per cell> * <# directions> * <number of energy bins>
 ..
 
-The number of corners in a mesh cell is 8 for the 3D unstructured mesh problem.  For a 2D problem it would be 4.
+The number of corners in a mesh cell is 8 for the 3D unstructured mesh problem.  (For a 2D mesh problem it would be 4.)
 
 
 Building
@@ -53,6 +53,7 @@ Build requirements:
 
 * C/C++ compiler(s) with support for C++11 and Fortran compiler(s) with support for F2003.
 * `CMake 3.18X <https://cmake.org/download/>`_
+* `Spack <https://github.com/spack/spack>`_ (optional)
 
 * MPI 3.0+
 
@@ -62,15 +63,16 @@ Build requirements:
 
 If OpenMP threading is used, the MPI implementation must support MPI_THREAD_MULTIPLE.
 
-Instructions for building the code can be found in the github repo under BUILDING.md.  The repo contains a shell script for building UMT and its required libraries.  A brief walkthrough is also provided there if the user wants to use Spack to build the libraries and UMT.
-* `Spack <https://github.com/spack/spack>`
+Instructions for building the code can be found in the UMT github repo under `BUILDING.md <https://github.com/LLNL/UMT/blob/master/BUILDING.md>`_
 
 Generating the problem input
 =======
 
-For strong scaling on a CPU the memory footprint of UMT should be between 45%-55% of the computational device's main memory.  Python scripts in the github repo /benchmarks directory are provided to assist in generating the correct command to create a mesh to use a specified amount of memory.
+For strong scaling on a CPU the memory footprint of UMT should be between 45%-55% of the computational device's main memory.  Python scripts in the github repo /benchmarks directory are provided to assist in generating a series of runs with UMT.
 
 Example of creating a mesh sized to use 128GB of memory ( 50% of a test node with 256GB ).  Will refine the mesh once, splitting each mesh cell edge into 27 edges and produce a mesh called 'refined_mesh.mesh'.
+
+TODO - The 'unstructBox3D.mesh' will be added to UMT repo, so running 'makeUnstructuredBox' line will be removed.
 .. code-block:: bash
    makeUnstructuredBox 
    mpirun -n 1 test_driver -i unstructBox3D.mesh -c 0 -r 1 -R 27 -o .
@@ -82,7 +84,7 @@ Running
 * To run the included UMTSP1 or UMTSP2 3D test problem:
 
 .. code-block:: bash
-  mpirun -n 1 test_driver -c 1 -b # -i ./refined_mesh.mesh
+  mpirun -n 1 test_driver -b # -i ./refined_mesh.mesh
 ..
 
 where b = 1 for UMTSP#1 or b = 2 for UMTSP#2.
