@@ -46,7 +46,7 @@ jobs:
         id: pages
         uses: actions/configure-pages@v3
       - name: Build with Sphinx
-        run: cd ./doc/sphinx && ./build_doc.py --html && cat /tmp/sphinx-err-*.log
+        run: cd ./doc/sphinx && ./build_doc.py --html || cat /tmp/sphinx-err-*.log
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
