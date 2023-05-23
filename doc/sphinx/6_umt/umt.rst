@@ -42,8 +42,8 @@ second. The number of unknowns solved by UMT is defined as:
 
 .. code-block::
 
-number of unknowns =  <# mesh cells> * <# sub-cell 'corner' elements per cell> *
-                      <# directions> * <number of energy bins>
+   number of unknowns =  <# mesh cells> * <# sub-cell 'corner' elements per cell> *
+                         <# directions> * <number of energy bins>
 
 The number of corners in a mesh cell is 8 for the 3D unstructured mesh
 problem. (For a 2D mesh problem it would be 4.)
@@ -79,8 +79,7 @@ Build Requirements
 If OpenMP threading is used, the MPI implementation must support MPI_THREAD_MULTIPLE.
 
 Instructions for building the code can be found in the UMT github repo
-under `BUILDING.md
-<https://github.com/LLNL/UMT/blob/master/BUILDING.md>`_
+under `BUILDING.md <https://github.com/LLNL/UMT/blob/master/BUILDING.md>`_
 
 Generating the problem input
 ============================
