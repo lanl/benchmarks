@@ -28,7 +28,7 @@ defaults:
 jobs:
   # Build job
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-rolling
     steps:
       - name: Install Gnuplot
         run: sudo apt -y install gnuplot
@@ -57,7 +57,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-rolling
     needs: build
     steps:
       - name: Deploy to GitHub Pages
