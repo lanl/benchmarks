@@ -24,5 +24,5 @@ set key autotitle columnheader
 set style line 1 linetype 6 dashtype 1 linecolor rgb "#FF0000" linewidth 2 pointtype 6 pointsize 3
 set style line 2 linetype 1 dashtype 2 linecolor rgb "#FF0000" linewidth 2
 
-plot "umtsp2_throughput_gpu.csv" using 1:2 with linespoints linestyle 1
+plot "spp1_throughput_V100.csv" using 1:2 with linespoints linestyle 1
 
