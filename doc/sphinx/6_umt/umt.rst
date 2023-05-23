@@ -128,7 +128,7 @@ Strong scaling data for SPP 1 on CTS-2 (Sapphire Rapids) is shown in the table a
    :widths: 8, 10, 10
    :header-rows: 1
 		 
-.. figure:: plots/spp1_strong_scaling_cts2.png
+.. figure:: spp1_strong_scaling_cts2.png
    :alt: Strong scaling of SPP 1 on CTS-2
    :align: center
    :scale: 50%
@@ -158,7 +158,7 @@ problem size:
    :widths: 10, 10
    :header-rows: 1
 
-.. figure:: plots/spp1_throughput_v100.png
+.. figure:: spp1_throughput_v100.png
    :alt: Throughput of SPP 1 on Power9 and V100
    :align: center
 
@@ -171,7 +171,7 @@ Throughput of SPP 1 on Power9 and V100
    :widths: 10, 10, 10
    :header-rows: 1
 
-.. todo figure:: plots/umtsp2-throughput_gpu.png
+.. todo figure:: umtsp2-throughput_gpu.png
    :alt: SPP 2 GPU throughput as a function of  problem size
    :align: center
 
