@@ -100,7 +100,6 @@ TODO - The 'unstructBox3D.mesh' will be added to UMT repo, so running
 
 .. code-block::
 		
-   makeUnstructuredBox 
    mpirun -n 1 test_driver -i unstructBox3D.mesh -c 0 -r 1 -R 27 -o .
 
 
