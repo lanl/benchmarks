@@ -158,7 +158,7 @@ problem size:
    :widths: 10, 10
    :header-rows: 1
 
-.. figure:: spp1_throughput_v100.png
+.. figure:: spp1_throughput_V100.png
    :alt: Throughput of SPP 1 on Power9 and V100
    :align: center
 
