@@ -74,7 +74,7 @@ Build Requirements
 
   * `OpenMPI 1.10+ <https://www.open-mpi.org/software/ompi/>`_
   * `mpich <http://www.mpich.org>`_
-  * `mvapich2 https://mvapich.cse.ohio-state.edu>`_
+  * `mvapich2 <https://mvapich.cse.ohio-state.edu>`_
 
 If OpenMP threading is used, the MPI implementation must support MPI_THREAD_MULTIPLE.
 
@@ -100,6 +100,7 @@ TODO - The 'unstructBox3D.mesh' will be added to UMT repo, so running
 
 .. code-block::
 		
+   makeUnstructuredBox 
    mpirun -n 1 test_driver -i unstructBox3D.mesh -c 0 -r 1 -R 27 -o .
 
 
