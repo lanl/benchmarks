@@ -155,7 +155,7 @@ problem size:
    :alt: Throughput of SPP 1 on Power9 and V100
    :align: center
 
-Throughput of SPP 1 on Power9 and V100
+   Throughput of SPP 1 on Power9 and V100
 
 .. TODO - add runtime in this table??
 .. todo csv-table:: SPP 2 throughput on Power9 and V100
