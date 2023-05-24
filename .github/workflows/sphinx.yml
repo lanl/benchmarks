@@ -28,12 +28,12 @@ defaults:
 jobs:
   # Build job
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Install Gnuplot
         run: sudo apt -y install gnuplot
       - name: Install Sphinx
-        run: sudo pip install --pre sphinx
+        run: sudo pip install sphinx
       - name: Install Sphinx RTD Theme
         run: sudo pip install sphinx-rtd-theme
       - name: Install Sphinx Markdown Builder
@@ -57,7 +57,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: build
     steps:
       - name: Deploy to GitHub Pages
