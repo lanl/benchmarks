@@ -1,0 +1,364 @@
+_base:
+    maintainer:
+        name: Jen Green
+        email: jgreen@lanl.gov
+    summary: Branson Crossroads Benchmark Test
+    subtitle: "{{compilers.name}}-{{compilers.version}}_{{mpis.name}}-{{mpis.version}}"
+
+    doc: |
+      Branson is a proxy application for the Implicit Monte Carlo method. IMC models the exchange of 
+      radiation with material at high temperatures. Implicit Monte Carlo is known to be memory latency 
+      bound, suffer from load balance issues and require a large amount of parallel communication. 
+
+      Benchmark timings were provided using Trinity Haswell nodes with 32 ranks/node.
+            Small problem  (proxy_small.xml 1 node, 32 cores) 		1052.88 seconds
+            Medium problem (proxy_med.xml   64 nodes, 2048 cores)	 570.68 seconds
+            Large problem  (proxy_large.xml 3456 nodes, 110592 cores)	 393.55 seconds
+      
+      Correctness
+      The output of Branson can be assumed to be correct if the values for radiation conservation and
+      material conservation are on the order of 1.0e-13 relative to the emission energy and census
+      energy.
+            $ grep "conservation" output_proxy_small.txt 
+            > output_proxy_small.txt:Radiation conservation: 6.94567e-19
+            > output_proxy_small.txt:Material conservation: -1.02999e-18
+            $ grep "Emission E": output_proxy_small.txt
+            > output_proxy_small.txt:Emission E: 1.55491e-05, Absorption E: 2.31953e-05, Exit E: 2.99596e-15
+
+    variables:
+        branson_version: [ '0.81', '0.82' ]
+
+    permute_on:
+        - branson_version
+        - compilers
+        - mpis
+
+    scheduler: slurm
+    schedule:
+        nodes: 1
+        tasks_per_node: 32
+        share_allocation: false
+
+    build:
+        env:
+            MPICC: "{{mpis.mpicc}}"
+            MPICXX: "{{mpis.mpicxx}}"
+            MPIFC: "{{mpis.mpifc}}"
+            CC: "{{compilers.cc}}"
+            CXX: "{{compilers.cxx}}"
+            FC: "{{compilers.fc}}"
+            F90: "{{compilers.fc}}"
+
+        source_path: 'branson/source/branson-{{branson_version}}'
+        extra_files:
+           - branson/source/branson-0.82.patch
+           - branson/source/metis-5.1.0
+           - branson/source/parmetis-4.0.3
+           - branson/source/silo-4.11
+
+        cmds:
+            - 'START=${PWD}'
+            - '# setup all the packages'
+            - 'if [[ "{{branson_version}}" == 0.82 ]] ; then'
+            - '# branson version reports incorrectly: https://github.com/lanl/branson/issues/25' 
+            - '   patch -p1 < branson-0.82.patch || echo "patch command failed"'
+            - 'else'
+            - '   [ -d parmetis-4.0.3 ] || tar xvfz parmetis-4.0.3.tar.gz || echo "cannot locate nor extract parmetis"'
+            - 'fi'
+            - '[ -d parmetis-4.0.3 ] || tar xvfz metis-5.1.0.tar.gz || echo "cannot locate nor extract metis"'
+            - '[ -d silo-4.11 ] || tar xvfz silo-4.11.tgz || echo "cannot locate nor extract silo"'
+            - '# BUILD GKLIB'
+            - '# Build GKlib that ships with metis'
+            - '[ -d metis-5.1.0/GKlib ] && mkdir -p metis-5.1.0/GKlib/build || echo "error with GKlib"'
+            - 'pushd metis-5.1.0/GKlib/build || exit 2'
+            - 'echo "PWD is $PWD during GKlib"'
+            - 'cmake -DCMAKE_INSTALL_PREFIX:PATH=$START/gklib_install || echo "GKlib config failed"'
+            - 'make && make install || echo "make GKlib failed"'
+            - 'popd'
+            - '# BUILD METIS'
+            - 'pushd metis-5.1.0'
+            - 'echo "PWD is $PWD during metis"'
+            - 'make config prefix=$START/metis_install || echo "make config failed!"'
+            - 'make -j24 && make install || echo "make failed!"'
+            - 'popd'
+            - 'if [[ "{{branson_version}}" == 0.81 ]] ; then'
+            - '   # BUILD PARMETIS'
+            - '   # Parmetis dependency is dropped from Branson in https://github.com/lanl/branson/commit/1fc8e860efd93a63c91a023e328aec867d66a172'
+            - '   [ -d $START/parmetis-4.0.3 ] && pushd $START/parmetis-4.0.3 || echo "$START/parmetis-4.0.3 not found"'
+            - '   make config cc=$(which $MPICC) cxx=$(which $MPICXX) fc=$(which $MPIFC) prefix=${START}/parmetis_build || echo "configure parmetis failed"'
+            - '   make -j24 && make install || echo "make parmetis failed"'
+            - '   parmetis_cmake_args+=" -DParMETIS_INCLUDE_DIR=$START/parmetis_build/include "'
+            - '   parmetis_cmake_args+=" -DParMETIS_LIBRARY=$START/parmetis_build/lib/libparmetis.a "'
+            - '   popd'
+            - 'fi'
+            - '#BUILD SILO'
+            - '[ -d $START/silo-4.11 ] && pushd $START/silo-4.11 || echo "$START/silo-4.11 not found"'
+            - '[ -x configure ] && ./configure --prefix=$START/silo_build || echo "configure silo failed"'
+            - 'make -j12 && make install || echo "make silo failed"'
+            - 'popd'
+            - '# BUILD BRANSON'
+            - '[ -d src ] || ( [ -d branson ] && pushd branson )'
+            - 'cmake -DCMAKE_BUILD_TYPE=Release -DN_GROUPS=50 $parmetis_cmake_args -DMETIS_INCLUDE_DIR=${START}/metis_install/include -DMETIS_LIBRARY=${START}/metis_install/lib/libmetis.a src/.'
+            - 'make -j24'
+            - 'ldd BRANSON || exit 2'
+
+    run:
+        timeout: 60000
+        cmds:
+            - "{{sched.test_cmd}} --cpu-bind=cores ./BRANSON inputs/{{problem_size}}.xml"
+
+    result_parse:
+        constant:
+            branson_version:
+                const: '{{branson_version}}'
+            problem_size:
+                const: '{{problem_size}}'
+            compiler:
+                const: '{{compilers.name}}/{{compilers.version}}'
+            mpi:
+                const: '{{mpis.name}}/{{mpis.version}}'
+        regex:
+            total_transport:
+                regex: 'Total transport: (.*)'
+                action: 'store'
+            radiation_conservation:
+                regex: 'Radiation conservation: (.*)'
+                match_select: last
+                action: 'store'
+            material_conservation:
+                regex: 'Material conservation: (.*)'
+                match_select: last
+                action: 'store'
+            emission_e:
+                regex: 'Emission E: (.*), Absorption E: .*, Exit E: .*'
+                match_select: last
+                action: 'store'
+            absorption_e:
+                regex: 'Emission E: .*, Absorption E: (.*), Exit E: .*'
+                match_select: last
+                action: 'store'
+            exit_e:
+                regex: 'Emission E: .*, Absorption E: .*, Exit E: (.*)'
+                match_select: last
+                action: 'store'
+            results:
+                regex: 'Total transport: [\d+\.]+'
+                action: 'store_true'
+
+_xc40:
+    inherits_from: _base
+    only_if:
+        "{{sys_os.name}}": [ cle ]
+
+    variables:
+        mpis:
+            - { name: "cray-mpich", version: "7.7.18", mpicc: "cc", mpicxx: "CC", mpifc: "ftn" }
+        compilers:
+            - { name: "intel-classic", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn" }
+            - { name: "intel", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn" } 
+            - { name: "intel-oneapi", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn" } 
+            - { name: "gcc", version: "11.2.0", pe_env: "PrgEnv-gnu", cc: "cc", cxx: "CC", fc: "ftn" } 
+            - { name: "cce", version: "12.0.3", pe_env: "PrgEnv-cray", cc: "cc", cxx: "CC", fc: "ftn" } 
+
+    build:
+        preamble:
+            - 'test_mod () {'
+            - '  mod=$1'
+            - '  module -t list 2>&1 | grep $mod &>/dev/null || exit 1'
+            - '}'
+            - 'module load friendly-testing'
+            - 'module load cmake'
+            - 'module rm craype-hugepages2M'
+            - 'module swap PrgEnv-${PE_ENV,,} {{compilers.pe_env}}'
+            - 'test_mod {{compilers.pe_env}}'
+            - 'comp_name={{compilers.name}}'
+            - 'module unload ${comp_name} || module unload ${comp_name//-*}'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'test_mod {{compilers.name}}/{{compilers.version}}'
+            - 'module swap {{mpis.name}}/{{mpis.version}}'
+            - 'test_mod {{mpis.name}}/{{mpis.version}}'
+            - 'module -t list'
+
+    run:
+        preamble:
+            - 'test_mod () {'
+            - '  mod=$1'
+            - '  module -t list 2>&1 | grep $mod &>/dev/null || exit 1'
+            - '}'
+            - 'module load friendly-testing'
+            - 'module rm craype-hugepages2M'
+            - 'module swap PrgEnv-${PE_ENV,,} {{compilers.pe_env}}'
+            - 'test_mod {{compilers.pe_env}}'
+            - 'comp_name={{compilers.name}}'
+            - 'module unload ${comp_name} || module unload ${comp_name//-*}'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'test_mod {{compilers.name}}/{{compilers.version}}'
+            - 'module swap {{mpis.name}}/{{mpis.version}}'
+            - 'test_mod {{mpis.name}}/{{mpis.version}}'
+            - 'module -t list'
+
+xc40_small:
+    inherits_from: _xc40
+    variables:
+        problem_size: 'proxy_small'
+
+    schedule:
+        nodes: 1
+        tasks_per_node: 32
+        share_allocation: false
+
+xc40_medium:
+    inherits_from: _xc40
+    variables:
+        problem_size: 'proxy_med'
+
+    schedule:
+        nodes: 64
+        tasks_per_node: 32
+        share_allocation: false
+
+xc40_large:
+    inherits_from: _xc40
+    variables:
+        problem_size: 'proxy_large'
+
+    schedule:
+        nodes: 3456
+        tasks_per_node: 32
+        share_allocation: false
+
+
+_cts1:
+    inherits_from: _base
+    only_if:
+        "{{sys_os.name}}": [ toss ]
+
+    variables:
+        mpis:
+            - { name: "openmpi", version: "3.1.6", mpicc: "mpicc", mpicxx: "mpic++", mpifc: "mpif90" }
+        compilers:
+            - { name: "intel-classic", version: "2022.0.2", cc: "icc", cxx: "icpc", fc: "ifort" }
+            - { name: "intel", version: "2022.0.2", cc: "icx", cxx: "icpx", fc: "ifort" }
+            - { name: "intel-oneapi", version: "2022.0.2", cc: "icx", cxx: "icpx", fc: "ifx" }
+            - { name: "gcc", version: "10.3.0", cc: "gcc", cxx: "g++", fc: "gfortran" }
+
+    build:
+       preamble:
+            - 'module load friendly-testing'
+            - 'module load cmake'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.name}}/{{mpis.version}}'
+
+    run:
+        preamble:
+            - 'module load friendly-testing'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.name}}/{{mpis.version}}'
+
+cts1_small:
+    inherits_from: _cts1
+    variables:
+        problem_size: 'proxy_small'
+
+    schedule:
+        nodes: 1
+        tasks_per_node: 32
+        share_allocation: false
+
+cts1_medium:
+    inherits_from: _cts1
+    variables:
+        problem_size: 'proxy_med'
+
+    schedule:
+        nodes: 64
+        tasks_per_node: 32
+        share_allocation: false
+
+cts1_large:
+    inherits_from: _cts1
+    variables:
+        problem_size: 'proxy_large'
+
+    schedule:
+        nodes: 3456
+        tasks_per_node: 32
+        share_allocation: false
+
+_darwin_spr:
+    inherits_from: _base
+    only_if:
+        "{{sys_name}}": [ darwin ]
+
+    variables:
+        mpis:
+            - { name: "openmpi", version: "3.1.6", mpicc: "mpicc", mpicxx: "mpic++", mpifc: "mpif90", modulefile: "openmpi-3.1.6-{{compilers.name}}_{{compilers.version}}" }
+        compilers:
+            - { name: "intel-classic", version: "2022.1.0", cc: "icc", cxx: "icpc", fc: "ifort" }
+            - { name: "intel-hybrid", version: "2022.1.0", cc: "icx", cxx: "icpx", fc: "ifort" }
+
+    build:
+        preamble:
+            - 'module load cmake'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.modulefile}}'
+
+    run:
+        preamble:
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.modulefile}}'
+
+darwin_spr_small:
+    inherits_from: _darwin_spr
+    variables:
+        problem_size: 'proxy_small'
+
+    schedule:
+        nodes: 1
+        tasks_per_node: 32
+        share_allocation: false
+
+ats5_cts:
+    inherits_from: _cts1
+    subtitle: "{{compilers.name}}-{{compilers.version}}_{{mpis.name}}-{{mpis.version}}-{{tpm}}proc-{{nphotons}}photons"
+
+    permute_on:
+        - compilers
+        - mpis
+        - tpm
+        - nphotons
+
+    variables: 
+        problem_size: '3D_hohlraum_single_node'
+        branson_version: "benchmark"
+        tpm: [1, 2, 4, 8, 16, 32, 36]
+        nphotons: [10, 100, 200] # M photons
+
+    schedule:
+        nodes: 1
+        tasks_per_node: "{{tpm}}"
+        share_allocation: false
+        partition: 'any'
+        qos: 'high'
+        account: 'hpctest'
+        time_limit: 10
+
+    build:
+        extra_files:
+           - branson/source/branson-0.82.patch
+           - branson/source/metis-5.1.0
+           - branson/source/parmetis-4.0.3
+           - branson/source/silo-4.11
+           - branson/{{problem_size}}.xml
+
+    run:
+        timeout: 60000
+        cmds:
+            - sed -i 's/%pho%/{{nphotons}}/' {{problem_size}}.xml
+            - "{{sched.test_cmd}} --cpu-bind=cores ./BRANSON {{problem_size}}.xml &"
+            - "proc_get_mem=$!"
+            - "memory_capture $proc_get_mem"
+            - "wait $proc_get_mem"
+
+    result_evaluate:
+        mphotons_per_second: '{{nphotons}}/total_transport'

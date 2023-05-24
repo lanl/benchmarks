@@ -1,0 +1,186 @@
+variables:
+    tce:
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "arm-forge",                   use_name: "arm-forge/21.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "charliecloud",                use_name: "charliecloud/0.23" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "clang",                       use_name: "clang/12.0.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "cmake",                       use_name: "cmake/3.20.3" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "emacs",                       use_name: "emacs/27.2" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "gcc",                         use_name: "gcc/10.3.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "git",                         use_name: "git/2.31.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "gnuplot",                     use_name: "gnuplot/5.2.8" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "hpctoolkit",                  use_name: "hpctoolkit/2021.05.15" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "hpcviewer",                   use_name: "hpcviewer/2021.05" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "htop",                        use_name: "htop/3.0.5" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "idl",                         use_name: "idl/8.7" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "intel",                       use_name: "intel/2021.2.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "mkl",                         use_name: "mkl/cluster.2020.4" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "intel-tools",                 use_name: "intel-tools/cluster.2020.4" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "julia",                       use_name: "julia/1.5.3" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "julia_binary",                use_name: "julia_binary/1.5.3" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "libyogrt",                    use_name: "libyogrt/1.24" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "llvm",                        use_name: "llvm/7.0.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "mercurial",                   use_name: "mercurial/5.8" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "numactl",                     use_name: "numactl/2.0.14" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "openjdk",                     use_name: "openjdk/11.0.8_10" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "papi",                        use_name: "papi/6.0.0.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "patchelf",                    use_name: "patchelf/0.12" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "pint",                        use_name: "pint/0.17" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "python",                      use_name: "python/2.7.18" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "python",                      use_name: "python/3.8.10" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "python",                      use_name: "python/3.9.5" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "qt",                          use_name: "qt/5.15.2" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "subversion",                  use_name: "subversion/1.14.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "tmux",                        use_name: "tmux/3.1b" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "totalview",                   use_name: "totalview/2021.1.16" }
+    tce_comp:
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "hdf5-serial",                 use_name: "hdf5-serial/1.12.0",                 compiler_mod: "intel/2021.2.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "hdf5-serial",                 use_name: "hdf5-serial/1.12.0",                 compiler_mod: "gcc/10.3.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "hdf5-serial",                 use_name: "hdf5-serial/1.12.0",                 compiler_mod: "clang/12.0.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "intel-mpi",                   use_name: "intel-mpi/cluster.2020.4",           compiler_mod: "intel/2021.2.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "mesa18",                      use_name: "mesa18/18.3.6",                      compiler_mod: "intel/2021.2.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "mesa18",                      use_name: "mesa18/18.3.6",                      compiler_mod: "gcc/10.3.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "mvapich2",                    use_name: "mvapich2/2.3.6",                     compiler_mod: "intel/2021.2.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "mvapich2",                    use_name: "mvapich2/2.3.6",                     compiler_mod: "gcc/10.3.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "mvapich2",                    use_name: "mvapich2/2.3.6",                     compiler_mod: "clang/12.0.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-c-serial",             use_name: "netcdf-c-serial/4.8.0",              compiler_mod: "intel/2021.2.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-c-serial",             use_name: "netcdf-c-serial/4.8.0",              compiler_mod: "clang/12.0.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-c-serial",             use_name: "netcdf-c-serial/4.8.0",              compiler_mod: "gcc/10.3.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-cxx4-serial",          use_name: "netcdf-cxx4-serial/4.3.1",           compiler_mod: "clang/12.0.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-cxx4-serial",          use_name: "netcdf-cxx4-serial/4.3.1",           compiler_mod: "gcc/10.3.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-cxx4-serial",          use_name: "netcdf-cxx4-serial/4.3.1",           compiler_mod: "intel/2021.2.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-fortran-parallel",     use_name: "netcdf-fortran-serial/4.5.3",        compiler_mod: "clang/12.0.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-fortran-serial",       use_name: "netcdf-fortran-serial/4.5.3",        compiler_mod: "gcc/10.3.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-fortran-serial",       use_name: "netcdf-fortran-serial/4.5.3",        compiler_mod: "intel/2021.2.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "openmpi",                     use_name: "openmpi/4.1.1",                      compiler_mod: "intel/2021.2.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "openmpi",                     use_name: "openmpi/4.1.1",                      compiler_mod: "gcc/10.3.0" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "openmpi",                     use_name: "openmpi/4.1.1",                      compiler_mod: "clang/12.0.0" }
+    tce_comp_mpi:
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "hdf5-parallel",               use_name: "hdf5-parallel/1.12.0",               compiler_mod: "gcc/10.3.0",     mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "hdf5-parallel",               use_name: "hdf5-parallel/1.12.0",               compiler_mod: "gcc/10.3.0",     mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "hdf5-parallel",               use_name: "hdf5-parallel/1.12.0",               compiler_mod: "intel/2021.2.0", mpi_mod: "intel-mpi/cluster.2020.4" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "hdf5-parallel",               use_name: "hdf5-parallel/1.12.0",               compiler_mod: "intel/2021.2.0", mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "hdf5-parallel",               use_name: "hdf5-parallel/1.12.0",               compiler_mod: "intel/2021.2.0", mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "libquo",                      use_name: "libquo/1.3.1",                       compiler_mod: "intel/2021.2.0", mpi_mod: "openmpi/4.1.1" } 
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "libquo",                      use_name: "libquo/1.3.1",                       compiler_mod: "intel/2021.2.0", mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "libquo",                      use_name: "libquo/1.3.1",                       compiler_mod: "intel/2021.2.0", mpi_mod: "intel-mpi/cluster.2020.4" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "libquo",                      use_name: "libquo/1.3.1",                       compiler_mod: "gcc/10.3.0",     mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "libquo",                      use_name: "libquo/1.3.1",                       compiler_mod: "gcc/10.3.0",     mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "mpi4py",                      use_name: "mpi4py/3.0.3",                       compiler_mod: "intel/2021.2.0", mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "mpi4py",                      use_name: "mpi4py/3.0.3",                       compiler_mod: "gcc/10.3.0",     mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-c-parallel",           use_name: "netcdf-c-parallel/4.8.0",            compiler_mod: "gcc/10.3.0",     mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-c-parallel",           use_name: "netcdf-c-parallel/4.8.0",            compiler_mod: "gcc/10.3.0",     mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-c-parallel",           use_name: "netcdf-c-parallel/4.8.0",            compiler_mod: "intel/2021.2.0", mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-c-parallel",           use_name: "netcdf-c-parallel/4.8.0",            compiler_mod: "intel/2021.2.0", mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-c-parallel",           use_name: "netcdf-c-parallel/4.8.0",            compiler_mod: "intel/2021.2.0", mpi_mod: "intel-mpi/cluster.2020.4" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-cxx4-parallel",        use_name: "netcdf-cxx4-parallel/4.3.1",         compiler_mod: "intel/2021.2.0", mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-cxx4-parallel",        use_name: "netcdf-cxx4-parallel/4.3.1",         compiler_mod: "intel/2021.2.0", mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-cxx4-parallel",        use_name: "netcdf-cxx4-parallel/4.3.1",         compiler_mod: "gcc/10.3.0",     mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-cxx4-parallel",        use_name: "netcdf-cxx4-parallel/4.3.1",         compiler_mod: "gcc/10.3.0",     mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-fortran-parallel",     use_name: "netcdf-fortran-parallel/4.5.3",      compiler_mod: "intel/2021.2.0", mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-fortran-parallel",     use_name: "netcdf-fortran-parallel/4.5.3",      compiler_mod: "intel/2021.2.0", mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-fortran-parallel",     use_name: "netcdf-fortran-parallel/4.5.3",      compiler_mod: "gcc/10.3.0",     mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "netcdf-fortran-parallel",     use_name: "netcdf-fortran-parallel/4.5.3",      compiler_mod: "gcc/10.3.0",     mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "parallel-netcdf",             use_name: "parallel-netcdf/1.12.2",             compiler_mod: "intel/2021.2.0", mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "parallel-netcdf",             use_name: "parallel-netcdf/1.12.2",             compiler_mod: "intel/2021.2.0", mpi_mod: "mvapich2/2.3.6" } 
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "parallel-netcdf",             use_name: "parallel-netcdf/1.12.2",             compiler_mod: "intel/2021.2.0", mpi_mod: "intel-mpi/cluster.2020.4" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "parallel-netcdf",             use_name: "parallel-netcdf/1.12.2",             compiler_mod: "gcc/10.3.0",     mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "parallel-netcdf",             use_name: "parallel-netcdf/1.12.2",             compiler_mod: "intel/2021.2.0", mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "paraview",                    use_name: "paraview/5.9.1",                     compiler_mod: "intel/2021.2.0", mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "paraview",                    use_name: "paraview/5.9.1",                     compiler_mod: "gcc/10.3.0",     mpi_mod: "openmpi/4.1.1" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "valgrind",                    use_name: "valgrind/3.17.0",                    compiler_mod: "gcc/10.3.0",     mpi_mod: "mvapich2/2.3.6" }
+        - { tce_env: "linux-rhel7-x86_64_v3-omnipath-none", product: "valgrind",                    use_name: "valgrind/3.17.0",                    compiler_mod: "gcc/10.3.0",     mpi_mod: "openmpi/4.1.1" }
+    tce_modules:
+        - 'lanlpe/tce'
+        - '{{tce.use_name}}'
+    tce_comp_modules:
+        - 'lanlpe/tce'
+        - '{{tce_comp.compiler_mod}}'
+        - '{{tce_comp.use_name}}'
+    tce_comp_mpi_modules:
+        - 'lanlpe/tce'
+        - '{{tce_comp_mpi.compiler_mod}}'
+        - '{{tce_comp_mpi.mpi_mod}}'
+        - '{{tce_comp_mpi.use_name}}'
+
+    stream:
+        - { ompnumthreads: "4", taskspernode: "8" }
+    ### START OF RPMQUERY VARIABLE DEFINITIONS ####
+    # command should be a simple cli test of the product that returns 0; can be omitted if needed
+    # local_rpms will be tested under rpmquery for the specific version installed on the system
+    local_rpms:
+        - { distro: "hpcsoft", name: "give", version: "3.1-6", command: "give --help", where: "everywhere" }
+        - { distro: "hpcsoft", name: "fstools", version: "2.4-*", command: "chkhome", where: "everywhere" }
+        - { distro: "hpcsoft", name: "kmod-vtune", version: "2019.4", command: 'eval lsmod |grep sep5', where: "computes" }
+        - { distro: "syssw", name: "yeti-scripts", version: "4.*", command: "ls -ald /run/colorize/iam/$(if [[ \"$(hostname -s)\" == *fey* ]] || [[ \"$SLURM_SUBMIT_HOST\" == *fey* ]] || [[ \"$(hostname -s)\" == *rfe* ]] || [[ \"$SLURM_SUBMIT_HOST\" == *rfe* ]] ; then echo \"YELLOW\"; else echo \"TURQUOISE\"; fi)", where: "everywhere" }
+    # distro_rpms will be tested under rpmquery for the rpm installation, ignoring version
+    distro_rpms:
+        - { distro: "el7", name: "meld", version: "", command: "which meld", where: "everywhere" }
+        - { distro: "el7", name: "pdsh", version: "", command: "pdsh -L", where: "computes" }
+        - { distro: "chaos", name: "Lmod", version: "8.6.18", command: 'eval module avail |& grep hpcsoft', where: "everywhere" }
+        - { distro: "el7", name: "perl-Switch", version: "", command: "eval perl -E 'use Switch'", where: "everywhere" }
+
+    ### Linpack benchmark input file for single node runs
+    cpuspeedcmd: ["`egrep \"cpu MHz\" /proc/cpuinfo | uniq | awk '{print $4}' | awk -F. '{ s = $1 / 1000 } END {print s}'`"]
+    hpl_single:
+            - { header: "LANL CTS1 Single Node Linpack",
+                summary: "Los Alamos National Laboratory PRETeam Benchmark",
+                outputfilenamevalue: "HPL.out",                                           #output file name (if any)
+                deviceoutvalue: "6",                                                      #device out (6=stdout,7=stderr,file)
+                nsnosvalue: "1",                                                          ## of problems sizes (n)
+                nsvalue: "25536",                                                         #Ns
+                #nsvalue: "51072",                                                         #Ns
+                nbsnosvalue: "1",                                                         ## of NBs
+                nbsvalue: "192",                                                          #NBs
+                pmapvalue: "0",                                                           #PMAP process mapping (0=row-,1=column-major)
+                processgridnosvalue: "1",                                                 ## of process grids (p x q)
+                psvalue: "4",                                                             #Ps
+                qsvalue: "9",                                                             #Qs
+                thresholdvalue: "16.0",                                                   #threshold
+                pfactnosvalue: "1",                                                       ## of panel fact
+                pfactsvalue: "0",                                                         #PFACTS (0=Left, 1=Crout, 2=Right)
+                recstopnosvalue: "1",                                                     ## of recursive stopping criterium
+                nbminsvalue: "4",                                                         #NBMINs (>= 1)
+                nopanelsrecvalue: "1",                                                    ## of panels in recursion
+                ndivsvalue: "2",                                                          #NDIVs
+                norecpanfactvalue: "1",                                                   ## of recursive panel fact.
+                rfactsvalue: "1",                                                         #RFACTs (0=left, 1=crout, 2=right)
+                bcastnosvalue: "1",                                                       # of broadcast
+                bcastsvalues: "1",                                                        #BCASTs (0=1rg,1=1rm,2=2rg,3=2rm,4=lng,5=lnm,6=psh,7=psh2)
+                lookaheaddepthnosvalues: "1",                                             # of lookahead depth
+                depthsvalue: "0",                                                         #DEPTHs (>=0)
+                swapvalue: "0",                                                           #SWAP (0=bin-exch,1=long,2=mix)
+                swapthreshvalue: "256",                                                   #swapping threshold
+                l1formvalue: "0",                                                         #L1 in (0=transposed,1=no-transposed) form
+                uformvalue: "0",                                                          #U  in (0=transposed,1=no-transposed) form
+                equilibriumvalue: "1",                                                    #Equilibration (0=no,1=yes)
+                memoryalignmentvalue: "8"                                                 #memory alignment in double (> 0)
+              }
+    scratch:
+        - name: scratch4-convenience
+          path: "/net/scratch4/{{pav.user}}"
+    scratch_all:
+        - name: scratch4-convenience
+          path: "/net/scratch4/{{pav.user}}"
+        - name: scratch4
+          path: "/lustre/scratch4/{{sys.sys_net}}/{{pav.user}}"
+    mpis:
+        - { name: "openmpi", version: "3.1.6", mpicc: "mpicc", mpicxx: "mpic++", mpifc: "mpif90" }
+    compilers:
+        - { name: "intel", version: "2021.2.0", cc: "icx", cxx: "icpx", fc: "ifort" }
+        - { name: "intel-classic", version: "2021.2.0", cc: "icc", cxx: "icpc", fc: "ifort" }
+    preamble:
+        - 'module load friendly-testing'
+        - 'module load {{compilers.name}}/{{compilers.version}}'
+        - 'module load {{mpis.name}}/{{mpis.version}}'
+    #srun_opts: '--mpi=pmix_v2'
+    srun_opts: ''
+    srun_opts_verbose: ''
+
+build:
+    specificity: '{{sys_name}}'
+
+scheduler: slurm
+schedule:
+    nodes: 'all'
+    account: hpcdev
+    partition: any

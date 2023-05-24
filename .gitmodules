@@ -17,3 +17,6 @@
 [submodule "spatter"]
 	path = spatter
 	url = git@github.com:lanl/spatter.git
+[submodule "pavilion"]
+	path = utils/pavilion
+	url = git@github.com:lanl/pavilion2.git

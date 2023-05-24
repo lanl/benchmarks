@@ -1,0 +1,40 @@
+# WORKING_DIR(required Path): Where pavilion puts it's run files, downloads, etc.
+working_dir: ../working_dir
+
+# SHARED_GROUP(str): Pavilion can automatically set group permissions on all
+# created files, so that users can share relevant results, etc.
+shared_group: hpctest
+
+# UMASK(str): The umask to apply to all files created by pavilion. This should be
+# in the format needed by the umask shell command.
+umask:
+
+# LOG_LEVEL(str): The minimum log level for messages sent to the pavilion logfile.
+# Choices: debug, info, warning, error, critical
+log_level:
+
+# RESULT_LOG(Path): Results are put in both the general log and a specificresults
+# log. This defaults to 'results.log' in the working directory.
+result_log: /usr/projects/splunk/pavilion2/results.log
+
+# WGET_TIMEOUT(int): How long to wait on web requests before timing out.
+# On networks without internet access, zero will allow youto spot issues faster.
+wget_timeout:
+
+# PROXIES(dict): Proxies, by protocol, to use when accessing the internet. Eg:
+# http: 'http://myproxy.myorg.org:8000'
+proxies:
+    http: http://proxyout.lanl.gov:8080
+    https: http://proxyout.lanl.gov:8080
+    ftp: http://proxyout.lanl.gov:8080
+
+# NO_PROXY(list): A list of DNS suffixes to ignore for proxy purposes. For
+# example: 'blah.com' would match 'www.blah.com', but not 'myblah.com'.
+no_proxy:
+    - lanl.gov
+
+# config_dirs: A list of configuration directories that Pavilion looks for.
+config_dirs:
+    - /usr/projects/xrdsmercury/pav_configs
+    - /usr/projects/xrdssparc/pav_configs
+    - /usr/projects/xrdspartisn/pav_configs
