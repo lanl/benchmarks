@@ -1,0 +1,9 @@
+[Core]
+Name = Intel-MPI Module Wrapper
+Module = intel_mpi
+
+[Documentation]
+Description = Wrapper for the Intel MPI module.
+Author = Nicholas Sly/Paul Ferrell
+Version = 1.0
+Website =

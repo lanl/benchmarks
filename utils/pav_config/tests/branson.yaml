@@ -6,20 +6,20 @@ _base:
     subtitle: "{{compilers.name}}-{{compilers.version}}_{{mpis.name}}-{{mpis.version}}"
 
     doc: |
-      Branson is a proxy application for the Implicit Monte Carlo method. IMC models the exchange of 
-      radiation with material at high temperatures. Implicit Monte Carlo is known to be memory latency 
-      bound, suffer from load balance issues and require a large amount of parallel communication. 
+      Branson is a proxy application for the Implicit Monte Carlo method. IMC models the exchange of
+      radiation with material at high temperatures. Implicit Monte Carlo is known to be memory latency
+      bound, suffer from load balance issues and require a large amount of parallel communication.
 
       Benchmark timings were provided using Trinity Haswell nodes with 32 ranks/node.
             Small problem  (proxy_small.xml 1 node, 32 cores) 		1052.88 seconds
             Medium problem (proxy_med.xml   64 nodes, 2048 cores)	 570.68 seconds
             Large problem  (proxy_large.xml 3456 nodes, 110592 cores)	 393.55 seconds
-      
+
       Correctness
       The output of Branson can be assumed to be correct if the values for radiation conservation and
       material conservation are on the order of 1.0e-13 relative to the emission energy and census
       energy.
-            $ grep "conservation" output_proxy_small.txt 
+            $ grep "conservation" output_proxy_small.txt
             > output_proxy_small.txt:Radiation conservation: 6.94567e-19
             > output_proxy_small.txt:Material conservation: -1.02999e-18
             $ grep "Emission E": output_proxy_small.txt
@@ -60,7 +60,7 @@ _base:
             - 'START=${PWD}'
             - '# setup all the packages'
             - 'if [[ "{{branson_version}}" == 0.82 ]] ; then'
-            - '# branson version reports incorrectly: https://github.com/lanl/branson/issues/25' 
+            - '# branson version reports incorrectly: https://github.com/lanl/branson/issues/25'
             - '   patch -p1 < branson-0.82.patch || echo "patch command failed"'
             - 'else'
             - '   [ -d parmetis-4.0.3 ] || tar xvfz parmetis-4.0.3.tar.gz || echo "cannot locate nor extract parmetis"'
@@ -155,10 +155,10 @@ _xc40:
             - { name: "cray-mpich", version: "7.7.18", mpicc: "cc", mpicxx: "CC", mpifc: "ftn" }
         compilers:
             - { name: "intel-classic", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn" }
-            - { name: "intel", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn" } 
-            - { name: "intel-oneapi", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn" } 
-            - { name: "gcc", version: "11.2.0", pe_env: "PrgEnv-gnu", cc: "cc", cxx: "CC", fc: "ftn" } 
-            - { name: "cce", version: "12.0.3", pe_env: "PrgEnv-cray", cc: "cc", cxx: "CC", fc: "ftn" } 
+            - { name: "intel", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn" }
+            - { name: "intel-oneapi", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn" }
+            - { name: "gcc", version: "11.2.0", pe_env: "PrgEnv-gnu", cc: "cc", cxx: "CC", fc: "ftn" }
+            - { name: "cce", version: "12.0.3", pe_env: "PrgEnv-cray", cc: "cc", cxx: "CC", fc: "ftn" }
 
     build:
         preamble:
@@ -328,7 +328,7 @@ ats5_cts:
         - tpm
         - nphotons
 
-    variables: 
+    variables:
         problem_size: '3D_hohlraum_single_node'
         branson_version: "benchmark"
         tpm: [1, 2, 4, 8, 16, 32, 36]
@@ -337,11 +337,9 @@ ats5_cts:
     schedule:
         nodes: 1
         tasks_per_node: "{{tpm}}"
-        share_allocation: false
-        partition: 'any'
         qos: 'high'
         account: 'hpctest'
-        time_limit: 10
+        time_limit: 12
 
     build:
         extra_files:

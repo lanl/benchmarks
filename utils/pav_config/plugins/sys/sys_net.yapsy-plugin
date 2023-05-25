@@ -1,0 +1,9 @@
+[Core]
+Name = System Network
+Module = sys_net
+
+[Documentation]
+Description = Uses /usr/projects/hpcsoft/utilities/bin/sys_network or /projects/hpcsoft/utilities/bin/sys_network to determine the network of the LANL HPC system.
+Author = Nicholas Sly
+Version = 1.0
+Website =

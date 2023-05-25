@@ -1,0 +1,9 @@
+[Core]
+Name = GCC Compiler Module Wrapper
+Module = gcc
+
+[Documentation]
+Description = Wrapper for the GCC compiler module.
+Author = Nicholas Sly/Paul Ferrell
+Version = 1.0
+Website =

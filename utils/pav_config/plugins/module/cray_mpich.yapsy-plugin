@@ -1,0 +1,9 @@
+[Core]
+Name = Cray Mpich Module Wrapper
+Module = cray_mpich
+
+[Documentation]
+Description = Wrapper for the cray-mpich module.
+Author = Nicholas Sly/Paul Ferrell
+Version = 1.0
+Website =

@@ -15,12 +15,13 @@ log_level:
 
 # RESULT_LOG(Path): Results are put in both the general log and a specificresults
 # log. This defaults to 'results.log' in the working directory.
-result_log: /usr/projects/splunk/pavilion2/results.log
+# result_log: /usr/projects/splunk/pavilion2/results.log
 
 # WGET_TIMEOUT(int): How long to wait on web requests before timing out.
 # On networks without internet access, zero will allow youto spot issues faster.
 wget_timeout:
 
+# Take from the host.yaml? Can config read env vars?
 # PROXIES(dict): Proxies, by protocol, to use when accessing the internet. Eg:
 # http: 'http://myproxy.myorg.org:8000'
 proxies:
@@ -33,8 +34,4 @@ proxies:
 no_proxy:
     - lanl.gov
 
-# config_dirs: A list of configuration directories that Pavilion looks for.
-config_dirs:
-    - /usr/projects/xrdsmercury/pav_configs
-    - /usr/projects/xrdssparc/pav_configs
-    - /usr/projects/xrdspartisn/pav_configs
+# A dot folder for lightweight stuff in home folder?

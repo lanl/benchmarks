@@ -1,0 +1,9 @@
+[Core]
+Name = Host Name
+Module = host_name
+
+[Documentation]
+Description = Uses /usr/projects/hpcsoft/utilities/bin/sys_name or /projects/hpcsoft/utilities/bin/sys_name to determine the name of the host.
+Author = Nicholas Sly
+Version = 1.0
+Website =

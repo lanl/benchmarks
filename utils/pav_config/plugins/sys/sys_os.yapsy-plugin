@@ -1,0 +1,9 @@
+[Core]
+Name = System OS
+Module = sys_os
+
+[Documentation]
+Description = Uses /usr/projects/hpcsoft/utilities/bin/sys_os or /projects/hpcsoft/utilities/bin/sys_os to determine the operating system of the node running the test in a deferred manner.
+Author = Nicholas Sly
+Version = 1.0
+Website =

@@ -3,11 +3,11 @@
 #OPTIONAL ARG. Default pavilion.yaml is yellow.yaml in base_configs.
 pavconf=${1:-"yellow.yaml"}
 
-# Resolves all symlinks in the given or current (no arg) path.
-realpath() {
-    tpth=${1:-$(pwd)}
-    echo $(python3 -c "import os; print(os.path.realpath('$tpth'))")
-}
+# # Resolves all symlinks in the given or current (no arg) path.
+# realpath() {
+#     tpth=${1:-$(pwd)}
+#     echo $(python3 -c "import os; print(os.path.realpath('$tpth'))")
+# }
 
 realpath() {
     tpth=${1:-$(pwd)}
@@ -23,14 +23,20 @@ else
 	exit 1
 fi
 
+export BMARK_UTIL="$(dirname $(realpath $thisfile))"
+export BMARK_TOP="$(dirname $BMARK_UTIL)"
+
 # Set PAV_CONFIG_DIR to the directory with this file.
 # Set PAVBIN to the direcotry with the pavilion binaries in this repo.
-export PAV_CONFIG_DIR=$(dirname $(realpath $thisfile))
-PAVBIN="${PAV_CONFIG_DIR}/pav_src/bin"
-echo "THISPATH: $(realpath $PWD)"
-echo "PAVCPATH: $(realpath $PAV_CONFIG_DIR)"
-echo "BASH_SOURCE: ${BASH_SOURCE[0]}"
-echo "0: ${0}"
+export PAV_CONFIG_DIR="${BMARK_UTIL}/pav_config"
+export PAVBIN="${BMARK_UTIL}/pavilion/bin"
+
+echo "BENCHMARK PAVILION ACTIVATION PATHS:"
+echo "  THISPATH:    $(realpath $PWD)"
+echo "  PAVCPATH:    $(realpath $PAV_CONFIG_DIR)"
+echo "  PAVBIN:      $(realpath $PAVBIN)"
+echo "  BASH_SOURCE: ${BASH_SOURCE[0]}"
+echo "  0:           ${0}"
 
 # Only prepend PAVBIN to path if it hasn't already been done.
 # Error out if PAVBIN doesn't exist.
@@ -47,6 +53,7 @@ fi
 # Symlink desired configuration yaml to top directory.
 ln -sfn ${PAV_CONFIG_DIR}/base_configs/${pavconf} ${PAV_CONFIG_DIR}/pavilion.yaml
 
+echo "  -----------------------  "
 echo "Success:"
 echo "  PAVBIN         -- ${PAVBIN}"
 echo "  PAV_CONFIG_DIR -- ${PAV_CONFIG_DIR}"

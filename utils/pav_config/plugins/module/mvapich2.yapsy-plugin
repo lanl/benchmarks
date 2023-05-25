@@ -1,0 +1,9 @@
+[Core]
+Name = Mvapich2 MPI Module Wrapper
+Module = mvapich2
+
+[Documentation]
+Description = Wrapper for the Mvapich2 MPI module.
+Author = Nicholas Sly/Paul Ferrell
+Version = 1.0
+Website =

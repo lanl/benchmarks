@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+import sys
+
+import json
+import pathlib
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import pandas as pd
+
+
+def readjs(f):
+    fobj = open(f, 'r')
+    fr = fobj.read()
+    fobj.close()
+    return json.loads(fr)
+
+def make_one_plot(df, key):
+    pass
+
+if __name__ == '__main__':
+    jfile = sys.argv[1]
+    jsin  = readjs(jfile)

@@ -1,0 +1,9 @@
+[Core]
+Name = Rereplace
+Module = rereplace
+
+[Documentation]
+Description = Replace regular expression matched portion of string.
+Author = Nicholas Sly
+Version = 1.0
+Website =

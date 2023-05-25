@@ -1,0 +1,9 @@
+[Core]
+Name = Intel Compiler Module Wrapper
+Module = intel
+
+[Documentation]
+Description = Wrapper for the Intel compiler module.
+Author = Nicholas Sly/Paul Ferrell
+Version = 1.0
+Website =
