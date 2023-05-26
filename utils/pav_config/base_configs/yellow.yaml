@@ -1,5 +1,5 @@
 # WORKING_DIR(required Path): Where pavilion puts it's run files, downloads, etc.
-working_dir: ../working_dir
+working_dir: /usr/projects/hpcml/tools/dmagee/ats5/pav_working_dir
 
 # SHARED_GROUP(str): Pavilion can automatically set group permissions on all
 # created files, so that users can share relevant results, etc.
