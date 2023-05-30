@@ -166,6 +166,9 @@ The following results were achieved on RZTopaz for a 3D 7-pt Laplace problem on 
    +------------+---------------+------------+------------+
    | 4 x 4 x 2  |    75x 75x150 |    2.70    |     6.80   |
    +------------+---------------+------------+------------+
+   
+   Strong scaling on RZTopax: MPI only
+   
 
 .. table:: Strong scaling on RZTopaz: MPI with 4 OpenMP threads per MPI task
    :align: center
@@ -183,6 +186,8 @@ The following results were achieved on RZTopaz for a 3D 7-pt Laplace problem on 
    +------------+---------------+------------+------------+
    | 4 x 2 x 2  |   75x150x150  |    2.44    |     6.73   |
    +------------+---------------+------------+------------+
+   
+   Strong scaling on RZTopaz: MPI with 4 OpenMP threads per MPI task
 
 
 Memory Usage
@@ -198,10 +203,14 @@ The second figure provides memory use on 1 node of CTS-1 (Quartz) using 4 MPI ta
 .. figure:: plots/mem-J1.png
    :alt: Approximate memory use for Problems 1 and 2 on V-100
    :align: center
+   
+   Approximate memory use for Problems 1 and 2 on V-100
 
 .. figure:: plots/mem-J2.png
    :alt: Approximate memory use for Problems 1 and 2 on CTS-1
    :align: center
+   
+   Approximate memory use for Problems 1 and 2 on CTS-1
 
 Suggested Test Runs
 ===================
@@ -240,6 +249,9 @@ The actual run was performed with varying numbers of OpenMP threads:
  +-----------+--------------+------------+------------+---------+------------+------------+
  |           |              |            |            |  128    |     1.13   |    0.91    |
  +-----------+--------------+------------+------------+---------+------------+------------+
+ 
+ Strong scaling on RZWhippet for Problem 1
+ 
 
 The following table contains the FOMs for the runs above:
 
@@ -266,11 +278,15 @@ The following table contains the FOMs for the runs above:
  +---------+-----------+-----------+-----------+-----------+-----------+-----------+
  |  128    |           |           |           | 2.348E+09 | 1.994E+08 | 4.696E+09 |
  +---------+-----------+-----------+-----------+-----------+-----------+-----------+
+ 
+ Total FOMs for Problem 1 with a total grid size of 160 x 160 x 160 on RZWhippet
 
 
 .. figure:: plots/CPU-FOM-1.png
    :alt: Total FOMs for Problem 1 on RZWhippet using MPI or OpenMP.
    :align: center
+   
+   Total FOMs for Problem 1 on RZWhippet using MPI or OpenMP.
 
 We performed a similar test for Problem 2 using a total grid size of 256 x 256 x 256.
 
@@ -297,6 +313,9 @@ We performed a similar test for Problem 2 using a total grid size of 256 x 256 x
  +-----------+--------------+------------+------------+---------+------------+------------+
  |           |              |            |            |  120    |    5.68    |    4.18    |
  +-----------+--------------+------------+------------+---------+------------+------------+
+ 
+ Strong scaling on RZWhippet for Problem 2
+ 
 
 .. table:: Total FOMs for Problem 2 with a total grid size of 256 x 256 x 256  on RZWhippet
 
@@ -323,10 +342,16 @@ We performed a similar test for Problem 2 using a total grid size of 256 x 256 x
  +---------+-----------+-----------+-----------+-----------+-----------+-----------+
  |  120    |           |           |           | 7.733E+08 | 3.280E+07 | 1.514E+09 | 
  +---------+-----------+-----------+-----------+-----------+-----------+-----------+
+ 
+ Total FOMs for Problem 2 with a total grid size of 256 x 256 x 256  on RZWhippet
+ 
 
 .. figure:: plots/CPU-FOM-2.png
    :alt: FOMs for Problem 2 on RZWhippet using MPI or OpenMP.
    :align: center
+   
+   FOMs for Problem 2 on RZWhippet using MPI or OpenMP.
+
 
 Strong Scaling on RZWhippet
 ---------------------------
@@ -340,11 +365,17 @@ Strong scaling results of AMG2023 for problem 1 on a grid size of 120 x 120 x 12
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
+   
+   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120
+
 
 .. figure:: cpu1_120.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120
+   
+   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120
+
 
 Strong scaling results of AMG2023 for problem 1 on a grid size of 160 x 160 x 160 are provided in the following table and figure.
 
@@ -353,11 +384,17 @@ Strong scaling results of AMG2023 for problem 1 on a grid size of 160 x 160 x 16
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
+   
+   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160
+   
 
 .. figure:: cpu1_160.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160
+   
+   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160
+   
 
 Strong scaling results of AMG2023 for problem 1 on a grid size of 200 x 200 x 200 are provided in the following table and figure.
 
@@ -366,11 +403,17 @@ Strong scaling results of AMG2023 for problem 1 on a grid size of 200 x 200 x 20
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
+   
+   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200
+   
 
 .. figure:: cpu1_200.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200
+   
+   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200
+   
 
 Strong scaling results of AMG2023 for problem 2 on a grid size of 200 x 200 x 200 are provided in the following table and figure.
 
@@ -379,11 +422,17 @@ Strong scaling results of AMG2023 for problem 2 on a grid size of 200 x 200 x 20
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
+   
+   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200
+   
 
 .. figure:: cpu2_200.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200
+   
+   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200
+   
 
 Strong scaling results of AMG2023 for problem 2 on a grid size of 256 x 256 x 256 are provided in the following table and figure.
 
@@ -392,11 +441,17 @@ Strong scaling results of AMG2023 for problem 2 on a grid size of 256 x 256 x 25
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
+   
+   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256
+   
 
 .. figure:: cpu2_256.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256
+   
+   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256
+   
 
 Strong scaling results of AMG2023 for problem 2 on a grid size of 320 x 320 x 320 are provided in the following table and figure.
 
@@ -405,11 +460,17 @@ Strong scaling results of AMG2023 for problem 2 on a grid size of 320 x 320 x 32
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
+   
+   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
+   
 
 .. figure:: cpu2_320.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
+   
+   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
+   
 
 V-100
 -----
@@ -460,6 +521,8 @@ In addition, aggressive coarsening is used on the first level, significantly dec
  +---------+-----------+-----------+-----------+------------+------------+------------+
  |  200    | 7.728E+09 | 4.593E+08 | 1.546E+10 |   0.959    |   0.542    |    19      |
  +---------+-----------+-----------+-----------+------------+------------+------------+
+ 
+ FOMs, times and number of iterations for Problem 1 with grid size n x n x n on 1 V-100 
 
 
 .. table:: FOMs, times and number of iterations for Problem 2 with grid size n x n x n on 1 V-100 
@@ -517,6 +580,8 @@ In addition, aggressive coarsening is used on the first level, significantly dec
  +---------+-----------+-----------+-----------+------------+------------+------------+
  |  320    | 5.255E+09 | 2.447E+08 | 1.027E+10 |   1.487    |   1.241    |    35      |
  +---------+-----------+-----------+-----------+------------+------------+------------+
+ 
+ FOMs, times and number of iterations for Problem 2 with grid size n x n x n on 1 V-100
 
 
 The FOMs of AMG2023 on V100 for Problem 1 is provided in the following table and figure:
@@ -526,11 +591,17 @@ The FOMs of AMG2023 on V100 for Problem 1 is provided in the following table and
    :align: center
    :widths: 10, 10
    :header-rows: 1
+   
+   AMG2023 FOM on V100 for Problem 1 (27-pt stencil, AMG-GMRES)
+   
 
 .. figure:: gpu1.png
    :align: center
    :scale: 50%
    :alt: AMG2023 FOM on V100 for Problem 1 (27-pt stencil, AMG-GMRES)
+   
+   AMG2023 FOM on V100 for Problem 1 (27-pt stencil, AMG-GMRES)
+   
 
 The FOMs of AMG2023 on V100 for Problem 2 is provided in the following table and figure:
 
@@ -539,11 +610,16 @@ The FOMs of AMG2023 on V100 for Problem 2 is provided in the following table and
    :align: center
    :widths: 10, 10
    :header-rows: 1
+   
+   AMG2023 FOM on V100 for Problem 2 (7-pt stencil, AMG-PCG)
+   
 
 .. figure:: gpu2.png
    :align: center
    :scale: 50%
    :alt: AMG2023 FOM on V100 for Problem 2 (7-pt stencil, AMG-PCG)
+   
+   AMG2023 FOM on V100 for Problem 2 (7-pt stencil, AMG-PCG)
 
 
 References
