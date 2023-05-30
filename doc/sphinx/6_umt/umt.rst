@@ -97,6 +97,7 @@ cell edge into 27 edges and produce a mesh called 'refined_mesh.mesh'.
 		
    makeUnstructuredBox -r 27 -o umt_spp1.mesh
 
+
 Running
 =======
 
@@ -156,6 +157,9 @@ problem size:
    :align: center
 
    Throughput of SPP 1 on Power9 and V100
+
+.. note::
+   Performance data for SPP 2 coming soon.
 
 .. TODO - add runtime in this table??
 .. todo csv-table:: SPP 2 throughput on Power9 and V100
