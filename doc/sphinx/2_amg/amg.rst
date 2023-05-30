@@ -353,8 +353,6 @@ Strong scaling results of AMG2023 for problem 1 on a grid size of 120 x 120 x 12
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
-   
-   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120
 
 
 .. figure:: cpu1_120.png
@@ -372,8 +370,6 @@ Strong scaling results of AMG2023 for problem 1 on a grid size of 160 x 160 x 16
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
-   
-   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160
    
 
 .. figure:: cpu1_160.png
