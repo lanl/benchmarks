@@ -344,18 +344,210 @@ First, modifying the ranklist in scripts/config.sh to the following:
    :alt: Spatter Weak Scaling Performance on Skylake xRAGE Asteroid Patterns
 
 
-Power9+V100
+V100
 ------------
 
-Strong-Scaling experiment with plotting enabled. Results will be found in spatter.strongscaling/A100/flag/static_2d/001 and Figures will be found in figures/CTS1/flag/static_2d/001.
+Strong-Scaling throughput experiment with plotting enabled. Results will be found in spatter.strongscaling/V100/flag/static_2d/001 and Figures will be found in figures/spatter.strongscaling/V100/flag/static_2d/001.
 
 .. code-block:: bash
 
     cd spatter
 
-    bash scripts/scaling.sh -a flag -p static_2d -f 001 -n A100 -r
+    bash scripts/scaling.sh -a flag -p static_2d -f 001 -n V100 -g -t
 
 ..
+
+Flag Static 2D 001
+~~~~~~~~~~~~~~~~~~
+
+Throughput experiment for the 8 patterns in patterns/flag/static_2d/001.json on a single GPU with plotting enabled. Results will be found in spatter.strongscaling/V100/flag/static_2d/001/ and Figures will be found in figures/spatter.strongscaling/V100/flag/static_2d/001/
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001 -n V100 -g -t
+
+..
+
+.. csv-table:: Spatter Throughput (MB/s) on V100 Flag Static 2D 001 Patterns
+   :file: v100_throughput_001.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: v100_throughput_001.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Throughput on V100 Flag Static 2D 001 Patterns
+
+
+Flag Static 2D 001.FP
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001.fp -n V100 -g -t
+
+..
+
+.. csv-table:: Spatter Throughput (MB/s) on V100 Flag Static 2D 001 FP Patterns
+   :file: v100_throughput_001fp.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: v100_throughput_001fp.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Throughput on V100 Flag Static 2D 001 FP Patterns
+
+
+
+Flag Static 2D 001.NONFP
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001.nonfp -n V100 -g -t
+
+..
+
+.. csv-table:: Spatter Throughput (MB/s) on V100 Flag Static 2D 001 Non-FP Patterns
+   :file: v100_throughput_001nonfp.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: v100_throughput_001nonfp.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Throughput on V100 Flag Static 2D 001 Non-FP Patterns
+
+
+xRAGE Asteroid
+~~~~~~~~~~~~~~
+
+Throughput experiment for the 9 patterns in patterns/xrage/asteroid/spatter.json with plotting enabled. Results will be found in spatter.strongscaling/V100/xrage/asteroid/spatter/ and Figures will be found in figures/spatter.strongscaling/V100/xrage/asteroid/spatter/
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a xrage -p asteroid -f spatter -n V100 -g -t
+
+..
+
+.. csv-table:: Spatter Throughput (MB/s) on V100 xRAGE Asteroid Patterns
+   :file: v100_throughput_asteroid.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: v100_throughput_asteroid.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Throughput on V100 xRAGE Asteroid Patterns
+
+
+
+A100
+------------
+
+Strong-Scaling throughput experiment with plotting enabled. Results will be found in spatter.strongscaling/A100/flag/static_2d/001 and Figures will be found in figures/spatter.strongscaling/A100/flag/static_2d/001.
+
+.. code-block:: bash
+
+    cd spatter
+
+    bash scripts/scaling.sh -a flag -p static_2d -f 001 -n A100 -g -t
+
+..
+
+Flag Static 2D 001
+~~~~~~~~~~~~~~~~~~
+
+Throughput experiment for the 8 patterns in patterns/flag/static_2d/001.json on a single GPU with plotting enabled. Results will be found in spatter.strongscaling/A100/flag/static_2d/001/ and Figures will be found in figures/spatter.strongscaling/A100/flag/static_2d/001/
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001 -n A100 -g -t
+
+..
+
+.. csv-table:: Spatter Throughput (MB/s) on A100 Flag Static 2D 001 Patterns
+   :file: a100_throughput_001.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: a100_throughput_001.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Throughput on A100 Flag Static 2D 001 Patterns
+
+
+Flag Static 2D 001.FP
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001.fp -n A100 -g -t
+
+..
+
+.. csv-table:: Spatter Throughput (MB/s) on A100 Flag Static 2D 001 FP Patterns
+   :file: a100_throughput_001fp.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: a100_throughput_001fp.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Throughput on A100 Flag Static 2D 001 FP Patterns
+
+
+
+Flag Static 2D 001.NONFP
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a flag -p static_2d -f 001.nonfp -n A100 -g -t
+
+..
+
+.. csv-table:: Spatter Throughput (MB/s) on A100 Flag Static 2D 001 Non-FP Patterns
+   :file: a100_throughput_001nonfp.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: a100_throughput_001nonfp.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Throughput on A100 Flag Static 2D 001 Non-FP Patterns
+
+
+xRAGE Asteroid
+~~~~~~~~~~~~~~
+
+Throughput experiment for the 9 patterns in patterns/xrage/asteroid/spatter.json with plotting enabled. Results will be found in spatter.strongscaling/A100/xrage/asteroid/spatter/ and Figures will be found in figures/spatter.strongscaling/A100/xrage/asteroid/spatter/
+
+.. code-block:: bash
+
+   bash scripts/scaling.sh -a xrage -p asteroid -f spatter -n A100 -g -t
+
+..
+
+.. csv-table:: Spatter Throughput (MB/s) on A100 xRAGE Asteroid Patterns
+   :file: a100_throughput_asteroid.csv
+   :align: center
+   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8, 8
+   :header-rows: 1
+
+.. figure:: a100_throughput_asteroid.png
+   :align: center
+   :scale: 50%
+   :alt: Spatter Throughput on A100 xRAGE Asteroid Patterns
+
 
 
 References
