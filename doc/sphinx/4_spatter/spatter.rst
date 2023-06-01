@@ -187,6 +187,8 @@ Weak-scaling experiment for the 8 patterns in patterns/flag/static_2d/001.json w
    :scale: 50%
    :alt: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 Patterns
 
+   Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 Patterns
+
 
 Flag Static 2D 001.FP
 ~~~~~~~~~~~~~~~~~~~~~
@@ -208,6 +210,8 @@ Flag Static 2D 001.FP
    :scale: 50%
    :alt: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 FP Patterns
 
+   Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 FP Patterns
+
 
 Flag Static 2D 001.NONFP
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -228,6 +232,8 @@ Flag Static 2D 001.NONFP
    :align: center
    :scale: 50%
    :alt: Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 Non-FP Patterns
+
+   Spatter Weak Scaling Performance on CTS-1 Flag Static 2D 001 Non-FP Patterns
 
 
 xRAGE Asteroid
@@ -259,6 +265,8 @@ First, modifying the ranklist in scripts/cpu_config.sh to the following:
    :align: center
    :scale: 50%
    :alt: Spatter Weak Scaling Performance on CTS-1 xRAGE Asteroid Patterns
+
+   Spatter Weak Scaling Performance on CTS-1 xRAGE Asteroid Patterns
 
 
 Skylake
@@ -296,6 +304,8 @@ First, modifying the ranklist in scripts/cpu_config.sh to the following:
    :scale: 50%
    :alt: Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 Patterns
 
+   Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 Patterns
+
 
 Flag Static 2D 001.FP
 ~~~~~~~~~~~~~~~~~~~~~
@@ -316,6 +326,8 @@ Flag Static 2D 001.FP
    :align: center
    :scale: 50%
    :alt: Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 FP Patterns
+
+   Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 FP Patterns
 
 
 
@@ -338,6 +350,8 @@ Flag Static 2D 001.NONFP
    :align: center
    :scale: 50%
    :alt: Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 Non-FP Patterns
+
+   Spatter Weak Scaling Performance on Skylake Flag Static 2D 001 Non-FP Patterns
 
 
 xRAGE Asteroid
@@ -370,6 +384,8 @@ First, modifying the ranklist in scripts/cpu_config.sh to the following:
    :scale: 50%
    :alt: Spatter Weak Scaling Performance on Skylake xRAGE Asteroid Patterns
 
+   Spatter Weak Scaling Performance on Skylake xRAGE Asteroid Patterns
+
 
 V100
 ------------
@@ -399,6 +415,8 @@ Throughput experiment for the 8 patterns in patterns/flag/static_2d/001.json on 
    :scale: 50%
    :alt: Spatter Throughput on V100 Flag Static 2D 001 Patterns
 
+   Spatter Throughput on V100 Flag Static 2D 001 Patterns
+
 
 Flag Static 2D 001.FP
 ~~~~~~~~~~~~~~~~~~~~~
@@ -419,6 +437,8 @@ Flag Static 2D 001.FP
    :align: center
    :scale: 50%
    :alt: Spatter Throughput on V100 Flag Static 2D 001 FP Patterns
+
+   Spatter Throughput on V100 Flag Static 2D 001 FP Patterns
 
 
 
@@ -442,6 +462,8 @@ Flag Static 2D 001.NONFP
    :scale: 50%
    :alt: Spatter Throughput on V100 Flag Static 2D 001 Non-FP Patterns
 
+   Spatter Throughput on V100 Flag Static 2D 001 Non-FP Patterns
+
 
 xRAGE Asteroid
 ~~~~~~~~~~~~~~
@@ -464,6 +486,8 @@ Throughput experiment for the 9 patterns in patterns/xrage/asteroid/spatter.json
    :align: center
    :scale: 50%
    :alt: Spatter Throughput on V100 xRAGE Asteroid Patterns
+
+   Spatter Throughput on V100 xRAGE Asteroid Patterns
 
 
 
@@ -502,6 +526,8 @@ Throughput experiment for the 8 patterns in patterns/flag/static_2d/001.json on 
    :scale: 50%
    :alt: Spatter Throughput on A100 Flag Static 2D 001 Patterns
 
+   Spatter Throughput ono A100 Flag Static 2D 001 Patterns
+
 
 Flag Static 2D 001.FP
 ~~~~~~~~~~~~~~~~~~~~~
@@ -522,6 +548,8 @@ Flag Static 2D 001.FP
    :align: center
    :scale: 50%
    :alt: Spatter Throughput on A100 Flag Static 2D 001 FP Patterns
+
+   Spatter Throughput on A100 Flag Static 2D 001 FP Patterns
 
 
 
@@ -545,6 +573,8 @@ Flag Static 2D 001.NONFP
    :scale: 50%
    :alt: Spatter Throughput on A100 Flag Static 2D 001 Non-FP Patterns
 
+   Spatter Throughput on A100 Flag Static 2D 001 Non-FP Patterns
+
 
 xRAGE Asteroid
 ~~~~~~~~~~~~~~
@@ -567,6 +597,8 @@ Throughput experiment for the 9 patterns in patterns/xrage/asteroid/spatter.json
    :align: center
    :scale: 50%
    :alt: Spatter Throughput on A100 xRAGE Asteroid Patterns
+
+   Spatter Throughput on A100 xRAGE Asteroid Patterns
 
 
 
