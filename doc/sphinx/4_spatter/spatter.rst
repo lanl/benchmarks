@@ -160,6 +160,8 @@ The scripts/scaling.sh script has the following options (a scripts/mpirunscaling
 
 The Application name, Problem name, and Pattern name each correspond to subdirectories in this repository containing patterns stored as Spatter JSON input files.
 
+All Figures use solid lines for Gathers and dashed lines for Scatters.
+
 
 CTS-1
 ------------
