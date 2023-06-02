@@ -12,7 +12,7 @@ The benchmarks contained within this site represent a pre-RFP draft state. Over 
 benchmarks will change somewhat. While we expect most of the changes will be additions and modifications it is possible that we will remove 
 benchmarks prior to RFP. 
 
-To use these benchmarks please refer to the ATS-5 benchmarks repository `ATS-5 repo <https://githut.com/lanl/benchmarks>`_
+To use these benchmarks please refer to the ATS-5 benchmarks repository `ATS-5 repo <https://github.com/lanl/benchmarks>`_
 
 Benchmark changes from Crossroads
 =================================
