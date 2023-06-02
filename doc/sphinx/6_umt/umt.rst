@@ -76,6 +76,8 @@ Build Requirements
   * `mpich <http://www.mpich.org>`_
   * `mvapich2 <https://mvapich.cse.ohio-state.edu>`_
 
+Additional third party libraries requirements are noted in `DEPENDENCIES.md <https://github.com/LLNL/UMT/blob/master/DEPENDENCIES.md>`_
+
 If OpenMP threading is used, the MPI implementation must support MPI_THREAD_MULTIPLE.
 
 Instructions for building the code can be found in the UMT github repo
