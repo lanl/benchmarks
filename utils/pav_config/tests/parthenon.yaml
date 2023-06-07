@@ -1,18 +1,18 @@
-_base:
+\_base:
     maintainer:
         name: Dan Magee
         email: dmagee@lanl.gov
     summary: PARTHENON-VIBE cross-cut Benchmark Test
-    subtitle: "{{compilers.name}}-{{compilers.version}}_{{mpis.name}}-{{mpis.version}}"
+    subtitle: "{{compilers.name}}-{{mpis.name}}-{{tpm}}-{{nx}}"
 
     doc: |
         Parthenon is a block AMR stencil solver.
 
     variables:
         benchmark_path: 'benchmarks/burgers'
-        execut: "{{benchmark_path}}/burgers-benchmark"
+        execut: "./build/{{benchmark_path}}/burgers-benchmark"
         input_file: "{{benchmark_path}}/burgers.pin"
-        tpm: [1, 2, 4, 8, 16, 32, 36]
+        tpm: [4, 8, 18, 26, 36]
         pct_mem: [2, 4, 6]
         nlim: 250 #[10, 100, 200] # M photons
         nblock: 16
@@ -31,6 +31,10 @@ _base:
             - "parthenon/meshblock/nx1={{nblock}}"
             - "parthenon/meshblock/nx2={{nblock}}"
             - "parthenon/meshblock/nx3={{nblock}}"
+        compilers:
+            - { name: "intel-classic", version: "2021.2.0", cc: "icc", cxx: "icpc", fc: "ifort" }
+
+
     permute_on:
         - compilers
         - mpis
@@ -61,7 +65,7 @@ _base:
             - mkdir -p build
             - cd build
             - cmake [~{{cmake_opts}} ~] {{cmake_cmd_opts}} ..
-            - make -j
+            - make -j 8
 
     run:
         timeout: 60000
@@ -72,10 +76,12 @@ _base:
             walltime:
                 regex: 'walltime used = (.*)'
                 action: 'store'
-        zonecycles_wsec:
-            walltime:
+            zcycles_wsec:
                 regex: 'zone-cycles/wallsecond = (.*)'
                 action: 'store'
+    result_evaluate:
+         wallminutes: 'walltime/60'
+         wallhours: 'walltime/3600'
 
 cts1:
     inherits_from: _base
@@ -83,6 +89,9 @@ cts1:
         "{{sys_os.name}}": [ toss ]
 
     build:
+        env: 
+            CXXFLAGS: "-mavx2 -fno-math-errno -march=broadwell"
+
         preamble:
             - 'module load friendly-testing'
             - 'module load cmake'
