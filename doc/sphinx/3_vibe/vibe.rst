@@ -67,19 +67,21 @@ To build Parthenon on CPU, including this benchmark, with minimal external depen
 .. code-block:: bash
 
    parthenon$ mkdir build && cd build
-   build$ export CXXFLAGS="-mavx2 -fno-math-errno -march=broadwell"
+   build$ export CXXFLAGS="-fno-math-errno -march=native"
    build$ cmake -DPARTHENON_DISABLE_HDF5=ON -DPARTHENON_DISABLE_OPENMP=ON -DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF -DREGRESSION_GOLD_STANDARD_SYNC=OFF ../
    build$ make -j
 
 .. 
 
-On a CTS-1 machine the relevant modules are:
+On a CTS-1 machine the relevant modules for the results shown here are:
 
 .. code-block:: bash
    
    intel-classic/2021.2.0 intel-mpi/2019.9.304 cmake/3.22.3
 
-To build for execution on a single GPU, it should be sufficient to add the following flags to the CMake configuration line
+..
+
+Using openmpi/3.1.6 also works. To build for execution on a single GPU, it should be sufficient to add the following flags to the CMake configuration line
 
 .. code-block:: bash
    
@@ -100,16 +102,22 @@ The benchmark includes an input file ``_burgers.pin_`` that specifies the base (
 The executable `burgers-benchmark` will be built in `parthenon/build/benchmarks/burgers/` and can be run as, e.g.
 
 .. code-block:: bash
-
-   mpirun -n 36 burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin parthenon/mesh/nx1=128 parthenon/mesh/nx2=128 parthenon/mesh/nx3=128 parthenon/meshblock/nx1=16 parthenon/meshblock/nx2=16 parthenon/meshblock/nx3=16 parthenon/nlim=250
-
+   
+   NX=128
+   NBLK=16
+   NLIM=250
+   NLVL=3
+   mpirun -np 36 burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin parthenon/mesh/nx{1,2,3}=${NX} parthenon/meshblock/nx{1,2,3}=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
+   #srun -n 32 ... also works. Note that mpirun does not exist on HPE machines at LANL.
 ..
 
 Varying the ``parthenon/mesh/nx*`` parameters will change the memory footprint. The memory footprint scales roughly as the product of ``parthenon/mesh/nx1``, ``parthen/mesh/nx2``, and ``parthenon/mesh/nx3``. The ``parthen/meshblock/nx*`` parameters select the granularity of refinement: the mesh is distributed accross MPI ranks and refined/de-refined in chunks of this size. ``parthenon/mesh/nx1`` must be evenly divisible by ``parthenon/meshblock/nx1`` and the same for the other dimensions. Smaller meshblock sizes mean finer granularity and a problem that can be broken up accross more cores. However, each meshblock carries with it some overhead, so smaller meshblock sizes may hinder performance.
 
-Results from Branson are provided on the following systems:
+The results presented here use 64, 128, and 160 for  memory footprints of 20%, 40%, and 60% footprints respectively. These problem sizes are run with 4, 8, 18, 26, and 36 processes on a single node without threading.
 
-* Commodity Technology System 1 (CTS-1) with Intel Broadwell processors,
+Results from Parthenon are provided on the following systems:
+
+* Commodity Technology System 1 (CTS-1) (Snow) with Intel Broadwell processors,
 * An Nvidia A100 GPU hosted on an [Nvidia Arm HPC Developer Kit](https://developer.nvidia.com/arm-hpc-devkit)
 
 CTS-1
@@ -124,7 +132,7 @@ Mark](https://github.com/kokkos/kokkos-tools/wiki/MemoryHighWater)
 tool. Increasing the `parthenon/mesh/nx*` parameters will increase the
 memory footprint.
 
-Included with this repository is a ``do_strong_scaling_cpu.sh``
+Included with this repository under ``utils/parthenon`` is a ``do_strong_scaling_cpu.sh``
 script, which takes one argument, specifying the desired memory
 footprint on a CTS-1 system. Running it will generate a csv file
 containing scaling numbers.
@@ -190,4 +198,4 @@ Verification of Results
 References
 ==========
 
-.. [site]  'Parthenon', 2023. [Online]. Available: https://github.com/parthenon-hpc-lab/parthenon. [Accessed: 20- Mar- 2023]
+.. [site] Jonah Miller, 'Parthenon', 2023. [Online]. Available: https://github.com/parthenon-hpc-lab/parthenon. [Accessed: 20- Mar- 2023]
