@@ -13,10 +13,11 @@ _base:
         execut: "./build/{{benchmark_path}}/burgers-benchmark"
         input_file: "{{benchmark_path}}/burgers.pin"
         tpm: [4, 8, 18, 26, 36]
-        pct_mem: [2, 4, 6]
+        nx: [64, 128, 160]
         nlim: 250 #[10, 100, 200] # M photons
+        nlvl: 3
         nblock: 16
-        nx: "{{nblock*(6+pct_mem)}}"
+        #nx: "{{nblock*(6+pct_mem)}}"
         cmake_opts:
             - "-DPARTHENON_DISABLE_HDF5=ON"
             - "-DPARTHENON_DISABLE_OPENMP=ON"
@@ -31,6 +32,8 @@ _base:
             - "parthenon/meshblock/nx1={{nblock}}"
             - "parthenon/meshblock/nx2={{nblock}}"
             - "parthenon/meshblock/nx3={{nblock}}"
+            - "parthenon/time/nlim={{nlim}}"
+            - "parthenon/mesh/numlevel={{nlvl}}"
         compilers:
             - { name: "intel-classic", version: "2021.2.0", cc: "icc", cxx: "icpc", fc: "ifort" }
 
@@ -39,7 +42,7 @@ _base:
         - compilers
         - mpis
         - tpm
-        - pct_mem
+        - nx
 
     schedule:
         nodes: 1
@@ -69,7 +72,7 @@ _base:
 
     run:
         timeout: 60000
-        cmds: "{{sched.test_cmd}} {{execut}} -i {{input_file}} [~{{mesh_cl}} ~] [~{{meshblock_cl}} ~] parthenon/nlim={{nlim}}"
+        cmds: "{{sched.test_cmd}} {{execut}} -i {{input_file}} [~{{mesh_cl}} ~] [~{{meshblock_cl}} ~]"
 
     result_parse:
         regex:
@@ -90,7 +93,7 @@ cts1:
 
     build:
         env: 
-            CXXFLAGS: "-mavx2 -fno-math-errno -march=broadwell"
+            CXXFLAGS: "-fno-math-errno -march=native"
 
         preamble:
             - 'module load friendly-testing'
