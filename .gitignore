@@ -8,4 +8,4 @@ doc/sphinx/8_sparta/*.png
 __pycache__/
 *.bak
 *.pdf
-
+working_dir/

@@ -1,0 +1,202 @@
+_base:
+    subtitle: '{{compilers.name}}/{{compilers.version}} {{blas.name}}/{{blas.version}} OMP_NUM_THREADS:{{ompnumthreads}} SIZE:{{size}}'
+    
+    summary: DGEMM problem from the APEX benchmark suite
+    doc: |
+          ===================================================================
+          ACES DGEMM Benchmark
+          ===================================================================
+          
+          The purpose of the DGEMM benchmark is to provide an evaluation
+          mechanism for running numerically intensive appplications on
+          hardware systems with active thermal throttling and dynamic clock
+          frequencies.
+          
+          The benchmark runs on a single node (i.e. there is no distributed
+          MPI) but is threaded.
+          
+          Source code is contained in the "src" directory.
+          
+          ===================================================================
+          
+          Modifications Permitted:
+          
+          - Vendors are permitted to change the source code in the region
+          marked in the source.
+          - Optimized BLAS/DGEMM routines are permitted (and encouraged) to
+          demonstrated the highest performance.
+          - Vendors may modify the Makefile(s) as required
+          
+          ===================================================================
+          
+          Running the Benchmark:
+          
+          Example:
+          
+          export OMP_NUM_THREADS=32
+          export OMP_PLACES=cores
+          export OMP_PROC_BIND=close
+          
+          ./mt-dgemm 5004 100
+          
+          
+          - This runs the benchmark with a matrix input size of 5004 and
+          100 repetitions.
+          - The vendor is free to select the matrix size but smaller matrices
+          will often produce lower performance results
+          - ACES will perform run the benchmark with a minimum repetition
+          of 500 to ensure consistent processor performance that is unaffected
+          by thermal throttling.
+          
+          ===================================================================
+          
+          Example Output of Interest:
+          
+          Final Sum is:         5004.010000
+          Memory for Matrices:  573.120483 MB
+          Multiply time:        26.925897 seconds
+          FLOPs computed:       25065056016000.000000
+          GFLOP/s rate:         930.890292 GF/s
+          
+          - The GFLOP/s rate is the FOM of interest for this benchmark
+          - The *entire* output should be provided by the Offeror
+          
+          ===================================================================
+          
+    maintainer:
+        name: Paul Ferrell
+        email: pferrell@lanl.gov
+    scheduler: slurm
+    schedule:
+        nodes: 10
+        tasks_per_node: 32
+        share_allocation: false
+    permute_on: [ompnumthreads, size, iterations, compilers, blas]
+    build:
+        source_url: http://portal.nersc.gov/project/m888/apex/mt-dgemm_160114.tgz
+        source_path: mt-dgemm
+        cmds:
+            - 'cd src'
+            - "# Patch broken openmp pragmas"
+            - 'patch -p1 < ../dgemm_omp_fixes.patch'
+            - "make CC='{{compilers.cc}}' CFLAGS='{{compilers.cflags}}' LDFLAGS='{{blas.ldflags}}'"
+    run:
+        timeout: 6000
+        env:
+            OMP_NUM_THREADS: '{{ompnumthreads}}'
+            OMP_PROC_BIND: 'close'
+            OMP_PLACES: 'cores'
+            OMP_DISPLAY_ENV: 'true'
+        cmds: 
+            - 'set -x'
+            - 'pushd src &>/dev/null && [ -x mt-dgemm ] || exit -1'
+            - 'for node in [~{{sched.test_node_list}} ~]; do'
+            - '  if [[ $node == $SLURMD_NODENAME ]]; then'
+            - '       continue'
+            - '  fi'
+            - '  srun -v -w $node -N1 -n1 ./mt-dgemm {{size}} {{iterations}} &> ../${node}.out &'
+            - '  sleep 0.5'
+            - 'done'
+            - 'while [[ $(jobs | wc -l) != 0 ]]; do'
+            - '  jobs'
+            - '  sleep 1'
+            - '  echo -n "."'
+            - 'done'
+            - './mt-dgemm {{size}} {{iterations}} &> ../${SLURMD_NODENAME}.out'
+
+    result_parse:
+## XRDS DGEMM OUTPUT
+#Matrix size input by command line: 2500
+#Repeat multiply 500 times.
+#Alpha =    1.000000
+#Beta  =    1.000000
+#Allocating Matrices...
+#Allocation complete, populating with values...
+#Performing multiplication...
+#Calculating matrix check...
+#
+#===============================================================
+#Final Sum is:         2500.002000
+#Memory for Matrices:  143.051147 MB
+#Multiply time:        14.487424 seconds
+#FLOPs computed:       15631250000000.000000
+#GFLOP/s rate:         1078.953036 GF/s
+#===============================================================
+        constant:
+            size:
+                const: "{{size}}"
+            omp_num_threads:
+                const: "{{ompnumthreads}}"
+        regex:
+            result: 
+                regex: 'FLOPs computed:.*'
+                per_file: all
+                files: '*.out'
+                action: store_true
+            memory:
+                regex: '^Memory for Matrices:\s+(.*)\s+MB'
+                per_file: name
+                files: '*.out'
+            gflops:
+                regex: '^GFLOP\/s\s+rate:\s+(.*)\s+GF\/s'
+                per_file: name
+                files: '*.out'
+           
+    result_evaluate:
+        gflops_avg: avg(per_file.*.gflops)
+        gflops_outliers: outliers(per_file.*.gflops, keys(per_file), 2)
+
+xc40:
+    inherits_from: _base
+    only_if:
+        "{{sys_os.name}}": ["cle"]
+    schedule:
+        nodes: 2
+        tasks_per_node: 32
+    variables:
+        iterations: [ 500 ]
+        size: [ 2500, 5000, 10000, 20000, 40000 ] #12665
+        compilers:
+            - { name: "intel-classic", version: "2022.0.2", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn", cflags: '-DUSE_CBLAS=1 -O3 -qopenmp'}
+            - { name: "intel", version: "2022.0.2", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn", cflags: '-DUSE_CBLAS=1 -O3 -qopenmp'}
+            - { name: "intel-oneapi", version: "2022.0.2", pe_env: "PrgEnv-intel", cc: "cc", cxx: "CC", fc: "ftn", cflags: '-DUSE_CBLAS=1 -O3 -qopenmp'}
+#            - { name: "gcc", version: "11.2.0", pe_env: "PrgEnv-gnu", cc: "cc", cxx: "CC", fc: "ftn", cflags: '-DUSE_CBLAS=1 -O3 -fopenmp'}
+#            - { name: "cce", version: "14.0.0", pe_env: "PrgEnv-cray", cc: "cc", cxx: "CC", fc: "ftn", cflags: '-DUSE_CBLAS=1 -O3 -openmp'}
+        blas:
+            - { name: "intel-mkl", version: "2022.1.0", ldflags: '-L${MKLROOT}/lib/intel64 -Wl,--no-as-needed -lmkl_intel_ilp64 -lmkl_intel_thread -lmkl_core -lm -ldl'}
+#CRAYLIBSCI BLAS results in segfaults
+#            - { name: "cray-libsci", version: "22.05.1", ldflags: ''}
+        ompnumthreads:
+            - '32'
+    build:
+        preamble:
+            - 'test_mod () {'
+            - '  mod=$1'
+            - '  module -t list 2>&1 | grep $mod &>/dev/null || exit 1'
+            - '}'
+            - 'module load friendly-testing'
+            - 'module swap PrgEnv-${PE_ENV,,} {{compilers.pe_env}}'
+            - 'test_mod {{compilers.pe_env}}'
+            - 'comp_name={{compilers.name}}'
+            - 'module unload ${comp_name} || module unload ${comp_name//-*}'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'test_mod {{compilers.name}}/{{compilers.version}}'
+            - 'module -t list'
+        modules:
+            - '{{blas.name}}/{{blas.version}}'
+    run:
+        preamble:
+            - 'test_mod () {'
+            - '  mod=$1'
+            - '  module -t list 2>&1 | grep $mod &>/dev/null || exit 1'
+            - '}'
+            - 'module load friendly-testing'
+            - 'module swap PrgEnv-${PE_ENV,,} {{compilers.pe_env}}'
+            - 'test_mod {{compilers.pe_env}}'
+            - 'comp_name={{compilers.name}}'
+            - 'module unload ${comp_name} || module unload ${comp_name//-*}'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'test_mod {{compilers.name}}/{{compilers.version}}'
+            - 'module -t list'
+        modules:
+            - '{{blas.name}}/{{blas.version}}'

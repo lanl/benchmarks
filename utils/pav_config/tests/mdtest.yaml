@@ -1,0 +1,194 @@
+_base:
+  maintainer:
+    name: Jen Green
+    email: jgreen@lanl.gov
+  summary: Metadata filesystem performance
+  doc: |
+    MDtest is an MPI-based application for evaluating the metadata performance of a 
+    file system and has been designed to test parallel file systems. MDTest is not a 
+    Lustre-specific benchmark and can be run on any POSIX-compliant file system, but 
+    it does require a fully installed and configured file system implementation in 
+    order to run. For Lustre, this means the MGS, MDS and OSS services must be 
+    installed, configured and running, and that there is a population of Lustre 
+    clients running with the Lustre file system mounted. 
+
+  variables:
+    # Variable names that end in a '?' are overriden by host config settings
+    # and are expected to be set there.
+
+    # Filesystems to test with mdtest
+    md_filesystems?:
+      - name: '{{scratch.name}}'
+        path: '{{scratch.path}}/mdtest_target'
+    # may want to change md_size based on number of processors running
+    md_size?: 1000
+    md_iter?: 10
+    md_nodes: [ 1, 10 ] #, 50, 100 ]  # 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000
+    md_tasks: [ 8, 16 ] #, 24, 32] # 40, 48, 56, 64, 72, 80, 88, 96, 104 112 
+
+  subtitle: '{{md_filesystems.name}}-{{md_nodes}}X{{md_tasks}}'
+  permute_on: [ md_filesystems, md_nodes, md_tasks ]
+  build:
+  # source_url: https://www.lanl.gov/projects/crossroads/_assets/docs/micro/mdtest-1.8.4-xroads_v1.0.0.tgz
+    source_path: mdtest
+    cmds:
+      - make CC=$PAV_MPI_CC
+
+  run:
+    timeout: 1000
+    modules:
+  
+  scheduler: slurm
+  schedule:
+    nodes: 10 ## this should be set in reality to the largest num nodes per system
+    tasks_per_node: '{{md_tasks}}'    
+    share_allocation: true
+    
+
+  result_parse:
+    regex:
+      'fs_size, used_fs, inodes, used_inodes':
+        regex: '^FS: (\d+\.\d+\s+\w+)\s+\
+                Used FS: (\d+\.\d%)\s+\
+                Inodes: (\d+\.\d+ \w+)\s+\
+                Used Inodes: (\d+\.\d%)'
+    table:
+      summary:
+        delimiter_re: '[ :]{2,}'
+        preceded_by: '^SUMMARY'
+        has_row_labels: True,
+        lstrip: True,
+
+#_phaseI:
+
+crossroads_phasei:
+  only_if: 
+    "{{sys_name}}": [ rocinante, tycho, crossroads ]
+  inherits_from: _base
+  variables:
+    compilers:
+      - module: 'intel'
+        preload: 'PrgEnv-intel'
+    mpis:
+      - 'cray-mpich'
+
+  build:
+    env:
+      PAV_MPI_CC: 'cc'
+    preamble:
+      - 'module swap {{compilers.preload}}'
+    modules:
+      - '{{compilers.module}}'
+      - '{{mpis}}'
+    cmds:
+      - 'make CC=$PAV_MPI_CC -f Makefile.XROADS'
+  run:
+    preamble:
+      - 'module swap {{compilers.preload}}'
+    modules:
+      - '{{compilers.module}}'
+      - '{{mpis}}'
+    cmds:
+      - 'find {{md_filesystems.path}}/{mdt0,mdt1,mdt2,mdt3} -mindepth 1 -delete || /bin/true'
+      - 'srun -N{{md_nodes}} --tasks-per-node={{md_tasks}} ./mdtest -n {{md_size}} -i {{md_iter}} -u -d {{md_filesystems.path}}/mdt0@{{md_filesystems.path}}/mdt1@{{md_filesystems.path}}/mdt2@{{md_filesystems.path}}/mdt3'
+
+crossroads_phaseii:
+  only_if:
+    "{{sys_name}}": [ rocinante, tycho, crossroads ]
+  inherits_from: _base
+  variables:
+    compilers:
+      - module: 'intel'
+        preload: 'PrgEnv-intel'
+    mpis:
+      - 'cray-mpich'
+  build:
+    preamble:
+      - 'module purge'
+      - 'module load {{compilers.preload}}'
+    modules:
+      - '{{compilers.module}}'
+      - '{{mpis}}'
+    cmds:
+      - 'make CC=$PAV_MPI_CC -f Makefile.XROADS'
+  run:
+    preamble:
+      - 'module purge'
+      - 'module load {{compilers.preload}}'
+    modules:
+      - '{{compilers.module}}'
+      - '{{mpis}}'
+    cmds:
+      - 'find {{md_filesystems.path}}/dne2 -mindepth 1 -delete || /bin/true'
+      - 'srun -N{{md_nodes}} --tasks-per-node={{md_tasks}} ./mdtest -n {{md_size}} -i {{md_iter}} -u -d {{md_filesystems.path}}/dne2'
+
+trinitite_phasei:
+  only_if:
+    "{{sys_name}}": [ trinitite, trinity ]
+  inherits_from: _base
+  variables:
+    compilers:
+      - module: 'intel'
+        preload: 'PrgEnv-intel'
+    mpis:
+      - 'cray-mpich'
+  build:
+    preamble:
+      - 'module swap PrgEnv-${PE_ENV,,} {{compilers.preload}}'
+    modules:
+      - '{{compilers.module}}'
+      - '{{mpis}}'
+    cmds:
+      - 'make CC=$PAV_MPI_CC -f Makefile.XROADS'
+  run:
+    preamble:
+      - 'module swap PrgEnv-${PE_ENV,,} {{compilers.preload}}'
+    modules:
+      - '{{compilers.module}}'
+      - '{{mpis}}'
+    cmds:
+      - 'find {{md_filesystems.path}}/{mdt0,mdt1,mdt2} -mindepth 1 -delete || /bin/true'
+      - 'srun -N{{md_nodes}} --tasks-per-node={{md_tasks}} ./mdtest -n {{md_size}} -i {{md_iter}} -u -d {{md_filesystems.path}}/mdt0@{{md_filesystems.path}}/mdt1@{{md_filesystems.path}}/mdt2'
+
+cts1_phasei:
+  inherits_from: _base
+  only_if:
+    "{{sys_os.name}}": [ toss ]
+  variables:
+    compilers:
+      - module: 'intel'
+    mpis:
+      - 'openmpi'
+  build:
+    modules:
+      - '{{compilers.module}}'
+      - '{{mpis}}'
+  run:
+    modules:
+      - '{{compilers.module}}'
+      - '{{mpis}}'
+    cmds:
+      - 'find {{md_filesystems.path}}/{mdt0,mdt1,mdt2,mdt3,mdt4,mdt5} -mindepth 1 -delete || /bin/true'
+      - 'srun -N{{md_nodes}} --tasks-per-node={{md_tasks}} ./mdtest -n {{md_size}} -i {{md_iter}} -u -d {{md_filesystems.path}}/mdt0@{{md_filesystems.path}}/mdt1@{{md_filesystems.path}}/mdt2@{{md_filesystems.path}}/mdt3@{{md_filesystems.path}}/mdt4@{{md_filesystems.path}}/mdt5'
+
+cts1_phaseii:
+  inherits_from: _base
+  only_if:
+    "{{sys_os.name}}": [ toss ]
+  variables:
+    compilers:
+      - module: 'intel'
+    mpis:
+      - 'openmpi'
+  build:
+    modules:
+      - '{{compilers.module}}'
+      - '{{mpis}}'
+  run:
+    modules:
+      - '{{compilers.module}}'
+      - '{{mpis}}'
+    cmds:
+      - 'find {{md_filesystems.path}}/dne2 -mindepth 1 -delete || /bin/true'
+      - 'srun -N{{md_nodes}} --tasks-per-node={{md_tasks}} ./mdtest -n {{md_size}} -i {{md_iter}} -u -d {{md_filesystems.path}}/dne2'
+
