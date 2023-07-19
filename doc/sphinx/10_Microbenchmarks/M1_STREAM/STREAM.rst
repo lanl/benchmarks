@@ -1,71 +1,79 @@
-************************************
+******
 STREAM
-************************************
+******
 
 Purpose
 =======
 
-The `STREAM <https://github.com/jeffhammond/STREAM>`_ benchmark is a widely used benchmark for measuring memory bandwidth. It measures the sustainable memory bandwidth (in MB/s) of a computer system by performing simple read and write operations on large arrays. This guide will walk you through the process of running the STREAM benchmark using MPI on a single node of an HPC system.
+The `STREAM <https://github.com/jeffhammond/STREAM>`_ benchmark is a widely used benchmark for measuring memory bandwidth. It measures the sustainable memory bandwidth of a computer system by performing simple read and write operations on large arrays.
 
-Prerequisites
-=============
+Characteristics
+===============
 
-This benchmark requires MPI and a C/Fortran compiler
+STREAM is available:
+- Github: `STREAM <https://github.com/jeffhammond/STREAM>`_ 
+- Official site: `STREAM <https://www.cs.virginia.edu/stream/>`_
+- LANL Crossroads site: `STREAM <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/stream-bench-crossroads-v1.0.0.tgz>`_
+
+Problem
+-------
+
+There are four memory operations that the STREAM benchmark measures: Copy, Scale, Add, and Triad.
+
+Copy - Copies data from one array to another:
+b[i] = a[i]
+
+Scale - Multiplies each array element by a constant, a daxpy operation.
+b[i] = q*a[i]
+
+Add - Adds two arrays element-wise:
+c[i] = a[i] + b[i]
+
+Triad - Multiply-add operation:
+a[i] = b[i] + q*c[i]
+
+These operations stress memory and floating point pipelines.They test memory transfer speed, computation speed, and different combinations of these two components of overall performance performance.
+
+Figure of Merit
+---------------
 
 Building
 ========
 
-Generic
-=======
+Adjustments to GOMP_CPU_AFFINITY may also be necessary.
 
-1. Visit the official STREAM website: https://www.cs.virginia.edu/stream/
-2. Download the benchmark source code by clicking on the "Download STREAM benchmark" link.
-3. Extract the downloaded archive to a directory of your choice.
+You can modify the STREAM_ARRAY_SIZE value in the compilation step to change the array size used by the benchmark. Adjusting the array size can help accommodate the available memory on your system.
 
-Trinitite
-=========
+RHEL Systems
+------------
 
-1. Open a terminal or command prompt and navigate to the directory where you extracted the STREAM benchmark source code.
-2. Inside the directory, you will find four source code files: `stream.c`, `stream.h`, `mysecond.c`, and `README`.
-3. Compile the benchmark by running the following command:
-
-   .. code-block:: bash
-
-      gcc -O3 -fopenmp -DSTREAM_ARRAY_SIZE=200000000 -o stream stream.c mysecond.c -lm
-
-   This command will compile the benchmark with optimization level 3 (-O3), enable OpenMP support (-fopenmp), define the array size (-DSTREAM_ARRAY_SIZE=200000000), and link the necessary math library (-lm).
+CrayOS Systems
+--------------
 
 Running
 =======
 
-General
-=======
+.. code-block:: bash
 
-Open a terminal or command prompt and navigate to the directory where you compiled the STREAM benchmark.
-To run the benchmark using MPI, execute the following command:
+  mpirun -np <num_processes> ./stream
 
-   .. code-block:: bash
+Replace `<num_processes>` with the number of MPI processes you want to use. For example, if you want to use 4 MPI processes, the command will be:
 
-      mpirun -np <num_processes> ./stream
+.. code-block:: bash
 
-   Replace `<num_processes>` with the number of MPI processes you want to use. For example, if you want to use 4 MPI processes, the command will be:
+  mpirun -np 4 ./stream
 
-   .. code-block:: bash
+Input
+-----
 
-      mpirun -np 4 ./stream
+Independent Variables
+---------------------
 
-   The benchmark will run and display the results for the sustainable memory bandwidth (in MB/s) for the four operations: Copy, Scale, Add, and Triad.
+Dependent Variable(s)
+---------------------
 
-Trinitite
-=========
+1. Maximum bandwidth while utilizing all hardware cores and threads. MAX_BW
+2. A minimum number of cores and threads that achieves MAX_BW. MIN_CT 
 
-Additional Considerations
-=========================
-
-- Ensure that you have a sufficient number of cores available on your Broadwell platform to achieve accurate benchmark results.
-- You can modify the STREAM_ARRAY_SIZE value in the compilation step to change the array size used by the benchmark. Adjusting the array size can help accommodate the available memory on your system.
-
-Conclusion
-==========
-
-The STREAM benchmark is a powerful tool for evaluating the memory bandwidth of a system. By following the steps outlined in this documentation, you can run the STREAM benchmark using MPI on a Broadwell platform. Remember to analyze the benchmark results carefully and consider other factors that may affect the performance of your system.
+Example Results
+===============
