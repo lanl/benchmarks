@@ -1,6 +1,6 @@
-******
+*******
 Branson
-******
+*******
 
 This is the documentation for the ATS-5 Benchmark Branson - 3D hohlraum single node. 
  
