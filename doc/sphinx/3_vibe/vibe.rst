@@ -104,14 +104,17 @@ The executable `burgers-benchmark` will be built in `parthenon/build/benchmarks/
 .. code-block:: bash
    
    NX=128
-   NBLK=16
+   NXB=16
    NLIM=250
    NLVL=3
    mpirun -np 36 burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin parthenon/mesh/nx{1,2,3}=${NX} parthenon/meshblock/nx{1,2,3}=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
    #srun -n 32 ... also works. Note that mpirun does not exist on HPE machines at LANL.
 ..
 
-Varying the ``parthenon/mesh/nx*`` parameters will change the memory footprint. The memory footprint scales roughly as the product of ``parthenon/mesh/nx1``, ``parthen/mesh/nx2``, and ``parthenon/mesh/nx3``. The ``parthen/meshblock/nx*`` parameters select the granularity of refinement: the mesh is distributed accross MPI ranks and refined/de-refined in chunks of this size. ``parthenon/mesh/nx1`` must be evenly divisible by ``parthenon/meshblock/nx1`` and the same for the other dimensions. Smaller meshblock sizes mean finer granularity and a problem that can be broken up accross more cores. However, each meshblock carries with it some overhead, so smaller meshblock sizes may hinder performance.
+Varying the ``parthenon/mesh/nx*`` parameters will change the memory footprint. The memory footprint scales roughly as the product of ``parthenon/mesh/nx1``, ``parthen/mesh/nx2``, and ``parthenon/mesh/nx3``. The ``parthen/meshblock/nx*`` parameters select the granularity of refinement: the mesh is distributed accross MPI ranks and refined/de-refined in chunks of this size. 
+For this benchmark only the ``parthenon/mesh/nx*`` parameters may be changed.
+
+``parthenon/mesh/nx1`` must be evenly divisible by ``parthenon/meshblock/nx1`` and the same for the other dimensions. Smaller meshblock sizes mean finer granularity and a problem that can be broken up accross more cores. However, each meshblock carries with it some overhead, so smaller meshblock sizes may hinder performance.
 
 The results presented here use 64, 128, and 160 for  memory footprints of 20%, 40%, and 60% footprints respectively. These problem sizes are run with 4, 8, 18, 26, and 36 processes on a single node without threading.
 
