@@ -152,6 +152,10 @@ column exceed 600 (i.e., so it runs for at least 10 minutes). The figure of
 merit (FOM) is the harmonic mean of the QOI computed from the times between 300
 and 600 seconds.
 
+A Python script (named ``sparta_fom.py``) is included within the repository to
+aid in computing this quantity. Pass it the ``-h`` command line argument to
+view its help page for additional information.
+
 
 System Information
 ==================
@@ -355,21 +359,101 @@ CTS-1/Manzano
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
    is available.
 
-Strong scaling performance of SPARTA is provided within the following table and
-figure.
+Strong scaling performance (i.e., fixed problem size being run on different MPI
+rank counts) plots of SPARTA on CTS-1/Manzano are provided within the following
+subsections.
 
-.. csv-table:: SPARTA Strong Scaling Performance on Manzano
-   :file: cts1.csv
+``ppc`` 11 (0.25 GiB/PE)
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Manzano with ppc=11 (0.25 GiB/PE)
+   :file: cts1-0.25.csv
    :align: center
-   :widths: 10, 10, 10
+   :widths: 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cts1.png
+.. figure:: cts1-0.25.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Manzano
+   :alt: SPARTA Strong Scaling Performance on Manzano with ppc=11 (0.25 GiB/PE)
 
-   SPARTA Strong Scaling Performance on Manzano
+   SPARTA Strong Scaling Performance on Manzano with ppc=11 (0.25 GiB/PE)
+
+.. figure:: cts1mem-0.25.png
+   :align: center
+   :scale: 50%
+   :alt: SPARTA Strong Scaling Memory on Manzano with ppc=11 (0.25 GiB/PE)
+
+   SPARTA Strong Scaling Memory on Manzano with ppc=11 elements (0.25 GiB/PE)
+
+``ppc`` 21 (0.50 GiB/PE)
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Manzano with ppc=21 (0.50 GiB/PE)
+   :file: cts1-0.50.csv
+   :align: center
+   :widths: 10, 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cts1-0.50.png
+   :align: center
+   :scale: 50%
+   :alt: SPARTA Strong Scaling Performance on Manzano with ppc=21 (0.50 GiB/PE)
+
+   SPARTA Strong Scaling Performance on Manzano with ppc=21 (0.50 GiB/PE)
+
+.. figure:: cts1mem-0.50.png
+   :align: center
+   :scale: 50%
+   :alt: SPARTA Strong Scaling Memory on Manzano with ppc=21 (0.50 GiB/PE)
+
+   SPARTA Strong Scaling Memory on Manzano with ppc=21 elements (0.50 GiB/PE)
+
+``ppc`` 42 (1.00 GiB/PE)
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Manzano with ppc=42 (1.00 GiB/PE)
+   :file: cts1-1.00.csv
+   :align: center
+   :widths: 10, 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cts1-1.00.png
+   :align: center
+   :scale: 50%
+   :alt: SPARTA Strong Scaling Performance on Manzano with ppc=42 (1.00 GiB/PE)
+
+   SPARTA Strong Scaling Performance on Manzano with ppc=42 (1.00 GiB/PE)
+
+.. figure:: cts1mem-1.00.png
+   :align: center
+   :scale: 50%
+   :alt: SPARTA Strong Scaling Memory on Manzano with ppc=42 (1.00 GiB/PE)
+
+   SPARTA Strong Scaling Memory on Manzano with ppc=42 elements (1.00 GiB/PE)
+
+``ppc`` 126 (2.00 GiB/PE)
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Manzano with ppc=126 (2.00 GiB/PE)
+   :file: cts1-2.00.csv
+   :align: center
+   :widths: 10, 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cts1-2.00.png
+   :align: center
+   :scale: 50%
+   :alt: SPARTA Strong Scaling Performance on Manzano with ppc=126 (2.00 GiB/PE)
+
+   SPARTA Strong Scaling Performance on Manzano with ppc=126 (2.00 GiB/PE)
+
+.. figure:: cts1mem-2.00.png
+   :align: center
+   :scale: 50%
+   :alt: SPARTA Strong Scaling Memory on Manzano with ppc=126 (2.00 GiB/PE)
+
+   SPARTA Strong Scaling Memory on Manzano with ppc=126 elements (2.00 GiB/PE)
 
 
 .. _ResultsATS2:
