@@ -62,7 +62,9 @@ Useful parameters from within this input deck are shown below.
 These parameters are described below.
 
 ``X Elements, Y Elements, Z Elements``
-   This sets the size of the problem.
+   This sets the size of the problem, which is the product of these 3
+   quantities. These parameters are set to other values with the cases shown
+   herein.
 
 
 Figure of Merit
@@ -88,6 +90,17 @@ timesteps, is "656.961" in this example).
 The number of steps must be large enough so the timestepper time exceeds 600
 (i.e., so it runs for at least 10 minutes). The figure of merit (FOM) is the QOI
 for a simulation above the 10 minute mark.
+
+It is desired to capture the FOM for varying problem sizes sized by the memory
+per processing element (PE). A PE is defined as a MPI Rank or software thread.
+The sizes desired are approximately 0.25, 0.50, 1.00, 2.00, etc. GiB/PE (stop
+when there is insufficient memory to carry on). On systems with GPUs or other
+accelerators where this is mapping is unclear, then size the overall problem to
+coincide with the highest total problem size for the GPU case herein and keep
+scaling up in multiples of 2 until it ceases to fit within the GPU (which would
+be the largest problem and stop there). Since the memory varies for MiniEM when
+strong scaling, aim to capture these quantities when the system is fully
+utilized (i.e., get the memory when all PEs on the node are being used).
 
 
 System Information
@@ -338,21 +351,101 @@ CTS-1/Manzano
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
    is available.
 
-Strong scaling performance of MiniEM on CTS-1/Manzano is provided within the
-following table and figure.
+Strong scaling performance (i.e., fixed problem size being run on different MPI
+rank counts) plots of MiniEM on CTS-1/Manzano are provided within the following
+subsections.
 
-.. csv-table:: MiniEM Strong Scaling Performance on Manzano
-   :file: cts1.csv
+Problem Size 25x25x25 (0.25 GiB/PE)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. csv-table:: MiniEM Strong Scaling Performance and Memory on Manzano with 25x25x25 elements (0.25 GiB/PE)
+   :file: cts1-0.25.csv
    :align: center
-   :widths: 10, 10, 10
+   :widths: 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cts1.png
+.. figure:: cts1-0.25.png
    :align: center
    :scale: 50%
-   :alt: MiniEM Strong Scaling Performance on Manzano
+   :alt: MiniEM Strong Scaling Performance on Manzano with 25x25x25 elements (0.25 GiB/PE)
 
-   MiniEM Strong Scaling Performance on Manzano
+   MiniEM Strong Scaling Performance on Manzano with 25x25x25 elements (0.25 GiB/PE)
+
+.. figure:: cts1mem-0.25.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Strong Scaling Memory on Manzano with 25x25x25 elements (0.25 GiB/PE)
+
+   MiniEM Strong Scaling Memory on Manzano with 25x25x25 elements (0.25 GiB/PE)
+
+Problem Size 40x40x40 (0.50 GiB/PE)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. csv-table:: MiniEM Strong Scaling Performance and Memory on Manzano with 40x40x40 elements (0.50 GiB/PE)
+   :file: cts1-0.50.csv
+   :align: center
+   :widths: 10, 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cts1-0.50.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Strong Scaling Performance on Manzano with 40x40x40 elements (0.50 GiB/PE)
+
+   MiniEM Strong Scaling Performance on Manzano with 40x40x40 elements (0.50 GiB/PE)
+
+.. figure:: cts1mem-0.50.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Strong Scaling Memory on Manzano with 40x40x40 elements (0.50 GiB/PE)
+
+   MiniEM Strong Scaling Memory on Manzano with 40x40x40 elements (0.50 GiB/PE)
+
+Problem Size 50x50x50 (1.00 GiB/PE)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. csv-table:: MiniEM Strong Scaling Performance and Memory on Manzano with 50x50x50 elements (1.00 GiB/PE)
+   :file: cts1-1.00.csv
+   :align: center
+   :widths: 10, 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cts1-1.00.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Strong Scaling Performance on Manzano with 50x50x50 elements (1.00 GiB/PE)
+
+   MiniEM Strong Scaling Performance on Manzano with 50x50x50 elements (1.00 GiB/PE)
+
+.. figure:: cts1mem-1.00.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Strong Scaling Memory on Manzano with 50x50x50 elements (1.00 GiB/PE)
+
+   MiniEM Strong Scaling Memory on Manzano with 50x50x50 elements (1.00 GiB/PE)
+
+Problem Size 72x72x72 (2.00 GiB/PE)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. csv-table:: MiniEM Strong Scaling Performance and Memory on Manzano with 72x72x72 elements (2.00 GiB/PE)
+   :file: cts1-2.00.csv
+   :align: center
+   :widths: 10, 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cts1-2.00.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Strong Scaling Performance on Manzano with 72x72x72 elements (2.00 GiB/PE)
+
+   MiniEM Strong Scaling Performance on Manzano with 72x72x72 elements (2.00 GiB/PE)
+
+.. figure:: cts1mem-2.00.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Strong Scaling Memory on Manzano with 72x72x72 elements (2.00 GiB/PE)
+
+   MiniEM Strong Scaling Memory on Manzano with 72x72x72 elements (2.00 GiB/PE)
 
 
 .. _MiniEMResultsATS2:
@@ -360,13 +453,15 @@ following table and figure.
 ATS-2/Vortex
 ------------
 
-Throughput performance of MiniEM on ATS-2/Vortex is provided within the
-following table and figure.
+Throughput performance, i.e., changing the problem size but fixing the resources
+being used to a single MPI rank atop the Power9 CPU and a single Nvidia V100
+GPU, of MiniEM on ATS-2/Vortex is provided within the following table and
+figure.
 
-.. csv-table:: MiniEM Throughput Performance on ATS-2/Vortex
+.. csv-table:: MiniEM Throughput Performance and Memory on ATS-2/Vortex
    :file: ats2.csv
    :align: center
-   :widths: 10, 10
+   :widths: 10, 10, 10
    :header-rows: 1
 
 .. figure:: ats2.png
@@ -375,6 +470,13 @@ following table and figure.
    :alt: MiniEM Throughput Performance on ATS-2/Vortex
 
    MiniEM Throughput Performance on ATS-2/Vortex
+
+.. figure:: ats2mem.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Throughput Memory on ATS-2/Vortex
+
+   MiniEM Throughput Memory on ATS-2/Vortex
 
 
 References

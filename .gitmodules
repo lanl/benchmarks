@@ -2,9 +2,18 @@
 	path = branson
 	url = git@github.com:lanl/branson.git
 	branch = ats5
+[submodule "umt"]
+	path = umt
+	url = https://github.com/LLNL/UMT.git
 [submodule "trilinos"]
 	path = trilinos
 	url = https://github.com/trilinos/Trilinos.git
 [submodule "sparta"]
 	path = sparta
 	url = https://github.com/sparta/sparta.git
+[submodule "parthenon"]
+	path = parthenon
+	url = https://github.com/parthenon-hpc-lab/parthenon.git
+[submodule "spatter"]
+	path = spatter
+	url = git@github.com:lanl/spatter.git

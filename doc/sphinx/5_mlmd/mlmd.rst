@@ -1,8 +1,8 @@
 ******
-Lammps-kokkos-HIPPYNN
+MLMD
 ******
 
-This is the documentation for the ATS-5 Benchmark for HIPPYNN driven kokkos-Lammps Molecular Dynamics. 
+This is the documentation for the ATS-5 MLMD Benchmark for HIPPYNN driven kokkos-Lammps Molecular Dynamics. 
 
 Purpose
 =======
@@ -196,6 +196,8 @@ The numbers will vary from run to run due random seeds and the non-deterministic
 
 The training script will also output the initial box file ``ag_box.data`` as well as an file used to run the resulting potential with LAMMPS, ``hippynn_lammps_model.pt``. Several other files for the training run are put in a directory, ``model_files``.
 
+The "Figure of Merit" for the training task is printed near the end of the ``model_files/model_results.txt`` and is lead with the line "FOM Average Epoch time:" This is the average time to compute an epoch over the training proceedure
+
 Following this process, benchmarks can be run.
 
 Running the Benchmark
@@ -210,78 +212,28 @@ Results from Chicoma
 
 Two quantities are extracted from the MD simulations to evaluate performance, though they are directly correlated. The throughput (grad/s) should be viewed as the figure of merit, though ns/day is more useful for users who wish to know the physical processes they can simulate. Thus both are reported here. 
 
-Single GPU Strong Scaling
+Training HIPNN Model
+--------------------
+For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. On Chicoma, this was found to be 0.27951446 seconds. 
+
+Single GPU Throughput Scaling
 -------------------------
+Throughput performance of MLMD Simulation+Inference is provided within the
+following table and figure.
 
-.. table::Single GPU strong scaling test
+.. csv-table::  MLMD throughput performance on Chicaoma
+   :file: gpu.csv
    :align: center
+   :widths: 10, 10
+   :header-rows: 1
 
-+---------------------+---------------------+---------------------+
-| # Atoms             | ns/day              | throughput (grad/s) |
-+=====================+=====================+=====================+
-|    568              | 109.02400           | 1.4335e+05          |
-+---------------------+---------------------+---------------------+
-|   1136              | 88.93500            | 2.3386e+05          |
-+---------------------+---------------------+---------------------+
-|   2272              | 102.20700           | 5.3753e+05          |
-+---------------------+---------------------+---------------------+
-|   3408              | 94.76500            | 7.4759e+05          |
-+---------------------+---------------------+---------------------+
-|   4544              | 78.37400            | 8.2438e+05          |
-+---------------------+---------------------+---------------------+
-|   6816              | 70.02900            | 1.1050e+06          |
-+---------------------+---------------------+---------------------+
-|   9088              | 61.48800            | 1.2940e+06          |
-+---------------------+---------------------+---------------------+
-|  11360              | 61.37100            | 1.6140e+06          |
-+---------------------+---------------------+---------------------+
-|  13632              | 57.42300            | 1.8120e+06          |
-+---------------------+---------------------+---------------------+
-|  15904              | 51.28900            | 1.8880e+06          |
-+---------------------+---------------------+---------------------+
-|  18176              | 46.69000            | 1.9640e+06          |
-+---------------------+---------------------+---------------------+
 
-.. figure:: plots/StrongSingle-t.png
-   :alt: Throughput strong scaling of Lammps-kokkos-HIPPYNN on 1 device. (Larger is better)
+.. figure:: gpu.png
    :align: center
+   :scale: 50%
+   :alt: MLMD throughput performance on Chicaoma
+MLMD throughput performance on Chicaoma 
 
-.. figure:: plots/StrongSingle-s.png
-   :alt: ns/day strong scaling of Lammps-kokkos-HIPPYNN on 1 device. (Larger is better)
-   :align: center
-
-Multiple GPU Weak Scaling 
--------------------------
-
-.. table:: Weak Scaling with 85200 atoms per GPU
-   :align: center
-
-+---------------------+---------------------+---------------------+
-| # GPUs (A-100)      | ns/day              | throughput (grad/s) |
-+=====================+=====================+=====================+
-|      4              | 2.73600             | 2.1590e+06          |
-+---------------------+---------------------+---------------------+
-|      8              | 3.10300             | 4.8960e+06          |
-+---------------------+---------------------+---------------------+
-|     16              | 2.72100             | 8.5860e+06          |
-+---------------------+---------------------+---------------------+
-|     32              | 2.72400             | 1.7191e+07          |
-+---------------------+---------------------+---------------------+
-|     64              | 2.72200             | 3.4354e+07          |
-+---------------------+---------------------+---------------------+
-|    128              | 2.72100             | 6.8689e+07          |
-+---------------------+---------------------+---------------------+
-
-
-.. figure:: plots/WeakParallel-t.png
-   :alt: Throughput weak scaling with 85200 atoms per GPU. (Larger is better)
-   :align: center
-
-.. figure:: plots/WeakParallel-s.png
-   :alt: ns/day weak scaling with 85200 atoms per GPU. (Larger is better)
-   :align: center
-
-Calculation performed on Chicoma. 
 
 Verification of Results
 =======================

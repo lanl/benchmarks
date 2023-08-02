@@ -3,5 +3,7 @@ doc/sphinx/output.log
 doc/sphinx/7_miniem/*.png
 doc/sphinx/8_sparta/*.png
 
-
+*.pyc
+.vscode/
+__pycache__/
 *.bak

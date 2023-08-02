@@ -28,7 +28,7 @@ defaults:
 jobs:
   # Build job
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Install Gnuplot
         run: sudo apt -y install gnuplot
@@ -46,7 +46,7 @@ jobs:
         id: pages
         uses: actions/configure-pages@v3
       - name: Build with Sphinx
-        run: cd ./doc/sphinx && ./build_doc.py --html
+        run: cd ./doc/sphinx && ./build_doc.py --html || cat /tmp/sphinx-err-*.log
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
@@ -57,7 +57,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: build
     steps:
       - name: Deploy to GitHub Pages
