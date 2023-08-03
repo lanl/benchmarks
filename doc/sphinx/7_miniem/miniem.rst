@@ -461,7 +461,7 @@ figure.
 .. csv-table:: MiniEM Throughput Performance and Memory on ATS-2/Vortex
    :file: ats2.csv
    :align: center
-   :widths: 10, 10, 10
+   :widths: 10, 10, 10, 10, 10, 10
    :header-rows: 1
 
 .. figure:: ats2.png
