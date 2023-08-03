@@ -113,34 +113,38 @@ Figure of Merit
 ---------------
 
 Each SPARTA simulation writes out a file named "log.sparta". At the end of this
-simulation is a block that resembles the following example.
+simulation is a block that resembles the following example (this is from the
+ATS-2/Sierra case discussed below with 57,143,091 particles whose full output is
+within :download:`log.sparta <log.sparta>`).
 
 .. code-block::
    :emphasize-lines: 8-14
 
    Step CPU Np Natt Ncoll Maxlevel
-          0            0   446441        0        0        5
-         50   0.95011643   446367     3671     2981        5
-        100    2.1636236   446384     5096     4079        5
-        150     3.459164   446330     5588     4380        5
-        200    4.7954215   446424     5895     4606        5
-        250    6.1550201   446373     6104     4720        5
-        300    7.5329763   446354     6083     4669        5
-        350    8.9225474   446391     6178     4775        5
-        400    10.324853   446388     6380     4915        5
-        450    11.736653   446369     6349     4769        5
-        500    13.157484   446307     6470     4903        5
-        550    14.587244   446341     6363     4751        5
-        600    16.023752   446378     6457     4845        5
-        650    17.468165   446372     6475     4829        5
-        700    18.918792   446382     6514     4789        5
-        750    20.375701   446378     6623     4842        5
-        800    21.840051   446423     6550     4798        5
-        850    23.309482   446431     6615     4876        5
-        900    24.784149   446377     6676     4950        5
-        950    26.263906   446406     6746     4862        5
-       1000    27.748297   446377     6542     4847        5
-   Loop time of 27.7483 on 1 procs for 1000 steps with 446377 particles
+          0            0 57144494        0        0        4
+         50     2.058492 57144353   202798   161581        4
+        100    3.8934437 57144165   194559   151949        4
+        150    5.9264821 57144277   198187   152510        4
+        200    7.8741561 57144501   201549   153420        4
+        250    10.032195 57144624   203458   152778        4
+        300    12.061168 57144456   205469   153049        4
+        350    14.190343 57144900   207345   153059        4
+        400    16.439252 57144623   209558   153299        4
+        450    18.708537 57144477   211065   153490        4
+        500    21.039468 57144509   212701   153993        4
+        550    23.384597 57144361   214613   154199        4
+        600    25.728705 57143966   215891   154226        4
+        650    28.143147 57143817   216934   154032        4
+        700    30.525966 57143733   218282   154220        4
+        750    32.863796 57143665   218738   153527        4
+        800     35.31154 57143764   220506   154561        4
+        850    37.780522 57143900   220210   153766        4
+        900    40.252289 57143662   222260   154931        4
+        950    42.799034 57143331   222427   154383        4
+       1000    46.784784 57143434   222924   153828        4
+       ...
+       5800    359.74302 57143091   248584   156399        4
+   Loop time of 359.743 on 1 procs for 5800 steps with 57143091 particles
 
 The quantity of interest (QOI) is "mega particle steps per second," which can be
 computed from the above table by multiplying the third column (no. of particles) by
@@ -152,9 +156,9 @@ column exceed 600 (i.e., so it runs for at least 10 minutes). The figure of
 merit (FOM) is the harmonic mean of the QOI computed from the times between 300
 and 600 seconds.
 
-A Python script (named ``sparta_fom.py``) is included within the repository to
-aid in computing this quantity. Pass it the ``-h`` command line argument to
-view its help page for additional information.
+A Python script (:download:`sparta_fom.py <sparta_fom.py>`) is included within
+the repository to aid in computing this quantity. Pass it the ``-h`` command
+line argument to view its help page for additional information.
 
 
 System Information
@@ -477,6 +481,7 @@ following table and figure.
 
    SPARTA Throughput Performance on ATS-2/Vortex
 
+Output from the largest case is within :download:`log.sparta <log.sparta>`.
 
 References
 ==========
