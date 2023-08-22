@@ -28,7 +28,7 @@ It is in replicated mode which means there is very little MPI communication (end
 
 Figure of Merit
 ---------------
-The Figure of Merit is defined as particles/second and is obtained by dividing the number of particles in the problem divided by the total runtime. 
+The Figure of Merit is defined as particles/second and is obtained by dividing the number of particles in the problem divided by the `Total transport` value in the output. Future versions will output this number directly.
 
 
 Building

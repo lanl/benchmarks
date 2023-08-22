@@ -354,9 +354,6 @@ ats5_cts:
         cmds:
             - sed -i 's/%pho%/{{nphotons}}/' {{problem_size}}.xml
             - "{{sched.test_cmd}} --cpu-bind=cores ./BRANSON {{problem_size}}.xml &"
-            - "proc_get_mem=$!"
-            - "memory_capture $proc_get_mem"
-            - "wait $proc_get_mem"
 
     result_evaluate:
         mphotons_per_second: '{{nphotons}}/total_transport'
