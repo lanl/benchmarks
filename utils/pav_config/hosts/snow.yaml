@@ -1,0 +1,37 @@
+################################################
+# TOSS 3 YELLOW CONFIG (snow)
+################################################
+variables:
+    intel_version: "2021.2.0"
+    gcc_version: "11.2.0"
+    scratch:
+        - name: scratch4-convenience
+          path: "/net/scratch4/{{pav.user}}"
+    scratch_all:
+        - name: scratch4-convenience
+          path: "/net/scratch4/{{pav.user}}"
+        - name: scratch4
+          path: "/lustre/scratch4/{{sys.sys_net}}/{{pav.user}}"
+    mpis:
+        - { name: "openmpi", version: "3.1.6", mpicc: "mpicc", mpicxx: "mpic++", mpifc: "mpifort" }
+        - { name: "intel-mpi", version: "2019.9.304", mpicc: "mpiicc", mpicxx: "mpiicpc", mpifc: "mpiifort" }
+    compilers:
+        - { name: "intel", version: "2021.2.0", cc: "icx", cxx: "icpx", fc: "ifort" }
+        - { name: "intel-classic", version: "2021.2.0", cc: "icc", cxx: "icpc", fc: "ifort" }
+        - { name: "intel-oneapi", version: "2021.2.0", cc: "icx", cxx: "icpx", fc: "ifx" }
+        - { name: "gcc", version: "11.2.0", cc: "gcc", cxx: "g++", fc: "gfort" }
+    preamble:
+        - 'module load friendly-testing'
+        - 'module load {{compilers.name}}/{{compilers.version}}'
+        - 'module load {{mpis.name}}/{{mpis.version}}'
+    srun_opts: ''
+    srun_opts_verbose: ''
+
+build:
+    specificity: '{{sys_name}}'
+
+scheduler: slurm
+schedule:
+    nodes: 'all'
+    account: hpcdev
+    partition: any

@@ -1,0 +1,281 @@
+_base:
+  summary: Unstructured Mesh Transport Test
+
+  doc: |
+          A proxy application that performs three-dimensional, non-linear, radiation transport
+              calculations using deterministic (Sn) methods.
+  maintainer:
+    name: "Shivam Mehta"
+    email: 'smehta@lanl.gov'
+
+  permute_on: umt_compiler
+  variables:
+    umt_compiler:
+      - name: 'intel-classic'
+        version: '2022.1.0'
+        pe_env: 'PrgEnv-intel'
+        openmp: '-qopenmp'
+        flibs: '-lifcore -lm -lc -lsvml'
+        f90flags_opt: '-g -O3 -no-prec-div -fPIC $(OPENMP_FLAGS)'
+        cxxflags_opt: '-g -O3 -w -no-prec-div -fPIC $(OPENMP_FLAGS)'
+        cflags_opt: '-g -O3 -w -no-prec-div -fPIC $(OPENMP_FLAGS)'
+      - name: 'intel'
+        version: '2022.1.0'
+        pe_env: 'PrgEnv-intel'
+        openmp: '-qopenmp' 
+        flibs: '-lifcore -lm -lc -lsvml'
+        f90flags_opt: '-g -O3 -no-prec-div -fPIC $(OPENMP_FLAGS)'
+        cxxflags_opt: '-g -O3 -w -no-prec-div -fPIC $(OPENMP_FLAGS)'
+        cflags_opt: '-g -O3 -w -no-prec-div -fPIC $(OPENMP_FLAGS)'
+      - name: 'intel-oneapi'
+        version: '2022.1.0'
+        pe_env: 'PrgEnv-intel'
+        openmp: '-qopenmp'
+        flibs: '-lifcore -lm -lc -lsvml'
+        f90flags_opt: '-g -O3 -no-prec-div -fPIC $(OPENMP_FLAGS)'
+        cxxflags_opt: '-g -O3 -w -no-prec-div -fPIC $(OPENMP_FLAGS)'
+        cflags_opt: '-g -O3 -w -no-prec-div -fPIC $(OPENMP_FLAGS)'
+    umt_mpi?:
+      - name: "cray-mpich"
+        version: "7.7.20"
+        mpicxx: "CC"
+        mpicc: "cc"
+        mpifc: "ftn"
+        mpifpp: "fpp"
+    umt_build?:
+      pwd: '$(shell pwd)'
+      use_fake_cmg: 'off'
+      opt: 'on'
+      debug: 'off'
+      use_hpm: 'off'
+      use_gprof: 'off'
+      use_tau: 'off'
+      use_tau_pdt: 'off'
+      use_openmp: 'on'
+      static_link: 'off'
+      cflags_cmg: ''
+      openmp_flags: '{{umt_compiler.openmp}}'
+      flibs: '{{umt_compiler.flibs}}'
+      cppflags: '-DLINUX -DLinux -DUSE_MPI $(GPROF_FLAGS)'
+      cppfflags: '-DLINUX -DLinux -Dmpi -DMPI -DUSE_MPI $(GPROF_FLAGS)'
+      mpi_inc_path: ''
+      mpi_lib_path: ''
+      mpi_libs: ''
+      libs: '$(MPI_LIBS)'
+      libpath: ''
+      incpath: '{{umt_build.mpi_inc_path}}'
+      cxx: '{{umt_mpi.mpicxx}}'
+      cc: '{{umt_mpi.mpicc}}'
+      f90: '{{umt_mpi.mpifc}}'
+      fpp: '{{umt_mpi.mpifpp}}'
+      f90flags_opt: '{{umt_compiler.f90flags_opt}}'
+      cxxflags_opt: '{{umt_compiler.cxxflags_opt}}'
+      cflags_opt: '{{umt_compiler.cflags_opt}}'
+      ld: '$(CXX)'
+      lib_ext: 'so'
+      ldflags: '-shared -fPIC'
+      link: '$(CXX)'
+      linkflags: '-dynamic $(CXXFLAGS)'
+      platform_libpath_extras: ''
+      platform_infrastructure_extras: '$(OPENMP_FLAGS) $(MPI_LIB_PATH) $(MPI_LIBS)'
+      platform_tetonutils_extras: '' 
+      platform_exe_extras: '$(OPENMP_FLAGS) -L../CMG_CLEAN/src -Wl,-rpath,$(CWD)/../CMG_CLEAN/src -L../cmg2Kull/sources -Wl,-rpath,$(CWD)/../cmg2Kull/sources -L../Teton -Wl,-rpath,$(CWD)/../Teton $(MPI_LIB_PATH) $(MPI_LIBS) -ldl'
+      platform_tetontest_extras: '$(OPENMP_FLAGS) -L$(CWD)/../CMG_CLEAN/src -Wl,-rpath,$(CWD)/../CMG_CLEAN/src -L$(CWD)/../cmg2Kull/sources -Wl,-rpath,$(CWD)/../cmg2Kull/sources -L$(CWD)/../Teton -Wl,-rpath,$(CWD)/../Teton -L$(CWD)/../Install/lib -Wl,-rpath,$(CWD)/../Install/lib -lm -lpthread -lutil -ldl $(FLIBS)'
+    umt_input?:
+      #Number of domains in the x,y,z direction
+      blk_x: 2 
+      blk_y: 2 
+      blk_z: 2 
+      #Number of zones per domain in the x,y,z direction
+      zone_x: 3 
+      zone_y: 3 
+      zone_z: 4 
+      seed: 10
+    umt_run?:
+      gridfilename: 'grid.cmg'
+      order: '16'
+      groups: '200'
+      quadtype: '2'
+      polar: '9' 
+      azim: '10' 
+    threads?: 36  #Strong scale the test problem by using more than 1 thread. Try to match (zone_x * zone_y * zone_z) for efficiency.
+    nodes?: 6
+    ppn?: 6
+
+  only_if:
+    '{{nodes * ppn}}': '{{umt_input.blk_x * umt_input.blk_y * umt_input.blk_z}}'
+
+  build: 
+    source_path: umt
+    templates:
+      umt/make.tmpl: make.defs
+    preamble:
+      - 'test_mod () {'
+      - '  mod=$1'
+      - '  module -t list 2>&1 | grep $mod &>/dev/null || exit 1'
+      - '}'
+      - 'module load cdt/22.05'
+      - 'module load friendly-testing'
+      - 'module swap PrgEnv-${PE_ENV,,} {{umt_compiler.pe_env}}'
+      - 'test_mod {{umt_compiler.pe_env}}'
+      - 'comp_name={{umt_compiler.name}}'
+      - 'module unload ${comp_name} || module unload ${comp_name//-*}'
+      - 'module load {{umt_compiler.name}}/{{umt_compiler.version}}'
+      - 'test_mod {{umt_compiler.name}}/{{umt_compiler.version}}'
+      - 'module swap {{umt_mpi.name}}/{{umt_mpi.version}}'
+      - 'test_mod {{umt_mpi.name}}/{{umt_mpi.version}}'
+      - 'module -t list'
+    cmds:
+      - 'patch -i RegionInst.cc.patch Teton/geom/Region/RegionInst.cc'
+      - 'patch -i DomainNeighborMapInst.cc.patch Teton/communication/DomainNeighborMapInst.cc'
+      - 'gmake veryclean'
+      - 'gmake'
+      - 'cd ./Teton/'
+      - 'gmake SuOlsonTest'
+  
+  run:
+    timeout: 86000
+    templates:
+      umt/grid.tmpl: grid.cmg
+    env:
+      OMP_NUM_THREADS: '{{threads}}'
+    cmds: 
+      - "{{sched.test_cmd}} ./Teton/SuOlsonTest {{umt_run.gridfilename}} {{umt_run.groups}} {{umt_run.quadtype}} {{umt_run.order}} {{umt_run.polar}} {{umt_run.azim}}"    
+  
+  result_parse:
+    constant:
+      compiler:
+        const: '{{umt_compiler.name}}/{{umt_compiler.version}}'
+      mpi:
+        const: '{{umt_mpi.name}}/{{umt_mpi.version}}'
+    regex:
+      CumulativeIterationCount:
+        regex: 'cumulativeIterationCount= (\d+)'
+      CumulativeWorkTime:
+        regex: 'cumulativeWorkTime=(\d+\.\d+ s)'
+      Figure_Of_Merit:
+        regex: 'merit = (\d+\.\d+e[+-]\d+)'
+  
+  scheduler: slurm 
+  schedule:
+    nodes: '{{nodes}}'
+    tasks_per_node: '{{ppn}}'
+
+_matrix:
+  inherits_from: _base
+  permute_on: [nodes, ppn]
+
+  variables:
+    nodes: [1, 2, 4, 8, 16, 32, 64]
+    ppn: [1, 2, 4, 8, 16, 32, 64]
+
+_modulo:
+  inherits_from: _base
+  permute_on: nodes
+  variables:
+    nodes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    ppn: '{{(umt_input.blk_x * umt_input.blk_y * umt_input.blk_z) // nodes}}'
+    remainder: '{{(umt_input.blk_x * umt_input.blk_y * umt_input.blk_z) % nodes}}'
+  only_if:
+    "{{remainder}}": 0
+
+example1:
+  summary: UMT example on 1 node and 1 ppn.
+  inherits_from: _base
+
+  variables:
+    umt_input:
+      blk_x: 1
+      blk_y: 1
+      blk_z: 1
+      zone_x: 3
+      zone_y: 3
+      zone_z: 4
+    nodes: 1
+    ppn: 1
+    threads: 16
+    
+example2:
+  summary: UMT example on 4 nodes and 16 ppn.
+  inherits_from: _base
+
+  variables:
+    umt_input:
+      blk_x: 4
+      blk_y: 4
+      blk_z: 4
+      zone_x: 3
+      zone_y: 3
+      zone_z: 4
+    nodes: 4
+    ppn: 16
+    threads: 1
+    
+example3:
+  summary: UMT example on 1944 nodes and 24 ppn.
+  inherits_from: _base
+
+  variables:
+    umt_input:
+      blk_x: 36
+      blk_y: 36
+      blk_z: 36
+      zone_x: 3
+      zone_y: 3
+      zone_z: 4
+    nodes: 1944
+    ppn: 24
+    threads: 1
+<<<<<<< HEAD
+
+=======
+    
+>>>>>>> 6ae9769 (Moving common test configs from crossroads testing.)
+small:
+  summary: UMT Test on 1 node and 1 ppn.
+  inherits_from: _base
+
+  variables:
+    umt_input:
+      blk_x: 1
+      blk_y: 1
+      blk_z: 1
+      zone_x: 4
+      zone_y: 4
+      zone_z: 4
+    nodes: 1
+    ppn: 1
+    threads: 32
+    
+medium:
+  summary: UMT Test on 64 nodes and 32 ppn.
+  inherits_from: _base
+
+  variables:
+    umt_input:
+      blk_x: 16
+      blk_y: 16
+      blk_z: 8
+      zone_x: 4
+      zone_y: 4
+      zone_z: 4
+    nodes: 64
+    ppn: 32
+    threads: 1
+   
+large:
+  summary: UMT Test on 3456 nodes and 32 ppn.
+  inherits_from: _base
+
+  variables:
+    umt_input:
+      blk_x: 48 
+      blk_y: 48
+      blk_z: 48
+      zone_x: 4
+      zone_y: 4
+      zone_z: 4
+    nodes: 3456 
+    ppn: 32
+    threads: 1
+   

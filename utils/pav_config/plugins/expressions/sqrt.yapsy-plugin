@@ -1,0 +1,9 @@
+[Core]
+Name = Square root function
+Module = sqrt
+
+[Documentation]
+Description = Square root function
+Author = Nicholas Sly
+Version = 1.0
+Website =

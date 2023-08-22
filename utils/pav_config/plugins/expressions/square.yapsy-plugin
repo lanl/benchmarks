@@ -1,0 +1,9 @@
+[Core]
+Name = Square function
+Module = square
+
+[Documentation]
+Description = Square function
+Author = Nicholas Sly
+Version = 1.0
+Website =

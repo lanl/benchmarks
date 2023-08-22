@@ -1,0 +1,9 @@
+[Core]
+Name = Host OS
+Module = host_os
+
+[Documentation]
+Description = Uses /usr/projects/hpcsoft/utilities/bin/sys_os or /projects/hpcsoft/utilities/bin/sys_os to determine the operating system of the host.
+Author = Nicholas Sly
+Version = 1.0
+Website =

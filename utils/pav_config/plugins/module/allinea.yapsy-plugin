@@ -1,0 +1,9 @@
+[Core]
+Name = Allinea Compiler Module Wrapper
+Module = allinea
+
+[Documentation]
+Description = Wrapper for the Allinea compiler module.
+Author = Nicholas Sly/Paul Ferrell
+Version = 1.0
+Website =

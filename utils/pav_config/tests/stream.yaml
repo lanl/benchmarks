@@ -1,0 +1,350 @@
+_base:
+    maintainer:
+        name: Francine Lapid
+        email: lapid@lanl.gov
+    subtitle: '{{compilers.name}}/{{compilers.version}} {{mpis.name}}/{{mpis.version}} OMP_NUM_THREADS={{omp_num_threads}}, GOMP_CPU_AFFINITY=0-{{omp_num_threads-1}}'
+    summary: 'Runs STREAM Memory Benchmark'
+    doc: |
+
+        The STREAM source code has a parameter, N, that represents the length of the arrays used in the tests.
+        It is important to set N such that the test touches a large enough portion of the memory.
+        The vectors are of type DOUBLE PRECISION and there are three vectors A,B,C of this length. So for 8 byte doubles 3*8*N bytes are required.
+        Required Runs for Trinity/NERSC-8
+
+        On a multi-core node with "n" hardware cores and M bytes of main memory STREAM must be executed as follows:
+
+        The parameter N adjusted such that the used memory is 0.6*M. Note that three arrays of length N are allocated, so N has to be approximately 0.6*M/3.
+        Two results must be reported
+
+          a) maximum bandwidth with enough OpenMP threads to utilize all hardware cores and hardware threads (fully packed)
+          b) bandwidth for a vendor determined minimum number of cores and threads that achieves maximum bandwidth
+
+        If results a) and b) are the same, only report a single result. In both cases, report the number of cores and threads used as well as their placement and affinity, if applicable.
+
+        This test exercises the communication speeds between nodes/ranks.
+
+        The only verification that this test does of the results is to find the
+        string 'Solution Validates:' in the output.  If that isn't found but the
+        test did run, it will take a deeper investigation of the results to
+        determine the issue.  The other results will be captured by Splunk and
+        could be compared against previous results to see if any significant
+        differences can be found.  If so, there may be an issue with the High
+        Speed Network backbone.
+
+        INSTRUCTIONS:
+       
+             1) STREAM requires different amounts of memory to run on different
+                  systems, depending on both the system cache size(s) and the
+                  granularity of the system timer.
+            You should adjust the value of 'STREAM_ARRAY_SIZE' (below)
+                  to meet *both* of the following criteria:
+              (a) Each array must be at least 4 times the size of the
+                  available cache memory. I don't worry about the difference
+                  between 10^6 and 2^20, so in practice the minimum array size
+                  is about 3.8 times the cache size.
+                  Example 1: One Xeon E3 with 8 MB L3 cache
+                      STREAM_ARRAY_SIZE should be >= 4 million, giving
+                      an array size of 30.5 MB and a total memory requirement
+                      of 91.5 MB.
+                  Example 2: Two Xeon E5's with 20 MB L3 cache each (using OpenMP)
+                      STREAM_ARRAY_SIZE should be >= 20 million, giving
+                      an array size of 153 MB and a total memory requirement
+                      of 458 MB.
+              (b) The size should be large enough so that the 'timing calibration'
+                  output by the program is at least 20 clock-ticks.
+                  Example: most versions of Windows have a 10 millisecond timer
+                      granularity.  20 "ticks" at 10 ms/tic is 200 milliseconds.
+                      If the chip is capable of 10 GB/s, it moves 2 GB in 200 msec.
+                      This means the each array must be at least 1 GB, or 128M elements.
+       
+             Version 5.10 increases the default array size from 2 million
+                 elements to 10 million elements in response to the increasing
+                 size of L3 caches.  The new default size is large enough for caches
+                 up to 20 MB.
+             Version 5.10 changes the loop index variables from "register int"
+                 to "ssize_t", which allows array indices >2^32 (4 billion)
+                 on properly configured 64-bit systems.  Additional compiler options
+                 (such as "-mcmodel=medium") may be required for large memory runs.
+       
+             Array size can be set at compile time without modifying the source
+                 code for the (many) compilers that support preprocessor definitions
+                 on the compile line.  E.g.,
+                       gcc -O -DSTREAM_ARRAY_SIZE=100000000 stream.c -o stream.100M
+                 will override the default size of 10M with a new size of 100M elements
+                 per array.
+
+            STREAM ARRAY SIZE CALCULATIONS:
+            ###############
+            STREAM
+            XRDS DOCUMENTATION: 4 x (45 MiB cache / processor) x (2 processors) / (3 arrays) / (8 bytes / element) = 15 Mi elements = 15000000
+            *****************************************************************************************************
+            HASWELL: Intel(R) Xeon(R) CPU E5-2698 v3 @ 2.30GHz
+            CACHE: 40M
+            SOCKETS: 2
+            4 * ( 40M * 2 ) / 3 ARRAYS / 8 Bytes/element =  13.4 Mi elements = 13400000 
+            *****************************************************************************************************
+            BROADWELL: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz
+            CACHE: 45M
+            SOCKETS: 2
+            4 * ( 45M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 15.0 Mi elements = 15000000
+            *****************************************************************************************************
+            SAPPHIRE RAPIDS (DDR5): Intel(R) Xeon(R) Platinum 8480+
+            CACHE: 107.52M
+            SOCKETS: 2
+            4 x (107.52M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 35.84 Mi elements = 35840000
+            *****************************************************************************************************
+            SAPPHIRE RAPIDS (HBM): ??
+            CACHE: 115.2M
+            SOCKETS: 2
+            4 x (115.2M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 38.4 Mi elements = 38400000
+            
+    scheduler: slurm
+    schedule:
+        nodes: '10' # 'ALL'
+        tasks_per_node: 1
+        share_allocation: false
+
+    permute_on: 
+        - compilers
+        - mpis
+        - omp_num_threads
+
+    build:
+        source_path: stream
+        on_nodes: true
+        preamble:
+            - 'module load friendly-testing'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.name}}/{{mpis.version}}'
+        cmds:
+            - 'NTIMES=${NTIMES:=10}'
+            - 'N={{stream_array_size}}'
+            - ''
+            - 'if [[ "{{compilers.name}}" =\~ intel ]] ; then '
+            - '   PAV_CC={{compilers.cc}}'
+            - '   PAV_FC={{compilers.fc}}'
+            - '   PAV_CFLAGS="-O3 -ffreestanding -qopenmp -DSTREAM_ARRAY_SIZE=$N -DNTIMES=$NTIMES -mcmodel=medium {{compilers.arch_opt}}"'
+            - '   PAV_FFLAGS="-O3"'
+            - 'else'
+            - '   PAV_CC={{compilers.cc}}'
+            - '   PAV_FC={{compilers.fc}}'
+            - '   PAV_CFLAGS="-O3 -ffreestanding -fopenmp -DSTREAM_ARRAY_SIZE=$N -DNTIMES=$NTIMES {{compilers.arch_opt}}"'
+            - '   PAV_FFLAGS="-O3"'
+            - 'fi'
+            - 'export PAV_CC PAV_FC PAV_CFLAGS PAV_FFLAGS'
+            - 'make clean'
+            - 'make {{target}} || exit 1'
+            - '[ -x {{target}} ] || exit 1'
+
+    run:
+        env:
+            CC: '{{compilers.cc}}'
+            OMP_NUM_THREADS: '{{omp_num_threads}}'
+            GOMP_CPU_AFFINITY: '0-{{omp_num_threads-1}}'
+        preamble:
+            - 'module load friendly-testing'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.name}}/{{mpis.version}}'
+        cmds:
+            - 'NTIMES=${NTIMES:=10}'
+            - 'N={{stream_array_size}}'
+            - 'echo "GOMP_CPU_AFFINITY: $GOMP_CPU_AFFINITY"'
+            - 'echo "OMP_NUM_THREADS: $OMP_NUM_THREADS"'
+            - 'echo "NTIMES=$NTIMES"'
+            - 'echo "N=${N}"'
+            - 'count=0'
+            - 'for node in $(scontrol show hostname)'
+            - 'do'
+            - '  srun -w $node -N1 -n{{sched.tasks_per_node}} ./{{target}} &>${node}_stream &'
+            - '  count=$(expr $count + 1)'
+            - '  if [ $(expr $count % 20) -eq "0" ]'
+            - '  then'
+            - '    sleep 5'
+            - '  fi'
+            - 'done'
+            - 'wait'
+
+    result_parse:
+        constant:
+            compiler:
+                const: '{{compilers.name}}/{{compilers.version}}'
+            mpi:
+                const: '{{mpis.name}}/{{mpis.version}}'
+            omp_num_threads:
+                const: '{{omp_num_threads}}'
+            gomp_cpu_affinity:
+                const: '0-{{omp_num_threads-1}}'
+            stream_cache_array_size:
+                const: '{{stream_array_size}}'
+        regex:
+            result:
+                regex: 'Solution Validates:'
+                action: store_true
+                files: '*stream'
+                per_file: all
+            ARRAY_SIZE:
+                regex: 'N=(.*)'
+                action: store
+            NTIMES:
+                regex: 'NTIMES=(.*)'
+                action: store
+            units:
+                regex: '(.B/s)'
+                action: store
+                match_select: last
+                files: '*stream'
+                per_file: name
+            copy:
+                regex: '^Copy: *([0-9\.]*) '
+                action: store
+                match_select: last
+                files: '*stream'
+                per_file: name
+            scale:
+                regex: '^Scale: *([0-9\.]*) '
+                action: store
+                match_select: last
+                files: '*stream'
+                per_file: name
+            add:
+                regex: '^Add: *([0-9\.]*) '
+                action: store
+                match_select: last
+                files: '*stream'
+                per_file: name
+            triad:
+                regex: '^Triad: *([0-9\.]*) '
+                action: store
+                match_select: last
+                files: '*stream'
+                per_file: name
+
+hsw_xrds:
+    inherits_from: _base
+    only_if:
+        "{{sys_os.name}}{{sys_os.version}}": [ cle7.0 ]
+    variables:
+        arch: "hsw"
+        stream_array_size: 13400000
+        target: "xrds-stream.exe"
+        omp_num_threads: [1, 2, 4, 8, 16, 32]
+        mpis:
+            - { name: "cray-mpich", version: "7.7.20", mpicc: "cc", mpicxx: "CC", mpifc: "ftn" }
+        compilers:
+            - { name: "intel-classic", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "icc", cxx: "icpc", fc: "ifort", arch_opt: "-xCORE-AVX2" }
+            - { name: "intel", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "icx", cxx: "icpx", fc: "ifort", arch_opt: "-xCORE-AVX2" }
+            - { name: "intel-oneapi", version: "2022.1.0", pe_env: "PrgEnv-intel", cc: "icx", cxx: "icpx", fc: "ifx", arch_opt: "-xCORE-AVX2" }
+            - { name: "gcc", version: "11.2.0", pe_env: "PrgEnv-gnu", cc: "gcc", cxx: "g++", fc: "gfortran", arch_opt: "" }
+            - { name: "cce", version: "14.0.0", pe_env: "PrgEnv-cray", cc: "cc", cxx: "CC", fc: "ftn", arch_opt: "" }
+
+    build:
+        preamble:
+            - 'test_mod () {'
+            - '  mod=$1'
+            - '  module -t list 2>&1 | grep $mod &>/dev/null || exit 1'
+            - '}'
+            - 'module load friendly-testing'
+            - 'module swap PrgEnv-${PE_ENV,,} {{compilers.pe_env}}'
+            - 'test_mod {{compilers.pe_env}}'
+            - 'comp_name={{compilers.name}}'
+            - 'module unload ${comp_name} || module unload ${comp_name//-*}'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'test_mod {{compilers.name}}/{{compilers.version}}'
+            - 'module swap {{mpis.name}}/{{mpis.version}}'
+            - 'test_mod {{mpis.name}}/{{mpis.version}}'
+            - 'module -t list'
+
+    run:
+        preamble:
+            - 'test_mod () {'
+            - '  mod=$1'
+            - '  module -t list 2>&1 | grep $mod &>/dev/null || exit 1'
+            - '}'
+            - 'module load friendly-testing'
+            - 'module swap PrgEnv-${PE_ENV,,} {{compilers.pe_env}}'
+            - 'test_mod {{compilers.pe_env}}'
+            - 'comp_name={{compilers.name}}'
+            - 'module unload ${comp_name} || module unload ${comp_name//-*}'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'test_mod {{compilers.name}}/{{compilers.version}}'
+            - 'module swap {{mpis.name}}/{{mpis.version}}'
+            - 'test_mod {{mpis.name}}/{{mpis.version}}'
+            - 'module -t list'
+
+cts1_xrds:
+    inherits_from: _base
+    only_if:
+        "{{sys_os.name}}{{sys_os.version}}": [ toss3 ]
+    variables:
+        arch: "cts1"
+        stream_array_size: 15000000
+        target: "xrds-stream.exe"
+        omp_num_threads: [1, 2, 4, 8, 16, 32, 36]
+        omp_places: [cores, sockets]
+        omp_proc_bind: [true]
+        mpis:
+            - { name: "openmpi", version: "4.1.1", mpicc: "mpicc", mpicxx: "mpic++", mpifc: "mpifort", arch_opt: "-xCORE-AVX2" }
+        compilers:
+            - { name: "intel-classic", version: "2021.2.0", cc: "icc", cxx: "icpc", fc: "ifort", arch_opt: "-xCORE-AVX2" }
+            - { name: "intel", version: "2021.2.0", cc: "icx", cxx: "icpx", fc: "ifort", arch_opt: "-xCORE-AVX2" }
+            - { name: "intel-oneapi", version: "2021.2.0", cc: "icx", cxx: "icpx", fc: "ifx", arch_opt: "-xCORE-AVX2" }
+            - { name: "gcc", version: "10.3.0", cc: "gcc", cxx: "g++", fc: "gfortran", arch_opt: "-xCORE-AVX2" }
+
+spr_ddr5_xrds:
+    inherits_from: _base
+    only_if:
+        "{{sys_name}}": [ darwin ]
+    variables:
+        arch: "spr"
+        stream_array_size: 35840000
+        target: "xrds-stream.exe"
+        omp_num_threads: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
+        omp_places: [cores, sockets]
+        omp_proc_bind: [true]
+        mpis:
+            - { name: "openmpi", version: "3.1.6", mpicc: "mpicc", mpicxx: "mpic++", mpifc: "mpif90", modulefile: "openmpi-3.1.6-{{compilers.name}}_{{compilers.version}}" }
+        compilers:
+            - { name: "intel-classic", version: "2022.1.0", cc: "icc", cxx: "icpc", fc: "ifort", arch_opt: "-xCORE-AVX2" }
+            - { name: "intel-hybrid", version: "2022.1.0", cc: "icx", cxx: "icpx", fc: "ifort", arch_opt: "-xCORE-AVX2" }
+    schedule:
+      partition: 'crossroads-spr'
+
+    build:
+        preamble:
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.modulefile}}'
+
+    run:
+        preamble:
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.modulefile}}'
+
+spr_hbm_xrds:
+    inherits_from: _base
+    only_if:
+        "{{sys_name}}": [ darwin ]
+    variables:
+        arch: "spr"
+        stream_array_size: 38400000
+        target: "xrds-stream.exe"
+        omp_num_threads: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
+        omp_places: [cores, sockets]
+        omp_proc_bind: [true]
+        mpis:
+            - { name: "openmpi", version: "3.1.6", mpicc: "mpicc", mpicxx: "mpic++", mpifc: "mpif90", modulefile: "openmpi-3.1.6-{{compilers.name}}_{{compilers.version}}" }
+        compilers:
+            - { name: "intel-classic", version: "2022.1.0", cc: "icc", cxx: "icpc", fc: "ifort", arch_opt: "-xCORE-AVX2" }
+            - { name: "intel-hybrid", version: "2022.1.0", cc: "icx", cxx: "icpx", fc: "ifort", arch_opt: "-xCORE-AVX2" }
+
+    schedule:
+      partition: 'crossroads-spr-hbm'
+
+    build:
+        preamble:
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.modulefile}}'
+
+    run:
+        preamble:
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.modulefile}}'

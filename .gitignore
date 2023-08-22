@@ -7,3 +7,5 @@ doc/sphinx/8_sparta/*.png
 .vscode/
 __pycache__/
 *.bak
+*.pdf
+working_dir/

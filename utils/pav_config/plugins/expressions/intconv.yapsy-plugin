@@ -1,0 +1,9 @@
+[Core]
+Name = Intconv
+Module = intconv
+
+[Documentation]
+Description = Convert string or float to int
+Author = Nicholas Sly
+Version = 1.0
+Website =

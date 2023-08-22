@@ -1,0 +1,9 @@
+[Core]
+Name = PGI Compiler Module Wrapper
+Module = pgi
+
+[Documentation]
+Description = Wrapper for the PGI compiler module.
+Author = Nicholas Sly/Paul Ferrell
+Version = 1.0
+Website =

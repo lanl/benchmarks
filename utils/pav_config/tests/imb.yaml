@@ -1,0 +1,272 @@
+base:
+    summary: Intel MPI Test.
+    subtitle: "{{compilers.name}}_{{mpis.name}}"
+
+    maintainer:
+        name: Adam Good
+        email: agood@lanl.gov
+
+    doc: |
+
+      This tests the ability to complete MPI communications between all of the
+      nodes.  Failures will mostly indicate nodes that aren't able to communicate
+      across the HSN fabric.  MPI errors should indicate where to look for the
+      source of the issue.
+      If other failures are encountered, be sure to take notes of the form of the
+      failure and the fix to be merged into this file.
+
+
+    schedule:
+        tasks_per_node: 2
+        share_allocation: true
+
+    build:
+        preamble: "[~{{preamble}}\n~]"
+        source_path: imb/src/mpi-benchmarks
+        cmds:
+            - "echo $PWD"
+            - "make -j CXX={{mpis.mpicxx}} CC={{mpis.mpicc}} IMB-MPI1"
+    run:
+        preamble: "[~{{preamble}}\n~]"
+        timeout: 900
+        cmds:
+            - "{{sched.test_cmd}} ./IMB-MPI1 -npmin {{2 * sched.test_nodes}} -mem 50 -exclude Scatter"
+
+    result_parse:
+        constant:
+            compiler:
+                const: '{{compilers.name}}/{{compilers.version}}'
+            mpi:
+                const: '{{mpis.name}}/{{mpis.version}}'
+        regex:
+            processes:
+                regex: 'processes = (\d+)'
+                #action: store_last
+                action: store
+        table:
+            PingPong:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_usec', 'mbytes_per_sec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking PingPong'
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+            PingPing:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_usec', 'mbytes_per_sec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking PingPing'
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+            Sendrecv:
+                delimiter_re: '\s+'
+                has_row_labels: True
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec', 'mbytes_per_sec' ]
+                lstrip: True
+                action: store
+                preceded_by:
+                    - '# Benchmarking Sendrecv'
+                    - ''
+                    - ''
+                    - ''
+            Exchange:
+                delimiter_re: '\s+'
+                has_row_labels: True
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec', 'mbytes_per_sec' ]
+                lstrip: True
+                action: store
+                preceded_by:
+                    - '# Benchmarking Exchange'
+                    - ''
+                    - ''
+                    - ''
+            Allreduce:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Allreduce'
+                    - ''
+                    - ''
+                    - ''
+            Reduce:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Reduce'
+                    - ''
+                    - ''
+                    - ''
+            Reduce_scatter:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Reduce_scatter'
+                    - ''
+                    - ''
+                    - ''
+            Allgather:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Allgather'
+                    - ''
+                    - ''
+                    - ''
+            Allgatherv:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Allgatherv'
+                    - ''
+                    - ''
+                    - ''
+            Gather:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Gather'
+                    - ''
+                    - ''
+                    - ''
+            Gatherv:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Gatherv'
+                    - ''
+                    - ''
+                    - ''
+            Scatter:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Scatter'
+                    - ''
+                    - ''
+                    - ''
+            Scatterv:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Scatterv'
+                    - ''
+                    - ''
+                    - ''
+            Alltoall:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Alltoall'
+                    - ''
+                    - ''
+                    - ''
+            Alltoallv:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Allgatherv'
+                    - ''
+                    - ''
+                    - ''
+            Bcast:
+                delimiter_re: '\s+'
+                col_names: [ 'repetitions', 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Bcast'
+                    - ''
+                    - ''
+                    - ''
+            Barrier:
+                delimiter_re: '\s+'
+                col_names: [ 't_min_usec', 't_max_usec', 't_avg_usec' ]
+                lstrip: True
+                action: store
+                has_row_labels: True
+                preceded_by:
+                    - '# Benchmarking Barrier'
+                    - ''
+                    - ''
+                    - ''
+
+#ex:
+    #inherits_from: _base
+    #only_if:
+        #'{{sys_os.name}}{{sys_os.version}}': [ cos2 ]
+    #build:
+      #preamble: "[~{{pennant_preamble}};\n~]"
+    #run:
+      #preamble: "[~{{pennant_preamble}};\n~]"
+#
+#xc40:
+    #inherits_from: _base
+    #only_if:
+        #'{{sys_os.name}}{{sys_os.version}}': [ cle7.0 ]
+    #build:
+      #preamble: "[~{{pennant_preamble}};\n~]"
+    #run:
+      #preamble: "[~{{pennant_preamble}};\n~]"
+#
+#cts1:
+    #inherits_from: _base
+    #only_if:
+        #'{{sys_os.name}}{{sys_os.version}}': [ toss3 ]
+    #build:
+      #preamble: "[~{{pennant_preamble}};\n~]"
+    #run:
+      #preamble: "[~{{pennant_preamble}};\n~]"
+#
+#darwin:
+    #inherits_from: _base
+    #only_if:
+        #'{{sys_name}}': [ darwin ]
+    #build:
+      #preamble: "[~{{pennant_preamble}};\n~]"
+    #run:
+      #preamble: "[~{{pennant_preamble}};\n~]"
+

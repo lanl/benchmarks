@@ -1,0 +1,556 @@
+_base:
+  summary: MPI-Coordinated Test of Parallel I/O.
+
+  maintainer:
+    name: Francine Lapid
+    email: lapid@lanl.gov
+
+  subtitle: 'API-{{api}}_BLKSZ-{{blocksize}}_NODES:{{numnodes}}xPPN:{{taskspernode}}_RANKS:{{ranks}}'
+
+  doc: |
+    IOR is a parallel IO benchmark that can be used to test the performance of 
+    parallel storage systems using various interfaces and access patterns.
+    .
+    Failures can indicate issues with the HSN fabric or with the scratch
+    filesystems.
+    
+    If other failures are encountered, be sure to take notes of the form of the
+    failure and the fix to be merged into this file.
+    
+    This test requires that you have defined here or in a host file a 'scratch'
+    variable that has sub-variables of the "name" and "path" where the scratch
+    space is mounted and files should be placed for running this test, meaning
+    your user will need read/write permissions on the path you provide.
+
+  variables: 
+    api?: [''] #				#-a S  api --  API for I/O [POSIX|MPIIO|HDF5|NCMPI]
+    ref_num?: [''] #				#-A N  refNum -- user supplied reference number to include in the summary
+    block_size?: [''] #		 		#-b N  blockSize -- contiguous bytes to write per task  (e.g.: 8 4k 2m 1g)
+    use_o_direct?: [''] #			#-B    useO_DIRECT -- uses O_DIRECT for POSIX bypassing I/O buffers
+    collective?: [''] #				#-c    collective -- collective I/O
+    reorder_tasks?: [''] #			#-C    reorderTasks -- changes task ordering to n+1 ordering for readback
+    inter_test_delay?: [''] #			#-d N  interTestDelay -- delay between reps in seconds
+    deadline_for_stonewalling?: [''] #		#-D N  deadlineForStonewalling -- seconds before stopping write or read phase
+    fsync?: [''] #				#-e    fsync -- perform fsync upon POSIX write close
+    use_existing_test_file?: [''] #		#-E    useExistingTestFile -- do not remove test file before write access
+    script_file?: [''] #			#-f S  scriptFile -- test script name
+    file_per_proc?: [''] #			#-F    filePerProc -- file-per-process
+    intra_test_barriers?: [''] #		#-g    intraTestBarriers -- use barriers between open write/read and close
+    set_time_stamp_signature?: [''] #		#-G N  setTimeStampSignature -- set value for time stamp signature
+    show_help?: [''] #				#-h    showHelp -- displays options and help
+    show_hints?: [''] #				#-H    showHints -- show hints
+    repetitions?: [''] #			#-i N  repetitions -- number of repetitions of test
+    individual_data_sets?: [''] #		#-I    individualDataSets -- datasets not shared by all procs [not working]
+    outlier_threshold?: [''] #			#-j N  outlierThreshold -- warn on outlier N seconds from mean
+    set_alignment?: [''] #			#-J N  setAlignment -- HDF5 alignment in bytes (e.g.: 8 4k 2m 1g)
+    keep_file?: [''] # 				#-k    keepFile -- don't remove the test file(s) on program exit
+    keep_file_with_error?: [''] #		#-K    keepFileWithError  -- keep error-filled file(s) after data-checking
+    store_file_offset?: [''] #			#-l    storeFileOffset -- use file offset as stored signature
+    multi_file?: [''] #				#-m    multiFile -- use number of reps (-i) for multiple file count
+    memory_per_node?: [''] #			#-M N  memoryPerNode -- hog memory on the node  (e.g.: 2g 75%)
+    no_fill?: [''] #				#-n    noFill -- no fill in HDF5 file creation
+    num_tasks?: [''] #				#-N N  numTasks -- number of tasks that should participate in the test
+    test_file?: [''] #				#-o S  testFile -- full name for test
+    ior_directives?: [''] #			#-O S  string of IOR directives (e.g. -O checkRead=1lustreStripeCount=32)
+    preallocate?: [''] #			#-p    preallocate -- preallocate file size
+    use_shared_file_pointer?: [''] #		#-P    useSharedFilePointer -- use shared file pointer [not working]
+    quit_on_error?: [''] #			#-q    quitOnError -- during file error-checking abort on error
+    tasks_per_node_offset?: [''] #		#-Q N  taskPerNodeOffset for read tests use with -C & -Z options (-C constant N -Z at least N)
+    read_file?: [''] # 				#-r    readFile -- read existing file
+    check_read?: [''] # 			#-R    checkRead -- check read after read
+    segment_count?: [''] # 			#-s N  segmentCount -- number of segments
+    use_strided_datatype?: [''] #		#-S    useStridedDatatype -- put strided access into datatype [not working]
+    transfer_size?: [''] # 			#-t N  transferSize -- size of transfer in bytes (e.g.: 8 4k 2m 1g)
+    max_time_duration?: [''] #			#-T N  maxTimeDuration -- max time in minutes for each test
+    unique_dir?: [''] # 			#-u    uniqueDir -- use unique directory name for each file-per-process
+    hints_file_name?: [''] #			#-U S  hintsFileName -- full name for hints file 
+    verbose?: [''] #				#-v    verbose -- output information (repeating flag increases level)
+    use_file_view?: [''] #			#-V    useFileView -- use MPI_File_set_view
+    write_file?: [''] #				#-w    writeFile -- write file
+    check_write?: [''] #			#-W    checkWrite -- check read after write
+    single_xfer_attempt?: [''] #		#-x    singleXferAttempt -- do not retry transfer if incomplete
+    reorder_tasks_random_seed?: [''] #		#-X N  reorderTasksRandomSeed -- random seed for -Z option
+    fsync_per_write?: [''] #			#-Y    fsyncPerWrite -- perform fsync after each POSIX write
+    random_offset?: [''] #			#-z    randomOffset -- access is to random not sequential offsets within a file
+    reorder_tasks_random?: [''] #		#-Z    reorderTasksRandom -- changes task ordering to random ordering for readback
+
+    test_variables: >
+        {{api}}
+        {{ref_num}}
+        {{block_size}}
+        {{use_o_direct}}
+        {{collective}}
+        {{reorder_tasks}}
+        {{inter_test_delay}}
+        {{deadline_for_stonewalling}}
+        {{fsync}}
+        {{use_existing_test_file}}
+        {{script_file}}
+        {{file_per_proc}}
+        {{intra_test_barriers}}
+        {{set_time_stamp_signature}}
+        {{show_help}}
+        {{show_hints}}
+        {{repetitions}}
+        {{individual_data_sets}}
+        {{outlier_threshold}}
+        {{set_alignment}}
+        {{keep_file}}
+        {{keep_file_with_error}}
+        {{store_file_offset}}
+        {{multi_file}}
+        {{memory_per_node}}
+        {{no_fill}}
+        {{num_tasks}}
+        {{test_file}}
+        {{ior_directives}}
+        {{preallocate}}
+        {{use_shared_file_pointer}}
+        {{quit_on_error}}
+        {{tasks_per_node_offset}}
+        {{read_file}}
+        {{check_read}}
+        {{segment_count}}
+        {{use_strided_datatype}}
+        {{transfer_size}}
+        {{max_time_duration}}
+        {{unique_dir}}
+        {{hints_file_name}}
+        {{verbose}}
+        {{use_file_view}}
+        {{write_file}}
+        {{check_write}}
+        {{single_xfer_attempt}}
+        {{reorder_tasks_random_seed}}
+        {{fsync_per_write}}
+        {{random_offset}}
+        {{reorder_tasks_random}}
+
+    scratch?:
+      - name: replace-me
+        path: /dont/use/this
+
+  build:
+    source_path: ior
+    modules:
+      - 'intel-classic'
+      - 'cray-mpich'
+
+    env:
+      CC: "$PAV_MPI_CC"
+      
+    cmds:
+      - '[ -x boostrap ] && ./bootstrap'
+      - './configure'
+      - 'make'
+
+  scheduler: slurm
+
+  run:
+    modules:
+      - 'intel-classic'
+      - 'cray-mpich'
+
+  result_parse:
+    constant:
+      check_read:
+        const: '{{check_read}}'
+      check_write:
+        const: '{{check_write}}'
+      collective:
+        const: '{{collective}}'
+      deadline_for_stonewalling:
+        const: '{{deadline_for_stonewalling}}'
+      file_per_proc:
+        const: '{{file_per_proc}}'
+      fsync_per_write:
+        const: '{{fsync_per_write}}'
+      fsync:
+        const: '{{fsync}}'
+      hints_file_name:
+        const: '{{hints_file_name}}'
+      individual_data_sets:
+        const: '{{individual_data_sets}}'
+      inter_test_delay:
+        const: '{{inter_test_delay}}'
+      intra_test_barriers:
+        const: '{{intra_test_barriers}}'
+      ior_directives:
+        const: '{{ior_directives}}'
+      keep_file_with_error:
+        const: '{{keep_file_with_error}}'
+      keep_file:
+        const: '{{keep_file}}'
+      max_time_duration:
+        const: '{{max_time_duration}}'
+      memory_per_node:
+        const: '{{memory_per_node}}'
+      multi_file:
+        const: '{{multi_file}}'
+      no_fill:
+        const: '{{no_fill}}'
+      num_tasks:
+        const: '{{num_tasks}}'
+      outlier_threshold:
+        const: '{{outlier_threshold}}'
+      preallocate:
+        const: '{{preallocate}}'
+      quit_on_error:
+        const: '{{quit_on_error}}'
+      random_offset:
+        const: '{{random_offset}}'
+      ram:
+        const: '{{ram}}'
+      read_file:
+        const: '{{read_file}}'
+      ref_num:
+        const: '{{ref_num}}'
+      reorder_tasks_random_seed:
+        const: '{{reorder_tasks_random_seed}}'
+      reorder_tasks_random:
+        const: '{{reorder_tasks_random}}'
+      reorder_tasks:
+        const: '{{reorder_tasks}}'
+      scratch:
+        const: '{{scratch.path}}'
+      script_file:
+        const: '{{script_file}}'
+      segment_count:
+        const: '{{segment_count}}'
+      set_alignment:
+        const: '{{set_alignment}}'
+      set_time_stamp_signature:
+        const: '{{set_time_stamp_signature}}'
+      show_help:
+        const: '{{show_help}}'
+      show_hints:
+        const: '{{show_hints}}'
+      single_xfer_attempt:
+        const: '{{single_xfer_attempt}}'
+      store_file_offset:
+        const: '{{store_file_offset}}'
+      tasks_per_node_offset:
+        const: '{{tasks_per_node_offset}}'
+      unique_dir:
+        const: '{{unique_dir}}'
+      use_existing_test_file:
+        const: '{{use_existing_test_file}}'
+      use_file_view:
+        const: '{{use_file_view}}'
+      use_o_direct:
+        const: '{{use_o_direct}}'
+      use_shared_file_pointer:
+        const: '{{use_shared_file_pointer}}'
+      use_strided_datatype:
+        const: '{{use_strided_datatype}}'
+      verbose:
+        const: '{{verbose}}'
+      write_file:
+        const: '{{write_file}}'
+    regex:
+      result:
+        regex: Finished
+        action: store_true
+      max_read:
+        regex: 'Max Read: +(.*)'
+      max_write:
+        regex: 'Max Write: +(.*)'
+      fs_size:
+        regex: 'FS: (.*) +Used FS.*'
+      fs_used:
+        regex: 'Used FS: (.*)  Inodes.*'
+      inodes:
+        regex: 'Inodes: (.*) +Used Inodes.*'
+      inodes_used:
+        regex: 'Used Inodes: (.*)'
+      mem_per_node:
+        regex: 'memoryPerNode += (.*)'
+      aggregate_filesize:
+        regex: 'aggregate filesize = (.*)'
+      clients:
+        regex: 'clients += (.*)'
+      api:
+        regex: 'api += (.*)'
+      num_files:
+        regex: 'access += (.*)'
+      test_file:
+        regex: 'test filename += (.*)'
+      pattern:
+        regex: 'pattern += (.*)'
+      in_file_order:
+        regex: 'ordering in a file += (.*)'
+      inter_file_order:
+        regex: 'ordering inter file= (.*)'
+      repetitions:
+        regex: 'repetitions += (.*)'
+      transfer_size:
+        regex: 'xfersize += (.*)'
+      block_size:
+        regex: 'blocksize += (.*)'
+
+haswell_scaling_study:
+  doc: |
+    xc40_hsw_nid$ lsmem
+    RANGE                                 SIZE  STATE REMOVABLE BLOCK
+    0x0000000000000000-0x000000007fffffff   2G online        no     0
+    0x0000000100000000-0x00000007ffffffff  28G online       yes  2-15
+    0x0000000800000000-0x00000008ffffffff   4G online        no 16-17
+    0x0000000900000000-0x0000000a7fffffff   6G online       yes 18-20
+    0x0000000a80000000-0x0000000affffffff   2G online        no    21
+    0x0000000b00000000-0x0000000e7fffffff  14G online       yes 22-28
+    0x0000000e80000000-0x000000107fffffff   8G online        no 29-32
+    0x0000001080000000-0x0000001d7fffffff  52G online       yes 33-58
+    0x0000001d80000000-0x0000001e7fffffff   4G online        no 59-60
+    0x0000001e80000000-0x0000001effffffff   2G online       yes    61
+    0x0000001f00000000-0x000000207fffffff   6G online        no 62-64
+    
+    Memory block size:         2G
+    Total online memory:     128G
+    Total offline memory:      0B
+
+  only_if:
+    '{{sys_name}}': ['mutrino','trinitite','trinity']
+  inherits_from: _scaling_study
+  variables:
+    ram: '128000000000'
+
+sapphirerapids_scaling_study:
+  doc: |
+    spr_hbm_node_cn0777$ lsmem
+    RANGE                                  SIZE  STATE REMOVABLE BLOCK
+    0x0000000000000000-0x000000007fffffff    2G online        no     0
+    0x0000000100000000-0x000000207fffffff  126G online        no  2-64
+    
+    Memory block size:         2G
+    Total online memory:     128G
+    Total offline memory:      0B
+
+  only_if:
+    '{{sys_name}}': ['darwin', 'rocinante', 'tycho', 'crossroads']
+  inherits_from: _scaling_study
+  variables:
+    ram: '128000000000'
+
+broadwell_scaling_study:
+  doc: |
+    cts1_broadwell_node$ lsmem
+    RANGE                                 SIZE  STATE REMOVABLE   BLOCK
+    0x0000000000000000-0x000000007fffffff   2G online        no       0
+    0x0000000100000000-0x000000017fffffff   2G online        no       2
+    0x0000000180000000-0x0000000d7fffffff  48G online       yes    3-26
+    0x0000000d80000000-0x00000018ffffffff  46G online        no   27-49
+    0x0000001900000000-0x000000197fffffff   2G online       yes      50
+    0x0000001980000000-0x0000001c7fffffff  12G online        no   51-56
+    0x0000001c80000000-0x0000001cffffffff   2G online       yes      57
+    0x0000001d00000000-0x00000020ffffffff  16G online        no   58-65
+    0x0000002100000000-0x0000002affffffff  40G online       yes   66-85
+    0x0000002b00000000-0x0000003bffffffff  68G online        no  86-119
+    0x0000003c00000000-0x0000003c7fffffff   2G online       yes     120
+    0x0000003c80000000-0x000000407fffffff  16G online        no 121-128
+    
+    Memory block size:         2G
+    Total online memory:     256G
+    Total offline memory:      0B
+
+  only_if:
+    '{{sys_os.name}}': ['toss']
+  inherits_from: _scaling_study
+  variables:
+    ram: '256000000000'
+
+_sequential_workload:
+  subtitle: 'API-{{api}}_BLKSZ-{{blocksize}}_NODES:{{numnodes}}xPPN:{{taskspernode}}_RANKS:{{ranks}}'
+  inherits_from: _base
+  doc: |
+    |    |                        | MPIIO n>n | MPIIO n>1 | POSIX n>n | POSIX n>1 |
+    |--- | ---                    | ---       | ---       | ---       | ---       |
+    |Single node | Max Write MB/s | 3088      | 1728      | 4306      | 1710      |
+                 | Max Read MB/s  | 4370      | 3162      | 4465      | 3182      |
+    |16 nodes    | Max Write MB/s | 25997     | 14944     | 26001     | 15360     |
+                 | Max Read MB/s  | 30923     | 14832     | 30165     | 17043     |
+    |10% nodes   | Max Write GB/s | 990       | 570       | 990       | 580       |
+                 | Max Read GB/s  | 1175      | 560       | 1145      | 645       |
+    |50% nodes   | Max Write GB/s | 990       | 570       | 990       | 580       |
+                 | Max Read GB/s  | 1175      | 560       | 1145      | 645       |
+    |Nodes max   | Max Write GB/s | 1290      | 570       | 1290      | 580       |
+                 | Max Read GB/s  | 1290      | 560       | 1290      | 645       |
+
+  variables:
+    #-C -a MPIIO -b 4m -g -i 3 -k -m -o /lustre/scratch5/n1-206-4m/outfile -s 256 -r –t 4m –w
+    api: ['-a MPIIO', '-a POSIX']
+    block_size: ['-b {{blocksize}}']
+    blocksize: ['{{ round( ram_80 / ranks ) }}']
+    dirname: '{{scratch.name}}-{{numnodes}}x{{taskspernode}}'
+    intra_test_barriers: ['-g']
+    keep_file: ['-k']
+    multi_file: ['-m']
+    numnodes?: [ '1', '16', '{{ round( 0.10 * total_nodes ) }}', '{{ round( 0.50 * total_nodes ) }}', '{{total_nodes}}' ]
+    ram_80: '{{ totalram * 0.8 }}'
+    ranks: '{{ taskspernode * numnodes }}'
+    numtasks: '-N {{ranks}}'
+    read_file: ['-r']
+    remainder: '{{ blocksize % transfersize }}'
+    reorder_tasks: ['-C']
+    repetitions: ['-i 3']
+    taskspernode?: [ 16, 32, 64 ] # this needs to be set per arch, 72, 80, 88, 96, 104, 112 ]
+    totalram: '{{ var.ram * numnodes }}'
+    transfer_size: ['-t {{transfersize}}']
+    transfersize: ['4000000'] # 1M; not sure what this number needs to be
+    write_file: ['-w']
+
+  permute_on: ['api', 'taskspernode', 'numnodes']
+
+  only_if: 
+    '{{remainder}}': 0 # blocksize needs to be a multiple of transfersize
+
+  scheduler: slurm
+  schedule:
+    nodes: '{{total_nodes}}'
+    share_allocation: 'true'
+
+  run:
+    timeout: 1800
+
+    modules: 
+      - '{{compilers.module}}'
+      - '{{var.mpis}}'
+
+    cmds:
+      - 'set -x'
+      - 'IOR_EXE=$([ -x $PWD/src/ior ] && readlink -f $PWD/src/ior)'
+      - 'test_variables=$(tv="{{test_variables}}"; echo $tv | tr -s " ")'
+      - 'echo "variables are $test_variables"'
+      - 'echo blocksize is {{block_size}}'
+      - 'echo transfersize is {{transfer_size}}'
+      - 'echo scratch path is {{scratch.path}}'
+      - '[ -d {{scratch.path}} ] || ( echo "{{scratch.path}} does not exist!" ; exit -1 )'
+      - 'mkdir -p {{scratch.path}}/{{dirname}} || ( echo "cannot make {{scratch.path}}/{{dirname}}" ; exit -1 )'
+      - 'subdir=$(mktemp -p {{scratch.path}}/{{dirname}} -d -t ior.XXXXXXXXXX) || ( echo "cannot mktmp {{scratch.path}}/{{dirname}}" ; exit -1 )'
+      - '[ -d ${subdir} ] && sleep 5 && pushd ${subdir} &>/dev/null || ( echo "cannot pushd ${subdir}" ; exit -1 )'
+      - 'echo "RUNNING: srun -n {{ranks}} --ntasks-per-node={{taskspernode}} $IOR_EXE $test_variables"'
+      - 'srun -N {{numnodes}} -n {{ranks}} --ntasks-per-node={{taskspernode}} $IOR_EXE $test_variables || exit -1'
+      - 'popd'
+      - 'rm -rf ${subdir}'
+
+_sequential_workload_n_to_1:
+  inherits_from: _sequential_workload
+  variables:
+    segment_count: ['-s 256'] #ASK THIS IS FROM TRINITY NOTES ATORREZ SENT    
+    
+_sequential_workload_n_to_n:
+  inherits_from: _sequential_workload
+  variables:
+    file_per_proc: ['-F']
+
+haswell_sequential_workload_n_to_1:
+  only_if:
+    '{{sys_name}}': ['mutrino','trinitite','trinity']
+  inherits_from: _sequential_workload_n_to_1
+  variables:
+    ram: '128000000000'
+    total_nodes: '100'
+    taskspernode: [ 32, 64 ] # this needs to be set per arch, 72, 80, 88, 96, 104, 112 ]
+
+broadwell_sequential_workload_n_to_1:
+  only_if:
+    '{{sys_os.name}}': ['toss']
+  inherits_from: _sequential_workload_n_to_1
+  variables:
+    ram: '256000000000'
+    taskspernode: [ 18, 36 ] # this needs to be set per arch, 72, 80, 88, 96, 104, 112 ]
+    total_nodes: 100
+
+sapphirerapids_sequential_workload_n_to_1:
+  only_if:
+    '{{sys_name}}': ['darwin', 'rocinante', 'tycho', 'crossroads']
+  inherits_from: _sequential_workload_n_to_1
+  variables:
+    ram: '128000000000'
+    taskspernode: [ 32, 64 ] # this needs to be set per arch, 72, 80, 88, 96, 104, 112 ]
+
+haswell_sequential_workload_n_to_n:
+  only_if:
+    '{{sys_name}}': ['mutrino','trinitite','trinity']
+  inherits_from: _sequential_workload_n_to_n
+  variables:
+    ram: '128000000000'
+    taskspernode: [ 32, 64 ] # this needs to be set per arch, 72, 80, 88, 96, 104, 112 ]
+    total_nodes: '100'
+    file_per_proc: '-F'
+
+broadwell_sequential_workload_n_to_n:
+  only_if:
+    '{{sys_os.name}}': ['toss']
+  inherits_from: _sequential_workload_n_to_n
+  variables:
+    ram: '256000000000'
+    taskspernode: [ 32, 64 ] # this needs to be set per arch, 72, 80, 88, 96, 104, 112 ]
+    file_per_proc: '-F'
+    total_nodes: 100
+
+sapphirerapids_sequential_workload_n_to_n:
+  only_if:
+    '{{sys_name}}': ['darwin', 'rocinante', 'tycho', 'crossroads']
+  inherits_from: _sequential_workload_n_to_n
+  variables:
+    ram: '128000000000'
+    taskspernode: [ 32, 64 ] # this needs to be set per arch, 72, 80, 88, 96, 104, 112 ]
+    file_per_proc: '-F'
+
+_scaling_study:
+  inherits_from: _base
+  variables:
+    api: ['-a MPIIO', '-a POSIX']
+    keep_file: ['-k']
+    file_per_proc: ['-F']
+    deadline_for_stonewalling: ['-D 300']
+    numnodes: [ 1, 10, 50 ] #, 100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000 ]
+    taskspernode: [ 1, 8, 16, 24, 32, 40, 48, 56, 64 ] #, 72, 80, 88, 96, 104, 112 ] 
+    dirname: '{{scratch.name}}-{{numnodes}}-{{taskspernode}}'
+    numtasks: '-N {{ranks}}'
+    # using the formula: ranks * blocksize = 80% of total ram 
+    # where total ram is memory per node * number of nodes
+    totalram: '{{ ram * numnodes }}'
+    ram_80: '{{ totalram * 0.8 }}'
+    ranks: '{{ taskspernode * numnodes }}'
+    blocksize: ['{{ round( ram_80 / ranks ) }}']
+    transfersize: ['1000000'] # 1M; not sure what this number needs to be
+    remainder: '{{ blocksize % transfersize }}'
+    block_size: ['-b {{blocksize}}']
+    transfer_size: ['-t {{transfersize}}']
+
+  only_if: 
+    '{{remainder}}': 0 # blocksize needs to be a multiple of transfersize
+
+  scheduler: slurm
+  schedule:
+    tasks_per_node: '{{taskspernode}}'
+    nodes: '{{numnodes}}'
+    share_allocation: 'false'
+
+  run:
+    timeout: 1800
+
+    modules: 
+      - '{{compilers.module}}'
+      - '{{var.mpis}}'
+
+    cmds:
+      - 'IOR_EXE=$([ -x $PWD/src/ior ] && readlink -f $PWD/src/ior)'
+      - 'test_variables=$(tv="{{test_variables}}"; echo $tv | tr -s " ")'
+      - 'echo "variables are $tv"'
+      - 'echo blocksize is {{block_size}}'
+      - 'echo transfersize is {{transfer_size}}'
+      - 'echo scratch path is {{scratch.path}}'
+      - '[ -d {{scratch.path}} ] && [ -x $PWD/src/ior ] || exit -1'
+      - '[ -d {{scratch.path}}/ior-test-{{dirname}} ] && rm -Rf {{scratch.path}}/ior-test-{{dirname}}'
+      - 'mkdir {{scratch.path}}/ior-test-{{dirname}} && pushd {{scratch.path}}/ior-test-{{dirname}}'
+      - '# this writes out the files'
+      - '{{sched.test_cmd}} $IOR_EXE "${test_variables} -w'
+      - 'if [[ {{numnodes}} -ne 1 ]]'
+      - 'then'
+      - '  # this reads those files'
+      - '  {{sched.test_cmd}} $IOR_EXE -E -C -Q {{taskspernode}} -r'
+      - 'fi'
+      - 'cd ..'
+      - 'rm -rf {{scratch.path}}/ior-test-{{dirname}}'

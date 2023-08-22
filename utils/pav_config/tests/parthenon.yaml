@@ -1,0 +1,108 @@
+_base:
+    maintainer:
+        name: Dan Magee
+        email: dmagee@lanl.gov
+    summary: PARTHENON-VIBE cross-cut Benchmark Test
+    subtitle: "{{compilers.name}}-{{mpis.name}}-{{tpm}}-{{nx}}"
+
+    doc: |
+        Parthenon is a block AMR stencil solver.
+
+    variables:
+        benchmark_path: 'benchmarks/burgers'
+        execut: "./build/{{benchmark_path}}/burgers-benchmark"
+        input_file: "{{benchmark_path}}/burgers.pin"
+        tpm: [4, 8, 18, 26, 36]
+        nx: [64, 128, 160]
+        nlim: 250 #[10, 100, 200] # M photons
+        nlvl: 3
+        nblock: 16
+        #nx: "{{nblock*(6+pct_mem)}}"
+        cmake_opts:
+            - "-DPARTHENON_DISABLE_HDF5=ON"
+            - "-DPARTHENON_DISABLE_OPENMP=ON"
+            - "-DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF"
+            - "-DREGRESSION_GOLD_STANDARD_SYNC=OFF"
+        cmake_cmd_opts: ''
+        mesh_cl:
+            - "parthenon/mesh/nx1={{nx}}"
+            - "parthenon/mesh/nx2={{nx}}"
+            - "parthenon/mesh/nx3={{nx}}"
+        meshblock_cl:
+            - "parthenon/meshblock/nx1={{nblock}}"
+            - "parthenon/meshblock/nx2={{nblock}}"
+            - "parthenon/meshblock/nx3={{nblock}}"
+            - "parthenon/time/nlim={{nlim}}"
+            - "parthenon/mesh/numlevel={{nlvl}}"
+        compilers:
+            - { name: "intel-classic", version: "2021.2.0", cc: "icc", cxx: "icpc", fc: "ifort" }
+
+
+    permute_on:
+        - compilers
+        - mpis
+        - tpm
+        - nx
+
+    schedule:
+        nodes: 1
+        tasks_per_node: "{{tpm}}"
+        qos: 'high'
+        account: 'hpctest'
+        share_allocation: false
+        time_limit: 12
+
+    build:
+        env:
+            MPICC: "{{mpis.mpicc}}"
+            MPICXX: "{{mpis.mpicxx}}"
+            MPIFC: "{{mpis.mpifc}}"
+            CC: "{{compilers.cc}}"
+            CXX: "{{compilers.cxx}}"
+            FC: "{{compilers.fc}}"
+            F90: "{{compilers.fc}}"
+
+        source_path: '../../../parthenon'
+
+        cmds:
+            - mkdir -p build
+            - cd build
+            - cmake [~{{cmake_opts}} ~] {{cmake_cmd_opts}} ..
+            - make -j 8
+
+    run:
+        timeout: 60000
+        cmds: "{{sched.test_cmd}} {{execut}} -i {{input_file}} [~{{mesh_cl}} ~] [~{{meshblock_cl}} ~]"
+
+    result_parse:
+        regex:
+            walltime:
+                regex: 'walltime used = (.*)'
+                action: 'store'
+            zcycles_wsec:
+                regex: 'zone-cycles/wallsecond = (.*)'
+                action: 'store'
+    result_evaluate:
+         wallminutes: 'walltime/60'
+         wallhours: 'walltime/3600'
+
+cts1:
+    inherits_from: _base
+    only_if:
+        "{{sys_os.name}}": [ toss ]
+
+    build:
+        env: 
+            CXXFLAGS: "-fno-math-errno -march=native"
+
+        preamble:
+            - 'module load friendly-testing'
+            - 'module load cmake'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.name}}/{{mpis.version}}'
+
+    run:
+        preamble:
+            - 'module load friendly-testing'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.name}}/{{mpis.version}}'

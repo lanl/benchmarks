@@ -1,0 +1,9 @@
+[Core]
+Name = Cray Compiler Module Wrapper
+Module = cray
+
+[Documentation]
+Description = Wrapper for the cray compiler module.
+Author = Nicholas Sly/Paul Ferrell
+Version = 1.0
+Website =
