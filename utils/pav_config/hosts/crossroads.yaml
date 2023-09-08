@@ -1,0 +1,36 @@
+################################################
+# TOSS 3 YELLOW CONFIG (snow)
+################################################
+variables:
+    intelversion: "2023.2.0"
+    crayversion: "16.0.0"
+    craympichversion: "8.1.26"
+    partn: 'standard'
+    mpis:
+        - { name: "cray-mpich", version: "{{craympichversion}}", mpicc: "cc", mpicxx: "CC", mpifc: "ftn", mpival: "cray"}
+    compilers:
+        - { name: "intel-classic", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn" }
+        - { name: "intel-oneapi", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn" }
+        - { name: "intel", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn" }
+        - { name: "cce", version: "{{crayversion}}", cc: "cc", cxx: "CC", pe_env: cray, fc: "ftn" }
+
+    scratch:
+        - name: xrscratch
+          path: "/lustre/xrscratch1/{{pav.user}}"
+    scratch_all:
+        - name: xrscratch
+          path: "/lustre/xrscratch1/{{pav.user}}"
+    srun_opts: ''
+    srun_opts_verbose: ''
+
+build:
+    specificity: '{{sys_name}}'
+
+scheduler: slurm
+schedule:
+    nodes: 'all'
+    account: hpctest
+    partition: standard
+    qos: standard
+    time_limit: 3
+    core_spec: 0
