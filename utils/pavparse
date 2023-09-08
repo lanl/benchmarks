@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import os.path as op
+
+import json
+import pandas as pd
+
+KEEPKEYS=[]
+
+def readjs(f):
+    fobj = open(f, 'r')
+    fr = fobj.read()
+    fobj.close()
+    return json.loads(fr)
+
+
+if __name__ == '__main__':
+    jfile = sys.argv[1]
+    jsin  = readjs(jfile)
