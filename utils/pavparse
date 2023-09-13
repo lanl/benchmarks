@@ -2,12 +2,19 @@
 
 import sys
 import os
+import copy
 import os.path as op
 
 import json
 import pandas as pd
+import argparse
 
-KEEPKEYS=[]
+import matplotlib.pyplot as plt
+
+# zcycles_wsec, nx, tpm, compilers.name, sched.partition=hbm
+
+DROP_KEYS=['created','duration','pav_version','test_version',
+           'uuid','results_log','finished','job_info','permute_on']
 
 def readjs(f):
     fobj = open(f, 'r')
@@ -15,7 +22,172 @@ def readjs(f):
     fobj.close()
     return json.loads(fr)
 
+def flatten_dict(result, prefix=''):
+    aa=dict(); bb=dict()
+    for k, v in result.items():
+        if not v:
+            continue
+        kk = prefix+k        
+        if not isinstance(v, dict):
+            aa[kk] = v
+        else:
+            bb[kk] = v
+            
+    return aa, bb
+
+def js_list_to_df(results_list):
+    result_collection=[]
+    
+    for i, result in enumerate(results_list):
+        _ = [result.pop(k) for k in DROP_KEYS if k in result.keys()]
+        a_dict, b_dict = flatten_dict(result)
+        prefix=''
+        while b_dict:
+            bd1={}
+            if i==0: print(f"PREFIX: {prefix}")
+            for bk, bv in b_dict.items():
+                # if i==0: 
+                    # print(f"KEY: {bk}")
+                    # print(f"VAL: {bv}")
+                    
+                prefixbk = prefix
+                if not bk == 'var': 
+                    prefixbk=prefix+bk+'.'
+                a_dictnew, b_dictnew = flatten_dict(bv, prefixbk)
+                a_dict.update(a_dictnew)
+                bd1.update(b_dictnew)
+                
+            b_dict = bd1.copy()
+            prefix=prefixbk
+        
+        result_collection.append(pd.Series(a_dict))
+        
+    return pd.DataFrame(result_collection)
+
+def convert_df_numeric(df):
+    xisnumeric = lambda x: str(x).isnumeric()
+    
+    for rcol in df.columns:
+        numq = df[rcol].apply(xisnumeric).all()
+        if not numq:
+            continue
+        
+        sint = df[rcol].astype(int)
+        sfloat = df[rcol].astype(float)
+        if all(sint == sfloat):
+             df[rcol] = sint
+        else:
+            df[rcol] = sfloat
+        
+    return df
+        
+
+def args():
+    parser = argparse.ArgumentParser(
+        prog='pavparse',
+        description="Parses pavilion results json into csvs for gnuplots."
+        )
+    
+    parser.add_argument('-j','--json_in', type=str, required=True,
+        help="The Json file from pavilion to consume and plot.")
+    
+    parser.add_argument('-i', '--index', type=str, required=True,
+        help="The key to set as index")
+    
+    parser.add_argument('-k', '--keep', type=str, 
+        help='''Comma separated list of keys to keep for the result csv.
+                Also accepts Key=Value pairs where result will be filtered
+                by value.
+            ''')
+    
+    parser.add_argument('-g', '--group', type=str, default=None,
+        help="Comma separated list of keys to group in different files.")
+    
+    parser.add_argument('-f', '--format',  type=str, default='{:}',
+         help="Add format strings for output if desired.")
+
+    parser.add_argument('-t', '--title',  type=str, default=None,
+         help="Change the title of the output values output y column.")
+
+    parser.add_argument('-it', '--index_title',  type=str, default=None,
+         help="Change the title of the index (output x column).")
+    
+    return parser
 
 if __name__ == '__main__':
-    jfile = sys.argv[1]
+    thisfile = op.realpath(__file__)
+    thispath = op.dirname(thisfile)
+    
+    arguments = args().parse_args()
+    jfile = arguments.json_in #'partisn_rslt.json'
     jsin  = readjs(jfile)
+    
+    keepers  = arguments.keep.split(',')
+    index = arguments.index
+    
+    rsltkeep   = [k for k in keepers if not '=' in k]
+    rsltchoose = [k for k in keepers if '=' in k]
+    rsltkeep.append(index)
+
+    rslt_df   = js_list_to_df(jsin)
+    sys_name  = rslt_df.sys_name.iloc[0]
+    test_list = rslt_df.name.iloc[0].split('.')[:2]
+
+    groupers = None
+    if arguments.group:
+        groupers = arguments.group.split(',')
+        rsltkeep.extend(groupers)
+
+    fmt = arguments.format
+    value_title = None
+    if arguments.title:
+        value_title = arguments.title.split(',')
+        
+    index_title = arguments.index_title
+
+    keptvals = []
+    
+    # Filter by key value pairs given in arguments.
+    for rchoose in rsltchoose:
+        key, val = rchoose.split('=') 
+        keptvals.append(val)
+        rslt_df=rslt_df.loc[rslt_df[key] == val]
+    
+    test_list.extend(keptvals)
+    test_title = "-".join(test_list)
+    final_rslt = rslt_df[rsltkeep]
+    grouped_dfs = dict()
+    df_mean = dict()
+    f, ax = plt.subplots()
+    plt_legend = []
+
+    if groupers:
+        for k, v in final_rslt.groupby(groupers):
+            gtitle = k
+            if isinstance(k, tuple):
+                gtitle = "-".join(k)                
+            grouped_df = convert_df_numeric(v).drop(groupers,axis=1).set_index(index).sort_index()
+            grouped_df.plot(ax=ax, grid=True)
+            plt_legend.append(gtitle)
+            if index_title:
+                grouped_df.index.name = index_title
+            if value_title:
+                grouped_df.columns=value_title
+            grouped_dfs[gtitle] = grouped_df.squeeze().map(fmt.format)
+            df_mean[gtitle] = grouped_df.mean().values[0]
+
+        plt.legend(plt_legend)
+        mean_series = pd.Series(df_mean)
+        print(mean_series)
+        for k, v in grouped_dfs.items():
+            outfile = test_title + k + '.csv'
+            v.to_csv(outfile)
+            
+    else:
+        final_df = convert_df_numeric(final_rslt).set_index(index).sort_index()
+        final_df.plot(ax=ax, grid=True)
+        outfile  = "-".join(test_list) + '.csv'
+        final_df.to_csv(outfile)
+        
+    # plt.savefig(test_title + ".pdf")        
+    plt.show()

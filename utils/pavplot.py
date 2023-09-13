@@ -106,11 +106,16 @@ def args():
     
 
 if __name__ == "__main__":
+    thisfolder=os.getcwd()
+    pavplot = op.realpath(__file__)
+    pavpdir = op.dirname(pavplot)
+    
     arguments = args().parse_args()
     print(arguments)
     jsi = arguments.json_in #'partisn_rslt.json'
     result_dict = readjs(jsi) #readjs(arguments.json_in)
-    
+    jsnm = jsi.split('.')[0]
+    plotdirtop = op.join(thisfolder,'plots')
     # print(json.dumps(result_dict[0], indent=2))
 
     result_collection=[]
@@ -136,7 +141,7 @@ if __name__ == "__main__":
             b_dict = bd1.copy()
             prefix=prefixbk
         
-        result_collection.append(pd.Series(a_dict))s
+        result_collection.append(pd.Series(a_dict))
         
     results_frame_i = pd.DataFrame(result_collection)
     
@@ -160,13 +165,17 @@ if __name__ == "__main__":
         str_lbl=[str(k) for k in kf]
         res.plot(ax=ax, x=tconf['xcol'], y=tconf['ycol'], ylabel=tconf['ylbl'], 
                  grid=True, label='-'.join(str_lbl))
-        
-    legend = ax.legend(loc='upper left', bbox_to_anchor=(1,1.5), 
-                       title='-'.join(plt_legend))
     
+    # legend = ax.legend(loc='upper left', bbox_to_anchor=(.1,1.8), 
+    #                    title='-'.join(plt_legend))
+    
+    # f.tight_layout()
     f.suptitle(f"{testn} {testsubn} test on {sysname}")
+    plotdir = op.join(plotdirtop, testn)
+    plotfile = op.join(plotdir, jsnm+'.pdf')
+    os.makedirs(plotdir,exist_ok=True)
     
-    plt.show()
+    plt.savefig(plotfile)
     # for keys, results in results_frame.groupby('nx'):
         
     
