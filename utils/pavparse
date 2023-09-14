@@ -35,6 +35,7 @@ def flatten_dict(result, prefix=''):
             
     return aa, bb
 
+
 def js_list_to_df(results_list, flatkeys):
     result_collection=[]
     
@@ -45,9 +46,11 @@ def js_list_to_df(results_list, flatkeys):
         while b_dict:
             bd1={}
             if i==0: print(f"PREFIX: {prefix}")
+
             for bk, bv in b_dict.items():                    
                 prefixbk = prefix
                 if not bk == 'var':
+
                     prefixbk=prefix+bk+'.'
                 a_dictnew, b_dictnew = flatten_dict(bv, prefixbk)
                 a_dict.update(a_dictnew)
@@ -158,6 +161,7 @@ if __name__ == '__main__':
     for rchoose in rsltchoose:
         key, val = rchoose.split('=') 
         keptvals.append(val)
+
         rslt_df = rslt_df.loc[rslt_df[key] == val]
     
     test_list.extend(keptvals)
