@@ -35,7 +35,7 @@ def flatten_dict(result, prefix=''):
             
     return aa, bb
 
-def js_list_to_df(results_list):
+def js_list_to_df(results_list, flatkeys):
     result_collection=[]
     
     for i, result in enumerate(results_list):
@@ -45,13 +45,9 @@ def js_list_to_df(results_list):
         while b_dict:
             bd1={}
             if i==0: print(f"PREFIX: {prefix}")
-            for bk, bv in b_dict.items():
-                # if i==0: 
-                    # print(f"KEY: {bk}")
-                    # print(f"VAL: {bv}")
-                    
+            for bk, bv in b_dict.items():                    
                 prefixbk = prefix
-                if not bk == 'var': 
+                if not bk == 'var':
                     prefixbk=prefix+bk+'.'
                 a_dictnew, b_dictnew = flatten_dict(bv, prefixbk)
                 a_dict.update(a_dictnew)
@@ -60,6 +56,14 @@ def js_list_to_df(results_list):
             b_dict = bd1.copy()
             prefix=prefixbk
         
+        print(flatkeys)
+        if flatkeys:
+            oldkeys = [k for k in a_dict.keys() if flatkeys in k]
+            print(oldkeys)
+            newkeys = [k.split('.')[-1] for k in oldkeys]
+            for (o, n) in zip(oldkeys, newkeys):
+                a_dict[n] = a_dict[o]
+            
         result_collection.append(pd.Series(a_dict))
         
     return pd.DataFrame(result_collection)
@@ -112,6 +116,9 @@ def args():
     parser.add_argument('-it', '--index_title',  type=str, default=None,
          help="Change the title of the index (output x column).")
     
+    parser.add_argument('-d', '--flatten', type=str, default=None,
+         help="Flatten a key to get at the nested values below uniformally.")
+    
     return parser
 
 if __name__ == '__main__':
@@ -129,7 +136,7 @@ if __name__ == '__main__':
     rsltchoose = [k for k in keepers if '=' in k]
     rsltkeep.append(index)
 
-    rslt_df   = js_list_to_df(jsin)
+    rslt_df   = js_list_to_df(jsin, arguments.flatten)
     sys_name  = rslt_df.sys_name.iloc[0]
     test_list = rslt_df.name.iloc[0].split('.')[:2]
 
@@ -151,7 +158,7 @@ if __name__ == '__main__':
     for rchoose in rsltchoose:
         key, val = rchoose.split('=') 
         keptvals.append(val)
-        rslt_df=rslt_df.loc[rslt_df[key] == val]
+        rslt_df = rslt_df.loc[rslt_df[key] == val]
     
     test_list.extend(keptvals)
     test_title = "-".join(test_list)
@@ -172,7 +179,7 @@ if __name__ == '__main__':
             if index_title:
                 grouped_df.index.name = index_title
             if value_title:
-                grouped_df.columns=value_title
+                grouped_df.columns = value_title
             grouped_dfs[gtitle] = grouped_df.squeeze().map(fmt.format)
             df_mean[gtitle] = grouped_df.mean().values[0]
 

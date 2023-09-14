@@ -77,3 +77,20 @@ Dependent Variable(s)
 
 Example Results
 ===============
+
+CTS-1 Snow
+-----------
+
+.. csv-table:: STREAM microbenchmark bandwidth measurement
+   :file: stream-cts1_ats5intel-oneapi-openmpi.csv
+   :align: center
+   :widths: 10, 10
+   :header-rows: 1
+
+.. figure:: cpu_cts1.png
+   :align: center
+   :scale: 50%
+   :alt: STREAM microbenchmark bandwidth measurement
+
+ATS-3 Rocinante HBM
+-------------------
