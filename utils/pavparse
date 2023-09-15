@@ -177,15 +177,16 @@ if __name__ == '__main__':
             gtitle = k
             if isinstance(k, tuple):
                 gtitle = "-".join(k)                
-            grouped_df = convert_df_numeric(v).drop(groupers,axis=1).set_index(index).sort_index()
-            grouped_df.plot(ax=ax, grid=True)
+            grouped_df = convert_df_numeric(v).drop(groupers,axis=1)
+            gdf = grouped_df.set_index(index).sort_index()
+            gdf.plot(ax=ax, grid=True)
             plt_legend.append(gtitle)
             if index_title:
-                grouped_df.index.name = index_title
+                gdf.index.name = index_title
             if value_title:
-                grouped_df.columns = value_title
-            grouped_dfs[gtitle] = grouped_df.squeeze().map(fmt.format)
-            df_mean[gtitle] = grouped_df.mean().values[0]
+                gdf.columns = value_title
+            grouped_dfs[gtitle] = gdf.squeeze().map(fmt.format)
+            df_mean[gtitle] = gdf.mean().values[0]
 
         plt.legend(plt_legend)
         mean_series = pd.Series(df_mean)
