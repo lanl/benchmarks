@@ -99,7 +99,7 @@ ats5_spr:
         - partn
 
     variables:
-        nx: [128, 160]
+        nx: [64, 128, 160]
         tpm: [8, 32, 56, 88, 112] #[4, 8, 18, 26, 36, 50, 74, 90, 110]
         # intelversion: "2023.1.0"
         # crayversion: "15.0.1"

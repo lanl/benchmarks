@@ -1,6 +1,6 @@
-******
+******************
 Parthenon-VIBE
-******
+******************
 
 This is the documentation for the ATS-5 Benchmark, Parthenon-VIBE.
 
@@ -25,7 +25,7 @@ and evolves one or more passive scalar quantities :math:`q^i` according to
    \partial_t q^i + \nabla \cdot \left( q^i \mathbf{u} \right) = 0
 
 
-as well as computing an auxiliary quantity :math:`d`` that resemebles a kinetic energy
+as well as computing an auxiliary quantity :math:`d` that resemebles a kinetic energy
 
 .. math::
    d = \frac{1}{2} q^0 \mathbf{u}\cdot\mathbf{u}.
