@@ -216,11 +216,25 @@ Optional results:
 
 Scaled Single Node Improvement
 ==============================
-One element of evaluation will focus on scaled single node improvement: 
+One element of evaluation will focus on scaled single node improvement (SSNI). SSNI is defined as follows: 
 
-* Weighted average of Single node performance improvement * number of nodes  
-* Multiple node configurations can be proposed and may vary on single node performance improvement and number of nodes 
-* Baseline will be SSNI of Crossroads SPR-HBM 
+Given two platforms using one as a reference, SSNI is defined as a weighted geometric mean using the following equation. 
+
+.. math::
+
+   SSNI = N(\prod_{i=1}^{M}(S_i)^{w_i})^\frac{1}{\sum_{i=1}^{M}{W_i}}
+
+
+Where: 
+
+*	N = Number of nodes on ATS-5 system / Number of nodes on reference system,
+
+*	M = total number of Benchmarks,
+
+*	S = application speedup; Figure of Merit on ATS-5 system / Figure of Merit on reference system (Crossroads); S must be greater than 1, 
+
+*	w = weighting factor. 
+
 
 
 Approvals

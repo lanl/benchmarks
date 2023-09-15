@@ -9,7 +9,7 @@ This is the documentation for the ATS-5 Benchmark Branson - 3D hohlraum single n
 Purpose
 =======
 
-From their [site]_:
+From their [Branson]_:
 
 Branson is not an acronym.
 
@@ -191,4 +191,4 @@ Verification of Results
 References
 ==========
 
-.. [site] Alex R. Long, 'Branson', 2023. [Online]. Available: https://github.com/lanl/branson. [Accessed: 22- Feb- 2023]
+.. [Branson] Alex R. Long, 'Branson', 2023. [Online]. Available: https://github.com/lanl/branson. [Accessed: 22- Feb- 2023]

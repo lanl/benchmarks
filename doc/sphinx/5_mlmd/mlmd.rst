@@ -2,12 +2,12 @@
 MLMD
 ******
 
-This is the documentation for the ATS-5 MLMD Benchmark for HIPPYNN driven kokkos-Lammps Molecular Dynamics. 
+This is the documentation for the ATS-5 MLMD Benchmark for HIPPYNN [HIPPYNN]_ driven kokkos-Lammps Molecular Dynamics. 
 
 Purpose
 =======
 
-To benchmark perfromance of Lammps driven Molecular Dynamics. The problem configured in this test is a small Ag model built using the data included in the Allegro paper (DOI: https://doi.org/10.1038/s41467-023-36329-y)   
+To benchmark performance of Lammps [Lammps]_ driven Molecular Dynamics. The problem configured in this test is a small Ag model built using the data included in the Allegro paper (DOI: https://doi.org/10.1038/s41467-023-36329-y)   
 
 Characteristics
 ===============
@@ -16,7 +16,7 @@ Problem
 -------
 This is a set of simulations on 1,022,400 silver atoms at a 5fs time step. 
 
-This benchmark is comparible to the Allegro Ag simulation: https://www.nature.com/articles/s41467-023-36329-y
+This benchmark is comparable to the Allegro Ag simulation: https://www.nature.com/articles/s41467-023-36329-y
 
 This is a general purpose proxy for many MD simulations. 
 
@@ -24,7 +24,7 @@ This test will evaluate Pytorch performance, GPU performance, and MPI performanc
 
 Figure of Merit
 ---------------
-The figure of merrit is the throughput of the MD simulations, whch is reported by lammps as 'Matom-step/s'. 
+The figure of merit is the throughput of the MD simulations, which is reported by Lammps as 'Matom-step/s'. 
 
 Building
 ========
@@ -241,5 +241,5 @@ Verification of Results
 References
 ==========
 
-.. [site] Nicolas Lubbers, "HIPPYNN" 2021. [Online]. Available: https://github.com/lanl/hippynn. [Accessed: 6- Mar- 2023]
-.. [site] Axel Kohlmeyer et. Al, "Lammps". [Online]. Available: https://github.com/lammps/lammps. [Accessed: 6- Mar- 2023]
+.. [HIPPYNN] Nicolas Lubbers, "HIPPYNN" 2021. [Online]. Available: https://github.com/lanl/hippynn. [Accessed: 6- Mar- 2023]
+.. [Lammps] Axel Kohlmeyer et. Al, "Lammps". [Online]. Available: https://github.com/lammps/lammps. [Accessed: 6- Mar- 2023]

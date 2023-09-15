@@ -7,7 +7,7 @@ This is the documentation for the ATS-5 Benchmark, Parthenon-VIBE.
 Purpose
 =======
 
-The Parthenon-VIBE benchmark [site]_ solves the Vector Inviscid Burgers' Equation on a block-AMR mesh.
+The Parthenon-VIBE benchmark [Parthenon-VIBE]_ solves the Vector Inviscid Burgers' Equation on a block-AMR mesh.
 This benchmark is configured to use three levels of mesh resolution and mesh blocks of size 16^3. This AMR configuration is meant to
 mimic applications which require high resolution, the ability to capture sharp and dynamic interfaces, while balancing global memory footprint and the overhead of "ghost" cells.
 This configuration should not be changed as it would violate the intent of the benchmark.
@@ -227,4 +227,4 @@ Verification of Results
 References
 ==========
 
-.. [site] Jonah Miller, 'Parthenon', 2023. [Online]. Available: https://github.com/parthenon-hpc-lab/parthenon. [Accessed: 20- Mar- 2023]
+.. [Parthenon-VIBE] Jonah Miller, 'Parthenon', 2023. [Online]. Available: https://github.com/parthenon-hpc-lab/parthenon. [Accessed: 20- Mar- 2023]
