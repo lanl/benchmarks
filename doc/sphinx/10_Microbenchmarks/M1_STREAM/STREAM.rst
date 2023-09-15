@@ -37,18 +37,14 @@ These operations stress memory and floating point pipelines.They test memory tra
 Figure of Merit
 ---------------
 
+The primary FOM is the Triad rate (MB/s).
+
 Building
 ========
 
 Adjustments to GOMP_CPU_AFFINITY may also be necessary.
 
 You can modify the STREAM_ARRAY_SIZE value in the compilation step to change the array size used by the benchmark. Adjusting the array size can help accommodate the available memory on your system.
-
-RHEL Systems
-------------
-
-CrayOS Systems
---------------
 
 Running
 =======
@@ -65,9 +61,6 @@ Replace `<num_processes>` with the number of MPI processes you want to use. For 
 
 Input
 -----
-
-Independent Variables
----------------------
 
 Dependent Variable(s)
 ---------------------
@@ -94,3 +87,4 @@ CTS-1 Snow
 
 ATS-3 Rocinante HBM
 -------------------
+
