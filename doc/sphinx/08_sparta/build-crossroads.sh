@@ -19,7 +19,7 @@ pushd "${dir_src}/src"
 make yes-kokkos
 make -j 16 crossroads_omp
 echo "Resultant build info:"
-ls -lh `pwd -P`/spa_manzano_kokkos
+ls -lh `pwd -P`/spa_crossroads_omp
 popd
 
 
