@@ -1,4 +1,4 @@
-# kokkos_mpi_only = KOKKOS package with Serial backend (no OpenMP support), MPI compiler, default MPI
+# Does OpenMP through Kokkos
 
 SHELL = /bin/sh
 
