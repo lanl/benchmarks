@@ -14,7 +14,10 @@ benchmarks prior to RFP.
 
 To use these benchmarks please refer to the ATS-5 benchmarks repository `ATS-5 repo <https://github.com/lanl/benchmarks>`_
 
-Benchmark changes from Crossroads
+The benchmarks will, eventually, be generated atop Crossroads as the reference
+system (see :ref:`ReferenceCrossroads` for more information).
+
+Benchmark Changes from Crossroads
 =================================
 
 The key differences from Crossroads benchmarks and ATS-5 benchmarks are as summarized below: 
