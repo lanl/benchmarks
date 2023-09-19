@@ -41,7 +41,7 @@ domains. Crossroads has 8 NUMA domains each with 14 physical cores. The targets
 above would map to the following configurations on Crossroads.
 
 
-.. table:: Crossroads Single-Node Strong Scaling Configurations
+.. table:: Crossroads Single-Node Strong Scaling Configurations Regarding NUMA Domain Utilization
 
    ===== ====================== ===========================
    %     # Cores on NUMA Domain # Cores Across Compute Node
