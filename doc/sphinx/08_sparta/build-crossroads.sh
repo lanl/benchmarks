@@ -13,11 +13,11 @@ pushd "${dir_src}"
 git clean -fdx
 git reset --hard
 popd
-cp -a Makefile.manzano_kokkos "${dir_src}/src/MAKE"
+cp -a Makefile.crossroads_omp "${dir_src}/src/MAKE"
 
 pushd "${dir_src}/src"
 make yes-kokkos
-make -j 16 manzano_kokkos
+make -j 16 crossroads_omp
 echo "Resultant build info:"
 ls -lh `pwd -P`/spa_manzano_kokkos
 popd
