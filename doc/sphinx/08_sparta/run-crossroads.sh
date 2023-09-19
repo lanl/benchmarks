@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #SBATCH --job-name=sparta-L2-S0
 #SBATCH --nodes=1
 #SBATCH --time=4:00:00
@@ -21,7 +21,7 @@ export SECSTAMP="`date '+%Y%m%d_%H%M%S'`"
 export FULLUNIQ="${SECSTAMP}_${RANDOM}"
 export DIR_CASE="${SECSTAMP}_${SLURM_JOB_ID}"
 export DIR_RUN="run-output-${DIR_CASE}"
-export FILE_LOG="${DIR_RUN}/run-sparta-${DIR_CASE}.log"
+export FILE_LOG="run-sparta-${DIR_CASE}.log"
 export TMPDIR="/tmp/$SLURM_JOB_ID"  # set to avoid potential runtime error
 
 # SPARTA setup
@@ -73,12 +73,13 @@ for (( i=0; i<${APP_REPEAT}; i++ )) ; do
     time srun \
         --ntasks-per-node=$RANKS_PER_NODE \
         --cpus-per-task=2 \
-        numactl --physcpubind=112-223 \  # this avoids all LNM conflicts
+        --cpu-bind=verbose \
+        --output="${FILE_LOG//.log/-${i}.log}" \
             "${APP_EXE}" \
             -in "in.cylinder" \
-        >"${FILE_LOG}-${i}" 2>&1
     unset LD_PRELOAD
 done
+#         numactl --physcpubind=112-223 \  # this avoids all LNM conflicts
                         
 mv ../slurm-${SLURM_JOBID}.out .
 
