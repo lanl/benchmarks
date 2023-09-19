@@ -42,42 +42,81 @@ The primary FOM is the Triad rate (MB/s).
 Building
 ========
 
-Adjustments to GOMP_CPU_AFFINITY may also be necessary.
+Adjustments to GOMP_CPU_AFFINITY may be necessary.
 
-You can modify the STREAM_ARRAY_SIZE value in the compilation step to change the array size used by the benchmark. Adjusting the array size can help accommodate the available memory on your system.
+The STREAM_ARRAY_SIZE value is a critical parameter set at compile time and controls the size of the array used to measure bandwidth. STREAM requires different amounts of memory to run on different systems, depending on both the system cache size(s) and the granularity of the system timer.
+
+You should adjust the value of 'STREAM_ARRAY_SIZE' (below) to meet BOTH of the following criteria:
+
+1) Each array must be at least 4 times the size of the available cache memory. I don't worry about the difference between 10^6 and 2^20, so in practice the minimum array size is about 3.8 times the cache size.
+    (a) Example 1: One Xeon E3 with 8 MB L3 cache STREAM_ARRAY_SIZE should be >= 4 million, giving an array size of 30.5 MB and a total memory requirement of 91.5 MB.
+    (b) Example 2: Two Xeon E5's with 20 MB L3 cache each (using OpenMP) STREAM_ARRAY_SIZE should be >= 20 million, giving an array size of 153 MB and a total memory requirement of 458 MB.
+2) The size should be large enough so that the 'timing calibration' output by the program is at least 20 clock-ticks.
+For example, most versions of Windows have a 10 millisecond timer granularity.  20 "ticks" at 10 ms/tic is 200 milliseconds. If the chip is capable of 10 GB/s, it moves 2 GB in 200 msec. This means the each array must be at least 1 GB, or 128M elements.
+
+Set STREAM_ARRAY_SIZE using the -D flag on your compile line.
+
+Example calculations for results presented here:
+
+STREAM ARRAY SIZE CALCULATIONS:
+
+STREAM
+XRDS DOCUMENTATION: 4 x (45 MiB cache / processor) x (2 processors) / (3 arrays) / (8 bytes / element) = 15 Mi elements = 15000000
+
+BROADWELL: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz
+CACHE: 45M
+SOCKETS: 2
+4 * ( 45M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 15.0 Mi elements = 15000000
+
+SAPPHIRE RAPIDS (DDR5): Intel(R) Xeon(R) Platinum 8480+
+CACHE: 107.52M
+SOCKETS: 2
+4 x (107.52M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 35.84 Mi elements = 35840000
+
+SAPPHIRE RAPIDS (HBM): Intel(R) Xeon(R) Platinum 8480+
+CACHE: 115.2M
+SOCKETS: 2
+4 x (115.2M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 38.4 Mi elements = 38400000
 
 Running
 =======
 
 .. code-block:: bash
 
-  mpirun -np <num_processes> ./stream
+  srun -n <num_processes> ./stream
 
 Replace `<num_processes>` with the number of MPI processes you want to use. For example, if you want to use 4 MPI processes, the command will be:
 
 .. code-block:: bash
 
-  mpirun -np 4 ./stream
+  srun -n 4 ./stream
 
 Input
 -----
 
-Dependent Variable(s)
+Other Results
 ---------------------
 
-1. Maximum bandwidth while utilizing all hardware cores and threads. MAX_BW
-2. A minimum number of cores and threads that achieves MAX_BW. MIN_CT 
+1. Maximum bandwidth while utilizing all hardware cores and threads: MAX_BW
+2. A minimum number of cores and threads that achieves MAX_BW: MIN_CT 
 
 Example Results
 ===============
 
+ATS-3 Rocinante HBM
+-------------------
+
+
+
 CTS-1 Snow
 -----------
 
+Using intel-classic and openmpi.
+
 .. csv-table:: STREAM microbenchmark bandwidth measurement
-   :file: stream-cts1_ats5intel-oneapi-openmpi.csv
+   :file: stream_cts1.csv
    :align: center
-   :widths: 10, 10
+   :widths: 10, 10, 10
    :header-rows: 1
 
 .. figure:: cpu_cts1.png
@@ -85,6 +124,4 @@ CTS-1 Snow
    :scale: 50%
    :alt: STREAM microbenchmark bandwidth measurement
 
-ATS-3 Rocinante HBM
--------------------
 

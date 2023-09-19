@@ -40,7 +40,7 @@ Building
 
 Makefiles are provided for the intel and gcc compilers. Before building, load the compiler and blas libraries into the PATH and LD_LIBRARY_PATH. 
 
-.. code-block:: 
+.. code-block:: bash
 
     cd src
     patch -p1 < ../dgemm_omp_fixes.patch
@@ -58,10 +58,12 @@ DGEMM uses OpenMP but does not use MPI.
 Set the number of OpenMP threads before running.
 
 .. code-block:: bash
+
     export OPENBLAS_NUM_THREADS = <nthreads>
     export OMP_NUM_THREADS = <nthreads>
 
 .. code-block:: bash
+    
     ./mt-dgemm <N> <R> <alpha> <beta>
 
 These values default to: :math:`N=256, R=8, \alpha=1.0, \beta=1.0`
