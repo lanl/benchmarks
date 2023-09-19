@@ -7,10 +7,6 @@ set -x
 dir_root=`git rev-parse --show-toplevel`
 dir_src="${dir_root}/sparta"
 
-module unload intel
-module unload openmpi-intel
-module use /apps/modules/modulefiles-apps/cde/v3/
-module load cde/v3/devpack/intel-ompi
 module list
 
 pushd "${dir_src}"
