@@ -124,8 +124,33 @@ Results from Parthenon are provided on the following systems:
 * Commodity Technology System 1 (CTS-1) (Snow) with Intel Broadwell processors,
 * An Nvidia A100 GPU hosted on an [Nvidia Arm HPC Developer Kit](https://developer.nvidia.com/arm-hpc-devkit)
 
-CTS-1
---------
+ATS-3 Rocinante HBM
+-------------------
+
+.. csv-table:: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes 40% Memory
+   :file: parthenon-ats5_spr-hbm128-intel-classic.csv
+   :align: center
+   :widths: 10, 10
+   :header-rows: 1
+
+.. figure:: ats3_40.png
+   :align: center
+   :scale: 50%
+   :alt: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes
+
+.. csv-table:: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes 60% Memory
+   :file: parthenon-ats5_spr-hbm160-intel-classic.csv
+   :align: center
+   :widths: 10, 10
+   :header-rows: 1
+
+.. figure:: ats3_60.png
+   :align: center
+   :scale: 50%
+   :alt: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes
+
+CTS-1 Snow
+-----------
 
 The mesh and meshblock size parameters are chosen to balance
 realism/performance with memory footprint. For the following tests we
@@ -195,31 +220,6 @@ Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the f
    :align: center
    :scale: 50%
    :alt: VIBE Throughput Performance on A100
-
-ATS-3
-------
-
-.. csv-table:: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes 40% Memory
-   :file: parthenon-ats5_spr-hbm128-intel-classic.csv
-   :align: center
-   :widths: 10, 10
-   :header-rows: 1
-
-.. figure:: ats3_40.png
-   :align: center
-   :scale: 50%
-   :alt: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes
-
-.. csv-table:: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes 60% Memory
-   :file: parthenon-ats5_spr-hbm160-intel-classic.csv
-   :align: center
-   :widths: 10, 10
-   :header-rows: 1
-
-.. figure:: ats3_60.png
-   :align: center
-   :scale: 50%
-   :alt: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes
 
 Verification of Results
 =======================
