@@ -166,8 +166,6 @@ System Information
 
 The platforms utilized for benchmarking activities are listed and described below.
 
-* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL (see :ref:`SystemCTS1`)
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`SystemATS3`)
 * Advanced Technology System 2 (ATS-2), also known as Sierra (see
@@ -208,7 +206,7 @@ cache size is 1.5 MB/core, 35.75 MB/processor, or 71.5 MB/node.
 ATS-3/Crossroads
 ----------------
 
-This system is not available yet but is slated to be the reference platform.
+This reference platform is described in detail in :ref:`ReferenceCrossroads`.
 
 
 .. _SystemATS2:
@@ -231,8 +229,8 @@ Building
 Instructions are provided on how to build SPARTA for the following systems:
 
 * Generic (see :ref:`BuildGeneric`)
-* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL (see :ref:`BuildCTS1`)
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`BuildATS3`)
 * Advanced Technology System 2 (ATS-2), also known as Sierra (see
   :ref:`BuildATS2`)
 
@@ -248,10 +246,10 @@ Generic
 Refer to SPARTA's [build]_ documentation for generic instructions.
 
 
-.. _BuildCTS1:
+.. _BuildATS3:
 
-CTS-1/Manzano
--------------
+ATS-3/Crossroads
+----------------
 
 .. note::
    The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
