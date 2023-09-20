@@ -103,8 +103,8 @@ Running
 
 ..
 
-For strong scaling on a CPU the Branson should be run with three different problem sizes such that the memory 
-footprint at the smallest process count per node is approximately 4 to 5%, 8 to 10%, and 20 to 22% during step 2 of the simulation. 
+For strong scaling on a CPU, Branson should be run with three different problem sizes such that the memory 
+footprint at the smallest process count per node is approximately: 4 to 5%, 8 to 10%, and 20 to 22%; during step 2 of the simulation. 
 Memory footprint is the sum of all Branson processes resident set size (or equivalent) on the node. 
 This can be obtained on a CPU system using the following (while the application is in step 2): 
 
