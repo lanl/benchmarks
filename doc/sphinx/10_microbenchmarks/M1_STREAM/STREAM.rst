@@ -37,7 +37,21 @@ These operations stress memory and floating point pipelines.They test memory tra
 Figure of Merit
 ---------------
 
-The primary FOM is the Triad rate (MB/s).
+The primary FOM is the max Triad rate (MB/s).
+
+Run Rules
+---------
+
+The program must synchronize between each operation. For instance:
+
+On a heterogeneous system, run stream for all computational devices. Where there is unified or heterogeneously addressable memory, also provide performance numbers for each device's access to available memory types.
+
+
+For instance:
+On a heterogenous node architecture with multi-core CPU with HBM2 memory and a GPU with HBM3 memory Stream performance should be reported for: CPU <-> HBM2, GPU <-> HBM3, CPU <-> HBM3, GPU <-> HBM2
+
+Present n CPU we want to see the scale as function of cores. On GPU maximum bandwidth.
+
 
 Building
 ========
@@ -60,22 +74,30 @@ Example calculations for results presented here:
 
 STREAM ARRAY SIZE CALCULATIONS:
 
-ARRAY_SIZE ~= 4 x (45 MiB cache / processor) x (2 processors) / (3 arrays) / (8 bytes / element) = 15 Mi elements = 15000000
+::
 
-HASWELL: Intel(R) Xeon(R) CPU E5-2698 v3 @ 2.30GHz
-CACHE: 40M
-SOCKETS: 2
-4 * ( 40M * 2 ) / 3 ARRAYS / 8 Bytes/element =  13.4 Mi elements = 13400000 
+ ARRAY_SIZE ~= 4 x (45 MiB cache / processor) x (2 processors) / (3 arrays) / (8 bytes / element) = 15 Mi elements = 15000000
 
-BROADWELL: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz
-CACHE: 45M
-SOCKETS: 2
-4 * ( 45M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 15.0 Mi elements = 15000000
+::
 
-SAPPHIRE RAPIDS: Intel(R) Xeon(R) Platinum 8480+
-CACHE: 105
-SOCKETS: 2
-4 x (105M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 35 Mi elements = 35000000
+  HASWELL: Intel(R) Xeon(R) CPU E5-2698 v3 @ 2.30GHz
+    CACHE: 40M
+    SOCKETS: 2
+    4 * ( 40M * 2 ) / 3 ARRAYS / 8 Bytes/element =  13.4 Mi elements = 13400000 
+
+::
+
+  BROADWELL: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz
+    CACHE: 45M
+    SOCKETS: 2
+    4 * ( 45M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 15.0 Mi elements = 15000000
+
+::
+
+  SAPPHIRE RAPIDS: Intel(R) Xeon(R) Platinum 8480+
+    CACHE: 105
+    SOCKETS: 2
+    4 x (105M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 35 Mi elements = 35000000
 
 Running
 =======
