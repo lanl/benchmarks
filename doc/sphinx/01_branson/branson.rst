@@ -154,7 +154,7 @@ figure.
    :widths: 10, 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cpu_10M.png
+.. figure:: cpu_66M.png
    :align: center
    :scale: 50%
    :alt: Branson Strong Scaling Performance on Crossroads 66M particles
