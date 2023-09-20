@@ -103,68 +103,79 @@ Running
 
 ..
 
-For strong scaling on a CPU the memory footprint of Branson must be between 28% and 34% of the computational device's main memory.
-The memory footprint can be controlled by editing "photons" in the input file. 
-On a dual socket Intel Haswell (E5-2695 v4 2.10GHz) with 128GByte of total system memory using 120000000 photons is ~41.1GByte (Resident set size) or approximately %32.7. 
+For strong scaling on a CPU the Branson should be run with three different problem sizes such that the memory 
+footprint at the smallest process count per node is approximately 4 to 5%, 8 to 10%, and 20 to 22% during step 2 of the simulation. 
+Memory footprint is the sum of all Branson processes resident set size (or equivalent) on the node. 
+This can be obtained on a CPU system using the following (while the application is in step 2): 
 
-For throughput curves on a GPU the memory footprint of Branson must vary between 5% and 90% in increments of at most 5% of the computational device's main memory.
+.. code-block:: bash
+
+   ps -C BRANSON -o euser,c,pid,ppid,cmd,%cpu,%mem,rss --sort=-rss
+   
+   ps -C BRANSON -o rss | awk '{sum+=$1;} END{print sum/1024/1024;}'
+.. 
+
+
+
+
+For throughput curves on a GPU the memory footprint of Branson must vary between ~5% and ~60% in increments of at most 5% of the computational device's main memory.
 The memory footprint can be controlled by editing "photons" in the input file. 
 
 
 Results from Branson are provided on the following systems:
 
-* Commodity Technology System 1 (CTS-1) with Intel Broadwell processors,
+* Crossroads,
 * IBM Power9 with Nvidia V100 GPU, 
 
-CTS-1
+Crossroads
 ------------
-Strong scaling performance of Branson CTS-1 66M Particles is provided within the following table and
+Strong scaling performance of Crossroads 66M Particles is provided within the following table and
 figure.
 
-.. csv-table:: Branson Strong Scaling Performance on CTS-1 66M particles
+.. csv-table:: Branson Strong Scaling Performance on Crossroads 10M particles
+   :file: cpu_10M.csv
+   :align: center
+   :widths: 10, 10, 10, 10, 10
+   :header-rows: 1
+
+.. figure:: cpu_10M.png
+   :align: center
+   :scale: 50%
+   :alt: Branson Strong Scaling Performance on Crossroads 10M particles
+
+Branson Strong Scaling Performance on Crossroads 10M particles   
+
+Strong scaling performance of Branson Crossroads 66M  Particles is provided within the following table and
+figure.
+
+.. csv-table:: Branson Strong Scaling Performance on Crossroads 66M  particles
    :file: cpu_66M.csv
    :align: center
-   :widths: 10, 10, 10
+   :widths: 10, 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cpu_66M.png
+.. figure:: cpu_10M.png
    :align: center
    :scale: 50%
-   :alt: Branson Strong Scaling Performance on CTS-1 66M particles
+   :alt: Branson Strong Scaling Performance on Crossroads 66M particles
 
-Branson Strong Scaling Performance on CTS-1 66M particles   
+Branson Strong Scaling Performance on Crossroads 66M  particles  
 
-Strong scaling performance of Branson CTS-1 133M Particles is provided within the following table and
+Strong scaling performance of Branson Crossroads 200M Particles is provided within the following table and
 figure.
 
-.. csv-table:: Branson Strong Scaling Performance on CTS-1 133M particles
-   :file: cpu_133M.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cpu_133M.png
-   :align: center
-   :scale: 50%
-   :alt: Branson Strong Scaling Performance on CTS-1 133M particles
-
-Branson Strong Scaling Performance on CTS-1 133M particles  
-
-Strong scaling performance of Branson CTS-1 200M Particles is provided within the following table and
-figure.
-
-.. csv-table:: Branson Strong Scaling Performance on CTS-1 200M particles
+.. csv-table:: Branson Strong Scaling Performance on Crossroads 200M particles
    :file: cpu_200M.csv
    :align: center
-   :widths: 10, 10, 10
+   :widths: 10, 10, 10, 10, 10
    :header-rows: 1
 
 .. figure:: cpu_200M.png
    :align: center
    :scale: 50%
-   :alt: Branson Strong Scaling Performance on CTS-1 200M particles
+   :alt: Branson Strong Scaling Performance on Crossroads 200M particles
 
-Branson Strong Scaling Performance on CTS-1 200M particles  
+Branson Strong Scaling Performance on Crossroads 200M particles  
 
 Power9+V100
 ------------
