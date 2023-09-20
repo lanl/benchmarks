@@ -1,0 +1,11 @@
+
+CC=icc
+CFLAGS=-O3 -fopenmp -mkl -DUSE_MKL
+LDFLAGS=
+
+mt-dgemm-icc: mt-dgemm.c
+	$(CC) $(CFLAGS) -o mt-dgemm-icc mt-dgemm.c
+
+clean:
+	rm mt-dgemm *.o
+
