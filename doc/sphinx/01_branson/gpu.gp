@@ -2,7 +2,7 @@
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
 set output "gpu.png"
 
-set title "Branson Throughput Performance on Power9+V100" font "serif,22"
+set title "Branson Throughput Performance on Sierra" font "serif,22"
 set xlabel "No. Particles"
 set ylabel "Figure of Merit (Particles/sec)"
 

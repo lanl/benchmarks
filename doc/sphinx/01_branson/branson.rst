@@ -124,10 +124,8 @@ The memory footprint can be controlled by editing "photons" in the input file.
 
 Results from Branson are provided on the following systems:
 
-* Crossroads (see
-  :ref:`GlobalSystemATS3`)
-* Sierra (see
-  :ref:`GlobalSystemATS2`)
+* Crossroads (see :ref:`GlobalSystemATS3`)
+* Sierra (see :ref:`GlobalSystemATS2`)
 
 Crossroads
 ------------
@@ -179,13 +177,13 @@ figure.
 
 Branson Strong Scaling Performance on Crossroads 200M particles  
 
-Power9+V100
+Sierra
 ------------
 
-Throughput performance of Branson on Power9+V100 is provided within the
+Throughput performance of Branson on Sierra is provided within the
 following table and figure.
 
-.. csv-table:: Branson Throughput Performance on Power9+V100
+.. csv-table:: Branson Throughput Performance on Sierra
    :file: gpu.csv
    :align: center
    :widths: 10, 10
@@ -194,8 +192,8 @@ following table and figure.
 .. figure:: gpu.png
    :align: center
    :scale: 50%
-   :alt: Branson Throughput Performance on Power9+V100
-Branson Throughput Performance on Power9+V100
+   :alt: Branson Throughput Performance on Sierra
+Branson Throughput Performance on Sierra
 
 
 Verification of Results
