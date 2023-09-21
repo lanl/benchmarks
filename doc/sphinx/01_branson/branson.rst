@@ -124,8 +124,10 @@ The memory footprint can be controlled by editing "photons" in the input file.
 
 Results from Branson are provided on the following systems:
 
-* Crossroads,
-* IBM Power9 with Nvidia V100 GPU, 
+* Crossroads (see
+  :ref:`GlobalSystemATS3`)
+* Sierra (see
+  :ref:`GlobalSystemATS2`)
 
 Crossroads
 ------------

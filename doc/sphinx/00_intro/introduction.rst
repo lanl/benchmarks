@@ -239,6 +239,37 @@ Where:
 *	w = weighting factor. 
 
 
+System Information
+==================
+
+The baseline platform for the ATS-5 procurement is the ATS-3 system (described below). 
+GPU performance is provided on the ATS-2 system and in some cases other GPU based systems 
+and is for information only, these are not to be used as baselines. 
+In most cases the performance numbers provided herein were collected on smaller scale 
+testbed systems that are the same architecture as that of ATS-3 and ATS-2 systems. 
+
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`GlobalSystemATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`GlobalSystemATS2`)
+
+
+.. _GlobalSystemATS3:
+
+ATS-3/Crossroads
+----------------
+
+This system has over 6,000 compute nodes that are made up of two Intel(R) Xeon(R) Max 9480 CPUs 
+interconnected with HPE Slingshot 11 interconnect. 
+
+.. _GlobalSystemATS2:
+
+ATS-2/Sierra
+------------
+
+This system has 4,284  compute nodes that are made up of two Power9
+CPUs with four NVIDIA V100 GPUs. Please refer to [Sierra-LLNL]_ for more
+detailed information.
+
+
 
 Approvals
 =========

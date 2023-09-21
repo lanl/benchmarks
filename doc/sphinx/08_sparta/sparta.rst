@@ -114,7 +114,7 @@ Figure of Merit
 
 Each SPARTA simulation writes out a file named "log.sparta". At the end of this
 simulation is a block that resembles the following example (this is from the
-ATS-2/Sierra case discussed below with 57,143,091 particles whose full output is
+Sierra case discussed below with 57,143,091 particles whose full output is
 within :download:`log.sparta <log.sparta>`).
 
 .. code-block::
@@ -168,10 +168,8 @@ The platforms utilized for benchmarking activities are listed and described belo
 
 * Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
   known as Manzano at SNL (see :ref:`SystemCTS1`)
-* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
-  :ref:`SystemATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
-  :ref:`SystemATS2`)
+* Crossroads (see  :ref:`GlobalSystemATS3`)
+* Sierra (see :ref:`GlobalSystemATS2`)
 
 
 .. _SystemCTS3:
@@ -202,29 +200,6 @@ levels of cache, with L1 using separate instruction and data caches, L2 unifying
 instruction and data, and L3 being shared across all cores in the processor. The
 cache size is 1.5 MB/core, 35.75 MB/processor, or 71.5 MB/node.
 
-
-.. _SystemATS3:
-
-ATS-3/Crossroads
-----------------
-
-This system is not available yet but is slated to be the reference platform.
-
-
-.. _SystemATS2:
-
-ATS-2/Sierra
-------------
-
-This system has a plethora of compute nodes that are made up of Power9
-processors with four NVIDIA V100 GPUs. Please refer to [Sierra-LLNL]_ for more
-detailed information.
-
-A Sierra application and regression testbed system named Vortex, housed at SNL,
-was used for benchmarking for convenience. Vortex has the same compute node
-hardware as Sierra.
-
-
 Building
 ========
 
@@ -233,7 +208,7 @@ Instructions are provided on how to build SPARTA for the following systems:
 * Generic (see :ref:`BuildGeneric`)
 * Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
   known as Manzano at SNL (see :ref:`BuildCTS1`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+* Sierra (see
   :ref:`BuildATS2`)
 
 If submodules were cloned within this repository, then the source code to build
@@ -269,7 +244,7 @@ at the top level of this repository.
 
 .. _BuildATS2:
 
-ATS-2/Vortex
+Sierra (Vortex testbed)
 ------------
 
 Instructions for building on Sierra are provided below.
@@ -293,7 +268,7 @@ Instructions are provided on how to run SPARTA for the following systems:
 
 * Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
   known as Manzano at SNL (see :ref:`RunCTS1`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+* Sierra (see
   :ref:`RunATS2`)
 
 
@@ -324,7 +299,7 @@ An example of how to run the test case on Manzano is provided below.
 
 .. _RunATS2:
 
-ATS-2/Vortex
+Sierra (Vortex testbed)
 ------------
 
 An example of how to run the test case with a single GPU on Sierra is provided
@@ -350,7 +325,7 @@ Results from SPARTA are provided on the following systems:
 
 * Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
   known as Manzano at SNL (see :ref:`ResultsCTS1`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+* Sierra (see
   :ref:`ResultsATS2`)
 
 
@@ -462,13 +437,13 @@ subsections.
 
 .. _ResultsATS2:
 
-ATS-2/Vortex
+Sierra (Vortex testbed)
 ------------
 
-Throughput performance of SPARTA on ATS-2/Vortex is provided within the
+Throughput performance of SPARTA on Sierra/Vortex is provided within the
 following table and figure.
 
-.. csv-table:: SPARTA Throughput Performance on ATS-2/Vortex
+.. csv-table:: SPARTA Throughput Performance on Sierra/Vortex
    :file: ats2.csv
    :align: center
    :widths: 10, 10
@@ -477,9 +452,9 @@ following table and figure.
 .. figure:: ats2.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Throughput Performance on ATS-2/Vortex
+   :alt: SPARTA Throughput Performance on Sierra/Vortex
 
-   SPARTA Throughput Performance on ATS-2/Vortex
+   SPARTA Throughput Performance on Sierra/Vortex
 
 Output from the largest case is within :download:`log.sparta <log.sparta>`.
 
