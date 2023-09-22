@@ -1,4 +1,4 @@
-No. Cores,Bandwidth (MB/s),Total Bandwidth (MB/s)
+No. Cores,Per Core Bandwidth (MB/s),Total Bandwidth (MB/s)
 1,10690.1,10690.1
 2,10701.3,21402.6
 4,9316.5,37266.0

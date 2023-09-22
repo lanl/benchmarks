@@ -185,7 +185,7 @@ if __name__ == '__main__':
                 gdf.index.name = index_title
             if value_title:
                 gdf.columns = value_title
-            grouped_dfs[gtitle] = gdf.squeeze().map(fmt.format)
+            grouped_dfs[gtitle] = gdf.applymap(fmt.format)
             df_mean[gtitle] = gdf.mean().values[0]
 
         plt.legend(plt_legend)

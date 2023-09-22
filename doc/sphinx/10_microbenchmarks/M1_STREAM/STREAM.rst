@@ -21,15 +21,27 @@ Problem
 There are four memory operations that the STREAM benchmark measures: Copy, Scale, Add, and Triad.
 
 Copy - Copies data from one array to another:
+
+.. math:: 
+
 b[i] = a[i]
 
 Scale - Multiplies each array element by a constant, a daxpy operation.
+
+.. math::
+
 b[i] = q*a[i]
 
 Add - Adds two arrays element-wise:
+
+.. math::
+
 c[i] = a[i] + b[i]
 
 Triad - Multiply-add operation:
+
+.. math::
+
 a[i] = b[i] + q*c[i]
 
 These operations stress memory and floating point pipelines.They test memory transfer speed, computation speed, and different combinations of these two components of overall performance performance.
@@ -37,7 +49,7 @@ These operations stress memory and floating point pipelines.They test memory tra
 Figure of Merit
 ---------------
 
-The primary FOM is the max Triad rate (MB/s).
+The primary FOM is the MAX Triad rate (MB/s).
 
 Run Rules
 ---------
@@ -118,6 +130,17 @@ Example Results
 ATS-3 Rocinante HBM
 -------------------
 
+.. csv-table:: STREAM microbenchmark bandwidth measurement
+   :file: stream-xrds_ats5cce-cray-mpich.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: stream_cpu_ats3.png
+   :align: center
+   :scale: 50%
+   :alt: STREAM microbenchmark bandwidth measurement
+
 CTS-1 Snow
 -----------
 
@@ -127,7 +150,7 @@ CTS-1 Snow
    :widths: 10, 10, 10
    :header-rows: 1
 
-.. figure:: cpu_cts1.png
+.. figure:: stream_cpu_cts1.png
    :align: center
    :scale: 50%
    :alt: STREAM microbenchmark bandwidth measurement
