@@ -59,7 +59,7 @@ Building on Chicoma
    cd hippynn
    git fetch
    git checkout f8ed7390beb8261c8eec75580c683f5121226b30
-   pip install -e --no-deps ./
+   pip install --no-deps -e .
    
    #Install Lammps: 
    git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap.git
