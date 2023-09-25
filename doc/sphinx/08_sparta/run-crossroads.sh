@@ -25,10 +25,10 @@ export FILE_LOG="run-sparta-${DIR_CASE}.log"
 export TMPDIR="/tmp/$SLURM_JOB_ID"  # set to avoid potential runtime error
 
 # SPARTA setup
+export SPARTA_RUN=${SPARTA_RUN:-4000}
+export SPARTA_PPC=${SPARTA_PPC:-42}
 export APP_EXE="${DIR_EXE}/spa_crossroads_omp"
 export APP_REPEAT=1
-export SPARTA_RUN=500
-export SPARTA_PPC=47
 
 # MPI setup
 export NODES=1
@@ -74,6 +74,10 @@ cp -a "${DIR_SRC}"/examples/cylinder/air.* ./
 for (( i=0; i<${APP_REPEAT}; i++ )) ; do
     echo "################"
     echo "INFO: Perform Simulation #{i}"
+    dir_try="try-` printf '%02d' $i `"
+    mkdir -p "${dir_try}"
+    pushd "${dir_try}"
+    ln -s ../air.* ../*.surf ../in.cylinder ./
     # export LD_PRELOAD=libldpxi_mpi.so
     export LD_PRELOAD=/usr/projects/hpctest/amagela/ldpxi/ldpxi/install/ats3/ldpxi-1.0.1/intel+cray-mpich-8.1.25/lib/libldpxi_mpi.so.1.0.1
     time srun \
@@ -86,6 +90,7 @@ for (( i=0; i<${APP_REPEAT}; i++ )) ; do
             -in "in.cylinder"
         hostname  
     unset LD_PRELOAD
+    popd
 done
 #         numactl --physcpubind=112-223 hostname  
                         
