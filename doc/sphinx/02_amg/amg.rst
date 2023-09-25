@@ -446,7 +446,114 @@ Strong scaling results of AMG2023 for problem 2 on a grid size of 320 x 320 x 32
    :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
    
    AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
+
+Strong Scaling on Rocinante
+---------------------------
+
+We present strong scaling results for varying problem sizes on Rocinante with HBM below. The code was configured and compiled using hypre v2.29.0 with MPI only and optimization -O2.
+
+Strong scaling results of AMG2023 for problem 1 on a grid size of 120 x 120 x 120 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120, Roci
+   :file: roci_1_120.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+
+.. figure:: roci_1_120.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120, Roci
    
+   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120, Roci
+
+
+Strong scaling results of AMG2023 for problem 1 on a grid size of 160 x 160 x 160 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160, Roci
+   :file: roci_1_160.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+   
+
+.. figure:: roci_1_160.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160, Roci
+   
+   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160, Roci
+   
+
+Strong scaling results of AMG2023 for problem 1 on a grid size of 200 x 200 x 200 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200, Roci
+   :file: roci_1_200.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+   
+
+.. figure:: roci_1_200.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200, Roci
+   
+   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200, Roci
+   
+
+Strong scaling results of AMG2023 for problem 2 on a grid size of 200 x 200 x 200 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200, Roci
+   :file: roci_2_200.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+   
+
+.. figure:: roci_2_200.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200, Roci
+   
+   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200, Roci
+   
+
+Strong scaling results of AMG2023 for problem 2 on a grid size of 256 x 256 x 256 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256, Roci
+   :file: roci_2_256.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+   
+
+.. figure:: roci_2_256.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256, Roci
+   
+   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256, Roci
+   
+
+Strong scaling results of AMG2023 for problem 2 on a grid size of 320 x 320 x 320 are provided in the following table and figure.
+
+.. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320, Roci
+   :file: roci_2_320.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+   
+
+.. figure:: roci_2_320.png
+   :align: center
+   :scale: 50%
+   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320, Roci
+   
+   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320, Roci
+
+
 
 V-100
 -----
