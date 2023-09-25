@@ -16,6 +16,9 @@ Problem
 Figure of Merit
 ---------------
 
+Run Rules
+---------
+
 Building
 ========
 

@@ -23,12 +23,6 @@ Figure of Merit
 Building
 ========
 
-RHEL Systems
-------------
-
-CrayOS Systems
---------------
-
 Running
 =======
 

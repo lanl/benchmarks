@@ -61,8 +61,9 @@ Set the number of OpenMP threads before running.
 
 .. code-block:: bash
 
-    export OPENBLAS_NUM_THREADS = <nthreads>
-    export OMP_NUM_THREADS = <nthreads>
+    export OPENBLAS_NUM_THREADS=<nthreads>
+    export OMP_NUM_THREADS=<nthreads>
+    export OMP_PLACES=cores
 
 ..
 
@@ -81,3 +82,18 @@ These are positional arguments, so, for instance, R cannot be set without settin
 Example Results
 ===============
 
+ATS-3 Rocinante HBM
+-------------------
+
+This test was built with the intel 2023.1.0 compiler using the crayOS compiler wrapper where: :math:`N=2500, R=500, \alpha=1.0, \beta=1.0`. The 110 core run (cores are used as OpenMP threads) avoids the OS dedicated cores and takes roughly an hour. All four runs on rocinante hbm take 5-6 hours.
+
+.. csv-table:: DGEMM microbenchmark FLOPs measurement
+   :file: dgemm_ats3.csv
+   :align: center
+   :widths: 10, 10
+   :header-rows: 1
+
+.. figure:: dgemm_ats3.png
+   :align: center
+   :scale: 50%
+   :alt: DGEMM microbenchmark FLOPs measurement
