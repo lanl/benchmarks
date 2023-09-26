@@ -20,6 +20,9 @@ ATS Benchmarks Project
    06_umt/umt
    07_miniem/miniem
    08_sparta/sparta
+   12_smb/smb
+
+
 
 .. toctree::
    :numbered:
