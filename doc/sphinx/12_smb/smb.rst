@@ -8,6 +8,8 @@ This is the documentation for the ATS-5 Benchmark SMB Message Rate - A multi-nod
 Purpose
 =======
 
+Sandia Microbenchmarks - Message Rate is a realistic messaging benchmark designed to emulate real application behavior. In particular there are a few things that set this benchmark apart; 1. It uses a peer count to emulate different communication patterns. 2. It clears the cache between each iteration to get realistic performance numbers. 3. It test different program behaviors, such at pre-posting receives, to evaluate performance under different scenarios. 
+
 
 Characteristics
 ===============
@@ -126,77 +128,6 @@ We define some system specific variables for these tests.
 
 Results from SMB are provided on the following systems:
 
-* Commodity Technology System 1 (CTS-1) with Intel Broadwell processors,
-* IBM Power9 with Nvidia V100 GPU, 
-
-CTS-1
-------------
-Strong scaling performance of Branson CTS-1 66M Particles is provided within the following table and
-figure.
-
-.. csv-table:: Branson Strong Scaling Performance on CTS-1 66M particles
-   :file: cpu_66M.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cpu_66M.png
-   :align: center
-   :scale: 50%
-   :alt: Branson Strong Scaling Performance on CTS-1 66M particles
-
-Branson Strong Scaling Performance on CTS-1 66M particles   
-
-Strong scaling performance of Branson CTS-1 133M Particles is provided within the following table and
-figure.
-
-.. csv-table:: Branson Strong Scaling Performance on CTS-1 133M particles
-   :file: cpu_133M.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cpu_133M.png
-   :align: center
-   :scale: 50%
-   :alt: Branson Strong Scaling Performance on CTS-1 133M particles
-
-Branson Strong Scaling Performance on CTS-1 133M particles  
-
-Strong scaling performance of Branson CTS-1 200M Particles is provided within the following table and
-figure.
-
-.. csv-table:: Branson Strong Scaling Performance on CTS-1 200M particles
-   :file: cpu_200M.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cpu_200M.png
-   :align: center
-   :scale: 50%
-   :alt: Branson Strong Scaling Performance on CTS-1 200M particles
-
-Branson Strong Scaling Performance on CTS-1 200M particles  
-
-Power9+V100
-------------
-
-Throughput performance of Branson on Power9+V100 is provided within the
-following table and figure.
-
-.. csv-table:: Branson Throughput Performance on Power9+V100
-   :file: gpu.csv
-   :align: center
-   :widths: 10, 10
-   :header-rows: 1
-
-.. figure:: gpu.png
-   :align: center
-   :scale: 50%
-   :alt: Branson Throughput Performance on Power9+V100
-Branson Throughput Performance on Power9+V100
-
 
 Verification of Results
 =======================
@@ -204,4 +135,3 @@ Verification of Results
 References
 ==========
 
-.. [site] Alex R. Long, 'Branson', 2023. [Online]. Available: https://github.com/lanl/branson. [Accessed: 22- Feb- 2023]
