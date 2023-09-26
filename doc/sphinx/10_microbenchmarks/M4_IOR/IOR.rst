@@ -53,11 +53,7 @@ Running
 Input
 -----
 
-Independent Variables
----------------------
-
-Dependent Variable(s)
----------------------
+Sample production input files in `microbenchmarks/ior/inputs.xroads`
 
 Example Results
 ===============
