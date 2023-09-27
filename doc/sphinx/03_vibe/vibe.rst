@@ -69,7 +69,7 @@ To build Parthenon on CPU, including this benchmark, with minimal external depen
 
    parthenon$ mkdir build && cd build
    build$ export CXXFLAGS="-fno-math-errno -march=native"
-   build$ cmake -DPARTHENON_DISABLE_HDF5=ON -DPARTHENON_DISABLE_OPENMP=ON -DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF -DREGRESSION_GOLD_STANDARD_SYNC=OFF ../
+   build$ cmake -DPARTHENON_DISABLE_HDF5=ON  -DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF -DREGRESSION_GOLD_STANDARD_SYNC=OFF  -DCMAKE_BUILD_TYPE=Release ../
    build$ make -j
 
 ..
@@ -78,11 +78,11 @@ On a CTS-1 machine the relevant modules for the results shown here are:
 
 .. code-block:: bash
 
-   intel-classic/2021.2.0 intel-mpi/2019.9.304 cmake/3.22.3
+   intel/2023.1.0 cray-mpich/8.1.25 
 
 ..
 
-Using openmpi/3.1.6 also works. To build for execution on a single GPU, it should be sufficient to add the following flags to the CMake configuration line
+To build for execution on a single GPU, it should be sufficient to add the following flags to the CMake configuration line
 
 .. code-block:: bash
 
@@ -108,8 +108,8 @@ The executable `burgers-benchmark` will be built in `parthenon/build/benchmarks/
    NXB=16
    NLIM=250
    NLVL=3
-   mpirun -np 36 burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin parthenon/mesh/nx{1,2,3}=${NX} parthenon/meshblock/nx{1,2,3}=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
-   #srun -n 32 ... also works. Note that mpirun does not exist on HPE machines at LANL.
+   mpirun -np 112 burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin parthenon/mesh/nx{1,2,3}=${NX} parthenon/meshblock/nx{1,2,3}=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
+   #srun -n 112 ... also works. Note that mpirun does not exist on HPE machines at LANL.
 ..
 
 Varying the ``parthenon/mesh/nx*`` parameters will change the memory footprint. The memory footprint scales roughly as the product of ``parthenon/mesh/nx1``, ``parthen/mesh/nx2``, and ``parthenon/mesh/nx3``. The ``parthen/meshblock/nx*`` parameters select the granularity of refinement: the mesh is distributed accross MPI ranks and refined/de-refined in chunks of this size.
@@ -121,13 +121,14 @@ The results presented here use 64, 128, and 160 for  memory footprints of 20%, 4
 
 Results from Parthenon are provided on the following systems:
 
+* Crossroads (see :ref:`GlobalSystemATS3`)
 * Commodity Technology System 1 (CTS-1) (Snow) with Intel Broadwell processors,
 * An Nvidia A100 GPU hosted on an [Nvidia Arm HPC Developer Kit](https://developer.nvidia.com/arm-hpc-devkit)
 
 ATS-3 Rocinante HBM
 -------------------
 
-.. csv-table:: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes 40% Memory
+.. csv-table:: VIBE Throughput Performance on Crossroads using ~40% Memory
    :file: parthenon-ats5_spr-hbm128-intel-classic.csv
    :align: center
    :widths: 10, 10
@@ -136,9 +137,9 @@ ATS-3 Rocinante HBM
 .. figure:: ats3_40.png
    :align: center
    :scale: 50%
-   :alt: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes
+   :alt: VIBE Throughput Performance on Crossroads
 
-.. csv-table:: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes 60% Memory
+.. csv-table:: VIBE Throughput Performance on Crossroads using ~60% Memory
    :file: parthenon-ats5_spr-hbm160-intel-classic.csv
    :align: center
    :widths: 10, 10
@@ -147,7 +148,7 @@ ATS-3 Rocinante HBM
 .. figure:: ats3_60.png
    :align: center
    :scale: 50%
-   :alt: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes
+   :alt: VIBE Throughput Performance on Crossroads
 
 CTS-1 Snow
 -----------
