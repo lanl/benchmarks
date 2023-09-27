@@ -2,7 +2,7 @@
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
 set output "gpu.png"
 
-set title "VIBE Throughput Performance on an A100" font "serif,22"
+#set title "VIBE Throughput Performance on an A100" font "serif,22"
 set xlabel "Base Mesh Size/Axis"
 set ylabel "Figure of Merit (zone-cycles/sec)"
 
