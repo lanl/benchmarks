@@ -126,9 +126,12 @@ Replace `<num_processes>` with the number of MPI processes you want to use. For 
 
 Example Results
 ===============
+Results from Branson are provided on the following systems:
 
-ATS-3 Rocinante HBM
--------------------
+* Crossroads (see :ref:`GlobalSystemATS3`)
+
+Crossroads
+----------
 
 .. csv-table:: STREAM microbenchmark bandwidth measurement
    :file: stream-xrds_ats5cce-cray-mpich.csv
@@ -140,18 +143,3 @@ ATS-3 Rocinante HBM
    :align: center
    :scale: 50%
    :alt: STREAM microbenchmark bandwidth measurement
-
-CTS-1 Snow
------------
-
-.. csv-table:: STREAM microbenchmark bandwidth measurement
-   :file: stream_cts1.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-
-.. figure:: stream_cpu_cts1.png
-   :align: center
-   :scale: 50%
-   :alt: STREAM microbenchmark bandwidth measurement
-

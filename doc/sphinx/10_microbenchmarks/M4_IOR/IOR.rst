@@ -55,6 +55,8 @@ Input
 
 Sample production input files in `microbenchmarks/ior/inputs.xroads`
 
+Running IOR does not require using the input files. All arguments can be given on the command line.
+
 Example Results
 ===============
 
