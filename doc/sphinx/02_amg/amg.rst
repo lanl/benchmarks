@@ -208,154 +208,22 @@ The second figure provides memory use on 1 node of CTS-1 (Quartz) using 4 MPI ta
    
    Approximate memory use for Problems 1 and 2 on CTS-1
 
-Suggested Test Runs
-===================
-We present several strong scaling runs for CPUs that were performed on RZWhippet.
 
-For Problem 1, we chose a total grid size of 160 x 160 x 160. We generated the results in the first four columns of the table below using an MPI-only configuration of hypre v2.27.0 via
-
-``srun -n <P*Q*R> amg -P <P> <Q> <R> -n <nx> <ny> <nz> -problem 1``
-
-The results in the last three columns were achieved using an MPI/OpenMP configuration of hypre v2.27.0 via
-
-``configure --with-openmp --enable-hopscotch``
-
-The actual run was performed with varying numbers of OpenMP threads:
-
-``srun -n 1 amg -P 1 1 1 -n 160 160 160 -problem 1``.
-
-.. table:: Strong scaling on RZWhippet for Problem 1
-
- +-----------+--------------+------------+------------+---------+------------+------------+
- | P x Q x R | nx x ny x nz | setup time | solve time | threads | setup time | solve time |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 1 x 1 x 1 | 160x160x160  |   14.92    |    13.85   |    1    |    15.29   |   13.35    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 2 x 1 x 1 |  80x160x160  |   10.83    |     6.96   |    2    |     8.21   |    7.08    | 
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 2 x 2 x 1 |  80x 80x160  |    5.48    |     3.45   |    4    |     4.33   |    3.72    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 2 x 2 x 2 |  80x 80x 80  |    2.61    |     1.73   |    8    |     2.36   |    2.05    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 4 x 2 x 2 |  40x 80x 80  |    1.35    |     0.95   |   16    |     1.44   |    1.30    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 4 x 4 x 2 |  40x 40x 80  |    0.70    |     0.56   |   32    |     1.02   |    0.97    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 4 x 4 x 4 |  40x 40x 40  |    0.38    |     0.41   |   64    |     0.89   |    0.85    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- |           |              |            |            |  128    |     1.13   |    0.91    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- 
-
-The following table contains the FOMs for the runs above:
-
-.. table:: Total FOMs for Problem 1 with a total grid size of 160 x 160 x 160 on RZWhippet
-
- +---------+-----------------------------------+-----------------------------------+
- |         |                MPI                |               OpenMP              |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- | np/nthr |    FOM    | FOM_setup | FOM_solve |   FOM     | FOM_setup | FOM_solve |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |    1    | 1.548E+08 | 1.512E+07 | 3.095E+08 | 1.605E+08 | 1.475E+07 | 3.210E+08 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |    2    | 3.080E+08 | 2.084E+07 | 6.160E+08 | 3.026E+08 | 2.746E+07 | 6.052E+08 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |    4    | 6.215E+08 | 4.117E+07 | 1.243E+09 | 5.754E+08 | 5.213E+07 | 1.151E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |    8    | 1.236E+09 | 8.630E+07 | 2.472E+09 | 1.044E+09 | 9.574E+07 | 2.088E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |   16    | 2.263E+09 | 1.665E+08 | 4.526E+09 | 1.654E+09 | 1.562E+08 | 3.307E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |   32    | 3.850E+09 | 3.241E+08 | 7.699E+09 | 2.203E+09 | 2.222E+08 | 4.406E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |   64    | 5.253E+09 | 5.992E+09 | 1.051E+10 | 2.531E+09 | 2.545E+08 | 5.061E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |  128    |           |           |           | 2.348E+09 | 1.994E+08 | 4.696E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
-
-
-.. figure:: plots/CPU-FOM-1.png
-   :alt: Total FOMs for Problem 1 on RZWhippet using MPI or OpenMP.
-   :align: center
-   
-   Total FOMs for Problem 1 on RZWhippet using MPI or OpenMP.
-
-We performed a similar test for Problem 2 using a total grid size of 256 x 256 x 256.
-
-.. table:: Strong scaling on RZWhippet for Problem 2
-
- +-----------+--------------+------------+------------+---------+------------+------------+
- | P x Q x R | nx x ny x nz | setup time | solve time | threads | setup time | solve time |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 1 x 1 x 1 |  256x256x256 |    18.67   |  29.72     |    1    |   19.80    |   30.26    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 2 x 1 x 1 |  128x256x256 |    12.11   |  17.51     |    2    |   11.21    |   18.00    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 2 x 2 x 1 |  128x128x256 |     6.26   |   8.68     |    4    |    6.59    |    9.49    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 2 x 2 x 2 |  128x128x128 |     3.00   |   3.92     |    8    |    4.20    |    5.93    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 4 x 2 x 2 |   64x128x128 |     1.54   |   2.14     |   16    |    3.26    |    4.41    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 4 x 4 x 2 |   64x 64x128 |     0.78   |   1.35     |   32    |    3.12    |    3.88    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- | 4 x 4 x 4 |   64x 64x 64 |     0.43   |   1.04     |   64    |    3.84    |    3.66    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- |           |              |            |            |   96    |    4.69    |    3.59    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- |           |              |            |            |  120    |    5.68    |    4.18    |
- +-----------+--------------+------------+------------+---------+------------+------------+
- 
-
-.. table:: Total FOMs for Problem 2 with a total grid size of 256 x 256 x 256  on RZWhippet
-
- +---------+-----------------------------------+-----------------------------------+
- |         |                MPI                |               OpenMP              |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- | np/nthr |    FOM    | FOM_setup | FOM_solve |   FOM     | FOM_setup | FOM_solve |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |    1    | 1.114E+08 | 9.968E+06 | 2.129E+08 | 1.093E+08 | 9.400E+06 | 2.091E+08 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |    2    | 1.884E+08 | 1.537E+07 | 3.614E+08 | 1.841E+08 | 1.660E+07 | 3.516E+08 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |    4    | 3.793E+08 | 2.973E+07 | 7.289E+08 | 3.477E+08 | 2.826E+07 | 6.671E+08 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |    8    | 8.382E+08 | 6.197E+07 | 1.614E+09 | 5.553E+08 | 4.430E+07 | 1.066E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |   16    | 1.537E+09 | 1.206E+08 | 2.954E+09 | 7.466E+08 | 5.712E+07 | 1.436E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |   32    | 2.468E+09 | 2.396E+08 | 4.696E+09 | 8.457E+08 | 5.971E+07 | 1.632E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |   64    | 3.268E+09 | 4.321E+08 | 6.105E+09 | 8.881E+08 | 4.842E+07 | 1.728E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |   96    |           |           |           | 9.003E+08 | 3.965E+07 | 1.761E+09 |
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- |  120    |           |           |           | 7.733E+08 | 3.280E+07 | 1.514E+09 | 
- +---------+-----------+-----------+-----------+-----------+-----------+-----------+
- 
-
-.. figure:: plots/CPU-FOM-2.png
-   :alt: FOMs for Problem 2 on RZWhippet using MPI or OpenMP.
-   :align: center
-   
-   FOMs for Problem 2 on RZWhippet using MPI or OpenMP.
-
-
-Strong Scaling on RZWhippet
+Strong Scaling on Crossroads
 ---------------------------
 
-We present strong scaling results for varying problem sizes on RZWhippet below. The code was configured and compiled using MPI only with optimization -O2.
+We present strong scaling results for varying problem sizes on Crossroads with HBM below. The code was configured and compiled using hypre v2.29.0 with MPI only and optimization -O2.
 
 Strong scaling results of AMG2023 for problem 1 on a grid size of 120 x 120 x 120 are provided in the following table and figure.
 
 .. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120
-   :file: cpu1_120.csv
+   :file: roci_1_120.csv
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
 
 
-.. figure:: cpu1_120.png
+.. figure:: roci_1_120.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120
@@ -366,13 +234,13 @@ Strong scaling results of AMG2023 for problem 1 on a grid size of 120 x 120 x 12
 Strong scaling results of AMG2023 for problem 1 on a grid size of 160 x 160 x 160 are provided in the following table and figure.
 
 .. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160
-   :file: cpu1_160.csv
+   :file: roci_1_160.csv
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
    
 
-.. figure:: cpu1_160.png
+.. figure:: roci_1_160.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160
@@ -383,13 +251,13 @@ Strong scaling results of AMG2023 for problem 1 on a grid size of 160 x 160 x 16
 Strong scaling results of AMG2023 for problem 1 on a grid size of 200 x 200 x 200 are provided in the following table and figure.
 
 .. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200
-   :file: cpu1_200.csv
+   :file: roci_1_200.csv
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
    
 
-.. figure:: cpu1_200.png
+.. figure:: roci_1_200.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200
@@ -400,13 +268,13 @@ Strong scaling results of AMG2023 for problem 1 on a grid size of 200 x 200 x 20
 Strong scaling results of AMG2023 for problem 2 on a grid size of 200 x 200 x 200 are provided in the following table and figure.
 
 .. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200
-   :file: cpu2_200.csv
+   :file: roci_2_200.csv
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
    
 
-.. figure:: cpu2_200.png
+.. figure:: roci_2_200.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200
@@ -417,13 +285,13 @@ Strong scaling results of AMG2023 for problem 2 on a grid size of 200 x 200 x 20
 Strong scaling results of AMG2023 for problem 2 on a grid size of 256 x 256 x 256 are provided in the following table and figure.
 
 .. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256
-   :file: cpu2_256.csv
+   :file: roci_2_256.csv
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
    
 
-.. figure:: cpu2_256.png
+.. figure:: roci_2_256.png
    :align: center
    :scale: 50%
    :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256
@@ -434,112 +302,6 @@ Strong scaling results of AMG2023 for problem 2 on a grid size of 256 x 256 x 25
 Strong scaling results of AMG2023 for problem 2 on a grid size of 320 x 320 x 320 are provided in the following table and figure.
 
 .. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
-   :file: cpu2_320.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-   
-
-.. figure:: cpu2_320.png
-   :align: center
-   :scale: 50%
-   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
-   
-   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
-
-Strong Scaling on Rocinante
----------------------------
-
-We present strong scaling results for varying problem sizes on Rocinante with HBM below. The code was configured and compiled using hypre v2.29.0 with MPI only and optimization -O2.
-
-Strong scaling results of AMG2023 for problem 1 on a grid size of 120 x 120 x 120 are provided in the following table and figure.
-
-.. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120, Roci
-   :file: roci_1_120.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-
-
-.. figure:: roci_1_120.png
-   :align: center
-   :scale: 50%
-   :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120, Roci
-   
-   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 120 x 120 x 120, Roci
-
-
-Strong scaling results of AMG2023 for problem 1 on a grid size of 160 x 160 x 160 are provided in the following table and figure.
-
-.. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160, Roci
-   :file: roci_1_160.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-   
-
-.. figure:: roci_1_160.png
-   :align: center
-   :scale: 50%
-   :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160, Roci
-   
-   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 160 x 160 x 160, Roci
-   
-
-Strong scaling results of AMG2023 for problem 1 on a grid size of 200 x 200 x 200 are provided in the following table and figure.
-
-.. csv-table:: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200, Roci
-   :file: roci_1_200.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-   
-
-.. figure:: roci_1_200.png
-   :align: center
-   :scale: 50%
-   :alt: AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200, Roci
-   
-   AMG2023 Strong Scaling for Problem 1 (27-pt, AMG-GMRES) on a grid of size 200 x 200 x 200, Roci
-   
-
-Strong scaling results of AMG2023 for problem 2 on a grid size of 200 x 200 x 200 are provided in the following table and figure.
-
-.. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200, Roci
-   :file: roci_2_200.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-   
-
-.. figure:: roci_2_200.png
-   :align: center
-   :scale: 50%
-   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200, Roci
-   
-   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 200 x 200 x 200, Roci
-   
-
-Strong scaling results of AMG2023 for problem 2 on a grid size of 256 x 256 x 256 are provided in the following table and figure.
-
-.. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256, Roci
-   :file: roci_2_256.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-   
-
-.. figure:: roci_2_256.png
-   :align: center
-   :scale: 50%
-   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256, Roci
-   
-   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 256 x 256 x 256, Roci
-   
-
-Strong scaling results of AMG2023 for problem 2 on a grid size of 320 x 320 x 320 are provided in the following table and figure.
-
-.. csv-table:: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320, Roci
    :file: roci_2_320.csv
    :align: center
    :widths: 10, 10, 10
@@ -549,9 +311,25 @@ Strong scaling results of AMG2023 for problem 2 on a grid size of 320 x 320 x 32
 .. figure:: roci_2_320.png
    :align: center
    :scale: 50%
-   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320, Roci
+   :alt: AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
    
-   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320, Roci
+   AMG2023 Strong Scaling for Problem 2 (7-pt, AMG-PCG) on a grid of size 320 x 320 x 320
+
+Approximate results of the FOM for varying memory usages on Crossroads are provided in the following table and figure. Note that the actual size in GB is only an estimate.
+
+.. csv-table:: Varying memory usage for Problem 1 and 2
+   :file: roci_mem.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+   
+
+.. figure:: roci_mem.png
+   :align: center
+   :scale: 50%
+   :alt: Varying memory usage (estimate) for Problem 1 and 2
+   
+   Varying memory usage (estimated) for Problem 1 and 2
 
 
 
@@ -715,4 +493,5 @@ Allison Baker, Rob Falgout, Tzanio Kolev, and Ulrike Yang, "Multigrid Smoothers 
 Rui Peng Li, Bjorn Sjogreen, Ulrike Yang, "A New Class of AMG Interpolation Methods Based on Matrix-Matrix Multiplications", SIAM Journal on Scientific Computing, 43 (2021), pp. S540-S564, https://doi.org/10.1137/20M134931X 
 
 Rob Falgout, Rui Peng Li, Bjorn Sjogreen, Lu Wang, Ulrike Yang, "Porting hypre to Heterogeneous Computer Architectures: Strategies and Experiences", Parallel Computing, 108, (2021), a. 102840
+
 
