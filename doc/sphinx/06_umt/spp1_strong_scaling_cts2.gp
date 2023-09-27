@@ -7,7 +7,7 @@ set output "spp1_strong_scaling_cts2.png"
 set xlabel "Num Cores"
 set ylabel "Figure of Merit (unknowns/sec)"
 
-set xrange [1:128]
+set xrange [8:112]
 set key left top
 
 set logscale x 2
@@ -22,5 +22,5 @@ set key autotitle columnheader
 set style line 1 linetype 6 dashtype 1 linecolor rgb "#FF0000" linewidth 2 pointtype 6 pointsize 3
 set style line 2 linetype 1 dashtype 2 linecolor rgb "#FF0000" linewidth 2
 
-plot "spp1_strong_scaling_cts2.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
+plot "spp1_strong_scaling_cts2_abridged.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
 

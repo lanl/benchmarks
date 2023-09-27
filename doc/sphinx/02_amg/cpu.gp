@@ -2,7 +2,7 @@
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
 set output "cpu1_120.png"
 
-set title "AMG2023 Strong Scaling for Problem 1, 120 x 120 x 120" font "serif,22"
+#set title "AMG2023 Strong Scaling for Problem 1, 120 x 120 x 120" font "serif,22"
 set xlabel "n"
 set ylabel "FOM"
 

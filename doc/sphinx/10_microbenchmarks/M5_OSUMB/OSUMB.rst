@@ -13,8 +13,10 @@ Characteristics
 Problem
 -------
 
-Figure of Merit
----------------
+The OSU benchmarks are a suite of microbenchmarks designed to measure network characteristics on HPC systems.
+
+Run Rules
+---------
 
 Building
 ========
@@ -27,37 +29,38 @@ On GPU enabled systems add these flags to the following configure lines:
     --with-cuda-include=/path/to/cuda/include
     --with-cuda-libpath=/path/to/cuda/lib
 
+Build and install the benchmarks.
+
 .. code-block:: bash
 
     ./configure --prefix=$INSTALL_DIR
     make -j 
     make -j install
 
-RHEL Systems
-------------
+
+Before configuring make sure your CXX and CC environment variables are set to an 
+MPI compiler or wrapper. 
+On most systems this will look like:
 
 .. code-block:: bash
 
     export CC=mpicc CXX=mpicxx
 
-CrayOS Systems
---------------
+On systems with vendor provided wrappers it may look different. 
+For example, on HPE-Cray systems:
 
 .. code-block:: bash
 
-    exportCC=cc CXX=CC
+    export CC=cc CXX=CC
     
 Running
 =======
 
-Input
------
-
-Independent Variables
----------------------
-
-Dependent Variable(s)
----------------------
+.. csv-table:: DGEMM microbenchmark FLOPs measurement
+   :file: OSU_req.csv
+   :align: center
+   :widths: 10, 10, 10, 10, 10
+   :header-rows: 1
 
 Example Results
 ===============

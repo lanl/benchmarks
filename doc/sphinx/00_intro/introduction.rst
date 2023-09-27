@@ -221,7 +221,7 @@ Scaled Single Node Improvement
 ==============================
 One element of evaluation will focus on scaled single node improvement (SSNI). SSNI is defined as follows: 
 
-Given two platforms using one as a reference, SSNI is defined as a weighted geometric mean using the following equation. 
+Given two platforms using one as a reference (Crossroads), SSNI is defined as a weighted geometric mean using the following equation. 
 
 .. math::
 
@@ -230,7 +230,7 @@ Given two platforms using one as a reference, SSNI is defined as a weighted geom
 
 Where: 
 
-*	N = Number of nodes on ATS-5 system / Number of nodes on reference system,
+*	N = Number of nodes on ATS-5 system / Number of nodes on reference system (Crossroads),
 
 *	M = total number of Benchmarks,
 
@@ -257,7 +257,7 @@ testbed systems that are the same architecture as that of ATS-3 and ATS-2 system
 ATS-3/Crossroads
 ----------------
 
-This system has over 6,000 compute nodes that are made up of two Intel(R) Xeon(R) Max 9480 CPUs 
+This system has over 6,140 compute nodes that are made up of two Intel(R) Xeon(R) Max 9480 CPUs 
 interconnected with HPE Slingshot 11 interconnect. 
 
 .. _GlobalSystemATS2:

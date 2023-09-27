@@ -15,6 +15,9 @@ Characteristics
 Problem
 -------
 
+Run Rules
+---------
+
 Figure of Merit
 ---------------
 

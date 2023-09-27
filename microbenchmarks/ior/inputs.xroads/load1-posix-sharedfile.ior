@@ -1,0 +1,36 @@
+################################################################################
+#
+#   Run the IOR benchmark with the POSIX I/O API and a single shared file
+#
+################################################################################
+IOR START
+
+### You MUST change the following parameters (see README.XROADS)
+    numTasks=240            # number of MPI processes to use.  You may choose to use one or more MPI processes per node.
+    segmentCount=4096       # must be > fileSize / ( blockSize * numTasks ) where fileSize must be greater than 1.5 times the aggregate DRAM available for use by the page cache
+    memoryPerNode=80%       # must be > 80% of the node's DRAM available for use by the page cache
+
+### You MAY change the following parameters
+    transferSize=1M         # size of a single data buffer to be transferred by a single I/O call.  You must find the optimal transferSize for the storage system.
+    blockSize=1M            # must be the same as transferSize
+    testFile=datafile.dat   # will read/write to a shared file called datafile.dat
+    collective=0            # for MPIIO api use collectives (e.g. MPI_File_read_all) instead of independent calls (e.g. MPI_File_read)
+    keepFile=0              # do not delete files used by the test at the end of each execution
+
+### You MUST NOT change the following parameters
+    reorderTasksConstant=1  # each node n writes data; that data is then read by node n+1
+    intraTestBarriers=1     # use barriers between open/read/write/close
+    repetitions=1           # executes the same test multiple times
+    verbose=2               # print additional information about the job geometry
+    fsync=1                 # for POSIX api call fsync(2) before close(2)
+
+### The following parameters define the nature of the benchmark test
+    api=POSIX               # use POSIX open/close/read/write
+    filePerProc=0           # read/write one file per MPI process
+    randomOffset=0          # randomize order in which reads/writes occur
+    writeFile=1             # perform the write component of the test
+    readFile=1              # perform the read component of the test after the write component has completed
+
+RUN
+
+IOR STOP

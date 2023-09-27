@@ -116,20 +116,25 @@ where num = 1 for SPP 1 or num = 2 for SPP 2.
 Example FOM Results 
 ===================
 
-Strong scaling data for SPP 1 on CTS-2 (Sapphire Rapids) is shown in the table and figure below
+Results from Branson are provided on the following systems:
 
-.. csv-table:: Strong scaling of SPP 1 on CTS-2
+* Crossroads (see :ref:`GlobalSystemATS3`)
+* Sierra (see :ref:`GlobalSystemATS2`)
+
+Strong scaling data for SPP 1 on Crossroads is shown in the table and figure below
+
+.. csv-table:: Strong scaling of SPP 1 on Crossroads
    :file: spp1_strong_scaling_cts2_abridged.csv
    :align: center
    :widths: 8, 10, 10
    :header-rows: 1
 		 
 .. figure:: spp1_strong_scaling_cts2.png
-   :alt: Strong scaling of SPP 1 on CTS-2
+   :alt: Strong scaling of SPP 1 on Crossroads
    :align: center
    :scale: 50%
 
-   Strong scaling of SPP 1 on CTS-2
+   Strong scaling of SPP 1 on Crossroads
 
 .. todo csv-table:: SPP #2 on CTS-2
    :file: spp2_strong_scaling_cts2_abridged.csv
@@ -144,21 +149,21 @@ Strong scaling data for SPP 1 on CTS-2 (Sapphire Rapids) is shown in the table a
 	   
    Strong scaling of SPP 2 on CTS-2
 
-Throughput study of SPP 1 performance on Power9/V100, single GPU, as a function of
+Throughput study of SPP 1 performance on Sierra, single GPU, as a function of
 problem size:
 
 .. TODO - add runtime in this table??
-.. csv-table:: Throughput for SPP 1 on Power9 and V100
+.. csv-table:: Throughput for SPP 1 on Sierra
    :file: spp1_throughput_V100.csv
    :align: center
    :widths: 10, 10
    :header-rows: 1
 
 .. figure:: spp1_throughput_V100.png
-   :alt: Throughput of SPP 1 on Power9 and V100
+   :alt: Throughput of SPP 1 on Sierra
    :align: center
 
-   Throughput of SPP 1 on Power9 and V100
+   Throughput of SPP 1 on Sierra
 
 .. note::
    Performance data for SPP 2 coming soon.
