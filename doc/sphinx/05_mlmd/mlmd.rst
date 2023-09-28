@@ -248,6 +248,11 @@ Finally, the figures of merrit values can be extracted and plotted with the "Ben
 Results 
 =======
 
+Results from MLMD are provided on the following systems:
+
+* Crossroads (see :ref:`GlobalSystemATS3`)
+* Chicoma:  Each node contains 1 AMD EPYC 7713 processor (64 cores), 256 GB CPU memory, and 4 Nvidia A100 GPUs with 40 GB GPU Memory.  
+
 .. Two quantities are extracted from the MD simulations to evaluate performance, though they are directly correlated. The throughput (grad/s) should be viewed as the figure of merit, though ns/day is more useful for users who wish to know the physical processes they can simulate. Thus both are reported here. 
 
 Training HIPNN Model
