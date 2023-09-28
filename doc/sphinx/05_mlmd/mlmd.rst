@@ -309,19 +309,19 @@ Single GPU Throughput Scaling on Chicoma
 Throughput performance of MLMD Simulation+Inference is provided within the
 following table and figure.
 
-.. csv-table::  MLMD throughput performance on Chicaoma
-   :file: gpu.csv
-   :align: center
-   :widths: 10, 10
-   :header-rows: 1
+.. .. csv-table::  MLMD throughput performance on Chicaoma
+..    :file: gpu.csv
+..    :align: center
+..    :widths: 10, 10
+..    :header-rows: 1
 
 
-.. figure:: gpu.png
-   :align: center
-   :scale: 50%
-   :alt: MLMD throughput performance on Chicaoma
+.. .. figure:: gpu.png
+..    :align: center
+..    :scale: 50%
+..    :alt: MLMD throughput performance on Chicaoma
 
-   MLMD throughput performance on Chicaoma 
+..    MLMD throughput performance on Chicaoma 
 
 
 Verification of Results
