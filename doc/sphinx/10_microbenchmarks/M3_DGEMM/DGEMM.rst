@@ -82,8 +82,12 @@ These are positional arguments, so, for instance, R cannot be set without settin
 Example Results
 ===============
 
-ATS-3 Rocinante HBM
--------------------
+Results from Branson are provided on the following systems:
+
+* Crossroads (see :ref:`GlobalSystemATS3`)
+
+Crossroads
+----------
 
 This test was built with the intel 2023.1.0 compiler using the crayOS compiler wrapper where: :math:`N=2500, R=500, \alpha=1.0, \beta=1.0`. The 110 core run (cores are used as OpenMP threads) avoids the OS dedicated cores and takes roughly an hour. All four runs on rocinante hbm take 5-6 hours.
 
