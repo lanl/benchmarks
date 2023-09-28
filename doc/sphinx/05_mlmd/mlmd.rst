@@ -274,7 +274,7 @@ MLMD strong scaling on Crossroads: 4,544 atoms
 .. csv-table::  MLMD strong scaling on Crossroads: 4,544 atoms 
    :file: cpu_4k.csv
    :align: center
-   :widths: 10, 10
+   :widths: 10, 10, 10
    :header-rows: 1
 
 
@@ -282,7 +282,8 @@ MLMD strong scaling on Crossroads: 4,544 atoms
    :align: center
    :scale: 50%
    :alt: MLMD strong scaling on Crossroads: 4,544 atoms 
-MLMD strong scaling on Crossroads: 4,544 atoms  
+   
+   MLMD strong scaling on Crossroads: 4,544 atoms. 
 
 
 MD strong scaling on Crossroads: 18,176 atoms 
@@ -290,7 +291,7 @@ MD strong scaling on Crossroads: 18,176 atoms
 .. csv-table::  MLMD strong scaling on Crossroads: 18,176 atoms 
    :file: cpu_18k.csv
    :align: center
-   :widths: 10, 10
+   :widths: 10, 10, 10
    :header-rows: 1
 
 
@@ -298,7 +299,8 @@ MD strong scaling on Crossroads: 18,176 atoms
    :align: center
    :scale: 50%
    :alt: MLMD strong scaling on Crossroads: 18,176 atoms 
-MLMD strong scaling on Crossroads: 18,176 atoms  
+   
+   MLMD strong scaling on Crossroads: 18,176 atoms  
 
 
 
@@ -318,7 +320,8 @@ following table and figure.
    :align: center
    :scale: 50%
    :alt: MLMD throughput performance on Chicaoma
-MLMD throughput performance on Chicaoma 
+
+   MLMD throughput performance on Chicaoma 
 
 
 Verification of Results

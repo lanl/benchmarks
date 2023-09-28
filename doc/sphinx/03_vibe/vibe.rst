@@ -122,10 +122,23 @@ The results presented here use 64, 128, and 160 for  memory footprints of 20%, 4
 Results from Parthenon are provided on the following systems:
 
 * Crossroads (see :ref:`GlobalSystemATS3`)
-* Commodity Technology System 1 (CTS-1) (Snow) with Intel Broadwell processors,
 * An Nvidia A100 GPU hosted on an [Nvidia Arm HPC Developer Kit](https://developer.nvidia.com/arm-hpc-devkit)
 
-ATS-3 Rocinante HBM
+The mesh and meshblock size parameters are chosen to balance
+realism/performance with memory footprint. For the following tests we
+examine memory footprints of 20%, 40%, and 60%. Memory was measured
+using the tool ``parse_spatter_top.py`` found in this repository. It
+was independently verified with the [Kokkos Tools Memory High Water
+Mark](https://github.com/kokkos/kokkos-tools/wiki/MemoryHighWater)
+tool. Increasing the `parthenon/mesh/nx*` parameters will increase the
+memory footprint.
+
+Included with this repository under ``utils/parthenon`` is a ``do_strong_scaling_cpu.sh``
+script, which takes one argument, specifying the desired memory
+footprint on a system with 128GB system memory. Running it will generate a csv file
+containing scaling numbers.
+
+Crossroads
 -------------------
 
 .. csv-table:: VIBE Throughput Performance on Crossroads using ~40% Memory
@@ -139,6 +152,8 @@ ATS-3 Rocinante HBM
    :scale: 50%
    :alt: VIBE Throughput Performance on Crossroads
 
+   VIBE Throughput Performance on Crossroads using ~40% Memory
+
 .. csv-table:: VIBE Throughput Performance on Crossroads using ~60% Memory
    :file: parthenon-ats5_spr-hbm160-intel-classic.csv
    :align: center
@@ -150,64 +165,10 @@ ATS-3 Rocinante HBM
    :scale: 50%
    :alt: VIBE Throughput Performance on Crossroads
 
-CTS-1 Snow
------------
+   VIBE Throughput Performance on Crossroads using ~60% memory
 
-The mesh and meshblock size parameters are chosen to balance
-realism/performance with memory footprint. For the following tests we
-examine memory footprints of 20%, 40%, and 60%. Memory was measured
-using the tool ``parse_spatter_top.py`` found in this repository. It
-was independently verified with the [Kokkos Tools Memory High Water
-Mark](https://github.com/kokkos/kokkos-tools/wiki/MemoryHighWater)
-tool. Increasing the `parthenon/mesh/nx*` parameters will increase the
-memory footprint.
-
-Included with this repository under ``utils/parthenon`` is a ``do_strong_scaling_cpu.sh``
-script, which takes one argument, specifying the desired memory
-footprint on a CTS-1 system. Running it will generate a csv file
-containing scaling numbers.
-
-Strong scaling performance of Parthenon-VIBE with a 20% memory footprint on CTS-1 machines is provided within the following table and figure.
-
-.. csv-table:: VIBE Strong Scaling Performance on CTS-1 20% Memory
-   :file: cpu_20.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cpu_20.png
-   :align: center
-   :scale: 50%
-   :alt: VIBE Strong Scaling Performance on CTS-1 20% Memory
-
-Strong scaling performance of Parthenon-VIBE with a 40% memory footprint on CTS-1 machines is provided within the following table and figure.
-
-.. csv-table:: VIBE Strong Scaling Performance on CTS-1 40% Memory
-   :file: cpu_40.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cpu_40.png
-   :align: center
-   :scale: 50%
-   :alt: VIBE Strong Scaling Performance on CTS-1 40% Memory
-
-Strong scaling performance of Parthenon-VIBE with a 60% memory footprint on CTS-1 machines is provided within the following table and figure.
-
-.. csv-table:: VIBE Strong Scaling Performance on CTS-1 60% Memory
-   :file: cpu_60.csv
-   :align: center
-   :widths: 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cpu_60.png
-   :align: center
-   :scale: 50%
-   :alt: VIBE Strong Scaling Performance on CTS-1 60% Memory
-
-A100
------
+Nvidia testbed with A100
+------------------------
 
 Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the following table and figure.
 
@@ -221,6 +182,8 @@ Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the f
    :align: center
    :scale: 50%
    :alt: VIBE Throughput Performance on A100
+   
+   VIBE Throughput Performance on A100
 
 Verification of Results
 =======================

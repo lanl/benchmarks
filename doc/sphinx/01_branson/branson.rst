@@ -143,7 +143,7 @@ figure.
    :scale: 50%
    :alt: Branson Strong Scaling Performance on Crossroads 10M particles
 
-Branson Strong Scaling Performance on Crossroads 10M particles   
+   Branson Strong Scaling Performance on Crossroads 10M particles   
 
 Strong scaling performance of Branson Crossroads 66M  Particles is provided within the following table and
 figure.
@@ -159,7 +159,7 @@ figure.
    :scale: 50%
    :alt: Branson Strong Scaling Performance on Crossroads 66M particles
 
-Branson Strong Scaling Performance on Crossroads 66M  particles  
+   ranson Strong Scaling Performance on Crossroads 66M  particles  
 
 Strong scaling performance of Branson Crossroads 200M Particles is provided within the following table and
 figure.
@@ -175,7 +175,7 @@ figure.
    :scale: 50%
    :alt: Branson Strong Scaling Performance on Crossroads 200M particles
 
-Branson Strong Scaling Performance on Crossroads 200M particles  
+   Branson Strong Scaling Performance on Crossroads 200M particles  
 
 Sierra
 ------------
@@ -193,7 +193,8 @@ following table and figure.
    :align: center
    :scale: 50%
    :alt: Branson Throughput Performance on Sierra
-Branson Throughput Performance on Sierra
+
+   Branson Throughput Performance on Sierra
 
 
 Verification of Results
