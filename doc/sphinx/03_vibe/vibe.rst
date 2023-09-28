@@ -117,7 +117,7 @@ For this benchmark only the ``parthenon/mesh/nx*`` parameters may be changed.
 
 ``parthenon/mesh/nx1`` must be evenly divisible by ``parthenon/meshblock/nx1`` and the same for the other dimensions. Smaller meshblock sizes mean finer granularity and a problem that can be broken up accross more cores. However, each meshblock carries with it some overhead, so smaller meshblock sizes may hinder performance.
 
-The results presented here use 64, 128, and 160 for  memory footprints of 20%, 40%, and 60% footprints respectively. These problem sizes are run with 4, 8, 18, 26, and 36 processes on a single node without threading.
+The results presented here use 128 and 160 for  memory footprints of approximate 40%, and 60%  respectively. These problem sizes are run with  8, 32, 56, 88, and 112 processes on a single node without threading.
 
 Results from Parthenon are provided on the following systems:
 
@@ -182,7 +182,7 @@ Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the f
    :align: center
    :scale: 50%
    :alt: VIBE Throughput Performance on A100
-   
+
    VIBE Throughput Performance on A100
 
 Verification of Results

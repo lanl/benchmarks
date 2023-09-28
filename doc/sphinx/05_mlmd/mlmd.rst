@@ -271,7 +271,7 @@ following figures and tables.
 
 MLMD strong scaling on Crossroads: 4,544 atoms 
 
-.. csv-table::  MLMD strong scaling on Crossroads: 4,544 atoms 
+.. csv-table::  MLMD strong scaling on Crossroads 4,544 atoms 
    :file: cpu_4k.csv
    :align: center
    :widths: 10, 10, 10
@@ -288,7 +288,7 @@ MLMD strong scaling on Crossroads: 4,544 atoms
 
 MD strong scaling on Crossroads: 18,176 atoms 
 
-.. csv-table::  MLMD strong scaling on Crossroads: 18,176 atoms 
+.. csv-table::  MLMD strong scaling on Crossroads 18,176 atoms 
    :file: cpu_18k.csv
    :align: center
    :widths: 10, 10, 10
