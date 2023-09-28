@@ -3,7 +3,7 @@ _base:
         name: Dan Magee
         email: dmagee@lanl.gov
     summary: PARTHENON-VIBE cross-cut Benchmark Test
-    subtitle: "{{compilers.name}}-{{mpis.name}}-{{tpm}}-{{nx}}"
+    subtitle: "{{compilers.name}}-{{mpis.name}}-{{nx}}-{{tpm}}-{{partn}}"
 
     doc: |
         Parthenon is a block AMR stencil solver.
@@ -17,6 +17,7 @@ _base:
         nlim: 250 #[10, 100, 200] # M photons
         nlvl: 3
         nblock: 16
+        # intelversion: "2021.2.0"
         #nx: "{{nblock*(6+pct_mem)}}"
         cmake_opts:
             - "-DPARTHENON_DISABLE_HDF5=ON"
@@ -34,8 +35,8 @@ _base:
             - "parthenon/meshblock/nx3={{nblock}}"
             - "parthenon/time/nlim={{nlim}}"
             - "parthenon/mesh/numlevel={{nlvl}}"
-        compilers:
-            - { name: "intel-classic", version: "2021.2.0", cc: "icc", cxx: "icpc", fc: "ifort" }
+        #compilers:
+         #   - { name: "intel-classic", version: "{{intelversion}}", cc: "icc", cxx: "icpc", fc: "ifort" }
 
 
     permute_on:
@@ -45,12 +46,10 @@ _base:
         - nx
 
     schedule:
-        nodes: 1
+        nodes: 1 
         tasks_per_node: "{{tpm}}"
-        qos: 'high'
-        account: 'hpctest'
         share_allocation: false
-        time_limit: 12
+        partition: "{{partn}}"
 
     build:
         env:
@@ -73,7 +72,6 @@ _base:
     run:
         timeout: 60000
         cmds: "{{sched.test_cmd}} {{execut}} -i {{input_file}} [~{{mesh_cl}} ~] [~{{meshblock_cl}} ~]"
-
     result_parse:
         regex:
             walltime:
@@ -86,13 +84,58 @@ _base:
          wallminutes: 'walltime/60'
          wallhours: 'walltime/3600'
 
+
+ats5_spr:
+    inherits_from: _base
+
+    only_if:
+        "{{sys_os.name}}": [ cos ]
+
+    permute_on:
+        - compilers
+        - mpis
+        - tpm
+        - nx
+        - partn
+
+    variables:
+        nx: [64, 128, 160]
+        tpm: [8, 32, 56, 88, 112] #[4, 8, 18, 26, 36, 50, 74, 90, 110]
+        # intelversion: "2023.1.0"
+        # crayversion: "15.0.1"
+        # mpis:
+        #     - { name: "cray-mpich", version: "8.1.25", mpicc: "cc", mpicxx: "CC", mpifc: "ftn", mpival: "cray"}
+        # compilers:
+        #     - { name: "intel-classic", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn" }
+        #     - { name: "cce", version: "{{crayversion}}", cc: "cc", cxx: "CC", pe_env: cray, fc: "ftn" }
+
+    build:
+
+        env:
+            CXXFLAGS: "-fno-math-errno -diag-disable=10441"
+
+        preamble:
+            #- 'module load friendly-testing' #'module rm craype-hugepages2M'
+            - 'module swap PrgEnv-${PE_ENV,,} PrgEnv-{{compilers.pe_env}}'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.name}}/{{mpis.version}}'
+
+    run:
+
+        preamble:
+            #- 'module load friendly-testing' #'module rm craype-hugepages2M'
+            - 'module swap PrgEnv-${PE_ENV,,} PrgEnv-{{compilers.pe_env}}'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.name}}/{{mpis.version}}'
+
+
 cts1:
     inherits_from: _base
     only_if:
         "{{sys_os.name}}": [ toss ]
 
     build:
-        env: 
+        env:
             CXXFLAGS: "-fno-math-errno -march=native"
 
         preamble:

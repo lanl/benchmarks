@@ -1,1 +1,1 @@
-../../doc/sphinx/3_vibe/do_strong_scaling_cpu.sh
+../../doc/sphinx/03_vibe/do_strong_scaling_cpu.sh

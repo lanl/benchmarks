@@ -16,10 +16,10 @@ variables:
         - { name: "openmpi", version: "3.1.6", mpicc: "mpicc", mpicxx: "mpic++", mpifc: "mpifort" }
         - { name: "intel-mpi", version: "2019.9.304", mpicc: "mpiicc", mpicxx: "mpiicpc", mpifc: "mpiifort" }
     compilers:
-        - { name: "intel", version: "2021.2.0", cc: "icx", cxx: "icpx", fc: "ifort" }
-        - { name: "intel-classic", version: "2021.2.0", cc: "icc", cxx: "icpc", fc: "ifort" }
-        - { name: "intel-oneapi", version: "2021.2.0", cc: "icx", cxx: "icpx", fc: "ifx" }
-        - { name: "gcc", version: "11.2.0", cc: "gcc", cxx: "g++", fc: "gfort" }
+        - { name: "intel", version: "{{intel_version}}", cc: "icx", cxx: "icpx", fc: "ifort" }
+        - { name: "intel-classic", version: "{{intel_version}}", cc: "icc", cxx: "icpc", fc: "ifort" }
+        - { name: "intel-oneapi", version: "{{intel_version}}", cc: "icx", cxx: "icpx", fc: "ifx" }
+        - { name: "gcc", version: "{{gcc_version}}", cc: "gcc", cxx: "g++", fc: "gfort" }
     preamble:
         - 'module load friendly-testing'
         - 'module load {{compilers.name}}/{{compilers.version}}'
@@ -33,5 +33,7 @@ build:
 scheduler: slurm
 schedule:
     nodes: 'all'
-    account: hpcdev
+    account: hpctest
     partition: any
+    qos: high
+    time_limit: 12
