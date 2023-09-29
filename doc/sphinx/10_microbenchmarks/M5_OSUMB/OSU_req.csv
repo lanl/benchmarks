@@ -1,7 +1,19 @@
 "Test","Description","Message Size","Nodes Used","Ranks Used"
 "osu_latency","Point-to-Point Latency","8 B","2","1 per node"
-"osu_bibw","Point-to-Point Bi-directional bandwidth","1 MB","2","1 per node"
-"osu_mbw_mr","Point-to-Point Multi-Bandwidth & Message Rate","16 KB","2","Host-to-Host (two tests) :   - 1 per NIC  - 1 per core Device-to-Device (two tests):  - 1 per NIC  - 1 per accelerator"
-"osu_get_acc_latency","Point-to-Point One-sided Accumulate Latency","8 B","2","1 per node"
+"osu_bibw","Point-to-Point 
+Bi-directional bandwidth","1 MB","2","1 per node"
+"osu_mbw_mr","Point-to-Point 
+Multi-Bandwidth & Message Rate","16 KB","2","Host-to-Host (two tests): 
+    - 1 per NIC  
+    - 1 per core 
+Device-to-Device (two tests):  
+    - 1 per NIC  
+    - 1 per accelerator"
+"osu_get_acc_latency","Point-to-Point One-sided
+Accumulate Latency","8 B","2","1 per node"
+"osu_barrier",,,,
+"osu_ibarrier",,,,
+"osu_put",,,"2","1 per node"
+"osu_get",,,"2","1 per node"
 "osu_allreduce","All-reduce Latency","8B, 25 MB","full-system","1 per NIC"
 "osu_alltoall","All-to-all Latency","1 MB","full-system","1 per NIC odd process count"
