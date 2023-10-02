@@ -11,9 +11,9 @@ Characteristics
 ===============
 
 STREAM is available:
-- Github: `STREAM <https://github.com/jeffhammond/STREAM>`_ 
-- Official site: `STREAM <https://www.cs.virginia.edu/stream/>`_
-- LANL Crossroads site: `STREAM <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/stream-bench-crossroads-v1.0.0.tgz>`_
+- Github: `STREAM_github <https://github.com/jeffhammond/STREAM>`_ 
+- Official site: `STREAM_official <https://www.cs.virginia.edu/stream/>`_
+- LANL Crossroads site: `STREAM_LANL <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/stream-bench-crossroads-v1.0.0.tgz>`_
 
 Problem
 -------

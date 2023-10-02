@@ -3,11 +3,11 @@ doc/sphinx/output.log
 doc/sphinx/7_miniem/*.png
 doc/sphinx/8_sparta/*.png
 doc/sphinx/*/*.png
-doc/sphinx/10_Microbenchmarks/*/*.png
+doc/sphinx/09_Microbenchmarks/*/*.png
 
 *.pyc
 .vscode/
 __pycache__/
 *.bak
-*.pdf
+*.pdfg
 working_dir/

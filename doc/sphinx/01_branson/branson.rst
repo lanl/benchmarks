@@ -151,7 +151,7 @@ figure.
 .. csv-table:: Branson Strong Scaling Performance on Crossroads 66M  particles
    :file: cpu_66M.csv
    :align: center
-   :widths: 10, 10, 10, 10, 10
+   :widths: 10, 10, 10, 10
    :header-rows: 1
 
 .. figure:: cpu_66M.png
