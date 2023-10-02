@@ -77,8 +77,7 @@ You should adjust the value of 'STREAM_ARRAY_SIZE' (below) to meet BOTH of the f
 1) Each array must be at least 4 times the size of the available cache memory. I don't worry about the difference between 10^6 and 2^20, so in practice the minimum array size is about 3.8 times the cache size.
     (a) Example 1: One Xeon E3 with 8 MB L3 cache STREAM_ARRAY_SIZE should be >= 4 million, giving an array size of 30.5 MB and a total memory requirement of 91.5 MB.
     (b) Example 2: Two Xeon E5's with 20 MB L3 cache each (using OpenMP) STREAM_ARRAY_SIZE should be >= 20 million, giving an array size of 153 MB and a total memory requirement of 458 MB.
-2) The size should be large enough so that the 'timing calibration' output by the program is at least 20 clock-ticks.
-For example, most versions of Windows have a 10 millisecond timer granularity.  20 "ticks" at 10 ms/tic is 200 milliseconds. If the chip is capable of 10 GB/s, it moves 2 GB in 200 msec. This means the each array must be at least 1 GB, or 128M elements.
+2) The size should be large enough so that the 'timing calibration' output by the program is at least 20 clock-ticks. For example, most versions of Windows have a 10 millisecond timer granularity.  20 "ticks" at 10 ms/tic is 200 milliseconds. If the chip is capable of 10 GB/s, it moves 2 GB in 200 msec. This means the each array must be at least 1 GB, or 128M elements.
 
 Set STREAM_ARRAY_SIZE using the -D flag on your compile line.
 

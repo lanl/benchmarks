@@ -164,7 +164,7 @@ Building on Chicoma
 
 
 Building on Crossroads
--------------------------
+----------------------
 
 .. code-block::
 
@@ -303,9 +303,9 @@ MD strong scaling on Crossroads: 18,176 atoms
    MLMD strong scaling on Crossroads: 18,176 atoms  
 
 
-
 Single GPU Throughput Scaling on Chicoma
--------------------------
+----------------------------------------
+
 Throughput performance of MLMD Simulation+Inference is provided within the
 following table and figure.
 

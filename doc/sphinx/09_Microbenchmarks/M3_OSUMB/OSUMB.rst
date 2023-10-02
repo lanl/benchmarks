@@ -56,7 +56,7 @@ For example, on HPE-Cray systems:
 Running
 =======
 
-.. csv-table:: DGEMM microbenchmark FLOPs measurement
+.. csv-table:: OSU Microbenchmark Tests
    :file: OSU_req.csv
    :align: center
    :widths: 10, 10, 10, 10, 10

@@ -1,6 +1,6 @@
-******
+*************************************
 Sandia Microbenchmarks - Message rate
-******
+*************************************
 
 This is the documentation for the ATS-5 Benchmark SMB Message Rate - A multi-node MPI point-to-point benchmark 
 

@@ -25,7 +25,7 @@ ATS Benchmarks Project
    :maxdepth: 3
    :caption: Microbenchmarks:
 
-   09_Microbenchmarks/M0_INTRO/introduction
+   09_Microbenchmarks/M0_Intro/introduction
    09_Microbenchmarks/M1_STREAM/STREAM
    09_Microbenchmarks/M2_SPATTER/SPATTER
    09_Microbenchmarks/M3_OSUMB/OSUMB

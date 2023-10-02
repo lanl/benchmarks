@@ -1,6 +1,6 @@
-******
+*******
 AMG2023
-******
+*******
 
 This is the documentation for Benchmark - parallel algebraic multigrid solver for 3D diffusion problems. 
 
@@ -18,7 +18,7 @@ Characteristics
 ===============
 
 Problems
--------
+--------
 
 * Problem 1 (default): The default problem is a 3D diffusion problem on a cuboid with a 27-point stencil.  It is solved with AMG-GMRES(100). 
 
