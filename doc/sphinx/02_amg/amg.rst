@@ -146,7 +146,7 @@ To measure strong scalability, it is important to change the size per process wi
 
 The following results were achieved on RZTopaz for a 3D 7-pt Laplace problem on a 300 x 300 x 300 grid.
 
-``srun -n <P*Q*R> amg -P <P> <Q> <R> -n <nx> <ny> <nz> -problem 2``
+   ``srun -n <P*Q*R> amg -P <P> <Q> <R> -n <nx> <ny> <nz> -problem 2``
 
 .. table:: Strong scaling on RZTopax: MPI only
    :align: center
@@ -210,7 +210,7 @@ The second figure provides memory use on 1 node of CTS-1 (Quartz) using 4 MPI ta
 
 
 Strong Scaling on Crossroads
----------------------------
+----------------------------
 
 We present strong scaling results for varying problem sizes on Crossroads with HBM below. The code was configured and compiled using hypre v2.29.0 with MPI only and optimization -O2.
 

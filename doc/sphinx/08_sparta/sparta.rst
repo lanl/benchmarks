@@ -245,7 +245,7 @@ at the top level of this repository.
 .. _BuildATS2:
 
 Sierra (Vortex testbed)
-------------
+-----------------------
 
 Instructions for building on Sierra are provided below.
 
@@ -300,7 +300,7 @@ An example of how to run the test case on Manzano is provided below.
 .. _RunATS2:
 
 Sierra (Vortex testbed)
-------------
+-----------------------
 
 An example of how to run the test case with a single GPU on Sierra is provided
 below.
@@ -412,7 +412,7 @@ subsections.
    SPARTA Strong Scaling Memory on Manzano with ppc=42 elements (1.00 GiB/PE)
 
 ``ppc`` 126 (2.00 GiB/PE)
-^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. csv-table:: SPARTA Strong Scaling Performance and Memory on Manzano with ppc=126 (2.00 GiB/PE)
    :file: cts1-2.00.csv
@@ -438,7 +438,7 @@ subsections.
 .. _ResultsATS2:
 
 Sierra (Vortex testbed)
-------------
+-----------------------
 
 Throughput performance of SPARTA on Sierra/Vortex is provided within the
 following table and figure.

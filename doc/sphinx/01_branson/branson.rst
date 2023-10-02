@@ -92,10 +92,11 @@ Testing the build:
 Running
 =======
 
-* The ``inputs`` folder contains the 3D hohlraum
- 3D hohlraums and should be run with a 30 group build of Branson (see Special builds section above).
-* The ``3D_hohlraum_single_node.xml`` problem is meant to be run on a full node. 
- It is run with:
+The ``inputs`` folder contains the 3D hohlraum input file.
+3D hohlraums and should be run with a 30 group build of Branson (see Special builds section above).
+The ``3D_hohlraum_single_node.xml`` problem is meant to be run on a full node. 
+
+It is run with:
 
 .. code-block:: bash
 
@@ -115,12 +116,8 @@ This can be obtained on a CPU system using the following (while the application 
    ps -C BRANSON -o rss | awk '{sum+=$1;} END{print sum/1024/1024;}'
 .. 
 
-
-
-
 For throughput curves on a GPU the memory footprint of Branson must vary between ~5% and ~60% in increments of at most 5% of the computational device's main memory.
 The memory footprint can be controlled by editing "photons" in the input file. 
-
 
 Results from Branson are provided on the following systems:
 
