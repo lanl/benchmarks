@@ -27,6 +27,7 @@ plot "stream_cts1.csv" using 1:2 with linespoints linestyle 1 axis x1y1, "" usin
 
 set output "stream_cpu_ats3.png"
 set xrange [4:115]
+set y2tics nomirror
 plot "stream-xrds_ats5cce-cray-mpich.csv" using 1:2 with linespoints linestyle 1 axis x1y1, "" using 1:3 with line linestyle 2 axis x1y2
 
 
