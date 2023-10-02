@@ -11,9 +11,9 @@ Device-to-Device (two tests):
     - 1 per accelerator"
 "osu_get_acc_latency","Point-to-Point One-sided
 Accumulate Latency","8 B","2","1 per node"
-"osu_barrier",,,,
-"osu_ibarrier",,,,
-"osu_put",,,"2","1 per node"
-"osu_get",,,"2","1 per node"
-"osu_allreduce","All-reduce Latency","8B, 25 MB","full-system","1 per NIC"
-"osu_alltoall","All-to-all Latency","1 MB","full-system","1 per NIC odd process count"
+"osu_barrier","Barrier time","N/A","full-system","(Two tests): 1 per physical core, 1 per GPU/accelerator"
+"osu_ibarrier","Async-Barrier time","N/A","full-system","(Two tests): 1 per physical core, 1 per GPU/accelerator"
+"osu_put","Put latency","8 B","2","1 per node"
+"osu_get","Get latency","8 B","2","1 per node"
+"osu_allreduce","All-reduce Latency","8B, 25 MB","full-system","(Two tests): 1 per physical core, 1 per GPU/accelerator"
+"osu_alltoall","All-to-all Latency","1 MB","full-system","(Two tests): 1 per physical core, 1 per GPU/accelerator"
