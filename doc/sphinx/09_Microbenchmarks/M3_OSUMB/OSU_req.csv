@@ -1,4 +1,4 @@
-"Test","Description","Message Size","Nodes Used","Ranks Used"
+"Program","Description","Msg Size","Num Nodes","Rank Config"
 "osu_latency","P2p Latency","8 B","2","1 per node"
 "osu_bibw","P2p Bi-directional BW","1 MB","2","1 per node"
 "osu_mbw_mr","P2p Multi-BW & Msg Rate","16 KB","2","Host-to-Host (two tests): 
@@ -8,17 +8,17 @@ Device-to-Device (two tests):
     - 1 per NIC  
     - 1 per accelerator"
 "osu_get_acc_latency","P2p 1 sided Accumulate Latency","8 B","2","1 per node"
+"osu_get","Get latency","8 B","2","1 per node"
+"osu_put","Put latency","8 B","2","1 per node"
 "osu_barrier","Barrier time","N/A","full-system","Two tests: 
-    - 1 per physical core, 
+    - 1 per physical core
     - 1 per GPU/accelerator"
 "osu_ibarrier","Async-Barrier time","N/A","full-system","Two tests: 
-    - 1 per physical core, 
+    - 1 per physical core
     - 1 per GPU/accelerator"
-"osu_put","Put latency","8 B","2","1 per node"
-"osu_get","Get latency","8 B","2","1 per node"
 "osu_allreduce","All-reduce Latency","8B, 25 MB","full-system","Two tests: 
-    - 1 per physical core, 
+    - 1 per physical core
     - 1 per GPU/accelerator"
 "osu_alltoall","All-to-all Latency","1 MB","full-system","Two tests: 
-    - 1 per physical core, 
+    - 1 per physical core
     - 1 per GPU/accelerator"

@@ -1,6 +1,6 @@
 #!/usr/bin/gnuplot
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
-set output "dgemm_cts1.png"
+# set output "dgemm_cts1.png"
 
 # set title " Single node Dgemm" font "serif,22"
 set xlabel "No. Processing Elements"

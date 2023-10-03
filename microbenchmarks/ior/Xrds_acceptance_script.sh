@@ -16,6 +16,7 @@ export TPN=110
 export SEGMENTS=16
 export SIZE=2G
 export NNODES=$SLURM_NNODES
+separator="\t ------------------------------------------------- \t"
 
 ###################################################################
 ## ANY VARIABLES SET THAT APPEAR BEFORE THIS CAN BE
@@ -53,35 +54,53 @@ runior() {
 # -v  -b $size -s $segments -t 1M -D 45 -r 
 
 ###################################################################
-# FPR READ WRITE
+# PER NODE READ WRITE
 ###################################################################
-title="fpr_write"
+
+title="per_node"
+echo -e "START $separator"
+echo -e "$separator"
+echo "WRITE: $title"
+
 prearg="-k -e -a"
-postarg="-F -v  -b 4G -s 16 -t 1M -D 180 -w"
+postarg="-F -v -b 4G -s 16 -t 1M -D 180 -w"
 runior $title "POSIX" $prearg $postarg
+echo -e "$separator"
 runior $title "MPIIO" $prearg $postarg
 
-title="fpr_read"
+echo -e "$separator"
+echo "READ: $title"
 prearg="-C -Q ${TPN} -k -E -a"
-postarg="-F -v  -b 4G -s 16 -t 1M -D 30 -r"
+postarg="-F -v -b 4G -s 16 -t 1M -D 30 -r"
 runior $title "POSIX" $prearg $postarg
+echo -e "$separator"
 runior $title "MPIIO" $prearg $postarg
 
+###################################################################
+# SHARED READ WRITE
+###################################################################
 
-###################################################################
-# NTO READ WRITE
-###################################################################
-title=nto_write
+title="shared"
+
+echo -e "$separator"
+echo -e "$separator"
+echo "WRITE: $title"
+
 prearg="-k -e -E -a"
 postarg="-v -b $size -s $segments -t 1M -D 180 -w"
 lfs setstripe -c 4 ${WORKING_DIR}/${NNODES}_POSIX_${title}
 runior $title "POSIX" $prearg $postarg
+echo -e "$separator"
 lfs setstripe -c 4 ${WORKING_DIR}/${NNODES}_MPIIO_${title}
 runior $title "MPIIO" $prearg $postarg
 
-title=nto_read
+echo -e "$separator"
+echo "READ: $title"
 prearg="-C -Q ${TPN} -k -E -a"
 postarg="-v -b $size -s $segments -t 1M -D 45 -r"
 runior $title "POSIX" $prearg $postarg
+echo -e "$separator"
 runior $title "MPIIO" $prearg $postarg
+
+echo -e "END $separator"
 
