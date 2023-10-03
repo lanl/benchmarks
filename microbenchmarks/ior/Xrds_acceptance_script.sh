@@ -31,7 +31,7 @@ runior() {
     # 2 is POSIX or MPIIO
     # 3 is PRE 2 args
     # 4 is POST 2 args
-    srun -N $NNODES --ntasks-per-node=$TPN $IORLOC/ior "${3}" $2 "${4}" -o ${WORKING_DIR}/${NNODES}_${2}_${1}
+    srun -N ${NNODES} --ntasks-per-node=${TPN} ${IORLOC}/ior "${3}" $2 "${4}" -o ${WORKING_DIR}/${NNODES}_${2}_${1}
     sleep 3
 }
 
@@ -52,11 +52,36 @@ runior() {
 # -v  -b $size -s $segments -t 1M -D 180 -w
 # -v  -b $size -s $segments -t 1M -D 45 -r 
 
+###################################################################
+# FPR READ WRITE
+###################################################################
+title="fpr_write"
 prearg="-k -e -a"
-postarg="-F -v  -b 4G -s 16 -t 1M -D 30 -r"
-runior "fpr" "POSIX" $prearg $postarg
-runior "fpr" "MPIIO" $prearg $postarg
+postarg="-F -v  -b 4G -s 16 -t 1M -D 180 -w"
+runior $title "POSIX" $prearg $postarg
+runior $title "MPIIO" $prearg $postarg
 
-# runior "fpr" "POSIX" $prearg $postarg
-# runior "fpr" "POSIX" $prearg $postarg
-# runior "fpr" "POSIX" $prearg $postarg
+title="fpr_read"
+prearg="-C -Q ${TPN} -k -E -a"
+postarg="-F -v  -b 4G -s 16 -t 1M -D 30 -r"
+runior $title "POSIX" $prearg $postarg
+runior $title "MPIIO" $prearg $postarg
+
+
+###################################################################
+# NTO READ WRITE
+###################################################################
+title=nto_write
+prearg="-k -e -E -a"
+postarg="-v -b $size -s $segments -t 1M -D 180 -w"
+lfs setstripe -c 4 ${WORKING_DIR}/${NNODES}_POSIX_${title}
+runior $title "POSIX" $prearg $postarg
+lfs setstripe -c 4 ${WORKING_DIR}/${NNODES}_MPIIO_${title}
+runior $title "MPIIO" $prearg $postarg
+
+title=nto_read
+prearg="-C -Q ${TPN} -k -E -a"
+postarg="-v -b $size -s $segments -t 1M -D 45 -r"
+runior $title "POSIX" $prearg $postarg
+runior $title "MPIIO" $prearg $postarg
+

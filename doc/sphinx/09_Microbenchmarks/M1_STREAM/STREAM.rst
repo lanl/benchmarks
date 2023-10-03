@@ -125,7 +125,8 @@ Replace `<num_processes>` with the number of MPI processes you want to use. For 
 
 Example Results
 ===============
-Results from Branson are provided on the following systems:
+
+Results for STREAM are provided on the following systems:
 
 * Crossroads (see :ref:`GlobalSystemATS3`)
 

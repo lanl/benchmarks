@@ -65,3 +65,15 @@ Running
 Example Results
 ===============
 
+Results for the OSU Microbenchmarks are provided on the following systems:
+
+* Crossroads (see :ref:`GlobalSystemATS3`)
+
+Crossroads
+----------
+
+.. csv-table:: OSU Microbenchmark Tests
+   :file: OSU_ats3_results.csv
+   :align: center
+   :widths: 10, 10, 10, 10, 10
+   :header-rows: 1
