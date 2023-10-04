@@ -140,8 +140,8 @@ run_try()
         unset LD_PRELOAD
         l_fom=`./sparta_fom.py -a -f "log.sparta" 2>&1 | awk -F'FOM = ' '{print $2}'`
         l_maxrss=`grep maxrss "${LDPXI_OUTPUT}" | awk -F',' '{print $2}'`
-        echo "FOM,RUN,PPC,RanksPerDomain,MaxRSS(KiB),Try,Dir" > "${FILE_METRICS}"
-        echo "${l_fom},${SPARTA_RUN},${SPARTA_PPC},${RANKS_PER_DOMAIN},${l_maxrss},${i},` pwd -P `" >> "${FILE_METRICS}"
+        echo "FOM,RUN,PPC,RanksPerDomain,MaxRSS(KiB),AppName,Try,Dir" > "${FILE_METRICS}"
+        echo "${l_fom},${SPARTA_RUN},${SPARTA_PPC},${RANKS_PER_DOMAIN},${l_maxrss},${APP_NAME},${i},` pwd -P `" >> "${FILE_METRICS}"
     fi
 
     popd
