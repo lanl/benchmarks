@@ -32,7 +32,7 @@ export SPARTA_RUN=${SPARTA_RUN:-4000}
 export SPARTA_PPC=${SPARTA_PPC:-42}
 export SPARTA_STATS=${SPARTA_STATS:-10}
 export APP_NAME=${APP_NAME:-"spa_crossroads_omp_spr"}
-export APP_EXE="${DIR_BASE}/spa_crossroads_omp"
+export APP_EXE="${DIR_BASE}/${APP_NAME}"
 export APP_REPEAT=${APP_REPEAT:-1}
 
 # MPI setup
