@@ -1,0 +1,5 @@
+Node_Config,MPIIO_task,POSIX_task,MPIIO_shared,POSIX_shared
+"Single Write",38615.88,38508.96,35964.32,37724.38
+"Single Read",41830.12,42963.57,41933.79,42000.99
+"Full System Write",,,,
+"Full System Read",,,,

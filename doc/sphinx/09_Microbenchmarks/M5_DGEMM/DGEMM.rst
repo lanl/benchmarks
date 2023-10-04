@@ -26,7 +26,9 @@ Figure of Merit
 
 The Gigaflops per second rate reported at the end of the run
 
-GFLOP/s rate:         <FOM> GF/s
+::
+
+    GFLOP/s rate:         <FOM> GF/s
 
 Run Rules
 ---------

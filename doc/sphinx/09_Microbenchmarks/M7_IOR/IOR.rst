@@ -11,6 +11,7 @@ Characteristics
 ===============
 
 IOR is available:
+
 - Github: `IOR Public <https://github.com/hpc/ior>`_
 - LANL Crossroads Site: `IOR <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/ior-3.0.1-xroads_v1.0.0.tgz>`_
 
@@ -37,7 +38,6 @@ included here.
 Ensure that the MPI compiler wrappers (e.g., `mpicc`) are in `$PATH`. Then create a build directory and an (optional) install directory.
 
 .. code-block:: bash
-
     
     ${BENCHMARK_PATH}/microbenchmarks/ior/configure --prefix=<INSTALL_DIR>
     make
@@ -50,6 +50,8 @@ IOR executable at `src/ior`.
 Running
 =======
 
+The file ``Xrds_acceptance_script.sh`` in the IOR source directory, ``microbenchmarks/ior``, will run the read and write IOR benchmarks for a particular compiler, mpi, and number of nodes set beforehand.
+
 Input
 -----
 
@@ -59,4 +61,18 @@ Running IOR does not require using the input files. All arguments can be given o
 
 Example Results
 ===============
+
+Results for IOR are provided on the following systems:
+
+* Crossroads (see :ref:`GlobalSystemATS3`)
+
+Crossroads
+----------
+
+.. csv-table:: IOR benchmark 
+   :file: ats3_ior.csv
+   :align: center
+   :widths: 10, 10, 10, 10, 10
+   :header-rows: 1
+   :stub-columns: 1
 

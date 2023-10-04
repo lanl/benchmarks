@@ -4,12 +4,10 @@ Sandia Microbenchmarks - Message rate
 
 This is the documentation for the ATS-5 Benchmark SMB Message Rate - A multi-node MPI point-to-point benchmark 
 
-
 Purpose
 =======
 
 Sandia Microbenchmarks - Message Rate is a realistic messaging benchmark designed to emulate real application behavior. In particular there are a few things that set this benchmark apart; 1. It uses a peer count to emulate different communication patterns. 2. It clears the cache between each iteration to get realistic performance numbers. 3. It test different program behaviors, such at pre-posting receives, to evaluate performance under different scenarios. 
-
 
 Characteristics
 ===============
@@ -47,7 +45,6 @@ Accessing the sources
    cd SMB/src/msgrate/
  
 ..
-
 
 Build requirements:
 
@@ -92,8 +89,6 @@ You should see output simlar to the following (note, because you're presumably t
 
 ..
 
-
-
 Running
 =======
 
@@ -123,8 +118,6 @@ We define some system specific variables for these tests.
    for i in {0..24}; do mpirun msgrate -n $PPN -p 26 -c $CACHE -s $((2**i)) -o; done
 
 ..
-
-
 
 Results from SMB are provided on the following systems:
 
