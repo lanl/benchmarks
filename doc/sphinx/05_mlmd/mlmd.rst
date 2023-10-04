@@ -168,7 +168,7 @@ Building on Crossroads
 
 .. code-block::
 
-   module load cray-libsci
+   module load intel-mkl
    module load cray-fftw
    module load python/3.10-anaconda-2023.03
 
@@ -193,7 +193,7 @@ Building on Crossroads
    export CMAKE_PREFIX_PATH="${FFTW_ROOT}"
    export CXX=`which icpx`
    export CC=`which icx` 
-   cmake ../cmake  -DCMAKE_BUILD_TYPE=RelWithDebInfo   -DCMAKE_VERBOSE_MAKEFILE=ON   -DLAMMPS_EXCEPTIONS=ON   -DBUILD_SHARED_LIBS=ON   -DBUILD_MPI=ON   -DKokkos_ENABLE_OPENMP=ON   -DKokkos_ENABLE_CUDA=OFF   -DKokkos_ARCH_SPR=ON   -DPKG_KOKKOS=ON   -DCMAKE_CXX_STANDARD=17   -DPKG_MANYBODY=ON   -DPKG_MOLECULE=ON   -DPKG_KSPACE=ON   -DPKG_REPLICA=ON   -DPKG_ASPHERE=ON   -DPKG_RIGID=ON   -DPKG_MPIIO=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON   -DPKG_ML-SNAP=on   -DPKG_ML-IAP=on   -DPKG_PYTHON=on 
+   cmake ../cmake  -DCMAKE_BUILD_TYPE=Release   -DCMAKE_VERBOSE_MAKEFILE=ON   -DLAMMPS_EXCEPTIONS=ON   -DBUILD_SHARED_LIBS=ON   -DBUILD_MPI=ON   -DKokkos_ENABLE_OPENMP=ON   -DKokkos_ENABLE_CUDA=OFF   -DKokkos_ARCH_SPR=ON   -DPKG_KOKKOS=ON   -DCMAKE_CXX_STANDARD=17   -DPKG_MANYBODY=ON   -DPKG_MOLECULE=ON   -DPKG_KSPACE=ON   -DPKG_REPLICA=ON   -DPKG_ASPHERE=ON   -DPKG_RIGID=ON   -DPKG_MPIIO=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON   -DPKG_ML-SNAP=on   -DPKG_ML-IAP=on   -DPKG_PYTHON=on 
    make -j 12
    make install-python
 
@@ -259,9 +259,8 @@ Training HIPNN Model
 --------------------
 For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. 
 
-On Chicoma using a single GPU - FOM Average Epoch time:  0.27951446 
-
-On Crossroads using a single node - FOM Average Epoch time:   2.74782915
+* On Chicoma using a single GPU - FOM Average Epoch time:  0.27951446 
+* On Crossroads using a single node - FOM Average Epoch time:   2.63468153
 
 Simulation+Inference 
 --------------------
