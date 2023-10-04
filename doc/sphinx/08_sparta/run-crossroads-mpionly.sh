@@ -31,7 +31,8 @@ export FILE_TRY="output-script-${DIR_CASE}.log"
 export SPARTA_RUN=${SPARTA_RUN:-4000}
 export SPARTA_PPC=${SPARTA_PPC:-42}
 export SPARTA_STATS=${SPARTA_STATS:-10}
-export APP_EXE="${DIR_EXE}/spa_crossroads_omp"
+export APP_NAME=${APP_NAME:-"spa_crossroads_omp_spr"}
+export APP_EXE="${DIR_BASE}/spa_crossroads_omp"
 export APP_REPEAT=${APP_REPEAT:-1}
 
 # MPI setup
@@ -59,7 +60,7 @@ export OMP_NUM_THREADS=${THREADS_PER_RANK}
 
 # LDPXI setup if applicable
 export LDPXI_INST="gru,io,mpi,rank,mem,perf"
-export LDPXI_PERF_EVENTS="LLC-load-misses,LLC-loads,dTLB-load-misses,dTLB-loads"
+export LDPXI_PERF_EVENTS="cpu-cycles,ref-cycles,dTLB-load-misses,dTLB-loads"
 export LDPXI_OUTPUT="sparta-ldpxi.$SLURM_JOB_ID.csv"
 
 # create and populate run folder and edit input file
