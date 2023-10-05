@@ -1,5 +1,9 @@
 #!/bin/bash
 
+##############
+# MDTEST
+##############
+
 ## SET VARS FROM CL INPUT KEY=VALUE
 setvar () {
 	while [[ $# -gt 0 ]]; do
@@ -10,9 +14,8 @@ setvar () {
 
 export SCRATCH=/lustre/xrscratch1 # CROSSROADS SCRATCH
 export MDTESTLOC=${HOME}/.local/bin # PATH TO MDTEST BINARY
-export TPN=110
+export TPN=10
 export NFILES=104857
-export SIZE=2G
 export NNODES=$SLURM_NNODES
 separator="\t ------------------------------------------------- \t"
 

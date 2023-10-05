@@ -1,5 +1,9 @@
 #!/bin/bash
 
+##############
+# IOR
+##############
+
 ## SET VARS FROM CL INPUT KEY=VALUE
 setvar () {
 	while [[ $# -gt 0 ]]; do
@@ -50,8 +54,8 @@ runior() {
 
 ###################################################################
 # POST
-# -F -v  -b 4G -s 16 -t 1M -D 30 -r 
-# -F -v  -b 4G -s 16 -t 1M -D 180 -w #WRITE 
+# -F -v  $SIZE -s $SEGMENTS -t 1M -D 30 -r 
+# -F -v  $SIZE -s $SEGMENTS -t 1M -D 180 -w #WRITE 
 # -v  -b $SIZE -s $SEGMENTS -t 1M -D 180 -w
 # -v  -b $SIZE -s $SEGMENTS -t 1M -D 45 -r 
 

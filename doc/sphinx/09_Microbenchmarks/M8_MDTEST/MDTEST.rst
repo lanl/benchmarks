@@ -25,19 +25,30 @@ Figure of Merit
 Building
 ========
 
+After extracting the tar file, ensure that the MPI is loaded and that the relevant compiler wrappers, ``cc`` or ``mpicc``, are in ``$PATH``.
+
+.. code-block:: bash
+
+    cd microbenchmarks/mdtest
+    make
+
 Running
 =======
 
-.. csv-table:: MDTEST Microbenchmark
-   :file: ats3_mdtest_sow.csv
+.. .. csv-table:: MDTEST Microbenchmark
+..    :file: ats3_mdtest_sow.csv
+..    :align: center
+..    :widths: 10, 10, 10, 10, 10
+..    :header-rows: 1
+..    :stub-columns: 2
+
+Example Results
+===============
+
+.. csv-table:: MDTEST Microbenchmark Xrds
+   :file: ats3_mdtest.csv
    :align: center
    :widths: 10, 10, 10, 10, 10
    :header-rows: 1
    :stub-columns: 2
-
-Input
------
-
-Example Results
-===============
 
