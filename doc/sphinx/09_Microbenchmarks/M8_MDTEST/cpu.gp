@@ -1,6 +1,6 @@
 #!/usr/bin/gnuplot
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
-set output "dgemm_cts1.png"
+# set output "dgemm_cts1.png"
 
 set title " Single node Dgemm" font "serif,22"
 set xlabel "No. Processing Elements"
@@ -25,6 +25,6 @@ set style line 2 linetype 1 dashtype 2 linecolor rgb "#FF0000" linewidth 2
 
 set output "dgemm_ats3.png"
 set xrange [4:128]
-plot "dgemm_ats3.csv" using 1:2 with linespoints linestyle 1
+# plot "dgemm_ats3.csv" using 1:2 with linespoints linestyle 1
 
 

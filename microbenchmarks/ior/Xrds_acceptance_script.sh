@@ -8,8 +8,7 @@ setvar () {
 	done
 }
 
-export SCRATCH=/lustre/xrscratch1/${USER}
-export WORKING_DIR=${SCRATCH}/ior
+export SCRATCH=/lustre/xrscratch1 # CROSSROADS SCRATCH
 export IORLOG=${HOME}/logs/ior
 export IORLOC=
 export TPN=110
@@ -26,6 +25,9 @@ setvar $@
 
 find ${WORKING_DIR} -type f -delete
 mkdir -p $IORLOG
+
+export SCRATCH_HOME=${SCRATCH}/${USER}
+export WORKING_DIR=${SCRATCH_HOME}/ior
 
 runior() {
     # 1 is working dir output file
@@ -50,8 +52,8 @@ runior() {
 # POST
 # -F -v  -b 4G -s 16 -t 1M -D 30 -r 
 # -F -v  -b 4G -s 16 -t 1M -D 180 -w #WRITE 
-# -v  -b $size -s $segments -t 1M -D 180 -w
-# -v  -b $size -s $segments -t 1M -D 45 -r 
+# -v  -b $SIZE -s $SEGMENTS -t 1M -D 180 -w
+# -v  -b $SIZE -s $SEGMENTS -t 1M -D 45 -r 
 
 ###################################################################
 # PER NODE READ WRITE
@@ -63,7 +65,7 @@ echo -e "$separator"
 echo "WRITE: $title"
 
 prearg="-k -e -a"
-postarg="-F -v -b 4G -s 16 -t 1M -D 180 -w"
+postarg="-F -v -b $SIZE -s $SEGMENTS -t 1M -D 180 -w"
 runior $title "POSIX" $prearg $postarg
 echo -e "$separator"
 runior $title "MPIIO" $prearg $postarg
@@ -71,7 +73,7 @@ runior $title "MPIIO" $prearg $postarg
 echo -e "$separator"
 echo "READ: $title"
 prearg="-C -Q ${TPN} -k -E -a"
-postarg="-F -v -b 4G -s 16 -t 1M -D 30 -r"
+postarg="-F -v -b $SIZE -s $SEGMENTS -t 1M -D 30 -r"
 runior $title "POSIX" $prearg $postarg
 echo -e "$separator"
 runior $title "MPIIO" $prearg $postarg
@@ -87,7 +89,7 @@ echo -e "$separator"
 echo "WRITE: $title"
 
 prearg="-k -e -E -a"
-postarg="-v -b $size -s $segments -t 1M -D 180 -w"
+postarg="-v -b $SIZE -s $SEGMENTS -t 1M -D 180 -w"
 lfs setstripe -c 4 ${WORKING_DIR}/${NNODES}_POSIX_${title}
 runior $title "POSIX" $prearg $postarg
 echo -e "$separator"
@@ -97,10 +99,17 @@ runior $title "MPIIO" $prearg $postarg
 echo -e "$separator"
 echo "READ: $title"
 prearg="-C -Q ${TPN} -k -E -a"
-postarg="-v -b $size -s $segments -t 1M -D 45 -r"
+postarg="-v -b $SIZE -s $SEGMENTS -t 1M -D 45 -r"
 runior $title "POSIX" $prearg $postarg
 echo -e "$separator"
 runior $title "MPIIO" $prearg $postarg
+
+mv $WORKING_DIR ${HOME}/ior_current
+
+echo "Results preserved:"
+echo "  ${HOME}/ior_current"
+echo $(date) >> ${HOME}/ior_current/run_summary
+env >> ${HOME}/ior_current/run_summary
 
 echo -e "END $separator"
 

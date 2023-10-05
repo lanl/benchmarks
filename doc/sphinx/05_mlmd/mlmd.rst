@@ -323,9 +323,6 @@ following table and figure.
 ..    MLMD throughput performance on Chicaoma 
 
 
-Verification of Results
-=======================
-
 References
 ==========
 

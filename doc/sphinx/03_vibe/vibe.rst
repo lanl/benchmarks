@@ -199,9 +199,6 @@ Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the f
 
    VIBE Throughput Performance on A100
 
-Verification of Results
-=======================
-
 References
 ==========
 

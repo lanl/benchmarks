@@ -194,9 +194,6 @@ following table and figure.
    Branson Throughput Performance on Sierra
 
 
-Verification of Results
-=======================
-
 References
 ==========
 
