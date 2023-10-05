@@ -6,14 +6,15 @@ variables:
     crayversion: "16.0.0"
     craympichversion: "8.1.26"
     partn: 'standard'
+
     mpis:
         - { name: "cray-mpich", version: "{{craympichversion}}", mpicc: "cc", mpicxx: "CC", mpifc: "ftn", mpival: "cray"}
     compilers:
-        - { name: "intel-classic", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn" }
-        - { name: "intel-oneapi", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn" }
-        - { name: "intel", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn" }
-        - { name: "cce", version: "{{crayversion}}", cc: "cc", cxx: "CC", pe_env: cray, fc: "ftn" }
-
+        - { name: "intel-classic", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn", blas_cflags: '-DUSE_CBLAS=1 -O3 -qopenmp', arch_opt: ''}
+        - { name: "intel-oneapi", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn", blas_cflags: '-DUSE_CBLAS=1 -O3 -fopenmp', arch_opt: ''}
+        - { name: "intel", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn", blas_cflags: '-DUSE_CBLAS=1 -O3 -qopenmp', arch_opt: ''}
+        - { name: "cce", version: "{{crayversion}}", cc: "cc", cxx: "CC", pe_env: cray, fc: "ftn", blas_cflags: '-DUSE_CBLAS=1 -O3 -openmp', arch_opt: ''}
+        # - { name: "gcc", version: "12.2.0", pe_env: "PrgEnv-gnu", cc: "cc", cxx: "CC", fc: "ftn", blas_cflags: '-DUSE_CBLAS=1 -O3 -fopenmp', arch_opt: ''}
     scratch:
         - name: xrscratch
           path: "/lustre/xrscratch1/{{pav.user}}"

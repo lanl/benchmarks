@@ -98,7 +98,10 @@ _base:
         nodes: '10' # 'ALL'
         tasks_per_node: 1
         share_allocation: false
+
+    variables:
         ntimes: '10'
+        stream_array_size: '40'
 
     permute_on:
         - compilers
