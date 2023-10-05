@@ -74,11 +74,11 @@ To build Parthenon on CPU, including this benchmark, with minimal external depen
 
 ..
 
-On a CTS-1 machine the relevant modules for the results shown here are:
+On Crossroads the relevant modules for the results shown here are:
 
 .. code-block:: bash
 
-   intel/2023.1.0 cray-mpich/8.1.25 
+   intel/2023.2.0 cray-mpich/8.1.25 
 
 ..
 
@@ -141,29 +141,43 @@ containing scaling numbers.
 Crossroads
 -------------------
 
-.. csv-table:: VIBE Throughput Performance on Crossroads using ~40% Memory
-   :file: parthenon-ats5_spr-hbm128-intel-classic.csv
+
+.. csv-table:: VIBE Throughput Performance on Crossroads using ~20% Memory
+   :file: cpu_20.csv
    :align: center
-   :widths: 10, 10
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+.. figure:: ats3_20.png
+   :align: center
+   :scale: 50%
+   :alt: VIBE Throughput Performance on Crossroads using ~20% Memory
+
+   VIBE Throughput Performance on Crossroads using ~20% Memory
+
+.. csv-table:: VIBE Throughput Performance on Crossroads using ~40% Memory
+   :file: cpu_40.csv
+   :align: center
+   :widths: 10, 10, 10
    :header-rows: 1
 
 .. figure:: ats3_40.png
    :align: center
    :scale: 50%
-   :alt: VIBE Throughput Performance on Crossroads
+   :alt: VIBE Throughput Performance on Crossroads using ~40% Memory
 
    VIBE Throughput Performance on Crossroads using ~40% Memory
 
 .. csv-table:: VIBE Throughput Performance on Crossroads using ~60% Memory
-   :file: parthenon-ats5_spr-hbm160-intel-classic.csv
+   :file: cpu_60.csv
    :align: center
-   :widths: 10, 10
+   :widths: 10, 10, 10
    :header-rows: 1
 
 .. figure:: ats3_60.png
    :align: center
    :scale: 50%
-   :alt: VIBE Throughput Performance on Crossroads
+   :alt: VIBE Throughput Performance on Crossroads using ~60% memory
 
    VIBE Throughput Performance on Crossroads using ~60% memory
 

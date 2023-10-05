@@ -126,7 +126,7 @@ Results from Branson are provided on the following systems:
 
 Crossroads
 ------------
-Strong scaling performance of Crossroads 66M Particles is provided within the following table and
+Strong scaling performance of Crossroads 10M Particles is provided within the following table and
 figure.
 
 .. csv-table:: Branson Strong Scaling Performance on Crossroads 10M particles
