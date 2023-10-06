@@ -132,14 +132,14 @@ _base:
             - 'fi'
             - 'export PAV_CC PAV_FC PAV_CFLAGS PAV_FFLAGS'
             - 'make clean'
-            - 'make {{target}} || exit 1'
+            - 'make all || exit 1'
             - '[ -x {{target}} ] || exit 1'
 
     run:
         env:
             CC: '{{compilers.cc}}'
             OMP_NUM_THREADS: '{{omp_num_threads}}'
-            GOMP_CPU_AFFINITY: '0-{{omp_num_threads-1}}'
+#            GOMP_CPU_AFFINITY: '0-{{omp_num_threads-1}}'
         preamble:
             - 'module load friendly-testing'
             - 'module load {{compilers.name}}/{{compilers.version}}'
@@ -147,7 +147,7 @@ _base:
         cmds:
             - 'NTIMES={{ntimes}}'
             - 'N={{stream_array_size}}000000'
-            - 'echo "GOMP_CPU_AFFINITY: $GOMP_CPU_AFFINITY"'
+            # - 'echo "GOMP_CPU_AFFINITY: $GOMP_CPU_AFFINITY"'
             - 'echo "OMP_NUM_THREADS: $OMP_NUM_THREADS"'
             - 'echo "NTIMES=$NTIMES"'
             - 'echo "N=${N}"'
@@ -363,15 +363,12 @@ cts1_ats5:
         numnodes: '1'
         omp_num_threads: '1'
         stream_array_size: '40'
+        target: "stream_mpi.exe"
 
     schedule:
         nodes: "{{numnodes}}"
         share_allocation: true
         tasks_per_node: "{{tpn}}"
-
-    run:
-        env:
-            GOMP_CPU_AFFINITY: ''
 
     result_parse:
         regex:
@@ -399,9 +396,9 @@ xrds_ats5:
     variables:
         tpn: [8, 32, 56, 88, 112]
         arch: "spr"
-        target: "xrds-stream.exe"
+        target: "xrds_stream.exe"
         stream_array_size: '40'
-        #ntimes: 20
+        ntimes: 20
         #omp_places: [cores, sockets]
         #omp_proc_bind: [true]
         numnodes: '1'
@@ -410,7 +407,6 @@ xrds_ats5:
     chunk: '{{chunk_ids.0}}'
 
     schedule:
-        partition: 'hbm'
         nodes: "{{numnodes}}"
         share_allocation: true
         tasks_per_node: "{{tpn}}"
@@ -433,9 +429,6 @@ xrds_ats5:
             - 'module load {{compilers.name}}/{{compilers.version}}'
             - 'module load {{mpis.name}}/{{mpis.version}}'
 
-        env:
-            GOMP_CPU_AFFINITY: ''
-
     result_parse:
         regex:
             triad_once:
@@ -447,3 +440,9 @@ xrds_ats5:
     result_evaluate:
         per_proc_bw: 'sum(triad_once)/len(triad_once)'
         total_bw: 'sum(triad_once)'
+
+roci_ats5:
+    inherits_from: xrds_ats5
+
+    schedule:
+        partition: 'hbm'
