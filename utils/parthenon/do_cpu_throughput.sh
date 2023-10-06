@@ -1,0 +1,1 @@
+../../doc/sphinx/03_vibe/do_cpu_throughput.sh

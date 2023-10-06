@@ -5,9 +5,12 @@ set +e
 
 FOOTPRINT=$1
 
+#BEGIN Do not change the following for official benchmarking 
 NXB=16
 NLIM=250
 NLVL=3
+#END
+
 
 if (( ${FOOTPRINT} == 20 )); then
     NX=64
@@ -32,7 +35,7 @@ echo "${HEADER}" > ${TIMING_FILE_NAME}
 # loop
 i=0
 IDEAL1=0
-for count in 4 8 18 26 36; do
+for count in  8 32 56 88 112; do
     echo "Core count = ${count}"
     outfile=$(printf "strong-scale-%d.out" ${count})
     errfile=$(printf "strong-scale-%d.err" ${count})

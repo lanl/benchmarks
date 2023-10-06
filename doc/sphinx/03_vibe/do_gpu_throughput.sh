@@ -5,6 +5,12 @@ set +e
 
 TIMING_FILE_NAME="gpu.csv"
 
+#BEGIN Do not change the following for official benchmarking 
+NXB=16
+NLIM=250
+NLVL=3
+#END
+
 EXEC=./burgers-benchmark # executable
 INP=../../../benchmarks/burgers/burgers.pin
 
@@ -14,13 +20,11 @@ echo "${HEADER}"
 echo "${HEADER}" > ${TIMING_FILE_NAME}
 
 # loop
-NXB=32
-NL=2
 for NX in 32 64 96 128 160 192; do
     echo "Mesh base size = ${NX}"
     outfile=$(printf "gpu-throughput-%d.out" ${NX})
     echo "saving to output file ${outfile}"
-    ARGS="${EXEC} -i ${INP} parthenon/mesh/nx1=${NX} parthenon/mesh/nx2=${NX} parthenon/mesh/nx3=${NX} parthenon/meshblock/nx1=${NXB} parthenon/meshblock/nx2=${NXB} parthenon/meshblock/nx3=${NXB} parthenon/time/nlim=250 parthenon/mesh/numlevel=${NL}"
+    ARGS="${EXEC} -i ${INP} parthenon/mesh/nx{1,2,3}=${NX} parthenon/meshblock/nx{1,2,3}=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
     CMD="${ARGS} | tee ${outfile}"
     echo ${CMD}
     ${ARGS} | tee ${outfile}
