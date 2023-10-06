@@ -35,7 +35,7 @@ for NX in 32 64 96 128 160 192; do
 	outfile=$(printf "strong-scale-%d-%d.out" ${NX} ${count})
 	errfile=$(printf "strong-scale-%d-%d.err" ${NX} ${count})
 	echo "saving to output file ${outfile}"
-	ARGS="${EXEC} -i ${INP} parthenon/mesh/nx{1,2,3}=${NX} parthenon/meshblock/nx{1,2,3}=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
+	ARGS="${EXEC} -i ${INP} parthenon/mesh/nx1=${NX} parthenon/mesh/nx2=${NX} parthenon/mesh/nx3=${NX} parthenon/meshblock/nx1=${NXB} parthenon/meshblock/nx3=${NXB} parthenon/meshblock/nx3=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
 	CMD="srun --hint=nomultithread -n ${count} -o ${outfile} -e ${errfile} ${ARGS}"
 	echo ${CMD}
 	${CMD}
