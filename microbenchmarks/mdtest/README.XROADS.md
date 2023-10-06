@@ -57,8 +57,7 @@ node memory.
 
 The Offeror shall run the following tests:
 
-* creating, statting, and removing at least 1,048,576 files in a single
-  directory
+* creating, statting, and removing at least 1,048,576 files in a single directory.
 * creating, statting, and removing at least 1,048,576 files in separate
   directories (one directory per MPI process)
 * creating, statting, and removing one file by multiple MPI processes
