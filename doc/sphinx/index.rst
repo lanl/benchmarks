@@ -31,9 +31,8 @@ ATS Benchmarks Project
    09_Microbenchmarks/M3_OSUMB/OSUMB
    09_Microbenchmarks/M4_SMB/SMB
    09_Microbenchmarks/M5_DGEMM/DGEMM
-   09_Microbenchmarks/M6_DAXPY/DAXPY
-   09_Microbenchmarks/M7_IOR/IOR
-   09_Microbenchmarks/M8_MDTEST/MDTEST
+   09_Microbenchmarks/M6_IOR/IOR
+   09_Microbenchmarks/M7_MDTEST/MDTEST
 
 .. toctree::
    :numbered:
