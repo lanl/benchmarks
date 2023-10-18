@@ -6,7 +6,7 @@ set xlabel "No. Processing Elements"
 set ylabel "Figure of Merit (Avg. Bandwidth per rank MB/s)"
 
 set xrange [1:128]
-set key outside
+set nokey
 
 set logscale x 2
 

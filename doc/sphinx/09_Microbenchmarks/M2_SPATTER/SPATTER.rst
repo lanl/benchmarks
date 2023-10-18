@@ -188,14 +188,14 @@ Crossroads
 
 These weak-scaling experiements were ran on 1, 2, 4, 8, 16, 32, 56, 64, 96, and 112 ranks with a single Crossroads node.
 
-These experiments were ran with core-bidning turned on and plotting enabled. All were built with gcc 9.4.0 and openmpi 3.1.6
+These experiments were ran with core-binding turned on and plotting enabled.
 
 xRAGE Asteroid Spatter Pattern 5
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Weak-scaling experiment for the pattern in patterns/xrage/asteroid/spatter5.json. Results will be found in spatter.weakscaling/Crossroads/xrage/asteroid/spatter5/ and Figures will be found in figures/spatter.weakscaling/Crossroads/xrage/asteroid/spatter5
 
-This pattern is a Gather (dest[i] = src[pattern[i]]) with a length of 8,368,968 elements (pattern[i]) with a target vector (src[i]) length of 1,120,524.
+This pattern is a Gather with a length of 8,368,968 elements with a target vector length of 1,120,524.
 
 
 .. code-block:: bash
@@ -204,10 +204,10 @@ This pattern is a Gather (dest[i] = src[pattern[i]]) with a length of 8,368,968 
 
 ..
 
-.. csv-table:: Spatter Weak Scaling Performance for xRAGE Spatter Pattern 5 on Crossroads
+.. csv-table:: Spatter Weak Scaling Performance (MB/s per Rank) for xRAGE Spatter Pattern 5 on Crossroads
    :file: ats3_weak_average_asteroid_5.csv
    :align: center
-   :widths: 5, 8
+   :widths: 5, 5
    :header-rows: 1
 
 .. figure:: ats3_weak_average_asteroid_5.png
@@ -215,13 +215,15 @@ This pattern is a Gather (dest[i] = src[pattern[i]]) with a length of 8,368,968 
    :scale: 50%
    :alt: Spatter Weak Scaling Performance for xRAGE Spatter Pattern 5 on Crossroads
 
+   Spatter Weak Scaling Performance for xRAGE Spatter Pattern 5 on Crossroads
+
 
 xRAGE Asteroid Spatter Pattern 9
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Weak-scaling experiment for the pattern in patterns/xrage/asteroid/spatter5.json. Results will be found in spatter.weakscaling/Crossroads/xrage/asteroid/spatter9/ and Figures will be found in figures/spatter.weakscaling/Crossroads/xrage/asteroid/spatter9
 
-This pattern is a Scatter (dest[pattern[i]] = src[i]) with a length of 6,664,304 elements (pattern[i]) with a target vector (dest[i]) length of 2,051,100.
+This pattern is a Scatter with a length of 6,664,304 elements with a target vector length of 2,051,100.
 
 .. code-block:: bash
 
@@ -229,16 +231,18 @@ This pattern is a Scatter (dest[pattern[i]] = src[i]) with a length of 6,664,304
 
 ..
 
-.. csv-table:: Spatter Weak Scaling Performance for xRAGE Spatter Pattern 9 on Crossroads
+.. csv-table:: Spatter Weak Scaling Performance (MB/s per Rank) for xRAGE Spatter Pattern 9 on Crossroads
    :file: ats3_weak_average_asteroid_9.csv
    :align: center
-   :widths: 5, 8
+   :widths: 5, 5
    :header-rows: 1
 
 .. figure:: ats3_weak_average_asteroid_9.png
    :align: center
    :scale: 50%
    :alt: Spatter Weak Scaling Performance for xRAGE Spatter Pattern 9 on Crossroads
+
+   Spatter Weak Scaling Performance for xRAGE Spatter Pattern 9 on Crossroads
 
 
 V100
