@@ -40,7 +40,7 @@ for count in  8 32 56 88 112; do
     outfile=$(printf "strong-scale-%d.out" ${count})
     errfile=$(printf "strong-scale-%d.err" ${count})
     echo "saving to output file ${outfile}"
-    ARGS="${EXEC} -i ${INP} parthenon/mesh/nx1=${NX} parthenon/mesh/nx2=${NX} parthenon/mesh/nx3=${NX} parthenon/meshblock/nx1=${NXB} parthenon/meshblock/nx3=${NXB} parthenon/meshblock/nx3=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
+    ARGS="${EXEC} -i ${INP} parthenon/mesh/nx1=${NX} parthenon/mesh/nx2=${NX} parthenon/mesh/nx3=${NX} parthenon/meshblock/nx1=${NXB} parthenon/meshblock/nx2=${NXB} parthenon/meshblock/nx3=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
     CMD="srun -n ${count} --hint=nomultithread  -o ${outfile} -e ${errfile} ${ARGS}"
     echo ${CMD}
     ${CMD}
