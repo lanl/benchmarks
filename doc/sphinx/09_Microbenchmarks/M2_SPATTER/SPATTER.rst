@@ -188,12 +188,14 @@ Crossroads
 
 These weak-scaling experiements were ran on 1, 2, 4, 8, 16, 32, 56, 64, 96, and 112 ranks with a single Crossroads node.
 
-These experiments were ran with core-bidning turned on and plotting enabled. 
+These experiments were ran with core-bidning turned on and plotting enabled. All were built with gcc 9.4.0 and openmpi 3.1.6
 
 xRAGE Asteroid Spatter Pattern 5
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Weak-scaling experiment for the pattern in patterns/xrage/asteroid/spatter5.json. Results will be found in spatter.weakscaling/Crossroads/xrage/asteroid/spatter5/ and Figures will be found in figures/spatter.weakscaling/Crossroads/xrage/asteroid/spatter5
+
+This pattern is a Gather (dest[i] = src[pattern[i]]) with a length of 8,368,968 elements (pattern[i]) with a target vector (src[i]) length of 1,120,524.
 
 
 .. code-block:: bash
@@ -219,6 +221,7 @@ xRAGE Asteroid Spatter Pattern 9
 
 Weak-scaling experiment for the pattern in patterns/xrage/asteroid/spatter5.json. Results will be found in spatter.weakscaling/Crossroads/xrage/asteroid/spatter9/ and Figures will be found in figures/spatter.weakscaling/Crossroads/xrage/asteroid/spatter9
 
+This pattern is a Scatter (dest[pattern[i]] = src[i]) with a length of 6,664,304 elements (pattern[i]) with a target vector (dest[i]) length of 2,051,100.
 
 .. code-block:: bash
 

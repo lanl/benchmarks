@@ -1,0 +1,9 @@
+1: Pattern Length: 8388609 Max Pattern Value: 1120524
+2: Pattern Length: 8388608 Max Pattern Value: 111300
+3: Pattern Length: 8388608 Max Pattern Value: 1120526
+4: Pattern Length: 8388608 Max Pattern Value: 1120526
+5: Pattern Length: 8368968 Max Pattern Value: 1120524
+6: Pattern Length: 8388608 Max Pattern Value: 1120526
+7: Pattern Length: 8388608 Max Pattern Value: 1120526
+8: Pattern Length: 6664304 Max Pattern Value: 2051100
+9: Pattern Length: 6664304 Max Pattern Value: 2051100
