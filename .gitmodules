@@ -14,9 +14,6 @@
 [submodule "parthenon"]
 	path = parthenon
 	url = https://github.com/parthenon-hpc-lab/parthenon.git
-[submodule "spatter"]
-	path = spatter
-	url = git@github.com:lanl/spatter.git
 [submodule "utils/pavilion"]
 	path = utils/pavilion
 	url = git@github.com:hpc/pavilion2.git
