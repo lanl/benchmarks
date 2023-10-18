@@ -17,7 +17,3 @@
 [submodule "utils/pavilion"]
 	path = utils/pavilion
 	url = git@github.com:hpc/pavilion2.git
-[submodule "microbenchmarks/spatter"]
-	path = microbenchmarks/spatter
-	url = git@github.com:lanl/spatter.git
-	branch = main
