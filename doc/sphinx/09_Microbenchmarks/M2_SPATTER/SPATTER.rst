@@ -113,7 +113,7 @@ This setup script performs the following:
 
    * sizelist is set to reasonable defaults for strong scaling experiments (specifies the size of the pattern to truncate at)
 
-#. Poopulates the GPU configuration file (scripts/gpu_config.sh) with reasonable defaults for single-GPU throughput experiments on a V100 or A100 system
+#. Populates the GPU configuration file (scripts/gpu_config.sh) with reasonable defaults for single-GPU throughput experiments on a V100 or A100 system
 
    * HOMEDIR is set to the directory this repository sits in
 
