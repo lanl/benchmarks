@@ -40,6 +40,7 @@ export NNODES=${SLURM_NNODES}
 export BUILD_DIR=/tmp/${USER}/ior
 export BUILD=true
 export IORSRC=$THISDIR
+export STONEWALL_LIMIT=4000
 separator="\t ------------------------------------------------- \t"
 
 ###################################################################
@@ -70,8 +71,17 @@ runior() {
     # 2 is POSIX or MPIIO
     # 3 is PRE 2 args
     # 4 is POST 2 args
-    echo srun -N ${NNODES} --ntasks-per-node=${TPN} ./bin/ior ${prearg} $2 ${postarg} -o ${NNODES}_${2}_${1}/a &>> ior_results
-	srun -N ${NNODES} --ntasks-per-node=${TPN} ./bin/ior ${prearg} $2 ${postarg}} -o ${NNODES}_${2}_${1}/a  &>> ior_results
+    outdir="${NNODES}_${2}_${1}"
+    if [[ $1 == 'per_node' ]]; then
+        mkdir -p $outdir
+        outfile="${outdir}/a"
+    else
+        outfile="${outdir}"
+    fi
+
+    echo -e "${separator}\n" &>> ior_results
+    echo srun --drop-caches="" -N ${NNODES} --ntasks-per-node=${TPN} ${PREFIX}/bin/ior ${prearg} $2 ${postarg} -o ${outfile} &>> ior_results
+	srun --drop-caches="" -N ${NNODES} --ntasks-per-node=${TPN} ${PREFIX}/bin/ior ${prearg} $2 ${postarg} -o ${outfile}  &>> ior_results
     sleep 3
 }
 
@@ -110,30 +120,36 @@ fi
 # -v  -b $SIZE -s $SEGMENTS -t 1M -D 180 -w
 # -v  -b $SIZE -s $SEGMENTS -t 1M -D 45 -r
 
+cd $PREFIX
+cd $WORKING_DIR
+
+title="per_node"
+
+echo -e "START $separator"
+echo -e "$separator"
+echo "WRITE: ${title}"
+echo " ${PWD}/ior_results"
+echo POSIX
+
 ###################################################################
 # PER NODE READ WRITE
 ###################################################################
-cd $PREFIX
-
-title="per_node"
-echo -e "START $separator"
-echo -e "$separator"
-echo "WRITE: $title"
-cd $WORKING_DIR
-
-prearg='-k -e -a'
-postarg='-F -v -b $SIZE -s $SEGMENTS -t 1M -D 180 -w'
+prearg="-k -e -a"
+postarg="-F -vv -b $SIZE -s $SEGMENTS -t 1M -D $STONEWALL_LIMIT -w"
 runior $title "POSIX"
 echo -e "$separator"
 runior $title "MPIIO"
+echo MPIIO
 
 echo -e "$separator"
 echo "READ: $title"
 prearg="-C -Q ${TPN} -k -E -a"
-postarg="-F -v -b $SIZE -s $SEGMENTS -t 1M -D 30 -r"
-runior $title "POSIX" $prearg $postarg
+postarg="-F -vv -b $SIZE -s $SEGMENTS -t 1M -D $STONEWALL_LIMIT -r"
+echo POSIX
+runior $title "POSIX"
 echo -e "$separator"
-runior $title "MPIIO" $prearg $postarg
+runior $title "MPIIO"
+echo MPIIO
 
 ###################################################################
 # SHARED READ WRITE
@@ -145,23 +161,27 @@ echo -e "$separator"
 echo -e "$separator"
 echo "WRITE: $title"
 
-prearg='-k -e -E -a'
-postarg='-v -b ${SIZE} -s ${SEGMENTS} -t 1M -D 180 -w'
+prearg="-k -e -E -a"
+postarg="-vv -b ${SIZE} -s ${SEGMENTS} -t 1M -D $STONEWALL_LIMIT -w"
 lfs setstripe -c 4 ${WORKING_DIR}/${NNODES}_POSIX_${title}
 runior $title "POSIX" $prearg $postarg
 echo -e "$separator"
 lfs setstripe -c 4 ${WORKING_DIR}/${NNODES}_MPIIO_${title}
 runior $title "MPIIO" $prearg $postarg
+echo MPIIO
 
 echo -e "$separator"
 echo "READ: $title"
 prearg="-C -Q ${TPN} -k -E -a"
-postarg="-v -b $SIZE -s $SEGMENTS -t 1M -D 45 -r"
-runior $title "POSIX" $prearg $postarg
+postarg="-vv -b $SIZE -s $SEGMENTS -t 1M -D $STONEWALL_LIMIT -r"
+runior $title "POSIX"
 echo -e "$separator"
-runior $title "MPIIO" $prearg $postarg
+runior $title "MPIIO"
+echo MPIIO
 
-mv $WORKING_DIR ${HOME}/ior_current
+mkdir -p $HOME/ior_current
+
+cp $WORKING_DIR/ior_results ${HOME}/ior_current
 
 echo "Results preserved:"
 echo "  ${HOME}/ior_current"
