@@ -4,19 +4,20 @@
 	branch = ats5
 [submodule "umt"]
 	path = umt
-	url = https://github.com/LLNL/UMT.git
+	url = git@github.com:LLNL/UMT.git
 [submodule "trilinos"]
 	path = trilinos
-	url = https://github.com/trilinos/Trilinos.git
+	url = git@github.com:trilinos/Trilinos.git
 [submodule "sparta"]
 	path = sparta
-	url = https://github.com/sparta/sparta.git
+	url = git@github.com:sparta/sparta.git
 [submodule "parthenon"]
 	path = parthenon
-	url = https://github.com/parthenon-hpc-lab/parthenon.git
-[submodule "spatter"]
-	path = spatter
-	url = git@github.com:lanl/spatter.git
+	url = git@github.com:parthenon-hpc-lab/parthenon.git
 [submodule "utils/pavilion"]
 	path = utils/pavilion
 	url = git@github.com:hpc/pavilion2.git
+[submodule "microbenchmarks/spatter"]
+	path = microbenchmarks/spatter
+	url = git@github.com:lanl/spatter.git
+	branch = main
