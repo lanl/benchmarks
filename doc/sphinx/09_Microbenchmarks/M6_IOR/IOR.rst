@@ -69,6 +69,9 @@ Results for IOR are provided on the following systems:
 Crossroads
 ----------
 
+Full system tests were run with 5000 nodes and 10 tasks per node.
+Single node tests were run with 112 tasks per node.
+
 .. csv-table:: IOR benchmark 
    :file: ats3_ior.csv
    :align: center
