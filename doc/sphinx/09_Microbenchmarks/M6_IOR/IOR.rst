@@ -20,9 +20,6 @@ The github repo also contains mdtest.
 Problem
 -------
 
-Figure of Merit
----------------
-
 Run Rules
 ---------
 
@@ -71,6 +68,7 @@ Crossroads
 
 Full system tests were run with 5000 nodes and 10 tasks per node.
 Single node tests were run with 112 tasks per node.
+This test was compiled with cce/16.0.0 and cray-mpich/8.1.26.
 
 .. csv-table:: IOR benchmark 
    :file: ats3_ior.csv

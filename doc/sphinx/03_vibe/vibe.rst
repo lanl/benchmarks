@@ -31,7 +31,6 @@ as well as computing an auxiliary quantity :math:`d` that resemebles a kinetic e
    d = \frac{1}{2} q^0 \mathbf{u}\cdot\mathbf{u}.
 
 Parthenon-VIBE makes use of a Godunov-type finite volume scheme with options for slope-limited linear or WENO5 reconstruction, HLL fluxes, and second order Runge-Kutta time integration.
-Characteristics
 
 
 Figure of Merit
@@ -78,7 +77,7 @@ On Crossroads the relevant modules for the results shown here are:
 
 .. code-block:: bash
 
-   intel/2023.2.0 cray-mpich/8.1.25 
+   intel-classic/2023.2.0 cray-mpich/8.1.25 
 
 ..
 
@@ -101,6 +100,8 @@ The benchmark includes an input file ``_burgers.pin_`` that specifies the base (
 
 
 The executable `burgers-benchmark` will be built in `parthenon/build/benchmarks/burgers/` and can be run as, e.g.
+
+Note that the 
 
 .. code-block:: bash
 
@@ -198,6 +199,12 @@ Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the f
    :alt: VIBE Throughput Performance on A100
 
    VIBE Throughput Performance on A100
+
+
+Validation
+==========
+
+
 
 References
 ==========
