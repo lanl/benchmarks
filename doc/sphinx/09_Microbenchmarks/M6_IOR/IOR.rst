@@ -20,6 +20,10 @@ The github repo also contains mdtest.
 Problem
 -------
 
+IOR measures parallel I/O performance at the POSIX and MPI-IO levels.
+It writes and reads files, one per rank or shared between all ranks, on a parallel file system.
+It should be run in lustre space.
+
 Run Rules
 ---------
 
