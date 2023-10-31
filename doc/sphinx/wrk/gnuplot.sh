@@ -20,7 +20,6 @@ echo "GNUPLOT INFO: xargs: ` which xargs `"
 echo "GNUPLOT INFO: dirname: ` which dirname `"
 echo "GNUPLOT INFO: basename: ` which basename `"
 
-find .. -name "*.gp" -print0 \
-    | xargs -0 -I file bash -c "do_single file"
+find .. -not \( -path "./archive" -prune \) -name "*.gp" -print0 |  xargs -0 -I file bash -c "do_single file"
 
 exit 0

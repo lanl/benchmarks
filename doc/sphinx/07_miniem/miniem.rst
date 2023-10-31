@@ -110,10 +110,8 @@ The platforms utilized for benchmarking activities are listed and described belo
 
 * Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
   known as Manzano at SNL (see :ref:`MiniEMSystemCTS1`)
-* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
-  :ref:`MiniEMSystemATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
-  :ref:`MiniEMSystemATS2`)
+* Crossroads (see :ref:`GlobalSystemATS3`)
+* Sierra (see :ref:`GlobalSystemATS2`)
 
 
 .. _MiniEMSystemCTS3:
@@ -144,27 +142,6 @@ levels of cache, with L1 using separate instruction and data caches, L2 unifying
 instruction and data, and L3 being shared across all cores in the processor. The
 cache size is 1.5 MB/core, 35.75 MB/processor, or 71.5 MB/node.
 
-
-.. _MiniEMSystemATS3:
-
-ATS-3/Crossroads
-----------------
-
-This system is not available yet but is slated to be the reference platform.
-
-
-.. _MiniEMSystemATS2:
-
-ATS-2/Sierra
-------------
-
-This system has a plethora of compute nodes that are made up of Power9
-processors with four NVIDIA V100 GPUs. Please refer to [Sierra-LLNL]_ for more
-detailed information.
-
-A Sierra application and regression testbed system named Vortex, housed at SNL,
-was used for benchmarking for convenience. Vortex has the same compute node
-hardware as Sierra.
 
 
 Building

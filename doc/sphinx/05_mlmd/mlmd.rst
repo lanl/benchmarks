@@ -24,7 +24,9 @@ This test will evaluate Pytorch performance, GPU performance, and MPI performanc
 
 Figure of Merit
 ---------------
-The figure of merit is the throughput of the MD simulations, which is reported by Lammps as 'Matom-step/s'. 
+Their are two figures of merit for this benchmark. 
+The first is the Average Epoch time of the training task. 
+The second is the throughput of the MD simulations, which is reported by Lammps as 'Katom-step/s' or 'Matom-step/s'. 
 
 Building
 ========
@@ -59,7 +61,7 @@ Building on Chicoma
    cd hippynn
    git fetch
    git checkout f8ed7390beb8261c8eec75580c683f5121226b30
-   pip install -e --no-deps ./
+   pip install --no-deps -e .
    
    #Install Lammps: 
    git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap.git
@@ -93,69 +95,105 @@ Building on Chicoma
    make -j 12
    make install-python
 
-Building on nv-devkit
--------------------------
-Building on nv-devkit builds the python environment through spack, since conda building is not available. 
+.. Building on nv-devkit
+.. -------------------------
+.. Building on nv-devkit builds the python environment through spack, since conda building is not available. 
+
+.. .. code-block::
+
+..    gcc_ver=11.2.0
+..    gcc_openblas=8.4.0
+..    module load gcc/$gcc_ver
+..    git clone https://github.com/spack/spack.git
+..    source spack/share/spack/setup-env.sh
+   
+..    spack compiler find
+   
+..    module load gcc/$gcc_openblas
+   
+..    spack compiler find
+   
+..    module load gcc/$gcc_ver
+   
+..    spack install py-torch%gcc@$gcc_ver cuda=True cuda_arch=80 mkldnn=False ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
+..    spack install py-cupy%gcc@$gcc_ver ^nccl cuda_arch=80 ^py-numpy@1.22.4
+..    spack install py-numba%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
+..    spack install py-scipy%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
+..    spack install py-matplotlib%gcc@$gcc_ver  ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
+..    spack install py-h5py%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
+   
+..    spack load py-torch py-cupy py-numba py-numpy py-scipy py-matplotlib py-h5py
+   
+..    #Install HIPPYNN
+..    git clone git@github.com:lanl/hippynn.git
+..    cd hippynn
+..    git fetch
+..    git checkout f8ed7390beb8261c8eec75580c683f5121226b30
+..    pip install -e --no-deps ./
+   
+..    #Build Lammps instructions
+..    git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap --branch v1.0.0
+..    cd  lammps-kokkos-mliap
+..    mkdir build
+..    cd build
+..    cmake ../cmake \
+..     -DCMAKE_VERBOSE_MAKEFILE=ON \
+..     -DLAMMPS_EXCEPTIONS=ON \
+..     -DBUILD_SHARED_LIBS=ON \
+..     -DBUILD_MPI=ON \
+..     -DKokkos_ARCH_AMPERE90=ON \
+..     -DKokkos_ENABLE_CUDA=ON \
+..     -DCMAKE_CXX_STANDARD=17 \
+..     -DPKG_KOKKOS=ON \
+..     -DPKG_MANYBODY=ON \
+..     -DPKG_MOLECULE=ON \
+..     -DPKG_KSPACE=ON \
+..     -DPKG_REPLICA=ON \
+..     -DPKG_ASPHERE=ON \
+..     -DPKG_RIGID=ON \
+..     -DPKG_MPIIO=ON \
+..     -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+..     -DPKG_ML-SNAP=on \
+..     -DPKG_ML-IAP=on \
+..     -DPKG_PYTHON=on \
+..     -DMLIAP_ENABLE_PYTHON=on \
+   
+..    make -j 12
+..    make install-python
+
+
+
+Building on Crossroads
+----------------------
 
 .. code-block::
 
-   gcc_ver=11.2.0
-   gcc_openblas=8.4.0
-   module load gcc/$gcc_ver
-   git clone https://github.com/spack/spack.git
-   source spack/share/spack/setup-env.sh
+   module load intel-mkl
+   module load cray-fftw
+   module load python/3.10-anaconda-2023.03
+
+   mkdir $HOME/mlmd-env
+   virtenv=$HOME/mlmd-env
+   conda create --prefix=${virtenv} python=3.10 
    
-   spack compiler find
-   
-   module load gcc/$gcc_openblas
-   
-   spack compiler find
-   
-   module load gcc/$gcc_ver
-   
-   spack install py-torch%gcc@$gcc_ver cuda=True cuda_arch=80 mkldnn=False ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-   spack install py-cupy%gcc@$gcc_ver ^nccl cuda_arch=80 ^py-numpy@1.22.4
-   spack install py-numba%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-   spack install py-scipy%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-   spack install py-matplotlib%gcc@$gcc_ver  ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-   spack install py-h5py%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-   
-   spack load py-torch py-cupy py-numba py-numpy py-scipy py-matplotlib py-h5py
-   
-   #Install HIPPYNN
-   git clone git@github.com:lanl/hippynn.git
-   cd hippynn
-   git fetch
+   source activate ${virtenv}
+   conda install pytorch 
+   conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
+
+   cd $HOME 
+   git clone git@github.com:lanl/hippynn.git 
+   cd hippynn/
+   git fetch 
    git checkout f8ed7390beb8261c8eec75580c683f5121226b30
-   pip install -e --no-deps ./
-   
-   #Build Lammps instructions
-   git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap --branch v1.0.0
+   pip install --no-deps -e .
+   git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap.git
    cd  lammps-kokkos-mliap
    mkdir build
-   cd build
-   cmake ../cmake \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DLAMMPS_EXCEPTIONS=ON \
-    -DBUILD_SHARED_LIBS=ON \
-    -DBUILD_MPI=ON \
-    -DKokkos_ARCH_AMPERE90=ON \
-    -DKokkos_ENABLE_CUDA=ON \
-    -DCMAKE_CXX_STANDARD=17 \
-    -DPKG_KOKKOS=ON \
-    -DPKG_MANYBODY=ON \
-    -DPKG_MOLECULE=ON \
-    -DPKG_KSPACE=ON \
-    -DPKG_REPLICA=ON \
-    -DPKG_ASPHERE=ON \
-    -DPKG_RIGID=ON \
-    -DPKG_MPIIO=ON \
-    -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-    -DPKG_ML-SNAP=on \
-    -DPKG_ML-IAP=on \
-    -DPKG_PYTHON=on \
-    -DMLIAP_ENABLE_PYTHON=on \
-   
+   cd build/
+   export CMAKE_PREFIX_PATH="${FFTW_ROOT}"
+   export CXX=`which icpx`
+   export CC=`which icx` 
+   cmake ../cmake  -DCMAKE_BUILD_TYPE=Release   -DCMAKE_VERBOSE_MAKEFILE=ON   -DLAMMPS_EXCEPTIONS=ON   -DBUILD_SHARED_LIBS=ON   -DBUILD_MPI=ON   -DKokkos_ENABLE_OPENMP=ON   -DKokkos_ENABLE_CUDA=OFF   -DKokkos_ARCH_SPR=ON   -DPKG_KOKKOS=ON   -DCMAKE_CXX_STANDARD=17   -DPKG_MANYBODY=ON   -DPKG_MOLECULE=ON   -DPKG_KSPACE=ON   -DPKG_REPLICA=ON   -DPKG_ASPHERE=ON   -DPKG_RIGID=ON   -DPKG_MPIIO=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON   -DPKG_ML-SNAP=on   -DPKG_ML-IAP=on   -DPKG_PYTHON=on 
    make -j 12
    make install-python
 
@@ -163,7 +201,7 @@ Building on nv-devkit builds the python environment through spack, since conda b
 Running
 =======
 
-Once the software is downloaded, compiled and the environment configured, go to the benchmarks/kokkos_lammps_hippynn folder. The exports.bash file will need to be modified to first configure the environment that was constructed in the previous step. This usually consists of "module load" and "source activate <python environment>" commands.Additionally the ${lmpexec} environment variable will need to be set to the absolute path to your lammps executable, compiled in the previous step.
+Once the software is downloaded, compiled and the environment configured, go to the benchmarks/kokkos_lammps_hippynn directory. The exports.bash file will need to be modified to first configure the environment that was constructed in the previous step. This usually consists of "module load" and "source activate <python environment>" commands.Additionally the ${lmpexec} environment variable will need to be set to the absolute path to your lammps executable, compiled in the previous step.
 
 External Files
 --------------
@@ -174,7 +212,7 @@ Download the file and put it into the benchmarks/kokkos_lammps_hippynn directory
 Model Training
 --------------
 Train a network using ``python train_model.py``. This will read the dataset downloaded above and train a network to it.
-The process takes approximately 25 minutes and 500 epochs. This will write several files to disk. The final errors of
+The process can take quite some time. This will write several files to disk. The final errors of
 the model are captured in ``model_results.txt``. An example is shown here::
 
                         train         valid          test
@@ -192,7 +230,7 @@ the model are captured in ``model_results.txt``. An example is shown here::
     Loss     :       0.047346      0.048941        0.0468
     -----------------------------------------------------
 
-The numbers will vary from run to run due random seeds and the non-deterministic nature of asynchronous GPU execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0.40 (meV/atom). The test Force MAE "Force MAE" should be below 18 (meV/Angstrom).
+The numbers will vary from run to run due random seeds and the non-deterministic nature of multi-threaded / data parallel execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0.40 (meV/atom). The test Force MAE "Force MAE" should be below 18 (meV/Angstrom).
 
 The training script will also output the initial box file ``ag_box.data`` as well as an file used to run the resulting potential with LAMMPS, ``hippynn_lammps_model.pt``. Several other files for the training run are put in a directory, ``model_files``.
 
@@ -203,40 +241,87 @@ Following this process, benchmarks can be run.
 Running the Benchmark
 ----------------------
 
-If using a slurm queueing system, the submit_all_benchmarks.bash file can be used to submit the parallel benchmarks, though it does assume 4 GPUs per node. Alternativly, for single device performance, the "Run_Strong_Single.bash" file can simply be executed to build the single device performance data. 
+Two run scripts are provided for reference. Run_Strong_CPU.bash which was used for running on Crossroads and Run_Throughput_GPU.bash which was used for running on Chicoma. 
 
 Finally, the figures of merrit values can be extracted and plotted with the "Benchmark-Plotting.py" script. This will execute even if not all benchmarks are complete. 
 
-Results from Chicoma
-====================
+Results 
+=======
 
-Two quantities are extracted from the MD simulations to evaluate performance, though they are directly correlated. The throughput (grad/s) should be viewed as the figure of merit, though ns/day is more useful for users who wish to know the physical processes they can simulate. Thus both are reported here. 
+Results from MLMD are provided on the following systems:
+
+* Crossroads (see :ref:`GlobalSystemATS3`)
+* Chicoma:  Each node contains 1 AMD EPYC 7713 processor (64 cores), 256 GB CPU memory, and 4 Nvidia A100 GPUs with 40 GB GPU Memory.  
+
+.. Two quantities are extracted from the MD simulations to evaluate performance, though they are directly correlated. The throughput (grad/s) should be viewed as the figure of merit, though ns/day is more useful for users who wish to know the physical processes they can simulate. Thus both are reported here. 
 
 Training HIPNN Model
 --------------------
-For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. On Chicoma, this was found to be 0.27951446 seconds. 
+For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. 
 
-Single GPU Throughput Scaling
--------------------------
+* On Chicoma using a single GPU - FOM Average Epoch time:  0.27951446 
+* On Crossroads using a single node - FOM Average Epoch time:   2.63468153
+
+Simulation+Inference 
+--------------------
 Throughput performance of MLMD Simulation+Inference is provided within the
-following table and figure.
+following figures and tables.
 
-.. csv-table::  MLMD throughput performance on Chicaoma
-   :file: gpu.csv
+
+MLMD strong scaling on Crossroads: 4,544 atoms 
+
+.. csv-table::  MLMD strong scaling on Crossroads 4,544 atoms 
+   :file: cpu_4k.csv
    :align: center
-   :widths: 10, 10
+   :widths: 10, 10, 10
    :header-rows: 1
 
 
-.. figure:: gpu.png
+.. figure:: cpu_4k.png
    :align: center
    :scale: 50%
-   :alt: MLMD throughput performance on Chicaoma
-MLMD throughput performance on Chicaoma 
+   :alt: MLMD strong scaling on Crossroads: 4,544 atoms 
+   
+   MLMD strong scaling on Crossroads: 4,544 atoms. 
 
 
-Verification of Results
-=======================
+MD strong scaling on Crossroads: 18,176 atoms 
+
+.. csv-table::  MLMD strong scaling on Crossroads 18,176 atoms 
+   :file: cpu_18k.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
+
+
+.. figure:: cpu_18k.png
+   :align: center
+   :scale: 50%
+   :alt: MLMD strong scaling on Crossroads: 18,176 atoms 
+   
+   MLMD strong scaling on Crossroads: 18,176 atoms  
+
+
+Single GPU Throughput Scaling on Chicoma
+----------------------------------------
+
+Throughput performance of MLMD Simulation+Inference is provided within the
+following table and figure.
+
+.. .. csv-table::  MLMD throughput performance on Chicaoma
+..    :file: gpu.csv
+..    :align: center
+..    :widths: 10, 10
+..    :header-rows: 1
+
+
+.. .. figure:: gpu.png
+..    :align: center
+..    :scale: 50%
+..    :alt: MLMD throughput performance on Chicaoma
+
+..    MLMD throughput performance on Chicaoma 
+
 
 References
 ==========

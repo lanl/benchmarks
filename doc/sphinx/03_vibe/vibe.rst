@@ -69,20 +69,20 @@ To build Parthenon on CPU, including this benchmark, with minimal external depen
 
    parthenon$ mkdir build && cd build
    build$ export CXXFLAGS="-fno-math-errno -march=native"
-   build$ cmake -DPARTHENON_DISABLE_HDF5=ON -DPARTHENON_DISABLE_OPENMP=ON -DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF -DREGRESSION_GOLD_STANDARD_SYNC=OFF ../
+   build$ cmake -DPARTHENON_DISABLE_HDF5=ON  -DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF -DREGRESSION_GOLD_STANDARD_SYNC=OFF  -DCMAKE_BUILD_TYPE=Release ../
    build$ make -j
 
 ..
 
-On a CTS-1 machine the relevant modules for the results shown here are:
+On Crossroads the relevant modules for the results shown here are:
 
 .. code-block:: bash
 
-   intel-classic/2021.2.0 intel-mpi/2019.9.304 cmake/3.22.3
+   intel/2023.2.0 cray-mpich/8.1.25 
 
 ..
 
-Using openmpi/3.1.6 also works. To build for execution on a single GPU, it should be sufficient to add the following flags to the CMake configuration line
+To build for execution on a single GPU, it should be sufficient to add the following flags to the CMake configuration line
 
 .. code-block:: bash
 
@@ -108,8 +108,8 @@ The executable `burgers-benchmark` will be built in `parthenon/build/benchmarks/
    NXB=16
    NLIM=250
    NLVL=3
-   mpirun -np 36 burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin parthenon/mesh/nx{1,2,3}=${NX} parthenon/meshblock/nx{1,2,3}=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
-   #srun -n 32 ... also works. Note that mpirun does not exist on HPE machines at LANL.
+   mpirun -np 112 burgers-benchmark -i ../../../benchmarks/burgers/burgers.pin parthenon/mesh/nx{1,2,3}=${NX} parthenon/meshblock/nx{1,2,3}=${NXB} parthenon/time/nlim=${NLIM} parthenon/mesh/numlevel=${NLVL}"
+   #srun -n 112 ... also works. Note that mpirun does not exist on HPE machines at LANL.
 ..
 
 Varying the ``parthenon/mesh/nx*`` parameters will change the memory footprint. The memory footprint scales roughly as the product of ``parthenon/mesh/nx1``, ``parthen/mesh/nx2``, and ``parthenon/mesh/nx3``. The ``parthen/meshblock/nx*`` parameters select the granularity of refinement: the mesh is distributed accross MPI ranks and refined/de-refined in chunks of this size.
@@ -117,15 +117,12 @@ For this benchmark only the ``parthenon/mesh/nx*`` parameters may be changed.
 
 ``parthenon/mesh/nx1`` must be evenly divisible by ``parthenon/meshblock/nx1`` and the same for the other dimensions. Smaller meshblock sizes mean finer granularity and a problem that can be broken up accross more cores. However, each meshblock carries with it some overhead, so smaller meshblock sizes may hinder performance.
 
-The results presented here use 64, 128, and 160 for  memory footprints of 20%, 40%, and 60% footprints respectively. These problem sizes are run with 4, 8, 18, 26, and 36 processes on a single node without threading.
+The results presented here use 128 and 160 for  memory footprints of approximate 40%, and 60%  respectively. These problem sizes are run with  8, 32, 56, 88, and 112 processes on a single node without threading.
 
 Results from Parthenon are provided on the following systems:
 
-* Commodity Technology System 1 (CTS-1) (Snow) with Intel Broadwell processors,
+* Crossroads (see :ref:`GlobalSystemATS3`)
 * An Nvidia A100 GPU hosted on an [Nvidia Arm HPC Developer Kit](https://developer.nvidia.com/arm-hpc-devkit)
-
-CTS-1
---------
 
 The mesh and meshblock size parameters are chosen to balance
 realism/performance with memory footprint. For the following tests we
@@ -138,50 +135,54 @@ memory footprint.
 
 Included with this repository under ``utils/parthenon`` is a ``do_strong_scaling_cpu.sh``
 script, which takes one argument, specifying the desired memory
-footprint on a CTS-1 system. Running it will generate a csv file
+footprint on a system with 128GB system memory. Running it will generate a csv file
 containing scaling numbers.
 
-Strong scaling performance of Parthenon-VIBE with a 20% memory footprint on CTS-1 machines is provided within the following table and figure.
+Crossroads
+-------------------
 
-.. csv-table:: VIBE Strong Scaling Performance on CTS-1 20% Memory
+
+.. csv-table:: VIBE Throughput Performance on Crossroads using ~20% Memory
    :file: cpu_20.csv
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
 
-.. figure:: cpu_20.png
+.. figure:: ats3_20.png
    :align: center
    :scale: 50%
-   :alt: VIBE Strong Scaling Performance on CTS-1 20% Memory
+   :alt: VIBE Throughput Performance on Crossroads using ~20% Memory
 
-Strong scaling performance of Parthenon-VIBE with a 40% memory footprint on CTS-1 machines is provided within the following table and figure.
+   VIBE Throughput Performance on Crossroads using ~20% Memory
 
-.. csv-table:: VIBE Strong Scaling Performance on CTS-1 40% Memory
+.. csv-table:: VIBE Throughput Performance on Crossroads using ~40% Memory
    :file: cpu_40.csv
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
 
-.. figure:: cpu_40.png
+.. figure:: ats3_40.png
    :align: center
    :scale: 50%
-   :alt: VIBE Strong Scaling Performance on CTS-1 40% Memory
+   :alt: VIBE Throughput Performance on Crossroads using ~40% Memory
 
-Strong scaling performance of Parthenon-VIBE with a 60% memory footprint on CTS-1 machines is provided within the following table and figure.
+   VIBE Throughput Performance on Crossroads using ~40% Memory
 
-.. csv-table:: VIBE Strong Scaling Performance on CTS-1 60% Memory
+.. csv-table:: VIBE Throughput Performance on Crossroads using ~60% Memory
    :file: cpu_60.csv
    :align: center
    :widths: 10, 10, 10
    :header-rows: 1
 
-.. figure:: cpu_60.png
+.. figure:: ats3_60.png
    :align: center
    :scale: 50%
-   :alt: VIBE Strong Scaling Performance on CTS-1 60% Memory
+   :alt: VIBE Throughput Performance on Crossroads using ~60% memory
 
-A100
------
+   VIBE Throughput Performance on Crossroads using ~60% memory
+
+Nvidia testbed with A100
+------------------------
 
 Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the following table and figure.
 
@@ -196,33 +197,7 @@ Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the f
    :scale: 50%
    :alt: VIBE Throughput Performance on A100
 
-ATS-3
-------
-
-.. csv-table:: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes 40% Memory
-   :file: parthenon-ats5_spr-hbm128-intel-classic.csv
-   :align: center
-   :widths: 10, 10
-   :header-rows: 1
-
-.. figure:: ats3_40.png
-   :align: center
-   :scale: 50%
-   :alt: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes
-
-.. csv-table:: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes 60% Memory
-   :file: parthenon-ats5_spr-hbm160-intel-classic.csv
-   :align: center
-   :widths: 10, 10
-   :header-rows: 1
-
-.. figure:: ats3_60.png
-   :align: center
-   :scale: 50%
-   :alt: VIBE Throughput Performance on ATS-3 Rocinante HBM nodes
-
-Verification of Results
-=======================
+   VIBE Throughput Performance on A100
 
 References
 ==========

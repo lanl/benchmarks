@@ -114,7 +114,7 @@ Figure of Merit
 
 Each SPARTA simulation writes out a file named "log.sparta". At the end of this
 simulation is a block that resembles the following example (this is from the
-ATS-2/Sierra case discussed below with 57,143,091 particles whose full output is
+Sierra case discussed below with 57,143,091 particles whose full output is
 within :download:`log.sparta <log.sparta>`).
 
 .. code-block::
@@ -263,8 +263,8 @@ at the top level of this repository.
 
 .. _BuildATS2:
 
-ATS-2/Vortex
-------------
+Sierra (Vortex testbed)
+-----------------------
 
 Instructions for building on Sierra are provided below.
 
@@ -314,8 +314,8 @@ An example of how to run the test case on Crossroads is provided below.
 
 .. _RunATS2:
 
-ATS-2/Vortex
-------------
+Sierra (Vortex testbed)
+-----------------------
 
 An example of how to run the test case with a single GPU on Sierra is provided
 below.
@@ -423,7 +423,7 @@ following subsections.
    SPARTA Strong Scaling Memory on Crossroads with ppc=42 elements (1.00 GiB/PE)
 
 ``ppc`` 126 (2.00 GiB/PE)
-^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=126 (2.00 GiB/PE)
    :file: ats3-2.00.csv
@@ -448,13 +448,13 @@ following subsections.
 
 .. _ResultsATS2:
 
-ATS-2/Vortex
-------------
+Sierra (Vortex testbed)
+-----------------------
 
-Throughput performance of SPARTA on ATS-2/Vortex is provided within the
+Throughput performance of SPARTA on Sierra/Vortex is provided within the
 following table and figure.
 
-.. csv-table:: SPARTA Throughput Performance on ATS-2/Vortex
+.. csv-table:: SPARTA Throughput Performance on Sierra/Vortex
    :file: ats2.csv
    :align: center
    :widths: 10, 10
@@ -463,9 +463,9 @@ following table and figure.
 .. figure:: ats2.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Throughput Performance on ATS-2/Vortex
+   :alt: SPARTA Throughput Performance on Sierra/Vortex
 
-   SPARTA Throughput Performance on ATS-2/Vortex
+   SPARTA Throughput Performance on Sierra/Vortex
 
 Output from the largest case is within :download:`log.sparta <log.sparta>`.
 

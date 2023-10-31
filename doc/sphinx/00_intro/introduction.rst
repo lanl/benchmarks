@@ -151,13 +151,6 @@ Microbenchmark Overview
    - C/Fortran
    - Various
    - No
- * - DAXPY
-   - | Single node floating-point 
-     | performance of a scaled vector
-     | plus a vector. 
-   - C/Fortran
-   - Various
-   - No
  * - IOR
    - | Performance testing of parallel 
      | file system using various
@@ -221,7 +214,7 @@ Scaled Single Node Improvement
 ==============================
 One element of evaluation will focus on scaled single node improvement (SSNI). SSNI is defined as follows: 
 
-Given two platforms using one as a reference, SSNI is defined as a weighted geometric mean using the following equation. 
+Given two platforms using one as a reference (Crossroads), SSNI is defined as a weighted geometric mean using the following equation. 
 
 .. math::
 
@@ -230,13 +223,44 @@ Given two platforms using one as a reference, SSNI is defined as a weighted geom
 
 Where: 
 
-*	N = Number of nodes on ATS-5 system / Number of nodes on reference system,
+*	N = Number of nodes on ATS-5 system / Number of nodes on reference system (Crossroads),
 
 *	M = total number of Benchmarks,
 
 *	S = application speedup; Figure of Merit on ATS-5 system / Figure of Merit on reference system (Crossroads); S must be greater than 1, 
 
 *	w = weighting factor. 
+
+
+System Information
+==================
+
+The baseline platform for the ATS-5 procurement is the ATS-3 system (described below). 
+GPU performance is provided on the ATS-2 system and in some cases other GPU based systems 
+and is for information only, these are not to be used as baselines. 
+In most cases the performance numbers provided herein were collected on smaller scale 
+testbed systems that are the same architecture as that of ATS-3 and ATS-2 systems. 
+
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see :ref:`GlobalSystemATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see :ref:`GlobalSystemATS2`)
+
+
+.. _GlobalSystemATS3:
+
+ATS-3/Crossroads
+----------------
+
+This system has over 6,140 compute nodes that are made up of two Intel(R) Xeon(R) Max 9480 CPUs 
+interconnected with HPE Slingshot 11 interconnect. 
+
+.. _GlobalSystemATS2:
+
+ATS-2/Sierra
+------------
+
+This system has 4,284  compute nodes that are made up of two Power9
+CPUs with four NVIDIA V100 GPUs. Please refer to [Sierra-LLNL]_ for more
+detailed information.
 
 
 

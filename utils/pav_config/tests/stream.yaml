@@ -32,7 +32,7 @@ _base:
         Speed Network backbone.
 
         INSTRUCTIONS:
-       
+
              1) STREAM requires different amounts of memory to run on different
                   systems, depending on both the system cache size(s) and the
                   granularity of the system timer.
@@ -56,7 +56,7 @@ _base:
                       granularity.  20 "ticks" at 10 ms/tic is 200 milliseconds.
                       If the chip is capable of 10 GB/s, it moves 2 GB in 200 msec.
                       This means the each array must be at least 1 GB, or 128M elements.
-       
+
              Version 5.10 increases the default array size from 2 million
                  elements to 10 million elements in response to the increasing
                  size of L3 caches.  The new default size is large enough for caches
@@ -65,7 +65,7 @@ _base:
                  to "ssize_t", which allows array indices >2^32 (4 billion)
                  on properly configured 64-bit systems.  Additional compiler options
                  (such as "-mcmodel=medium") may be required for large memory runs.
-       
+
              Array size can be set at compile time without modifying the source
                  code for the (many) compilers that support preprocessor definitions
                  on the compile line.  E.g.,
@@ -75,36 +75,35 @@ _base:
 
             STREAM ARRAY SIZE CALCULATIONS:
             ###############
-            STREAM
-            XRDS DOCUMENTATION: 4 x (45 MiB cache / processor) x (2 processors) / (3 arrays) / (8 bytes / element) = 15 Mi elements = 15000000
+            FORMULA: 
+            4 x ((cache / socket) x (num sockets)) / (num arrays) / 8 (size of double) = 15 Mi elements = 15e6
             *****************************************************************************************************
             HASWELL: Intel(R) Xeon(R) CPU E5-2698 v3 @ 2.30GHz
             CACHE: 40M
             SOCKETS: 2
-            4 * ( 40M * 2 ) / 3 ARRAYS / 8 Bytes/element =  13.4 Mi elements = 13400000 
+            4 * ( 40M * 2 ) / 3 ARRAYS / 8 =  13.4 Mi elements = 13.4e6
             *****************************************************************************************************
             BROADWELL: Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz
             CACHE: 45M
             SOCKETS: 2
-            4 * ( 45M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 15.0 Mi elements = 15000000
+            4 * ( 45M * 2 ) / 3 ARRAYS / 8 = 15.0 Mi elements = 15e6
             *****************************************************************************************************
-            SAPPHIRE RAPIDS (DDR5): Intel(R) Xeon(R) Platinum 8480+
-            CACHE: 107.52M
+            SAPPHIRE RAPIDS: Intel(R) Xeon(R) Platinum 8480+
+            CACHE: 105M
             SOCKETS: 2
-            4 x (107.52M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 35.84 Mi elements = 35840000
-            *****************************************************************************************************
-            SAPPHIRE RAPIDS (HBM): ??
-            CACHE: 115.2M
-            SOCKETS: 2
-            4 x (115.2M * 2 ) / 3 ARRAYS / 8 BYTES/ELEMENT = 38.4 Mi elements = 38400000
-            
+            4 x ( 105M * 2 ) / 3 ARRAYS / 8 = 35 Mi elements = 35e6
+
     scheduler: slurm
     schedule:
         nodes: '10' # 'ALL'
         tasks_per_node: 1
         share_allocation: false
 
-    permute_on: 
+    variables:
+        ntimes: '10'
+        stream_array_size: '40'
+
+    permute_on:
         - compilers
         - mpis
         - omp_num_threads
@@ -117,8 +116,8 @@ _base:
             - 'module load {{compilers.name}}/{{compilers.version}}'
             - 'module load {{mpis.name}}/{{mpis.version}}'
         cmds:
-            - 'NTIMES=${NTIMES:=10}'
-            - 'N={{stream_array_size}}'
+            - 'NTIMES={{ntimes}}'
+            - 'N={{stream_array_size}}000000'
             - ''
             - 'if [[ "{{compilers.name}}" =\~ intel ]] ; then '
             - '   PAV_CC={{compilers.cc}}'
@@ -133,29 +132,29 @@ _base:
             - 'fi'
             - 'export PAV_CC PAV_FC PAV_CFLAGS PAV_FFLAGS'
             - 'make clean'
-            - 'make {{target}} || exit 1'
+            - 'make all || exit 1'
             - '[ -x {{target}} ] || exit 1'
 
     run:
         env:
             CC: '{{compilers.cc}}'
             OMP_NUM_THREADS: '{{omp_num_threads}}'
-            GOMP_CPU_AFFINITY: '0-{{omp_num_threads-1}}'
+#            GOMP_CPU_AFFINITY: '0-{{omp_num_threads-1}}'
         preamble:
             - 'module load friendly-testing'
             - 'module load {{compilers.name}}/{{compilers.version}}'
             - 'module load {{mpis.name}}/{{mpis.version}}'
         cmds:
-            - 'NTIMES=${NTIMES:=10}'
-            - 'N={{stream_array_size}}'
-            - 'echo "GOMP_CPU_AFFINITY: $GOMP_CPU_AFFINITY"'
+            - 'NTIMES={{ntimes}}'
+            - 'N={{stream_array_size}}000000'
+            # - 'echo "GOMP_CPU_AFFINITY: $GOMP_CPU_AFFINITY"'
             - 'echo "OMP_NUM_THREADS: $OMP_NUM_THREADS"'
             - 'echo "NTIMES=$NTIMES"'
             - 'echo "N=${N}"'
             - 'count=0'
             - 'for node in $(scontrol show hostname)'
             - 'do'
-            - '  srun -w $node -N1 -n{{sched.tasks_per_node}} ./{{target}} &>${node}_stream &'
+            - '  srun -w $node -N1 -n{{sched.tasks_per_node}} ./{{target}} &> ${node}_stream &'
             - '  count=$(expr $count + 1)'
             - '  if [ $(expr $count % 20) -eq "0" ]'
             - '  then'
@@ -225,7 +224,7 @@ hsw_xrds:
         "{{sys_os.name}}{{sys_os.version}}": [ cle7.0 ]
     variables:
         arch: "hsw"
-        stream_array_size: 13400000
+        stream_array_size: '40'
         target: "xrds-stream.exe"
         omp_num_threads: [1, 2, 4, 8, 16, 32]
         mpis:
@@ -277,7 +276,7 @@ cts1_xrds:
         "{{sys_os.name}}{{sys_os.version}}": [ toss3 ]
     variables:
         arch: "cts1"
-        stream_array_size: 15000000
+        stream_array_size: '40'
         target: "xrds-stream.exe"
         omp_num_threads: [1, 2, 4, 8, 16, 32, 36]
         omp_places: [cores, sockets]
@@ -296,7 +295,7 @@ spr_ddr5_xrds:
         "{{sys_name}}": [ darwin ]
     variables:
         arch: "spr"
-        stream_array_size: 35840000
+        stream_array_size: '40'
         target: "xrds-stream.exe"
         omp_num_threads: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
         omp_places: [cores, sockets]
@@ -325,7 +324,7 @@ spr_hbm_xrds:
         "{{sys_name}}": [ darwin ]
     variables:
         arch: "spr"
-        stream_array_size: 38400000
+        stream_array_size: '40'
         target: "xrds-stream.exe"
         omp_num_threads: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
         omp_places: [cores, sockets]
@@ -348,3 +347,102 @@ spr_hbm_xrds:
         preamble:
             - 'module load {{compilers.name}}/{{compilers.version}}'
             - 'module load {{mpis.modulefile}}'
+
+
+cts1_ats5:
+    inherits_from: cts1_xrds
+    subtitle: '{{compilers.name}}-{{compilers.version}}_{{tpn}}_{{mpis.name}}-{{mpis.version}}'
+
+    permute_on:
+        - compilers
+        - mpis
+        - tpn
+
+    variables:
+        tpn: [1, 2, 4, 8, 16, 32, 36]
+        numnodes: '1'
+        omp_num_threads: '1'
+        stream_array_size: '40'
+        target: "stream_mpi.exe"
+
+    schedule:
+        nodes: "{{numnodes}}"
+        share_allocation: true
+        tasks_per_node: "{{tpn}}"
+
+    result_parse:
+        regex:
+            triad_once:
+                regex: '^Triad: *([0-9\.]*) '
+                action: store
+                match_select: last
+                files: '*stream'
+
+    result_evaluate:
+        total_bandwidth: '{{tpn}}*triad_once'
+
+xrds_ats5:
+    inherits_from: _base
+    subtitle: '{{compilers.name}}-{{compilers.version}}_{{tpn}}_{{mpis.name}}-{{mpis.version}}'
+
+    permute_on:
+        - compilers
+        - mpis
+        - tpn
+
+    only_if:
+        "{{sys_os.name}}": [ cos ]
+
+    variables:
+        tpn: [8, 32, 56, 88, 112]
+        arch: "spr"
+        target: "xrds_stream.exe"
+        stream_array_size: '40'
+        ntimes: 20
+        #omp_places: [cores, sockets]
+        #omp_proc_bind: [true]
+        numnodes: '1'
+        omp_num_threads: '1'
+
+    chunk: '{{chunk_ids.0}}'
+
+    schedule:
+        nodes: "{{numnodes}}"
+        share_allocation: true
+        tasks_per_node: "{{tpn}}"
+        chunking:
+            size: 1
+
+    build:
+        on_nodes: false
+        preamble:
+            #- 'module load friendly-testing' #'module rm craype-hugepages2M'
+            - 'module swap PrgEnv-${PE_ENV,,} PrgEnv-{{compilers.pe_env}}'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.name}}/{{mpis.version}}'
+
+    run:
+
+        preamble:
+            #- 'module load friendly-testing' #'module rm craype-hugepages2M'
+            - 'module swap PrgEnv-${PE_ENV,,} PrgEnv-{{compilers.pe_env}}'
+            - 'module load {{compilers.name}}/{{compilers.version}}'
+            - 'module load {{mpis.name}}/{{mpis.version}}'
+
+    result_parse:
+        regex:
+            triad_once:
+                regex: '^Triad: *([0-9\.]*) '
+                action: store
+                match_select: all
+                files: '*stream'
+
+    result_evaluate:
+        per_proc_bw: 'sum(triad_once)/len(triad_once)'
+        total_bw: 'sum(triad_once)'
+
+roci_ats5:
+    inherits_from: xrds_ats5
+
+    schedule:
+        partition: 'hbm'

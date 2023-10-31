@@ -15,7 +15,6 @@ ATS Benchmarks Project
    01_branson/branson
    02_amg/amg
    03_vibe/vibe
-   04_spatter/spatter
    05_mlmd/mlmd
    06_umt/umt
    07_miniem/miniem
@@ -24,22 +23,23 @@ ATS Benchmarks Project
 .. toctree::
    :numbered:
    :maxdepth: 3
-   :caption: Appendices:
+   :caption: Microbenchmarks:
 
-   09_appendix/build_docs
+   09_Microbenchmarks/M0_Intro/introduction
+   09_Microbenchmarks/M1_STREAM/STREAM
+   09_Microbenchmarks/M2_SPATTER/SPATTER
+   09_Microbenchmarks/M3_OSUMB/OSUMB
+   09_Microbenchmarks/M4_SMB/SMB
+   09_Microbenchmarks/M5_DGEMM/DGEMM
+   09_Microbenchmarks/M6_IOR/IOR
+   09_Microbenchmarks/M7_MDTEST/MDTEST
 
 .. toctree::
    :numbered:
    :maxdepth: 3
-   :caption: Microbenchmarks:
+   :caption: Appendices:
 
-   10_microbenchmarks/M0_INTRO/introduction
-   10_microbenchmarks/M1_STREAM/STREAM
-   10_microbenchmarks/M2_DAXPY/DAXPY
-   10_microbenchmarks/M3_DGEMM/DGEMM
-   10_microbenchmarks/M4_IOR/IOR
-   10_microbenchmarks/M5_OSUMB/OSUMB
-   10_microbenchmarks/M6_MDTEST/MDTEST
+   10_appendix/build_docs
 
 .. toctree::
    :numbered:

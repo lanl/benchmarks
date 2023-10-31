@@ -4,16 +4,11 @@ UMT
 
 This is the documentation for the ATS-5 Benchmark UMT - 3D unstructured mesh single node. 
 
-
 Purpose
 =======
 
-
-UMT (Unstructured Mesh Transport) is an LLNL ASC proxy application
-(mini-app) that solves a thermal radiative transport equation using
-discrete ordinates (Sn). It utilizes an upstream corner balance method
-to compute the solution to the Boltzmann transport equation on
-unstructured spatial grids.
+UMT (Unstructured Mesh Transport) is an LLNL ASC proxy application (mini-app) that solves a thermal radiative transport equation using discrete ordinates (Sn). 
+It utilizes an upstream corner balance method to compute the solution to the Boltzmann transport equation on unstructured spatial grids.
 
 It is available at https://github.com/LLNL/UMT .
 
@@ -62,7 +57,6 @@ UMT can be found on github and cloned via:
    git clone https://github.com/LLNL/UMT.git
 
 
-
 Build Requirements
 ------------------
 
@@ -86,24 +80,21 @@ under `BUILDING.md <https://github.com/LLNL/UMT/blob/master/BUILDING.md>`_
 Generating the problem input
 ============================
 
-For strong scaling on a CPU the memory footprint of UMT should be
-between 45%-55% of the computational device's main memory. Python
-scripts in the github repo /benchmarks directory are provided to
-assist in generating a series of runs with UMT.
+For strong scaling on a CPU the memory footprint of UMT should be between 45%-55% of the computational device's main memory. 
+Python scripts in the github repo /benchmarks directory are provided to assist in generating a series of runs with UMT.
 
-Example of creating a mesh sized to use 128GB of memory (50% of a
-test node with 256GB). Will refine the mesh once, splitting each mesh
-cell edge into 27 edges and produce a mesh called 'refined_mesh.mesh'.
+Example of creating a mesh sized to use 128GB of memory (50% of a test node with 256GB). 
+Will refine the mesh once, splitting each mesh cell edge into 27 edges and produce a mesh called 'refined_mesh.mesh'.
 
 .. code-block::
 		
    makeUnstructuredBox -r 27 -o umt_spp1.mesh
 
-
 Running
 =======
 
-To run test problem, select SPP 1 or SPP 2 using the -b command line switch.  For example,
+To run test problem, select SPP 1 or SPP 2 using the -b command line switch.  
+For example,
 
 .. code-block::
 
@@ -111,25 +102,28 @@ To run test problem, select SPP 1 or SPP 2 using the -b command line switch.  Fo
 
 where num = 1 for SPP 1 or num = 2 for SPP 2.
 
-
-
 Example FOM Results 
 ===================
 
-Strong scaling data for SPP 1 on CTS-2 (Sapphire Rapids) is shown in the table and figure below
+Results from Branson are provided on the following systems:
 
-.. csv-table:: Strong scaling of SPP 1 on CTS-2
+* Crossroads (see :ref:`GlobalSystemATS3`)
+* Sierra (see :ref:`GlobalSystemATS2`)
+
+Strong scaling data for SPP 1 on Crossroads is shown in the table and figure below
+
+.. csv-table:: Strong scaling of SPP 1 on Crossroads
    :file: spp1_strong_scaling_cts2_abridged.csv
    :align: center
    :widths: 8, 10, 10
    :header-rows: 1
 		 
 .. figure:: spp1_strong_scaling_cts2.png
-   :alt: Strong scaling of SPP 1 on CTS-2
+   :alt: Strong scaling of SPP 1 on Crossroads
    :align: center
    :scale: 50%
 
-   Strong scaling of SPP 1 on CTS-2
+   Strong scaling of SPP 1 on Crossroads
 
 .. todo csv-table:: SPP #2 on CTS-2
    :file: spp2_strong_scaling_cts2_abridged.csv
@@ -144,21 +138,20 @@ Strong scaling data for SPP 1 on CTS-2 (Sapphire Rapids) is shown in the table a
 	   
    Strong scaling of SPP 2 on CTS-2
 
-Throughput study of SPP 1 performance on Power9/V100, single GPU, as a function of
-problem size:
+Throughput study of SPP 1 performance on Sierra, single GPU, as a function of problem size:
 
 .. TODO - add runtime in this table??
-.. csv-table:: Throughput for SPP 1 on Power9 and V100
+.. csv-table:: Throughput for SPP 1 on Sierra
    :file: spp1_throughput_V100.csv
    :align: center
    :widths: 10, 10
    :header-rows: 1
 
 .. figure:: spp1_throughput_V100.png
-   :alt: Throughput of SPP 1 on Power9 and V100
+   :alt: Throughput of SPP 1 on Sierra
    :align: center
 
-   Throughput of SPP 1 on Power9 and V100
+   Throughput of SPP 1 on Sierra
 
 .. note::
    Performance data for SPP 2 coming soon.
@@ -177,10 +170,8 @@ problem size:
 Verification of Results
 =======================
 
-Correctness on the SPP 1 and SPP 2 problems are checked by verifying
-that all incoming and outgoing energy is properly tracked by the solver.
-The test driver will automatically check this value at the
-end of the run and output if the test is a pass or fail.
+Correctness on the SPP 1 and SPP 2 problems are checked by verifying that all incoming and outgoing energy is properly tracked by the solver.
+The test driver will automatically check this value at the end of the run and output if the test is a pass or fail.
 
 References
 ==========

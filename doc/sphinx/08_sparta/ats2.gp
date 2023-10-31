@@ -2,7 +2,7 @@
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
 set output "ats2.png"
 
-set title "SPARTA Throughput Performance on ATS-2/Vortex" font "serif,22"
+set title "SPARTA Throughput Performance on Sierra/Vortex" font "serif,22"
 set xlabel "No. Particles"
 set ylabel "Figure of Merit (M-particle-steps/sec)"
 

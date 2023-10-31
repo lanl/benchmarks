@@ -1,0 +1,13 @@
+,,Create,Stat,Remove
+1048576 files in shared dir,Single Process,,,
+,Optimal MPI processes single node,,,
+,Minimal MPI processes on multiple nodes w/peak results,,,
+,Extrapolated maximum possible MPI-level concurrency,,,
+1048576 files in individual dirs,Single Process,,,
+,Optimal MPI processes single node,,,
+,Minimal MPI processes on multiple nodes w/peak results,,,
+,Extrapolated maximum possible MPI-level concurrency,,,
+"One file, multi-processes",Single Process,,,
+,Optimal MPI processes single node,,,
+,Minimal MPI processes on multiple nodes w/peak results,,,
+,Extrapolated maximum possible MPI-level concurrency,,,
