@@ -1,4 +1,4 @@
-"Test","Rank settings","Message Size","Nodes","Result"
+"Test","Ranks","Msg Size","Num Nodes","Result"
 "osu_latency","1 per node","8 B","2","1.61 us"
 "osu_bibw","1 per node","1 MB","2","45307.17 MB/s"
 "osu_mbw_mr","1 per NIC","16 KB","2","49656.45 MB/s"

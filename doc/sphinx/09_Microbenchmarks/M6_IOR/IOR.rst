@@ -74,7 +74,7 @@ Full system tests were run with 5000 nodes and 10 tasks per node.
 Single node tests were run with 112 tasks per node.
 This test was compiled with cce/16.0.0 and cray-mpich/8.1.26.
 
-.. csv-table:: IOR benchmark 
+.. csv-table:: IOR benchmark (MB/s)
    :file: ats3_ior.csv
    :align: center
    :widths: 10, 10, 10, 10, 10
