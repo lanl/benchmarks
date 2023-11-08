@@ -12,7 +12,7 @@ It can be run on any type of POSIX-compliant file system but has been designed t
 Characteristics
 ===============
 
--LANL Crossroads Site: `MDTEST <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/mdtest-1.8.4-xroads_v1.0.0.tgz>`_
+LANL Crossroads Site: `MDTEST <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/mdtest-1.8.4-xroads_v1.0.0.tgz>`_
 
 Problem
 -------
@@ -90,9 +90,9 @@ These nine tests: three operations, three file conditions should be performed un
 Crossroads
 ----------
 
-.. csv-table:: MDTEST Microbenchmark Crossroads
+.. csv-table:: MDTEST Microbenchmark Crossroads (MB/s)
    :file: ats3_mdtest.csv
-   :align: center
+   :align: left
    :widths: 10, 10, 10, 10, 10
    :header-rows: 1
    :stub-columns: 2
