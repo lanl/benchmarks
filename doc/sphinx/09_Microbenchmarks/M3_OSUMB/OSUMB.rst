@@ -5,6 +5,8 @@ OSU Microbenchmarks
 Purpose
 =======
 
+The OSU Microbenchmarks (OMB) are widely used to measure and evaluate the performance of MPI operations for point-to-oiint, multi-pair, collective, and one-sided communications.
+
 Characteristics
 ===============
 
