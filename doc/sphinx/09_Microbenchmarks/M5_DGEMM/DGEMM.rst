@@ -84,7 +84,7 @@ These are positional arguments, so, for instance, R cannot be set without settin
 Example Results
 ===============
 
-Results from Branson are provided on the following systems:
+Results from DGEMM are provided on the following systems:
 
 * Crossroads (see :ref:`GlobalSystemATS3`)
 
