@@ -46,7 +46,7 @@ Makefiles are provided for the intel and gcc compilers. Before building, load th
 
     cd src
     patch -p1 < ../dgemm_omp_fixes.patch
-    make
+    make CFLAGS=-I<openblas_include_dir>
 
 ..
 
