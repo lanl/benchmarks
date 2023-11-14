@@ -132,26 +132,26 @@ test" to see if a code change has introduced an error. After every timestep, a s
 printed:
 
 .. code-block:: bash
-********************************************************************************
-Step: 5  Start Time: 0.04  End Time: 0.05  dt: 0.01
-source time: 0.166658
-WARNING: use_gpu_transporter set to true but GPU kernel not available, running transport on CPU
-Total Photons transported: 10632225
-Emission E: 4.43314e-05, Source E: 0, Absorption E: 4.1747e-05, Exit E: 2.59802e-06
-Pre census E: 3.5321e-07 Post census E: 3.396e-07 Post census Size: 219902
-Pre mat E: 0.0130731 Post mat E: 0.0130705
-Radiation conservation: -5.83707e-17
-Material conservation: -5.8599e-15
-Sends posted: 0, sends completed: 0
-Receives posted: 0, receives completed: 0
-Transport time max/min: 7.31594/7.20329
+  ********************************************************************************
+  Step: 5  Start Time: 0.04  End Time: 0.05  dt: 0.01
+  source time: 0.166658
+  WARNING: use_gpu_transporter set to true but GPU kernel not available, running transport on CPU
+  Total Photons transported: 10632225
+  Emission E: 4.43314e-05, Source E: 0, Absorption E: 4.1747e-05, Exit E: 2.59802e-06
+  Pre census E: 3.5321e-07 Post census E: 3.396e-07 Post census Size: 219902
+  Pre mat E: 0.0130731 Post mat E: 0.0130705
+  Radiation conservation: -5.83707e-17
+  Material conservation: -5.8599e-15
+  Sends posted: 0, sends completed: 0
+  Receives posted: 0, receives completed: 0
+  Transport time max/min: 7.31594/7.20329
 ..
 
 Two lines in the block specifically relate to conservation:
 
 .. code-block:: bash
-Radiation conservation: -5.83707e-17
-Material conservation: -5.8599e-15
+  Radiation conservation: -5.83707e-17
+  Material conservation: -5.8599e-15
 ..
 
 The radiation conservation should capture roughly half of the range of the floating point type
@@ -167,41 +167,39 @@ This is  further complicated by MPI reductions. Still, this check is accurate en
 detect particles that may havbe been lost in a modified MPI scheme (for example).
 
 The second check on correctness is much simpler. For any changes to Branson, the code should produce
-the same temperature in a standard marshak wave problem after 100 cycles. For the
- `marshak wave input <https://github.com/lanl/branson/blob/develop/inputs/marshak_wave_replicated.xml>`_
-file, the following temperature profile should be reproduced to 3% after 100 cycles, as shown below:
+the same temperature in a standard marshak wave problem after 100 cycles. For the `marshak wave input <https://github.com/lanl/branson/blob/develop/inputs/marshak_wave_replicated.xml>`_ file, the following temperature profile should be reproduced to 3% after 100 cycles, as shown below:
 
 .. code-block:: bash
-Step: 100  Start Time: 0.99  End Time: 1  dt: 0.01
-source time: 0.094371
--------- VERBOSE PRINT BLOCK: CELL TEMPERATURE --------
-        cell          T_e          T_r        abs_E
-           0    0.9864821   0.98624394 2.3231089e-05
-           1   0.97376231   0.97335755 2.2986719e-05
-           2   0.95987812   0.95921396 2.2604072e-05
-           3   0.94448294   0.94359619 2.223203e-05
-           4   0.92838247   0.92729361 2.1860113e-05
-           5   0.91059797   0.90933099 2.1487142e-05
-           6   0.89041831   0.88903414 2.1098101e-05
-           7   0.86713097   0.86559489 2.0554045e-05
-           8   0.83972062   0.83807018 1.9926467e-05
-           9   0.80754477   0.80583439 1.9216495e-05
-          10   0.76586319   0.76409724 1.8223846e-05
-          11   0.71065544   0.70892379 1.6994308e-05
-          12    0.6190012   0.61733211 1.5009059e-05
-          13   0.36540211   0.35970671 1.1687053e-05
-          14  0.016821133  0.016162407 6.3406719e-07
-          15         0.01 0.0099763705 2.356755e-07
-          16  0.010000399 0.0099766379 2.3568489e-07
-          17 0.0099989172 0.0099752306 2.3564998e-07
-          18  0.010000684 0.0099769858 2.3569162e-07
-          19  0.009999951 0.0099762996 2.3567434e-07
-          20 0.0099997415 0.0099761208 2.356694e-07
-          21  0.010000476 0.0099768182 2.3568672e-07
-          22 0.0099993136 0.0099756288 2.3565932e-07
-          23  0.010000237 0.0099765577 2.3568109e-07
-          24  0.010000281 0.0099765314 2.3568212e-07
--------------------------------------------------------
+  Step: 100  Start Time: 0.99  End Time: 1  dt: 0.01
+  source time: 0.094371
+  -------- VERBOSE PRINT BLOCK: CELL TEMPERATURE --------
+          cell          T_e          T_r        abs_E
+             0    0.9864821   0.98624394 2.3231089e-05
+             1   0.97376231   0.97335755 2.2986719e-05
+             2   0.95987812   0.95921396 2.2604072e-05
+             3   0.94448294   0.94359619 2.223203e-05
+             4   0.92838247   0.92729361 2.1860113e-05
+             5   0.91059797   0.90933099 2.1487142e-05
+             6   0.89041831   0.88903414 2.1098101e-05
+             7   0.86713097   0.86559489 2.0554045e-05
+             8   0.83972062   0.83807018 1.9926467e-05
+             9   0.80754477   0.80583439 1.9216495e-05
+            10   0.76586319   0.76409724 1.8223846e-05
+            11   0.71065544   0.70892379 1.6994308e-05
+            12    0.6190012   0.61733211 1.5009059e-05
+            13   0.36540211   0.35970671 1.1687053e-05
+            14  0.016821133  0.016162407 6.3406719e-07
+            15         0.01 0.0099763705 2.356755e-07
+            16  0.010000399 0.0099766379 2.3568489e-07
+            17 0.0099989172 0.0099752306 2.3564998e-07
+            18  0.010000684 0.0099769858 2.3569162e-07
+            19  0.009999951 0.0099762996 2.3567434e-07
+            20 0.0099997415 0.0099761208 2.356694e-07
+            21  0.010000476 0.0099768182 2.3568672e-07
+            22 0.0099993136 0.0099756288 2.3565932e-07
+            23  0.010000237 0.0099765577 2.3568109e-07
+            24  0.010000281 0.0099765314 2.3568212e-07
+  -------------------------------------------------------
 ..
 
 This output is expected as long as the spatial, boundary and region blocks are kept the same in the
