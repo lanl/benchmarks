@@ -95,18 +95,26 @@ This is the minimum size unless other system attributes constrain it.
 The array size only influences the capacity of STREAM to fully load the memory bus.
 At capacity, the measured values should reach a steady state where increasing the value of ``STREAM_ARRAY_SIZE`` doesn't influence the measurement for a certain number of processors.
 
+For Crossroads, the benchmark was build with ``STREAM_ARRAY_SIZE=40000000`` and ``NTIMES=20`` with optmizations and OpenMP enabled.
+
+.. code-block:: bash
+   make CC=`which mpicc` FF=`which mpifort` CFLAGS="-O2 -fopenmp -DSTREAM_ARRAY_SIZE=40000000 -DNTIMES=20" FFLAGS="-O2 -fopenmp -DSTREAM_ARRAY_SIZE=40000000 -DNTIMES=20"
+
+
 Running
 =======
 
 .. code-block:: bash
 
-  srun -n <num_processes> ./stream
+  export OMP_NUM_THREADS=1
+  srun -n <num_processes> --cpu-bind=core ./stream-mpi.exe
 
 Replace `<num_processes>` with the number of MPI processes you want to use. For example, if you want to use 4 MPI processes, the command will be:
 
 .. code-block:: bash
 
-  srun -n 4 ./stream
+  export OMP_NUM_THREADS=1
+  srun -n 4 --cpu-bind=core ./stream-mpi.exe
 
 Example Results
 ===============
@@ -121,7 +129,7 @@ Crossroads
 These results were obtained using the cce v15.0.1 compiler and cray-mpich v 8.1.25. 
 Results using the intel-oneapi and intel-classic v2023.1.0 and the same cray-mpich were also collected; cce performed the best.
 
-``STREAM_ARRAY_SIZE=40 NTIMES=20``
+``STREAM_ARRAY_SIZE=40000000 NTIMES=20``
 
 .. csv-table:: STREAM microbenchmark bandwidth measurement
    :file: stream-xrds_ats5cce-cray-mpich.csv
