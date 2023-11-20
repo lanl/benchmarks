@@ -41,12 +41,12 @@ Building
 ========
 
 Makefiles are provided for the intel and gcc compilers. Before building, load the compiler and blas libraries into the PATH and LD_LIBRARY_PATH. 
+Set the `ARCHTYPE` variable with export or on the make command line to the stem of the correct file in build_config.
 
 .. code-block:: bash
 
     cd src
-    patch -p1 < ../dgemm_omp_fixes.patch
-    make
+    make ARCHTYPE=INTEL
 
 ..
 
@@ -59,13 +59,15 @@ Running
 
 DGEMM uses OpenMP but does not use MPI.
 
-Set the number of OpenMP threads before running.
+Set the number of OpenMP threads and other OMP characteristics with export.
+The following were used for the Crossroads (:ref:`GlobalSystemATS3`) system.
 
 .. code-block:: bash
 
-    export OPENBLAS_NUM_THREADS=<nthreads>
+    export OPENBLAS_NUM_THREADS=<nthreads> #MKL INHERITS FROM OMP_NUM_THREADS.
     export OMP_NUM_THREADS=<nthreads>
     export OMP_PLACES=cores
+    export OMP_PROC_BIND=close
 
 ..
 
