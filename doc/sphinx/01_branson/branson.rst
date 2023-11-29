@@ -138,9 +138,10 @@ Correctness
 
 Branson has two main checks on correctness. The first is a looser check that's meant as a "smoke
 test" to see if a code change has introduced an error. After every timestep, a summary block is
-printed:
+printed sdlfdjskl:
 
 .. code-block:: bash
+
   ********************************************************************************
   Step: 5  Start Time: 0.04  End Time: 0.05  dt: 0.01
   source time: 0.166658
@@ -159,6 +160,7 @@ printed:
 Two lines in the block specifically relate to conservation:
 
 .. code-block:: bash
+
   Radiation conservation: -5.83707e-17
   Material conservation: -5.8599e-15
 ..
@@ -209,7 +211,8 @@ the same temperature in a standard marshak wave problem after 100 cycles. For th
             23  0.010000237 0.0099765577 2.3568109e-07
             24  0.010000281 0.0099765314 2.3568212e-07
   -------------------------------------------------------
-..
+
+
 
 This output is expected as long as the spatial, boundary and region blocks are kept the same in the
 input file. The IMC method that Branson uses is stocahstic so changing the random number seed or the
