@@ -98,6 +98,7 @@ At capacity, the measured values should reach a steady state where increasing th
 For Crossroads, the benchmark was build with ``STREAM_ARRAY_SIZE=40000000`` and ``NTIMES=20`` with optmizations and OpenMP enabled.
 
 .. code-block:: bash
+  
    make CC=`which mpicc` FF=`which mpifort` CFLAGS="-O2 -fopenmp -DSTREAM_ARRAY_SIZE=40000000 -DNTIMES=20" FFLAGS="-O2 -fopenmp -DSTREAM_ARRAY_SIZE=40000000 -DNTIMES=20"
 
 

@@ -180,6 +180,12 @@ Single node benchmarks will require respondent to provide estimates on
 
 * Problem size must be changed to meet % of memory requirements. 
 
+* Respondent shall provide CPU strong scaling and GPU throughput results on current generation representative architectures.
+  If no representative architecture exists respondent can provide modeled / projected CPU strong scaling and GPU throughput results. 
+  respondent may provide both results on current generation representative architectures and modeled / projected architectures. 
+
+* For SSNI projections respondent shall use the specific problem size(s) specified for SSNI.  
+
 Source code modification categories: 
 
 * Baseline: “out-of-the-box” performance
@@ -230,6 +236,53 @@ Where:
 *	S = application speedup; Figure of Merit on ATS-5 system / Figure of Merit on reference system (Crossroads); S must be greater than 1, 
 
 *	w = weighting factor. 
+
+
+
+.. _GlobalSSNIWeightsSizes:
+
+SSNI Weights and SSNI problem sizes
+===================================
+
+
+.. list-table::
+
+ * - **SSNI Benchmark**
+   - **SSNI Weight**
+   - **SSNI Problem size - % device memory**
+ * - Branson
+   - TBD
+   - 30
+ * - AMG2023 Problem 1 Setup
+   - TBD
+   - 20
+ * - AMG2023 Problem 2 Setup
+   - TBD
+   - 20
+ * - AMG2023 Problem 1 Solve
+   - TBD
+   - 20
+ * - AMG2023 Problem 2 Solve
+   - TBD
+   - 20
+ * - MiniEM
+   - TBD
+   - TBD
+ * - MLMD Training
+   - TBD
+   - N/A 
+ * - MLMD Simulation
+   - TBD
+   - 60
+ * - Parthenon-VIBE
+   - TBD
+   - 40 
+ * - Sparta
+   - TBD
+   - TBD
+ * - UMT
+   - TBD
+   - TBD
 
 
 System Information
