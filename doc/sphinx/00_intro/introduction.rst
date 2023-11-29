@@ -164,7 +164,7 @@ Microbenchmark Overview
      | interfaces and access patterns. 
    - C
    - MPI
-   - No
+   - Yes
  * - mdtest
    - | Metadata benchmark that performs 
      | open/stat/close operations on 

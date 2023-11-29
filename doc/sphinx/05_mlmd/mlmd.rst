@@ -27,6 +27,8 @@ Figure of Merit
 Their are two figures of merit for this benchmark. 
 The first is the Average Epoch time of the training task. 
 The second is the throughput of the MD simulations, which is reported by Lammps as 'Katom-step/s' or 'Matom-step/s'. 
+Note that there is no explicit inference FOM as inference is conducted inline with the simulation and is implicitly a 
+component of the simulation throughput FOM. 
 
 Building
 ========

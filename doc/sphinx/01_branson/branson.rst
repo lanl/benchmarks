@@ -122,7 +122,16 @@ The memory footprint can be controlled by editing "photons" in the input file.
 Results from Branson are provided on the following systems:
 
 * Crossroads (see :ref:`GlobalSystemATS3`)
-* Sierra (see :ref:`GlobalSystemATS2`)
+* AMD Epyc + Nvidia A100 (see :ref:`DarwinA100`)
+
+
+
+.. _DarwinA100:
+
+Dual socket AMD Epyc 7502 with 32 cores operating at 2.5 GHz with 256 GBytes CPU 
+memory and dual Nvidia Ampere A100-SXM4 GPUs with 40GBytes of memory per GPU. 
+
+
 
 Crossroads
 ------------
@@ -156,7 +165,7 @@ figure.
    :scale: 50%
    :alt: Branson Strong Scaling Performance on Crossroads 66M particles
 
-   ranson Strong Scaling Performance on Crossroads 66M  particles  
+   Branson Strong Scaling Performance on Crossroads 66M  particles  
 
 Strong scaling performance of Branson Crossroads 200M Particles is provided within the following table and
 figure.
@@ -174,13 +183,13 @@ figure.
 
    Branson Strong Scaling Performance on Crossroads 200M particles  
 
-Sierra
+AMD Epyc + Nvidia A100
 ------------
 
-Throughput performance of Branson on Sierra is provided within the
+Throughput performance of Branson on AMD Epyc + Nvidia A100 (using a single GPU) is provided within the
 following table and figure.
 
-.. csv-table:: Branson Throughput Performance on Sierra
+.. csv-table::Branson Throughput Performance on AMD Epyc + A100
    :file: gpu.csv
    :align: center
    :widths: 10, 10
@@ -189,9 +198,9 @@ following table and figure.
 .. figure:: gpu.png
    :align: center
    :scale: 50%
-   :alt: Branson Throughput Performance on Sierra
+   :alt: Branson Throughput Performance on AMD Epyc + A100
 
-   Branson Throughput Performance on Sierra
+   Branson Throughput Performance on AMD Epyc + A100
 
 
 Verification of Results
