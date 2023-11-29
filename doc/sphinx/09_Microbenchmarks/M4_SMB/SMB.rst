@@ -122,8 +122,8 @@ We define some system specific variables for these tests.
 Results from SMB are provided on the following systems:
 
 
-Verification of Results
-=======================
+Results
+=======
 
 References
 ==========

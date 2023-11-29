@@ -151,13 +151,6 @@ Microbenchmark Overview
    - C/Fortran
    - Various
    - No
- * - DAXPY
-   - | Single node floating-point 
-     | performance of a scaled vector
-     | plus a vector. 
-   - C/Fortran
-   - Various
-   - No
  * - IOR
    - | Performance testing of parallel 
      | file system using various

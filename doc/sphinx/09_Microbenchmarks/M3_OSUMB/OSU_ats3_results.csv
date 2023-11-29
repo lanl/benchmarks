@@ -1,12 +1,12 @@
-"Test","Rank settings","Message Size","Nodes","Result"
-"osu_latency","1 per node","8 B","2",
-"osu_bibw","1 per node","1 MB","2",
-"osu_mbw_mr","1 per NIC","16 KB","2",
-"osu_mbw_mr","1 per core","16 KB","2",
-"osu_get_acc_latency","1 per node","8 B","2",
-"osu_get","1 per node","8 B","2",
-"osu_put","1 per node","8 B","2",
-"osu_barrier","1 per physical core","N/A","full-system",
-"osu_ibarrier","1 per physical core","N/A","full-system",
-"osu_allreduce","1 per physical core","8B, 25 MB","full-system",
-"osu_alltoall","1 per physical core","1 MB","full-system",
+"Test","Ranks","Msg Size","Num Nodes","Result"
+"osu_latency","1 per node","8 B","2","1.61 us"
+"osu_bibw","1 per node","1 MB","2","45307.17 MB/s"
+"osu_mbw_mr","1 per NIC","16 KB","2","49656.45 MB/s"
+"osu_mbw_mr","1 per core","16 KB","2","45198.46 MB/s"
+"osu_get_acc_latency","1 per node","8 B","2","10.85 us"
+"osu_get","1 per node","8 B","2","3.59 us"
+"osu_put","1 per node","8 B","2","4.87 us"
+"osu_barrier","1 per physical core","N/A","full-system","550.66 us"
+"osu_ibarrier","1 per physical core","N/A","full-system","4802.82  us"
+"osu_allreduce","1 per physical core","8B, 16 MB","full-system","345.55, 2477365.95 us"
+"osu_alltoall","1 per node","8B","full-system","1954.35 us"

@@ -46,7 +46,7 @@ Makefiles are provided for the intel and gcc compilers. Before building, load th
 
     cd src
     patch -p1 < ../dgemm_omp_fixes.patch
-    make
+    make CFLAGS=-I<openblas_include_dir>
 
 ..
 
@@ -84,7 +84,7 @@ These are positional arguments, so, for instance, R cannot be set without settin
 Example Results
 ===============
 
-Results from Branson are provided on the following systems:
+Results from DGEMM are provided on the following systems:
 
 * Crossroads (see :ref:`GlobalSystemATS3`)
 

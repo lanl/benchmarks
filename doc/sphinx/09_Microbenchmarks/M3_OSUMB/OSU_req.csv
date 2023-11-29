@@ -1,6 +1,6 @@
 "Program","Description","Msg Size","Num Nodes","Rank Config"
 "osu_latency","P2p Latency","8 B","2","1 per node"
-"osu_bibw","P2p Bi-directional BW","1 MB","2","1 per node"
+"osu_bibw","P2p Bi-directional BW","16 kB","2","1 per node"
 "osu_mbw_mr","P2p Multi-BW & Msg Rate","16 KB","2","Host-to-Host (two tests): 
     - 1 per NIC  
     - 1 per core 
@@ -16,9 +16,9 @@ Device-to-Device (two tests):
 "osu_ibarrier","Async-Barrier time","N/A","full-system","Two tests: 
     - 1 per physical core
     - 1 per GPU/accelerator"
-"osu_allreduce","All-reduce Latency","8B, 25 MB","full-system","Two tests: 
+"osu_allreduce","All-reduce Latency","8B, 16 MB","full-system","Two tests: 
     - 1 per physical core
     - 1 per GPU/accelerator"
-"osu_alltoall","All-to-all Latency","1 MB","full-system","Two tests: 
+"osu_alltoall","All-to-all Latency","8 B","full-system","Two tests: 
     - 1 per physical core
     - 1 per GPU/accelerator"

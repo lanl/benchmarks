@@ -24,7 +24,7 @@ CC.Linux = cc -Wall
 CC.Darwin = mpicc -Wall
 
 # Requires GNU Make
-OS=$(shell uname)
+OS?=$(shell uname)
 
 # Flags for compiling on 64-bit machines
 LARGE_FILE = -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE=1 -D__USE_LARGEFILE64=1
