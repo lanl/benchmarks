@@ -3,7 +3,7 @@
 #SBATCH --nodes=1
 #SBATCH --time=4:00:00
 #SBATCH --core-spec=0  # this seemingly needs to be done with sbatch
-#SBATCH --exclude=nid006219,nid005850,nid003658,nid001813,nid001451,nid002233,nid005892,nid005896,nid003804,nid002065,nid001855,nid005912,nid006402,nid005723,nid006615,nid005851,nid005356
+##SBATCH --exclude=nid006219,nid005850,nid003658,nid001813,nid001451,nid002233,nid005892,nid005896,nid003804,nid002065,nid001855,nid005912,nid006402,nid005723,nid006615,nid005851,nid005356
 
 umask 022
 set -e
@@ -129,17 +129,18 @@ run_try()
 
     if test $THREADS_PER_RANK -eq 1 ; then
         # export LD_PRELOAD=libldpxi_mpi.so
-        export LD_PRELOAD=/usr/projects/hpctest/amagela/ldpxi/ldpxi/install/ats3/ldpxi-1.0.1/intel+cray-mpich-8.1.25/lib/libldpxi_mpi.so.1.0.1
-        time srun \
-            --unbuffered \
-            --ntasks=$RANKS_PER_NODE \
-            --cpu-bind="${SPARTACPUBIND}" \
-            --output="${FILE_LOG//.log/-${i}.log}" \
-            "${APP_EXE}" \
-                -in "in.cylinder"
+        # export LD_PRELOAD=/usr/projects/hpctest/amagela/ldpxi/ldpxi/install/ats3/ldpxi-1.0.1/intel+cray-mpich-8.1.25/lib/libldpxi_mpi.so.1.0.1
+        /usr/bin/time --verbose --output=time.txt \
+            srun \
+                --unbuffered \
+                --ntasks=$RANKS_PER_NODE \
+                --cpu-bind="${SPARTACPUBIND}" \
+                --output="${FILE_LOG//.log/-${i}.log}" \
+                "${APP_EXE}" \
+                    -in "in.cylinder"
         unset LD_PRELOAD
         l_fom=`./sparta_fom.py -a -f "log.sparta" 2>&1 | awk -F'FOM = ' '{print $2}'`
-        l_maxrss=`grep maxrss "${LDPXI_OUTPUT}" | awk -F',' '{print $2}'`
+        # l_maxrss=`grep maxrss "${LDPXI_OUTPUT}" | awk -F',' '{print $2}'`
         echo "FOM,RUN,PPC,RanksPerDomain,MaxRSS(KiB),AppName,Try,Dir" > "${FILE_METRICS}"
         echo "${l_fom},${SPARTA_RUN},${SPARTA_PPC},${RANKS_PER_DOMAIN},${l_maxrss},${APP_NAME},${i},` pwd -P `" >> "${FILE_METRICS}"
     fi
