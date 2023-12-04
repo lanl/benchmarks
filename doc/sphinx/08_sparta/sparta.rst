@@ -166,10 +166,10 @@ System Information
 
 The platforms utilized for benchmarking activities are listed and described below.
 
-* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL (see :ref:`SystemCTS1`)
-* Crossroads (see  :ref:`GlobalSystemATS3`)
-* Sierra (see :ref:`GlobalSystemATS2`)
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`SystemATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`SystemATS2`)
 
 
 .. _SystemCTS3:
@@ -200,15 +200,38 @@ levels of cache, with L1 using separate instruction and data caches, L2 unifying
 instruction and data, and L3 being shared across all cores in the processor. The
 cache size is 1.5 MB/core, 35.75 MB/processor, or 71.5 MB/node.
 
+
+.. _SystemATS3:
+
+ATS-3/Crossroads
+----------------
+
+This reference platform is described in detail in :ref:`ReferenceCrossroads`.
+
+
+.. _SystemATS2:
+
+ATS-2/Sierra
+------------
+
+This system has a plethora of compute nodes that are made up of Power9
+processors with four NVIDIA V100 GPUs. Please refer to [Sierra-LLNL]_ for more
+detailed information.
+
+A Sierra application and regression testbed system named Vortex, housed at SNL,
+was used for benchmarking for convenience. Vortex has the same compute node
+hardware as Sierra.
+
+
 Building
 ========
 
 Instructions are provided on how to build SPARTA for the following systems:
 
 * Generic (see :ref:`BuildGeneric`)
-* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL (see :ref:`BuildCTS1`)
-* Sierra (see
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`BuildATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
   :ref:`BuildATS2`)
 
 If submodules were cloned within this repository, then the source code to build
@@ -223,23 +246,19 @@ Generic
 Refer to SPARTA's [build]_ documentation for generic instructions.
 
 
-.. _BuildCTS1:
+.. _BuildATS3:
 
-CTS-1/Manzano
--------------
+ATS-3/Crossroads
+----------------
 
-.. note::
-   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
-   is available.
-
-Instructions for building on Manzano are provided below. These instructions
+Instructions for building on Crossroads are provided below. These instructions
 assume this repository has been cloned and that the current working directory is
 at the top level of this repository.
 
 .. code-block:: bash
 
-   cd doc/sphinx/8_sparta
-   ./build-manzano.sh
+   cd doc/sphinx/08_sparta
+   ./build-crossroads.sh
 
 
 .. _BuildATS2:
@@ -266,22 +285,18 @@ Running
 
 Instructions are provided on how to run SPARTA for the following systems:
 
-* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL (see :ref:`RunCTS1`)
-* Sierra (see
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`RunATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
   :ref:`RunATS2`)
 
 
-.. _RunCTS1:
+.. _RunATS3:
 
-CTS-1/Manzano
--------------
+ATS-3/Crossroads
+----------------
 
-.. note::
-   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
-   is available.
-
-An example of how to run the test case on Manzano is provided below.
+An example of how to run the test case on Crossroads is provided below.
 
 .. code-block:: bash
 
@@ -323,116 +338,112 @@ Verification of Results
 
 Results from SPARTA are provided on the following systems:
 
-* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL (see :ref:`ResultsCTS1`)
-* Sierra (see
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`ResultsATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
   :ref:`ResultsATS2`)
 
 
-.. _ResultsCTS1:
+.. _ResultsATS3:
 
-CTS-1/Manzano
--------------
-
-.. note::
-   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
-   is available.
+ATS-3/Crossroads
+----------------
 
 Strong scaling performance (i.e., fixed problem size being run on different MPI
-rank counts) plots of SPARTA on CTS-1/Manzano are provided within the following
-subsections.
+rank counts) plots of SPARTA on ATS-3/Crossroads are provided within the
+following subsections.
 
 ``ppc`` 11 (0.25 GiB/PE)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Manzano with ppc=11 (0.25 GiB/PE)
-   :file: cts1-0.25.csv
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads ppc=11 (0.25 GiB/PE)
+   :file: ats3-0.25.csv
    :align: center
    :widths: 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cts1-0.25.png
+.. figure:: ats3-0.25.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Manzano with ppc=11 (0.25 GiB/PE)
+   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=11 (0.25 GiB/PE)
 
-   SPARTA Strong Scaling Performance on Manzano with ppc=11 (0.25 GiB/PE)
+   SPARTA Strong Scaling Performance on Crossroads with ppc=11 (0.25 GiB/PE)
 
-.. figure:: cts1mem-0.25.png
+.. figure:: ats3mem-0.25.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Memory on Manzano with ppc=11 (0.25 GiB/PE)
+   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=11 (0.25 GiB/PE)
 
-   SPARTA Strong Scaling Memory on Manzano with ppc=11 elements (0.25 GiB/PE)
+   SPARTA Strong Scaling Memory on Crossroads with ppc=11 elements (0.25 GiB/PE)
 
 ``ppc`` 21 (0.50 GiB/PE)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Manzano with ppc=21 (0.50 GiB/PE)
-   :file: cts1-0.50.csv
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=21 (0.50 GiB/PE)
+   :file: ats3-0.50.csv
    :align: center
    :widths: 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cts1-0.50.png
+.. figure:: ats3-0.50.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Manzano with ppc=21 (0.50 GiB/PE)
+   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=21 (0.50 GiB/PE)
 
-   SPARTA Strong Scaling Performance on Manzano with ppc=21 (0.50 GiB/PE)
+   SPARTA Strong Scaling Performance on Crossroads with ppc=21 (0.50 GiB/PE)
 
-.. figure:: cts1mem-0.50.png
+.. figure:: ats3mem-0.50.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Memory on Manzano with ppc=21 (0.50 GiB/PE)
+   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=21 (0.50 GiB/PE)
 
-   SPARTA Strong Scaling Memory on Manzano with ppc=21 elements (0.50 GiB/PE)
+   SPARTA Strong Scaling Memory on Crossroads with ppc=21 elements (0.50 GiB/PE)
 
 ``ppc`` 42 (1.00 GiB/PE)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Manzano with ppc=42 (1.00 GiB/PE)
-   :file: cts1-1.00.csv
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=42 (1.00 GiB/PE)
+   :file: ats3-1.00.csv
    :align: center
    :widths: 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cts1-1.00.png
+.. figure:: ats3-1.00.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Manzano with ppc=42 (1.00 GiB/PE)
+   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=42 (1.00 GiB/PE)
 
-   SPARTA Strong Scaling Performance on Manzano with ppc=42 (1.00 GiB/PE)
+   SPARTA Strong Scaling Performance on Crossroads with ppc=42 (1.00 GiB/PE)
 
-.. figure:: cts1mem-1.00.png
+.. figure:: ats3mem-1.00.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Memory on Manzano with ppc=42 (1.00 GiB/PE)
+   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=42 (1.00 GiB/PE)
 
-   SPARTA Strong Scaling Memory on Manzano with ppc=42 elements (1.00 GiB/PE)
+   SPARTA Strong Scaling Memory on Crossroads with ppc=42 elements (1.00 GiB/PE)
 
 ``ppc`` 126 (2.00 GiB/PE)
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Manzano with ppc=126 (2.00 GiB/PE)
-   :file: cts1-2.00.csv
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=126 (2.00 GiB/PE)
+   :file: ats3-2.00.csv
    :align: center
    :widths: 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cts1-2.00.png
+.. figure:: ats3-2.00.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Manzano with ppc=126 (2.00 GiB/PE)
+   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=126 (2.00 GiB/PE)
 
-   SPARTA Strong Scaling Performance on Manzano with ppc=126 (2.00 GiB/PE)
+   SPARTA Strong Scaling Performance on Crossroads with ppc=126 (2.00 GiB/PE)
 
-.. figure:: cts1mem-2.00.png
+.. figure:: ats3mem-2.00.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Memory on Manzano with ppc=126 (2.00 GiB/PE)
+   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=126 (2.00 GiB/PE)
 
-   SPARTA Strong Scaling Memory on Manzano with ppc=126 elements (2.00 GiB/PE)
+   SPARTA Strong Scaling Memory on Crossroads with ppc=126 elements (2.00 GiB/PE)
 
 
 .. _ResultsATS2:

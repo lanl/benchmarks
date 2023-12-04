@@ -1,8 +1,8 @@
 #!/usr/bin/gnuplot
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
-set output "cts1mem-2.00.png"
+set output "ats3mem-0.50.png"
 
-set title "MiniEM Strong Scaling High-water Memory on CTS-1/Manzano (2.00 GiB/PE)" font "serif,22"
+set title "MiniEM Strong Scaling High-water Memory on ATS-3/Crossroads (0.50 GiB/PE)" font "serif,22"
 set xlabel "No. Processing Elements"
 set ylabel "Maximum Resident Set Size (GiB)"
 
@@ -21,4 +21,4 @@ set key autotitle columnheader
 set style line 1 linetype 6 dashtype 1 linecolor rgb "#FF0000" linewidth 2 pointtype 6 pointsize 3
 set style line 2 linetype 1 dashtype 2 linecolor rgb "#FF0000" linewidth 2
 
-plot "cts1-2.00.csv" using 1:4 with linespoints linestyle 1
+plot "ats3-0.50.csv" using 1:4 with linespoints linestyle 1

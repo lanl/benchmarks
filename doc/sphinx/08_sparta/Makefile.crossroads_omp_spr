@@ -1,4 +1,4 @@
-# kokkos_mpi_only = KOKKOS package with Serial backend (no OpenMP support), MPI compiler, default MPI
+# Does OpenMP through Kokkos
 
 SHELL = /bin/sh
 
@@ -6,12 +6,12 @@ SHELL = /bin/sh
 # compiler/linker settings
 # specify flags and libraries needed for your compiler
 
-CC =		mpicxx
+CC =		CC
 CCFLAGS =	-g -O3 -DSPARTA_BIGBIG
 SHFLAGS =	-fPIC
 DEPFLAGS =	-M
 
-LINK =		mpicxx
+LINK =		CC
 LINKFLAGS =	-g -O3
 LIB = 
 SIZE =		size
@@ -19,8 +19,8 @@ SIZE =		size
 ARCHIVE =	ar
 ARFLAGS =	-rc
 SHLIBFLAGS =	-shared
-KOKKOS_DEVICES = Serial
-KOKKOS_ARCH = SKX
+KOKKOS_DEVICES = OpenMP
+KOKKOS_ARCH = SPR
 
 # ---------------------------------------------------------------------
 # SPARTA-specific settings
