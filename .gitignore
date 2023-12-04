@@ -5,6 +5,8 @@ doc/sphinx/8_sparta/*.png
 doc/sphinx/*/*.png
 doc/sphinx/09_Microbenchmarks/*/*.png
 
+doc/sphinx/07_miniem/*.xml
+
 *.pyc
 .vscode/
 __pycache__/
