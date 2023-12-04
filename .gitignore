@@ -5,7 +5,10 @@ doc/sphinx/8_sparta/*.png
 doc/sphinx/*/*.png
 doc/sphinx/09_Microbenchmarks/*/*.png
 
+doc/sphinx/07_miniem/PanzerMiniEM_BlockPrec.exe
 doc/sphinx/07_miniem/*.xml
+doc/sphinx/07_miniem/run-[0-9]*
+doc/sphinx/07_miniem/runs--*
 
 *.pyc
 .vscode/
