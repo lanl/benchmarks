@@ -1,8 +1,8 @@
 #!/bin/bash
 # This submits a full sweep
 
-export NUM_DUPLICATES=8
-export APP_REPEAT=8
+export NUM_DUPLICATES=1
+export APP_REPEAT=1
 # export SBATCH_OPTS="--core-spec=0 --exclude=nid006219,nid005850,nid003658,nid001813,nid001451,nid002233,nid005892,nid005896,nid003804,nid002065,nid001855,nid005912,nid006402,nid005723,nid006615,nid005851,nid005356"
 export SBATCH_OPTS="--core-spec=0 --partition=hbm"
 

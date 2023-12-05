@@ -79,6 +79,11 @@ else
     unset KOKKOS_TOOLS_LIBS
 fi
 
+# LDPXI setup if applicable
+export LDPXI_INST="gru,io,mpi,rank,mem"
+# export LDPXI_PERF_EVENTS="cpu-cycles,ref-cycles,dTLB-load-misses,dTLB-loads"
+export LDPXI_OUTPUT="sparta-ldpxi.$SLURM_JOB_ID.csv"
+
 # Create and populate run folder and edit input file
 prep_toplevel_run()
 {
@@ -151,6 +156,7 @@ run_try()
 
     # export LD_PRELOAD=libldpxi_mpi.so
     # export LD_PRELOAD=/usr/projects/hpctest/amagela/ldpxi/ldpxi/install/ats3/ldpxi-1.0.1/intel+cray-mpich-8.1.25/lib/libldpxi_mpi.so.1.0.1
+    export LD_PRELOAD=/usr/projects/hpctest/amagela/ats-5/LDPXI/xr/libldpxi.so
     # /usr/bin/time --verbose --output="${FILE_TIME}" \
     # time \
         srun \
@@ -167,7 +173,7 @@ run_try()
                 --linAlgebra=Tpetra \
                 --inputFile="${dir_current_work}/${APP_INPUT}"
 #                 --solver=MueLu-RefMaxwell \
-#     unset LD_PRELOAD
+    unset LD_PRELOAD
 #             --ntasks-per-socket=$RANKS_PER_SOCKET \
 #             --hint=nomultithread \
 #             --cpu-bind=verbose,ldoms \
@@ -177,12 +183,12 @@ run_try()
 #             --cpu-bind="map_cpu:`${DIR_ROOT}/map_cpu/map_cpu ${PES_PER_NODE} 2>/dev/null`" \
 
     # post process
-    l_fom=`./sparta_fom.py -a -f "log.sparta" 2>&1 | awk -F'FOM = ' '{print $2}'`
+    # l_fom=`./sparta_fom.py -a -f "log.sparta" 2>&1 | awk -F'FOM = ' '{print $2}'`
     # l_maxrss=`grep maxrss "${LDPXI_OUTPUT}" | awk -F',' '{print $2}'`
     # echo "FOM,RUN,PPC,RanksPerDomain,MaxRSS(KiB),AppName,Try,Dir" > "${FILE_METRICS}"
     # echo "${l_fom},${SPARTA_RUN},${SPARTA_PPC},${RANKS_PER_DOMAIN},${l_maxrss},${APP_NAME},${i},` pwd -P `" >> "${FILE_METRICS}"
-    echo "FOM,RUN,PPC,RanksPerDomain,AppName,Try,Dir" > "${FILE_METRICS}"
-    echo "${l_fom},${SPARTA_RUN},${SPARTA_PPC},${RANKS_PER_DOMAIN},${APP_NAME},${i},` pwd -P `" >> "${FILE_METRICS}"
+    # echo "FOM,RUN,PPC,RanksPerDomain,AppName,Try,Dir" > "${FILE_METRICS}"
+    # echo "${l_fom},${SPARTA_RUN},${SPARTA_PPC},${RANKS_PER_DOMAIN},${APP_NAME},${i},` pwd -P `" >> "${FILE_METRICS}"
 
     popd
     date
