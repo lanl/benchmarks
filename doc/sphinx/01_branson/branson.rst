@@ -43,9 +43,9 @@ For throughput curves on a GPU the memory footprint of Branson must vary between
 The memory footprint can be controlled by editing "photons" in the input file.
 
 Results of both CPU strong scaling and GPU throughput should be provided on a representative, current-generation hardware configuration used in benchmarking and projections. 
-Results which are 
+Results which are projected / modeled should be noted as such. 
 
-See (see :ref:`GlobalSSNIWeightsSizes`) for the problem size for SSNI projection. 
+See :ref:`GlobalSSNIWeightsSizes` for the problem size for SSNI projection. 
 
 Building
 ========
