@@ -74,6 +74,11 @@ else
     unset KOKKOS_TOOLS_LIBS
 fi
 
+# LDPXI setup if applicable
+export LDPXI_INST="gru,io,mpi,rank,mem"
+# export LDPXI_PERF_EVENTS="cpu-cycles,ref-cycles,dTLB-load-misses,dTLB-loads"
+export LDPXI_OUTPUT="sparta-ldpxi.$SLURM_JOB_ID.csv"
+
 # Create and populate run folder and edit input file
 prep_toplevel_run()
 {
@@ -147,6 +152,7 @@ run_try()
 
     # export LD_PRELOAD=libldpxi_mpi.so
     # export LD_PRELOAD=/usr/projects/hpctest/amagela/ldpxi/ldpxi/install/ats3/ldpxi-1.0.1/intel+cray-mpich-8.1.25/lib/libldpxi_mpi.so.1.0.1
+    export LD_PRELOAD=/usr/projects/hpctest/amagela/ats-5/LDPXI/xr/libldpxi.so
     # /usr/bin/time --verbose --output="${FILE_TIME}" \
     # time \
         srun \
@@ -159,7 +165,7 @@ run_try()
             "${APP_EXE}" \
                 -k on t ${OMP_NUM_THREADS} -sf kk \
                 -in "in.cylinder"
-#     unset LD_PRELOAD
+    unset LD_PRELOAD
 #             --ntasks-per-socket=$RANKS_PER_SOCKET \
 #             --hint=nomultithread \
 #             --cpu-bind=verbose,ldoms \
