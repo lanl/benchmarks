@@ -1,3 +1,0 @@
-CC=gcc
-CFLAGS=-ffast-math -mavx2 -ftree-vectorizer-verbose=3 -O3 -fopenmp -DUSE_CBLAS
-LDFLAGS=-L${OPENBLAS_ROOT}/lib -lopenblas

@@ -1,3 +1,0 @@
-CC?=icc
-CFLAGS=-O3 -fopenmp -mkl -DUSE_MKL
-LDFLAGS=
