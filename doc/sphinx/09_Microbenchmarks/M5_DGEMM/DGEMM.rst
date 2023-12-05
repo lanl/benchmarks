@@ -40,31 +40,34 @@ Run Rules
 Building
 ========
 
-Makefiles are provided for the intel and gcc compilers. Before building, load the compiler and blas libraries into the PATH and LD_LIBRARY_PATH. 
+Load the compiler; make and enter a build directory.
 
 .. code-block:: bash
 
-    cd src
-    make CFLAGS=-I<openblas_include_dir>
+    cmake -DBLAS_NAME=<blas library name> ..
+    make
 
 ..
 
-If using a different compiler, copy and modify the simple makefiles to apply the appropriate flags.
-
-If using a different blas library than mkl or openblas, modify the C source file to use the correct header and dgemm command.
+Current `BLAS_NAME` options are mkl, cblas (openblas), essl, or the raw coded (OpenMP threaded) dgemm.
+The `BLAS_NAME` argument is required.
+If the headers or libraries aren't found provide `BLAS_LIB_DIR`, `BLAS_INCLUDE_DIR`, or `BLAS_ROOT` to cmake.
+If using a different blas library, modify the C source file to use the correct header and dgemm command.
 
 Running
 =======
 
 DGEMM uses OpenMP but does not use MPI.
 
-Set the number of OpenMP threads before running.
+Set the number of OpenMP threads and other OMP characteristics with export.
+The following were used for the Crossroads (:ref:`GlobalSystemATS3`) system.
 
 .. code-block:: bash
 
-    export OPENBLAS_NUM_THREADS=<nthreads>
+    export OPENBLAS_NUM_THREADS=<nthreads> #MKL INHERITS FROM OMP_NUM_THREADS.
     export OMP_NUM_THREADS=<nthreads>
     export OMP_PLACES=cores
+    export OMP_PROC_BIND=close
 
 ..
 
