@@ -1,0 +1,131 @@
+diff --git a/var/spack/repos/builtin/packages/hdf5/package.py b/var/spack/repos/builtin/packages/hdf5/package.py
+index 0a3903e801..e9ca02b720 100644
+--- a/var/spack/repos/builtin/packages/hdf5/package.py
++++ b/var/spack/repos/builtin/packages/hdf5/package.py
+@@ -409,8 +409,8 @@ def flag_handler(self, name, flags):
+                 # More recent versions set CMAKE_POSITION_INDEPENDENT_CODE to
+                 # True and build with PIC flags.
+                 cmake_flags.append(self.compiler.cc_pic_flag)
+-            if spec.satisfies("@1.8.21 %oneapi@2023.0.0"):
+-                cmake_flags.append("-Wno-error=int-conversion")
++            if spec.satisfies("@1.8.21:1.10 %oneapi@2023.0.0:"):
++                cmake_flags.append("-Wno-error=int-conversion -Wno-implicit-int")
+         elif name == "cxxflags":
+             if spec.satisfies("@:1.8.12+cxx~shared"):
+                 cmake_flags.append(self.compiler.cxx_pic_flag)
+diff --git a/var/spack/repos/builtin/packages/trilinos/package.py b/var/spack/repos/builtin/packages/trilinos/package.py
+index 1681ac35d2..a3ad8b93bc 100644
+--- a/var/spack/repos/builtin/packages/trilinos/package.py
++++ b/var/spack/repos/builtin/packages/trilinos/package.py
+@@ -133,6 +133,7 @@ class Trilinos(CMakePackage, CudaPackage, ROCmPackage):
+     variant("kokkos", default=True, description="Compile with Kokkos")
+     variant("ml", default=True, description="Compile with ML")
+     variant("minitensor", default=False, description="Compile with MiniTensor")
++    variant("miniem", default=False, description="Compile with Panzer/MiniEM")
+     variant("muelu", default=True, description="Compile with Muelu")
+     variant("nox", default=False, description="Compile with NOX")
+     variant("panzer", default=False, description="Compile with Panzer")
+@@ -271,7 +272,7 @@ class Trilinos(CMakePackage, CudaPackage, ROCmPackage):
+         conflicts("~mpi")
+         conflicts("~stk")
+ 
+-    # Panzer is not gen-2 library
++    # Panzer requirements (assumes all subpackages are built)
+     with when("+panzer"):
+         conflicts("~intrepid2")
+         conflicts("~mpi")
+@@ -279,15 +280,17 @@ class Trilinos(CMakePackage, CudaPackage, ROCmPackage):
+         conflicts("~sacado")
+         conflicts("~tpetra")
+         conflicts("~thyra")
+-        conflicts("~zoltan")
+         conflicts("~nox")
+         conflicts("~rythmos")
+         conflicts("~piro")
+         conflicts("~stratimikos")
+         conflicts("~stk")
+-        conflicts("~ml")
+-        conflicts("~ifpack")
+-        conflicts("~aztec")
++        conflicts("~zoltan")
++        conflicts("~teko")
++
++    with when("+miniem"):
++        conflicts("~panzer")
++        conflicts("~exodus")
+ 
+     # Known requirements from tribits dependencies
+     conflicts("~thyra", when="+stratimikos")
+@@ -404,10 +407,10 @@ class Trilinos(CMakePackage, CudaPackage, ROCmPackage):
+     depends_on("blas")
+     depends_on("boost+graph+math+exception+stacktrace", when="+boost")
+     # Need to revisit the requirement of STK
+-    depends_on("boost+graph+math+exception+stacktrace", when="+stk")
++    #depends_on("boost+graph+math+exception+stacktrace", when="+stk")
+ 
+     #
+-    depends_on("cgns", when="+exodus")
++    #depends_on("cgns", when="+exodus")
+     depends_on("cmake@3.23:", type="build", when="@14.0.0:")
+     depends_on("hdf5+hl", when="+hdf5")
+     for plat in ["cray", "darwin", "linux"]:
+@@ -453,8 +456,8 @@ class Trilinos(CMakePackage, CudaPackage, ROCmPackage):
+     for _flag in ("~openmp", "+openmp"):
+         depends_on("mumps" + _flag, when="+mumps" + _flag)
+ 
+-    depends_on("hwloc", when="@13: +kokkos")
+-    depends_on("hwloc+cuda", when="@13: +kokkos+cuda")
++    #depends_on("hwloc", when="@13: +kokkos")
++    #depends_on("hwloc+cuda", when="@13: +kokkos+cuda")
+     depends_on("hypre@develop", when="@master: +hypre")
+     depends_on("netcdf-c+mpi+parallel-netcdf", when="+exodus+mpi@12.12.1:")
+     depends_on("superlu-dist@:4.3", when="@11.14.1:12.6.1+superlu-dist")
+@@ -707,6 +710,25 @@ def define_enable(suffix, value=None):
+                 ]
+             )
+ 
++        if "+panzer" in spec and "+cuda" in spec:
++            options.extend(
++                [
++                    define("Sacado_ENABLE_HIERARCHICAL_DFAD", True),
++                ]
++            )
++
++        if "+miniem" in spec:
++            options.extend(
++                [
++                    define_trilinos_enable("PanzerDofMgr", True),
++                    define_trilinos_enable("PanzerDiscFE", True),
++                    define_trilinos_enable("PanzerAdaptersSTK", True),
++                    define_trilinos_enable("PanzerMiniEM", True),
++                    define_trilinos_enable("STKIO", True),
++                    define("PanzerMiniEM_ENABLE_EXAMPLES", True),
++                ]
++            )
++
+         if "+exodus" in spec:
+             options.extend(
+                 [
+@@ -764,6 +786,11 @@ def define_tpl(trilinos_name, spack_name, have_dep):
+                 return
+             depspec = spec[spack_name]
+             libs = depspec.libs
++
++
++            print("TRILINOS DEBUG SPACK depspec: {},{}\n".format(trilinos_name,spack_name))
++            print(depspec.libs)
++
+             try:
+                 options.extend(
+                     [define(trilinos_name + "_INCLUDE_DIRS", depspec.headers.directories)]
+@@ -814,8 +841,8 @@ def define_tpl(trilinos_name, spack_name, have_dep):
+         ]
+         if spec.satisfies("@12.12.1:"):
+             tpl_dep_map.append(("Pnetcdf", "parallel-netcdf"))
+-        if spec.satisfies("@13:") and not spec.satisfies("@develop"):
+-            tpl_dep_map.append(("HWLOC", "hwloc"))
++        #if spec.satisfies("@13:") and not spec.satisfies("@develop"):
++        #    tpl_dep_map.append(("HWLOC", "hwloc"))
+ 
+         for tpl_name, dep_name in tpl_dep_map:
+             define_tpl(tpl_name, dep_name, dep_name in spec)
