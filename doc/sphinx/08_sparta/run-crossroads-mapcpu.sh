@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=sparta-L2-S0
+#SBATCH --job-name=sparta-L1
 #SBATCH --nodes=1
 #SBATCH --time=4:00:00
 #SBATCH --core-spec=0  # this seemingly needs to be done with sbatch
@@ -40,7 +40,8 @@ export APP_NAME=${APP_NAME:-"spa_crossroads_omp_skx"}
 export APP_EXE="${DIR_BASE}/${APP_NAME}"
 
 # MPI & hardware setup
-export NODES=${NODES:-1}
+export SLURM_JOB_NUM_NODES=${SLURM_JOB_NUM_NODES:-1}
+export NODES=${NODES:-$SLURM_JOB_NUM_NODES}
 export RANKS_PER_DOMAIN=${RANKS_PER_DOMAIN:-14}
 export SOCKETS_PER_NODE=${SOCKETS_PER_NODE:-2}
 export DOMAINS_PER_SOCKET=${DOMAINS_PER_SOCKET:-4}
@@ -75,9 +76,9 @@ else
 fi
 
 # LDPXI setup if applicable
-export LDPXI_INST="gru,io,mpi,rank,mem"
+# export LDPXI_INST="gru,io,mpi,rank,mem"
 # export LDPXI_PERF_EVENTS="cpu-cycles,ref-cycles,dTLB-load-misses,dTLB-loads"
-export LDPXI_OUTPUT="sparta-ldpxi.$SLURM_JOB_ID.csv"
+# export LDPXI_OUTPUT="sparta-ldpxi.$SLURM_JOB_ID.csv"
 
 # Create and populate run folder and edit input file
 prep_toplevel_run()
@@ -152,7 +153,7 @@ run_try()
 
     # export LD_PRELOAD=libldpxi_mpi.so
     # export LD_PRELOAD=/usr/projects/hpctest/amagela/ldpxi/ldpxi/install/ats3/ldpxi-1.0.1/intel+cray-mpich-8.1.25/lib/libldpxi_mpi.so.1.0.1
-    export LD_PRELOAD=/usr/projects/hpctest/amagela/ats-5/LDPXI/xr/libldpxi.so
+    # export LD_PRELOAD=/usr/projects/hpctest/amagela/ats-5/LDPXI/xr/libldpxi.so
     # /usr/bin/time --verbose --output="${FILE_TIME}" \
     # time \
         srun \
@@ -165,7 +166,7 @@ run_try()
             "${APP_EXE}" \
                 -k on t ${OMP_NUM_THREADS} -sf kk \
                 -in "in.cylinder"
-    unset LD_PRELOAD
+    # unset LD_PRELOAD
 #             --ntasks-per-socket=$RANKS_PER_SOCKET \
 #             --hint=nomultithread \
 #             --cpu-bind=verbose,ldoms \
