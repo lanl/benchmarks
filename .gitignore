@@ -17,4 +17,6 @@ doc/sphinx/08_sparta/run-[0-9]*[0-9]
 doc/sphinx/08_sparta/spa_crossroads_*
 doc/sphinx/08_sparta/runs--*
 
+doc/sphinx/*.log
+
 map_cpu/map_cpu
