@@ -11,7 +11,8 @@ for (( i=0 ; i<${NUM_DUPLICATES} ; i++ )) ; do
 
     export APP_NAME="spa_crossroads_serial_spr"
 
-    export NODES=1
+    export NODES=4
+    export SPARTA_L="2.0"
     export SPARTA_PPC=35
     export RANKS_PER_DOMAIN=14
     export SPARTA_RUN=6866

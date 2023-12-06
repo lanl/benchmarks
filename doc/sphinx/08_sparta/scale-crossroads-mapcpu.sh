@@ -30,6 +30,7 @@ export FILE_TRY="output-script-${DIR_CASE}.log"
 export FILE_TIME="output-time-${DIR_CASE}.txt"
 
 # SPARTA setup
+export SPARTA_L=${SPARTA_L:-"2."}
 export SPARTA_PPC=${SPARTA_PPC:-35}
 export SPARTA_RUN=${SPARTA_RUN:-6866}
 export SPARTA_STATS=${SPARTA_STATS:-100}
@@ -88,6 +89,7 @@ prep_toplevel_run()
     awk "\$1 ~ /^run\$/ {\$2 = ${SPARTA_RUN}}1" "${DIR_SRC}/examples/cylinder/in.cylinder" \
         | awk "\$2 ~ /^ppc\$/ {\$4 = ${SPARTA_PPC}}1" \
         | awk "\$1 ~ /^stats\$/ {\$2 = ${SPARTA_STATS}}1" \
+        | awk "\$2 ~ /^L\$/ {\$4 = ${SPARTA_L}}1" \
         > "./in.cylinder"
     cp -a "${DIR_SRC}/examples/cylinder/circle_R0.5_P10000.surf" ./
     cp -a "${DIR_SRC}"/examples/cylinder/air.* ./
