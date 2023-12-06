@@ -8,6 +8,7 @@ export SBATCH_OPTS="--core-spec=0 --partition=hbm"
 for (( i=0 ; i<${NUM_DUPLICATES} ; i++ )) ; do
 
     export SPARTA_IS_KOKKOS_TOOLS="no"
+    export DIR_TAG="single"
 
     export APP_NAME="spa_crossroads_serial_spr"
 
