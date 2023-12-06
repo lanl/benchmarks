@@ -5,7 +5,7 @@ set -e
 set -x
 
 dir_root="`git rev-parse --show-toplevel`"
-dir_src="${dir_root}/sparta-sleuth"
+dir_src="${dir_root}/sparta"
 dir_base="` pwd -P `"
 
 module list
