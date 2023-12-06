@@ -42,6 +42,14 @@ Heavily pulled from their [site]_:
 Characteristics
 ===============
 
+The goal is to utlize the specified version of SPARTA (see
+:ref:`SPARTAApplicationVersion`) that runs the benchmark problem (see
+:ref:`SPARTAProblem`) correctly (see :ref:`SPARTACorrectness` if changes are
+made to SPARTA) for the SSI and SSNI problems (see :ref:`SPARTASSNISSI`) and
+other single-node strong scaling benchmarking (see :ref:`SPARTAResults`).
+
+
+.. _SPARTAApplicationVersion:
 
 Application Version
 -------------------
@@ -49,6 +57,8 @@ Application Version
 The target application version corresponds to the Git SHA that the SPARTA git
 submodule at the root of this repository is set to, i.e., within ``sparta``.
 
+
+.. _SPARTAProblem:
 
 Problem
 -------
@@ -83,19 +93,21 @@ An excerpt from this input file that has its key parameters is
 provided below.
 
 .. code-block::
-   :emphasize-lines: 5,11
+   :emphasize-lines: 5,11,13
 
    <snip>
-    37 ###################################
-    38 # Simulation initialization standards
-    39 ###################################
-    40 variable            ppc equal 34
+   ###################################
+   # Simulation initialization standards
+   ###################################
+   variable            ppc equal 55
    <snip>
-   149 ###################################
-   150 # Unsteady Output
-   151 ###################################
+   ###################################
+   # Output
+   ###################################
    <snip>
-   174 run                 1000
+   stats                100
+   <snip>
+   run                 4346
 
 These parameters are described below.
 
@@ -104,47 +116,58 @@ These parameters are described below.
    controls the size of the problem and, accordingly, the amount of memory it
    uses.
 
+``stats``
+   This sets the interval at which the output required to compute the
+   :ref:`SPARTAFigureOfMerit` is generated. In general, it is good to select a
+   value that will produce approx. 20 entries between the time range of
+   interest. If it produces too much data, then it may slow down the simulaton.
+   If it produces too little, then it may adversely impact the FOM calculations.
+
 ``run``
    This sets how many iterations it will run for, which also controls the wall
    time required for termination.
 
+.. _SPARTAFigureOfMerit:
 
 Figure of Merit
 ---------------
 
 Each SPARTA simulation writes out a file named "log.sparta". At the end of this
-simulation is a block that resembles the following example (this is from the
-Sierra case discussed below with 57,143,091 particles whose full output is
-within :download:`log.sparta <log.sparta>`).
+simulation is a block that resembles the following example.
 
 .. code-block::
-   :emphasize-lines: 8-14
+   :emphasize-lines: 8-25
 
-   Step CPU Np Natt Ncoll Maxlevel
-          0            0 57144494        0        0        4
-         50     2.058492 57144353   202798   161581        4
-        100    3.8934437 57144165   194559   151949        4
-        150    5.9264821 57144277   198187   152510        4
-        200    7.8741561 57144501   201549   153420        4
-        250    10.032195 57144624   203458   152778        4
-        300    12.061168 57144456   205469   153049        4
-        350    14.190343 57144900   207345   153059        4
-        400    16.439252 57144623   209558   153299        4
-        450    18.708537 57144477   211065   153490        4
-        500    21.039468 57144509   212701   153993        4
-        550    23.384597 57144361   214613   154199        4
-        600    25.728705 57143966   215891   154226        4
-        650    28.143147 57143817   216934   154032        4
-        700    30.525966 57143733   218282   154220        4
-        750    32.863796 57143665   218738   153527        4
-        800     35.31154 57143764   220506   154561        4
-        850    37.780522 57143900   220210   153766        4
-        900    40.252289 57143662   222260   154931        4
-        950    42.799034 57143331   222427   154383        4
-       1000    46.784784 57143434   222924   153828        4
-       ...
-       5800    359.74302 57143091   248584   156399        4
-   Loop time of 359.743 on 1 procs for 5800 steps with 57143091 particles
+       Step          CPU        Np     Natt    Ncoll Maxlevel
+          0            0 392868378        0        0        6
+        100    18.246846 392868906       33       30        6
+        200    35.395156 392868743      166      145        6
+   <snip>
+       1700    282.11911 392884637     3925     3295        6
+       1800    298.63468 392886025     4177     3577        6
+       1900    315.12601 392887614     4431     3799        6
+       2000    331.67258 392888822     4700     4055        6
+       2100    348.07854 392888778     4939     4268        6
+       2200    364.41121 392890325     5191     4430        6
+       2300    380.85177 392890502     5398     4619        6
+       2400    397.32636 392891138     5625     4777        6
+       2500    413.76181 392891420     5857     4979        6
+       2600    430.15228 392892709     6077     5165        6
+       2700    446.56604 392895923     6307     5396        6
+       2800    463.05626 392897395     6564     5613        6
+       2900    479.60999 392897644     6786     5777        6
+       3000    495.90306 392899444     6942     5968        6
+       3100    512.24813 392901339     7092     6034        6
+       3200    528.69194 392903824     7322     6258        6
+       3300    545.07902 392904150     7547     6427        6
+       3400    561.46527 392905692     7758     6643        6
+       3500    577.82469 392905983     8002     6826        6
+       3600    594.21442 392906621     8142     6971        6
+       3700    610.75031 392907947     8298     7110        6
+       3800    627.17841 392909478     8541     7317        6
+   <snip>
+       4346    716.89228 392914687  1445860  1069859        6
+   Loop time of 716.906 on 112 procs for 4346 steps with 392914687 particles
 
 The quantity of interest (QOI) is "mega particle steps per second," which can be
 computed from the above table by multiplying the third column (no. of particles) by
@@ -152,13 +175,146 @@ the first (no. of steps), dividing the result by the second column (elapsed time
 in seconds), and finally dividing by 1,000,000 (normalize).
 
 The number of steps must be large enough so the times mentioned in the second
-column exceed 600 (i.e., so it runs for at least 10 minutes). The figure of
-merit (FOM) is the harmonic mean of the QOI computed from the times between 300
-and 600 seconds.
+column exceed 600 (i.e., so it runs for at least 10 minutes). The Figure of
+Merit (**FOM**) is the harmonic mean of the QOI computed from the times between
+300 and 600 seconds.
 
 A Python script (:download:`sparta_fom.py <sparta_fom.py>`) is included within
 the repository to aid in computing this quantity. Pass it the ``-h`` command
 line argument to view its help page for additional information.
+
+
+.. _SPARTACorrectness:
+
+Correctness
+-----------
+
+The aforementioned relevant block of output within "log.sparta" is replicated
+below.
+
+.. code-block::
+   :emphasize-lines: 8-25
+
+       Step          CPU        Np     Natt    Ncoll Maxlevel
+          0            0 392868378        0        0        6
+        100    18.246846 392868906       33       30        6
+        200    35.395156 392868743      166      145        6
+   <snip>
+       1700    282.11911 392884637     3925     3295        6
+       1800    298.63468 392886025     4177     3577        6
+       1900    315.12601 392887614     4431     3799        6
+       2000    331.67258 392888822     4700     4055        6
+       2100    348.07854 392888778     4939     4268        6
+       2200    364.41121 392890325     5191     4430        6
+       2300    380.85177 392890502     5398     4619        6
+       2400    397.32636 392891138     5625     4777        6
+       2500    413.76181 392891420     5857     4979        6
+       2600    430.15228 392892709     6077     5165        6
+       2700    446.56604 392895923     6307     5396        6
+       2800    463.05626 392897395     6564     5613        6
+       2900    479.60999 392897644     6786     5777        6
+       3000    495.90306 392899444     6942     5968        6
+       3100    512.24813 392901339     7092     6034        6
+       3200    528.69194 392903824     7322     6258        6
+       3300    545.07902 392904150     7547     6427        6
+       3400    561.46527 392905692     7758     6643        6
+       3500    577.82469 392905983     8002     6826        6
+       3600    594.21442 392906621     8142     6971        6
+       3700    610.75031 392907947     8298     7110        6
+       3800    627.17841 392909478     8541     7317        6
+   <snip>
+       4346    716.89228 392914687  1445860  1069859        6
+   Loop time of 716.906 on 112 procs for 4346 steps with 392914687 particles
+
+There are several columns of interest regarding correctness; these are listed below.
+
+``Step``
+   This is the step number and is the first column.
+
+``CPU``
+   This is the elapsed time and is the second column.
+
+``Np``
+   This is the number of particles and is the third column.
+
+``Natt``
+   This is the number of attempts and is the fourth column.
+
+``Ncoll``
+   This is the number of collisions and is the fifth column.
+
+Assessing the correctness will involve comparing these quantities across
+modified (henceforth denoted with "mod" subscript) and unmodified ("unmod"
+subscript) SPARTA subject to the methodology below.
+
+The **first** step is to adjust the ``run`` input file parameter so that SPARTA\
+:sub:`mod` has ``CPU`` output that exceeds 600 seconds (per
+:ref:`SPARTAFigureOfMerit`). Then, produce output from SPARTA\ :sub:`unmod` with
+the same ``run`` setting.
+
+The **second** step is to compute the absolute differences between modified and
+unmodified SPARTA for ``Np``, ``Natt``, and ``Ncoll`` for each row, *i*, whose
+``Step`` is relevant for the FOM for SPARTA\ :sub:`mod`,
+
+.. math::
+   \Delta \texttt{Np}_i &= | \texttt{Np}_{\textrm{mod},i}-\texttt{Np}_{\textrm{unmod},i} | \\
+   \Delta \texttt{Natt}_i &= | \texttt{Natt}_{\textrm{mod},i}-\texttt{Natt}_{\textrm{unmod},i} | \\
+   \Delta \texttt{Ncoll}_i &= | \texttt{Ncoll}_{\textrm{mod},i}-\texttt{Ncoll}_{\textrm{unmod},i} |
+
+where
+
+* *i* is each line whose ``CPU`` time is between 300 and 600 seconds for SPARTA\ :sub:`mod`
+
+The **third** step is to compute the arithmetic mean of each of the
+aforementioned quantities over the *n* rows,
+
+.. math::
+   \mu _{\Delta \texttt{Np}} &= \frac{\sum_{i} \Delta \texttt{Np}_i}{n} \\
+   \mu _{\Delta \texttt{Natt}} &= \frac{\sum_{i} \Delta \texttt{Natt}_i}{n} \\
+   \mu _{\Delta \texttt{Ncoll}} &= \frac{\sum_{i} \Delta \texttt{Ncoll}_i}{n}
+
+where
+
+.. math::
+   n = \sum_{i} 1
+
+The **fourth** step is to compute the arithmetic mean of the *n* matching rows
+of the unmodified SPARTA,
+
+.. math::
+   \mu _{\texttt{Np},\textrm{unmod}} &= \frac{\sum_{i} \texttt{Np}_{\textrm{unmod},i}}{n} \\
+   \mu _{\texttt{Natt},\textrm{unmod}} &= \frac{\sum_{i} \texttt{Natt}_{\textrm{unmod},i}}{n} \\
+   \mu _{\texttt{Ncoll},\textrm{unmod}} &= \frac{\sum_{i} \texttt{Ncoll}_{\textrm{unmod},i}}{n}
+
+The **fifth** step is to normalize the differences with the baseline values to
+create the error ratios,
+
+.. math::
+   \varepsilon _{\texttt{Np}} &= \frac{\mu _{\Delta \texttt{Np}}}{\mu _{\texttt{Np},\textrm{unmod}}} \\
+   \varepsilon _{\texttt{Natt}} &= \frac{\mu _{\Delta \texttt{Natt}}}{\mu _{\texttt{Natt},\textrm{unmod}}} \\
+   \varepsilon _{\texttt{Ncoll}} &= \frac{\mu _{\Delta \texttt{Ncoll}}}{\mu _{\texttt{Ncoll},\textrm{unmod}}}
+
+The **sixth** and final step is to check over all of the error ratios and if any
+of them exceed 25%, then the modifications are not approved without discussing
+them with this benchmark's authors. This is the same criteria that SPARTA uses
+for its own testing. The success criteria are:
+
+.. math::
+   \varepsilon _{\texttt{Np}} &\le 25\% \\
+   \varepsilon _{\texttt{Natt}} &\le 25\% \\
+   \varepsilon _{\texttt{Ncoll}} &\le 25\%
+
+
+.. _SPARTASSNISSI:
+
+SSNI & SSI
+----------
+
+The SSNI will focus on the problem with 35 particles per cell running at 100%
+node utilization.
+
+.. note::
+   The SSI problem is being finalized and will be documented herein soon.
 
 
 System Information
@@ -167,75 +323,26 @@ System Information
 The platforms utilized for benchmarking activities are listed and described below.
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
-  :ref:`SystemATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
-  :ref:`SystemATS2`)
-
-
-.. _SystemCTS3:
-
-CTS-1/Manzano
--------------
+  :ref:`GlobalSystemATS3`)
 
 .. note::
-   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
-   is available.
-
-The Manzano HPC cluster has 1,488 compute nodes connected together by a
-high-bandwidth, low-latency Intel OmniPath network where each compute node uses
-two Intel Xeon Platinum 8268 (Cascade Lake) processors. Each processor has 24
-cores, and each node has 48 physical cores and 96 virtual cores. Each core has a
-base frequency of 2.9 GHz and a max frequency of 3.9 GHz. Cores support two
-AVX512 SIMD units each, with peak floating-point performance (RPEAK) of 2.9 GHz
-x 32 FLOP/clock x 48 cores = 4.45 TF/s. Measured DGEMM performance is just under
-3.5 TF/s per node (78.5% efficiency).
-
-Compute nodes are a Non-Uniform Memory Access (NUMA) design, with each processor
-representing a separate NUMA domain. Each processor (domain) supports six
-channels of 2,933 MT/s DDR4 memory. Total memory capacity is 4 GB/core, or 192
-GB/node. Memory bandwidth for the node is 12 channels x 8 bytes / channel x
-2.933 GT/s = 281.568 GB/s, and measured STREAM TRIAD throughput for local memory
-access is approximately 215 GB/s (76% efficiency). Cache design uses three
-levels of cache, with L1 using separate instruction and data caches, L2 unifying
-instruction and data, and L3 being shared across all cores in the processor. The
-cache size is 1.5 MB/core, 35.75 MB/processor, or 71.5 MB/node.
-
-
-.. _SystemATS3:
-
-ATS-3/Crossroads
-----------------
-
-This reference platform is described in detail in :ref:`ReferenceCrossroads`.
-
-
-.. _SystemATS2:
-
-ATS-2/Sierra
-------------
-
-This system has a plethora of compute nodes that are made up of Power9
-processors with four NVIDIA V100 GPUs. Please refer to [Sierra-LLNL]_ for more
-detailed information.
-
-A Sierra application and regression testbed system named Vortex, housed at SNL,
-was used for benchmarking for convenience. Vortex has the same compute node
-hardware as Sierra.
+   A GPU system, likely with Nvidia A100s, will be used to provide GPU benchmarking soon.
 
 
 Building
 ========
 
-Instructions are provided on how to build SPARTA for the following systems:
+If Git Submodules were cloned within this repository, then the source code to
+build the appropriate version of SPARTA is already present at the top level
+within the "sparta" folder. Instructions are provided on how to build SPARTA for
+the following systems:
 
 * Generic (see :ref:`BuildGeneric`)
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`BuildATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
-  :ref:`BuildATS2`)
 
-If submodules were cloned within this repository, then the source code to build
-SPARTA is already present at the top level within the "sparta" folder.
+.. note::
+   A GPU system, likely with Nvidia A100s, will be used to provide GPU benchmarking soon.
 
 
 .. _BuildGeneric:
@@ -248,36 +355,19 @@ Refer to SPARTA's [build]_ documentation for generic instructions.
 
 .. _BuildATS3:
 
-ATS-3/Crossroads
-----------------
+Crossroads
+----------
 
 Instructions for building on Crossroads are provided below. These instructions
 assume this repository has been cloned and that the current working directory is
-at the top level of this repository.
+at the top level of this repository. This is tested with Intel's 2023 developer
+tools release. The script discussed below is :download:`build-crossroads.sh
+<build-crossroads.sh>`.
 
 .. code-block:: bash
 
    cd doc/sphinx/08_sparta
    ./build-crossroads.sh
-
-
-.. _BuildATS2:
-
-Sierra (Vortex testbed)
------------------------
-
-Instructions for building on Sierra are provided below.
-
-.. code-block:: bash
-
-   module load cuda/11.2.0
-   module load gcc/8.3.1
-   git clone https://github.com/sparta/sparta.git sparta
-   pushd "sparta/src"
-   make yes-kokkos
-   make -j 64 vortex_kokkos
-   ls -lh `pwd -P`/spa_vortex_kokkos
-   popd
 
 
 Running
@@ -287,51 +377,32 @@ Instructions are provided on how to run SPARTA for the following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`RunATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
-  :ref:`RunATS2`)
+
+.. note::
+   A GPU system, likely with Nvidia A100s, will be used to provide GPU benchmarking soon.
 
 
 .. _RunATS3:
 
-ATS-3/Crossroads
-----------------
+Crossroads
+----------
 
-An example of how to run the test case on Crossroads is provided below.
+Instructions for performing the simulations on Crossroads are provided below.
+There are two scripts that facilitate running several single-node strong-scaling
+ensembles.
 
-.. code-block:: bash
+:download:`run-crossroads-mapcpu.sh <run-crossroads-mapcpu.sh>`
+   This script successively executes SPARTA on a single node for the same set of
+   input parameters; there are many environment variables that can be set to
+   control what it runs.
 
-   module unload intel
-   module unload openmpi-intel
-   module use /apps/modules/modulefiles-apps/cde/v3/
-   module load cde/v3/devpack/intel-ompi
-   mpiexec \
-       --np ${num_procs} \
-       --bind-to socket \
-       --map-by socket:span \
-       "sparta/src/spa_manzano_kokkos" -in "in.cylinder" \
-       >"sparta.out" 2>&1
-
-
-.. _RunATS2:
-
-Sierra (Vortex testbed)
------------------------
-
-An example of how to run the test case with a single GPU on Sierra is provided
-below.
-
-.. code-block:: bash
-
-   module load gcc/8.3.1
-   module load cuda/11.2.0
-   jsrun \
-       -M "-gpu -disable_gdr" \
-       -n 1 -a 1 -c 1 -g 1 -d packed \
-       "sparta/src/spa_vortex_kokkos" -in "in.cylinder" \
-       -k on g 1 -sf kk -pk kokkos reduction atomic \
-       >"sparta.out" 2>&1
+:download:`sbatch-crossroads-mapcpu.sh <sbatch-crossroads-mapcpu.sh>`
+   This script runs the previous script for different numbers of MPI ranks,
+   problem size, problem duration, and other parameters to yield several strong
+   scaling trends.
 
 
+.. _SPARTAResults:
 
 Verification of Results
 =======================
@@ -340,134 +411,92 @@ Results from SPARTA are provided on the following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`ResultsATS3`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
-  :ref:`ResultsATS2`)
+
+  - As best practices for utilizing Crossroads are developed, its data may be
+    updated.
+
+.. note::
+   A GPU system, likely with Nvidia A100s, will be used to provide GPU benchmarking soon.
 
 
 .. _ResultsATS3:
 
-ATS-3/Crossroads
-----------------
+Crossroads
+----------
 
 Strong scaling performance (i.e., fixed problem size being run on different MPI
 rank counts) plots of SPARTA on ATS-3/Crossroads are provided within the
 following subsections.
 
-``ppc`` 11 (0.25 GiB/PE)
-^^^^^^^^^^^^^^^^^^^^^^^^
+``ppc`` = 15
+^^^^^^^^^^^^
 
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads ppc=11 (0.25 GiB/PE)
-   :file: ats3-0.25.csv
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=15
+   :file: ats3--15.csv
    :align: center
    :widths: 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: ats3-0.25.png
+.. figure:: ats3--15.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=11 (0.25 GiB/PE)
+   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=15
 
-   SPARTA Strong Scaling Performance on Crossroads with ppc=11 (0.25 GiB/PE)
+   SPARTA Strong Scaling Performance on Crossroads with ppc=15
 
-.. figure:: ats3mem-0.25.png
+.. figure:: ats3mem--15.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=11 (0.25 GiB/PE)
+   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=15
 
-   SPARTA Strong Scaling Memory on Crossroads with ppc=11 elements (0.25 GiB/PE)
+   SPARTA Strong Scaling Memory on Crossroads with ppc=15
 
-``ppc`` 21 (0.50 GiB/PE)
-^^^^^^^^^^^^^^^^^^^^^^^^
+``ppc`` = 35
+^^^^^^^^^^^^
 
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=21 (0.50 GiB/PE)
-   :file: ats3-0.50.csv
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=35
+   :file: ats3--35.csv
    :align: center
    :widths: 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: ats3-0.50.png
+.. figure:: ats3--35.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=21 (0.50 GiB/PE)
+   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=35
 
-   SPARTA Strong Scaling Performance on Crossroads with ppc=21 (0.50 GiB/PE)
+   SPARTA Strong Scaling Performance on Crossroads with ppc=35
 
-.. figure:: ats3mem-0.50.png
+.. figure:: ats3mem--35.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=21 (0.50 GiB/PE)
+   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=35
 
-   SPARTA Strong Scaling Memory on Crossroads with ppc=21 elements (0.50 GiB/PE)
+   SPARTA Strong Scaling Memory on Crossroads with ppc=35
 
-``ppc`` 42 (1.00 GiB/PE)
-^^^^^^^^^^^^^^^^^^^^^^^^
+``ppc`` = 55
+^^^^^^^^^^^^
 
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=42 (1.00 GiB/PE)
-   :file: ats3-1.00.csv
+.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=55
+   :file: ats3--55.csv
    :align: center
    :widths: 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: ats3-1.00.png
+.. figure:: ats3--55.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=42 (1.00 GiB/PE)
+   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=55
 
-   SPARTA Strong Scaling Performance on Crossroads with ppc=42 (1.00 GiB/PE)
+   SPARTA Strong Scaling Performance on Crossroads with ppc=55
 
-.. figure:: ats3mem-1.00.png
+.. figure:: ats3mem--55.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=42 (1.00 GiB/PE)
+   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=55
 
-   SPARTA Strong Scaling Memory on Crossroads with ppc=42 elements (1.00 GiB/PE)
+   SPARTA Strong Scaling Memory on Crossroads with ppc=55
 
-``ppc`` 126 (2.00 GiB/PE)
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=126 (2.00 GiB/PE)
-   :file: ats3-2.00.csv
-   :align: center
-   :widths: 10, 10, 10, 10
-   :header-rows: 1
-
-.. figure:: ats3-2.00.png
-   :align: center
-   :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=126 (2.00 GiB/PE)
-
-   SPARTA Strong Scaling Performance on Crossroads with ppc=126 (2.00 GiB/PE)
-
-.. figure:: ats3mem-2.00.png
-   :align: center
-   :scale: 50%
-   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=126 (2.00 GiB/PE)
-
-   SPARTA Strong Scaling Memory on Crossroads with ppc=126 elements (2.00 GiB/PE)
-
-
-.. _ResultsATS2:
-
-Sierra (Vortex testbed)
------------------------
-
-Throughput performance of SPARTA on Sierra/Vortex is provided within the
-following table and figure.
-
-.. csv-table:: SPARTA Throughput Performance on Sierra/Vortex
-   :file: ats2.csv
-   :align: center
-   :widths: 10, 10
-   :header-rows: 1
-
-.. figure:: ats2.png
-   :align: center
-   :scale: 50%
-   :alt: SPARTA Throughput Performance on Sierra/Vortex
-
-   SPARTA Throughput Performance on Sierra/Vortex
-
-Output from the largest case is within :download:`log.sparta <log.sparta>`.
 
 References
 ==========
