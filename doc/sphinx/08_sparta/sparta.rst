@@ -93,8 +93,14 @@ An excerpt from this input file that has its key parameters is
 provided below.
 
 .. code-block::
-   :emphasize-lines: 5,11,13
+   :emphasize-lines: 6,11,17,19
 
+   <snip>
+   ###################################
+   # Trajectory inputs
+   ###################################
+   <snip>
+   variable            L equal 1.
    <snip>
    ###################################
    # Simulation initialization standards
@@ -110,6 +116,13 @@ provided below.
    run                 4346
 
 These parameters are described below.
+
+``L``
+   This corresponds to the **l**\ ength scale factor. This will scale the x and
+   y dimensions of the problem, e.g., a doubling of this parameter will result
+   in a domain that is 4x larger. This is used to weak scale a problem, e.g.,
+   setting this to 32 would be sufficient to weak scale a single-node problem
+   onto 1,024 nodes.
 
 ``ppc``
    This sets the **p**\ articles **p**\ er **c**\ ell variable. This variable
