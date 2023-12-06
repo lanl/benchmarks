@@ -30,13 +30,12 @@ export FILE_TRY="output-script-${DIR_CASE}.log"
 export FILE_TIME="output-time-${DIR_CASE}.txt"
 
 # SPARTA setup
-# 130   14  1356    30
-export SPARTA_RUN=${SPARTA_RUN:-1000}
 export SPARTA_PPC=${SPARTA_PPC:-24}
+export SPARTA_RUN=${SPARTA_RUN:-1000}
 export SPARTA_STATS=${SPARTA_STATS:-10}
 export SPARTA_IS_KOKKOS_TOOLS="${SPARTA_IS_KOKKOS_TOOLS:-no}"
 export APP_REPEAT=${APP_REPEAT:-1}
-export APP_NAME=${APP_NAME:-"spa_crossroads_omp_skx"}
+export APP_NAME=${APP_NAME:-"spa_crossroads_serial_spr"}
 export APP_EXE="${DIR_BASE}/${APP_NAME}"
 
 # MPI & hardware setup
