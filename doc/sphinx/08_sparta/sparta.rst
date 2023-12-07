@@ -414,6 +414,16 @@ ensembles.
    problem size, problem duration, and other parameters to yield several strong
    scaling trends.
 
+:download:`scale-crossroads-mapcpu.sh <scale-crossroads-mapcpu.sh>`
+   This script successively executes SPARTA on varying numbers of nodes for the
+   same set of input parameters; there are many environment variables that can
+   be set to control what it runs.
+
+:download:`sbatch-crossroads-mapcpu.sh <sbatch-crossroads-mapcpu-scale.sh>` This
+   script runs the previous script for different numbers of MPI ranks per node,
+   problem size, problem duration, and other parameters to yield several strong
+   scaling trends.
+
 
 .. _SPARTAResults:
 
