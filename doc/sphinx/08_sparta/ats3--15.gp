@@ -2,9 +2,9 @@
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
 set output "ats3--15.png"
 
-set title "SPARTA Strong Scaling Performance on Crossroads w/ ppc=15" font "serif,22"
-set xlabel "Percentage of Processing Elements per NUMA Domain"
-set ylabel "Figure of Merit (Mega particle steps per sec)"
+set title "SPARTA Single Node Strong Scaling Throughput on Crossroads w/ ppc=15" font "serif,22"
+set xlabel "Percentage of Cores per NUMA Domain"
+set ylabel "Figure of Merit (Mega particle steps per sec. per node)"
 
 set xrange [0:100]
 set key left top

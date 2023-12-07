@@ -2,8 +2,8 @@
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
 set output "ats3mem--55.png"
 
-set title "SPARTA Strong Scaling High-water Memory on Crossroads w/ ppc=55" font "serif,22"
-set xlabel "Percentage of Processing Elements per NUMA Domain"
+set title "SPARTA Single Node Strong Scaling High Water Memory on Crossroads w/ ppc=55" font "serif,22"
+set xlabel "Percentage of Cores per NUMA Domain"
 set ylabel "Maximum Resident Set Size (GiB)"
 
 set xrange [0:100]

@@ -16,6 +16,8 @@ import sys
 import argparse
 import os
 import logging
+from collections import OrderedDict
+import csv
 
 assert sys.version_info >= (3, 5), "Please use Python version 3.5 or later."
 
@@ -24,6 +26,7 @@ assert sys.version_info >= (3, 5), "Please use Python version 3.5 or later."
 VERSION = "2.71"
 TIMEOUT = 30
 IS_ALL = True
+NUM_RANKS_PER_NODE = 112
 EXIT_CODES = {"success": 0, "no file": 1, "bad loop time block": 2}
 
 
@@ -62,6 +65,14 @@ class BuildDocHelp(object):
             action="store_true",
             default=IS_ALL,
             help="Generate ALL FOM information",
+        )
+
+        self.parser.add_argument(
+            "-n",
+            "--numRanksPerNode",
+            type=int,
+            default=NUM_RANKS_PER_NODE,
+            help="number of MPI rank per node",
         )
 
         self.parser.add_argument(
@@ -106,6 +117,7 @@ class SpartaFom(object):
             "logger",
             "file_name",
             "is_all",
+            "num_ranks_per_node",
         ]
         needed_attr = [item for item in required_attr if not hasattr(self, item)]
         assert len(needed_attr) == 0, (
@@ -115,6 +127,8 @@ class SpartaFom(object):
 
         # check attributes
         self._check_attr()
+
+        self.metrics_cache = OrderedDict()
 
     def _check_attr(self):
         """Check object attributes."""
@@ -181,20 +195,115 @@ class SpartaFom(object):
 
         return hmean_fom
 
+    def _check_ranks(self, line):
+        """Extract the number of MPI ranks."""
+        # Running on 7168 MPI task(s)
+        return "Running on" in line and "MPI task(s)" in line
+
+    def _check_ppc(self, line):
+        """Extract the PPC."""
+        # variable ppc equal 35
+        l_line = line.split()
+        bool_1 = "variable" in line and "ppc" in line and "equal" in line
+        bool_2 = len(l_line) == 4
+        bool_3 = True
+        if bool_2:
+            try:
+                m_l = float(l_line[3])
+                if m_l > 1:
+                    bool_3 = True
+            except:
+                bool_3 = False
+        return bool_1 and bool_2 and bool_3
+
+    def _check_l(self, line):
+        """Extract L."""
+        # variable L equal 8
+        l_line = line.split()
+        bool_1 = "variable" in line and "L" in line and "equal" in line
+        bool_2 = len(l_line) == 4
+        bool_3 = True
+        if bool_2:
+            try:
+                m_l = float(l_line[3])
+                if m_l > 1:
+                    bool_3 = True
+            except:
+                bool_3 = False
+        return bool_1 and bool_2 and bool_3
+
+    def _run_print(self):
+        """Print the FOM."""
+        for key in self.metrics_cache:
+            logger.info("{} = {}".format(key, self.metrics_cache[key]))
+
+    def _run_csv(self):
+        """Save the FOM to CSV."""
+        file_csv = self.file_name + ".csv"
+        with open(file_csv, "w", newline="") as csvfile:
+            csvwriter = csv.writer(
+                csvfile, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
+            )
+            l_top = []
+            l_bottom = []
+            for key in self.metrics_cache:
+                l_top.append(key)
+                l_bottom.append(self.metrics_cache[key])
+            csvwriter.writerow(l_top)
+            csvwriter.writerow(l_bottom)
+
     def run(self):
         """Extract the FOM."""
         self.logger.debug("Extracting the FOM...")
 
+        self.metrics_cache["FOM (M-particle-steps/sec/node)"] = None
+        self.metrics_cache["No. Ranks"] = None
+        self.metrics_cache["No. Nodes"] = None
+        self.metrics_cache["Wall Time (sec)"] = None
+        self.metrics_cache["No. Steps"] = None
+        self.metrics_cache["No. Particles"] = None
+        self.metrics_cache["Particles Per Cell [PPC]"] = None
+        self.metrics_cache["Length Scaling Factor [L]"] = None
+        self.metrics_cache["File"] = os.path.abspath(self.file_name)
+
         loop_info = []
         is_extract = False
+
         with open(self.file_name) as fp:
             cnt = 1
             line = fp.readline()
             while line:
                 cnt += 1
                 line = fp.readline()
+                if self.metrics_cache["Particles Per Cell [PPC]"] is None:
+                    if self._check_ppc(line):
+                        l_line = line.split()
+                        self.metrics_cache["Particles Per Cell [PPC]"] = int(l_line[3])
+                if self.metrics_cache["Length Scaling Factor [L]"] is None:
+                    if self._check_l(line):
+                        l_line = line.split()
+                        self.metrics_cache["Length Scaling Factor [L]"] = float(
+                            l_line[3]
+                        )
+                if self.metrics_cache["No. Ranks"] is None:
+                    if self._check_ranks(line):
+                        l_line = line.split()
+                        self.metrics_cache["No. Ranks"] = int(l_line[2])
+                        self.metrics_cache["No. Nodes"] = int(
+                            round(
+                                self.metrics_cache["No. Ranks"]
+                                / self.num_ranks_per_node
+                            )
+                        )
+                        continue
                 if self._check_end(line):
+                    #    0    1  2       3  4    5     6   7    8     9   10          11        12
+                    # Loop time of 784.094 on 7168 procs for 6866 steps with 16121689438 particles
                     self.logger.debug("Found end at line {}.".format(cnt))
+                    l_line = line.split()
+                    self.metrics_cache["Wall Time (sec)"] = float(l_line[3])
+                    self.metrics_cache["No. Steps"] = int(l_line[8])
+                    self.metrics_cache["No. Particles"] = int(l_line[11])
                     break
                 if is_extract:
                     loop_info.append(self._extract_line(line))
@@ -202,8 +311,17 @@ class SpartaFom(object):
                     self.logger.debug("Found start at line {}.".format(cnt))
                     is_extract = True
                     continue
-        fom = self._compute_fom(loop_info)
-        self.logger.info("FOM = {}".format(fom))
+        self.metrics_cache["FOM (M-particle-steps/sec/node)"] = (
+            self._compute_fom(loop_info) / self.metrics_cache["No. Nodes"]
+        )
+        if self.metrics_cache["Wall Time (sec)"] is not None:
+            if self.metrics_cache["Wall Time (sec)"] < 600.0:
+                self.metrics_cache["FOM (M-particle-steps/sec/node)"] = None
+        else:
+            self.metrics_cache["FOM (M-particle-steps/sec/node)"] = None
+
+        self._run_print()
+        self._run_csv()
 
 
 # do work
@@ -227,6 +345,7 @@ if __name__ == "__main__":
         logger=logger,
         file_name=cl_args.file,
         is_all=cl_args.all,
+        num_ranks_per_node=cl_args.numRanksPerNode,
     )
 
     # do work

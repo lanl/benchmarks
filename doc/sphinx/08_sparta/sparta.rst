@@ -182,19 +182,19 @@ simulation is a block that resembles the following example.
        4346    716.89228 392914687  1445860  1069859        6
    Loop time of 716.906 on 112 procs for 4346 steps with 392914687 particles
 
-The quantity of interest (QOI) is "mega particle steps per second," which can be
-computed from the above table by multiplying the third column (no. of particles) by
-the first (no. of steps), dividing the result by the second column (elapsed time
-in seconds), and finally dividing by 1,000,000 (normalize).
+The quantity of interest (QOI) is "Mega particle steps per second," which can be
+computed from the above table by multiplying the third column (no. of particles)
+by the first (no. of steps), dividing the result by the second column (elapsed
+time in seconds), and finally dividing by 1,000,000 (normalize). The number of
+steps must be large enough so the times mentioned in the second column exceed
+600 (i.e., so it runs for at least 10 minutes).
 
-The number of steps must be large enough so the times mentioned in the second
-column exceed 600 (i.e., so it runs for at least 10 minutes). The Figure of
-Merit (**FOM**) is the harmonic mean of the QOI computed from the times between
-300 and 600 seconds.
-
-A Python script (:download:`sparta_fom.py <sparta_fom.py>`) is included within
-the repository to aid in computing this quantity. Pass it the ``-h`` command
-line argument to view its help page for additional information.
+The Figure of Merit (**FOM**) is the harmonic mean of the QOI computed from the
+times between 300 and 600 seconds and then divided by the number of nodes, i.e.,
+"Mega particle steps per second per node." A Python script
+(:download:`sparta_fom.py <sparta_fom.py>`) is included within the repository to
+aid in computing this quantity. Pass it the ``-h`` command line argument to view
+its help page for additional information.
 
 
 .. _SPARTACorrectness:
@@ -437,14 +437,15 @@ Results from SPARTA are provided on the following systems:
 Crossroads
 ----------
 
-Strong scaling performance (i.e., fixed problem size being run on different MPI
-rank counts) plots of SPARTA on ATS-3/Crossroads are provided within the
-following subsections.
+Strong single-node scaling throughput (i.e., fixed problem size being run on
+different MPI rank counts on a single node) plots of SPARTA on Crossroads are
+provided within the following subsections. The throughput corresponds to Mega
+particle steps per second per node.
 
-``ppc`` = 15
-^^^^^^^^^^^^
+15 Particles per Cell
+^^^^^^^^^^^^^^^^^^^^^
 
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=15
+.. csv-table:: SPARTA Single Node Strong Scaling Throughput and Memory on Crossroads with ppc=15
    :file: ats3--15.csv
    :align: center
    :widths: 10, 10, 10, 10
@@ -453,9 +454,9 @@ following subsections.
 .. figure:: ats3--15.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=15
+   :alt: SPARTA Single Node Strong Scaling Throughput on Crossroads with ppc=15
 
-   SPARTA Strong Scaling Performance on Crossroads with ppc=15
+   SPARTA Single Node Strong Scaling Throughput on Crossroads with ppc=15
 
 .. figure:: ats3mem--15.png
    :align: center
@@ -464,10 +465,10 @@ following subsections.
 
    SPARTA Strong Scaling Memory on Crossroads with ppc=15
 
-``ppc`` = 35
-^^^^^^^^^^^^
+35 Particles per Cell
+^^^^^^^^^^^^^^^^^^^^^
 
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=35
+.. csv-table:: SPARTA Single Node Strong Scaling Throughput and Memory on Crossroads with ppc=35
    :file: ats3--35.csv
    :align: center
    :widths: 10, 10, 10, 10
@@ -476,21 +477,21 @@ following subsections.
 .. figure:: ats3--35.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=35
+   :alt: SPARTA Single Node Strong Scaling Throughput on Crossroads with ppc=35
 
-   SPARTA Strong Scaling Performance on Crossroads with ppc=35
+   SPARTA Single Node Strong Scaling Throughput on Crossroads with ppc=35
 
 .. figure:: ats3mem--35.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=35
+   :alt: SPARTA Single Node Strong Scaling Memory on Crossroads with ppc=35
 
-   SPARTA Strong Scaling Memory on Crossroads with ppc=35
+   SPARTA Single Node Strong Scaling Memory on Crossroads with ppc=35
 
-``ppc`` = 55
-^^^^^^^^^^^^
+55 Particles per Cell
+^^^^^^^^^^^^^^^^^^^^^
 
-.. csv-table:: SPARTA Strong Scaling Performance and Memory on Crossroads with ppc=55
+.. csv-table:: SPARTA Single Node Strong Scaling Throughput and Memory on Crossroads with ppc=55
    :file: ats3--55.csv
    :align: center
    :widths: 10, 10, 10, 10
@@ -499,16 +500,16 @@ following subsections.
 .. figure:: ats3--55.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Performance on Crossroads with ppc=55
+   :alt: SPARTA Single Node Strong Scaling Throughput on Crossroads with ppc=55
 
-   SPARTA Strong Scaling Performance on Crossroads with ppc=55
+   SPARTA Single Node Strong Scaling Throughput on Crossroads with ppc=55
 
 .. figure:: ats3mem--55.png
    :align: center
    :scale: 50%
-   :alt: SPARTA Strong Scaling Memory on Crossroads with ppc=55
+   :alt: SPARTA Single Node Strong Scaling Memory on Crossroads with ppc=55
 
-   SPARTA Strong Scaling Memory on Crossroads with ppc=55
+   SPARTA Single Node Strong Scaling Memory on Crossroads with ppc=55
 
 
 References
