@@ -174,15 +174,6 @@ run_try()
 #             --cpus-per-task=${PLACEHOLDERS_PER_RANK} \
 #             --distribution=block:cyclic \
 #             --cpu-bind="map_cpu:`${DIR_ROOT}/map_cpu/map_cpu ${PES_PER_NODE} 2>/dev/null`" \
-
-    # post process
-    l_fom=`./sparta_fom.py -a -f "log.sparta" 2>&1 | awk -F'FOM = ' '{print $2}'`
-    # l_maxrss=`grep maxrss "${LDPXI_OUTPUT}" | awk -F',' '{print $2}'`
-    # echo "FOM,RUN,PPC,RanksPerDomain,MaxRSS(KiB),AppName,Try,Dir" > "${FILE_METRICS}"
-    # echo "${l_fom},${SPARTA_RUN},${SPARTA_PPC},${RANKS_PER_DOMAIN},${l_maxrss},${APP_NAME},${i},` pwd -P `" >> "${FILE_METRICS}"
-    echo "FOM,RUN,PPC,RanksPerDomain,AppName,Try,Dir" > "${FILE_METRICS}"
-    echo "${l_fom},${SPARTA_RUN},${SPARTA_PPC},${RANKS_PER_DOMAIN},${APP_NAME},${i},` pwd -P `" >> "${FILE_METRICS}"
-
     popd
     date
 }
