@@ -7,7 +7,7 @@ SHELL = /bin/sh
 # specify flags and libraries needed for your compiler
 
 CC =		CC
-CCFLAGS =	-g -O3 -DSPARTA_BIGBIG
+CCFLAGS =	-g -O3 -fp-model=precise -DSPARTA_BIGBIG
 SHFLAGS =	-fPIC
 DEPFLAGS =	-M
 
