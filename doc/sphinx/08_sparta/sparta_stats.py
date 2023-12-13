@@ -69,7 +69,7 @@ class BuildDocHelp(object):
             "-f",
             "--file",
             type=str,
-            default="ats3--all.csv",
+            default="metrics_rollup.csv",
             help="file name to read",
         )
 
@@ -77,23 +77,23 @@ class BuildDocHelp(object):
             "-m",
             "--figureOfMerit",
             type=str,
-            default="FOM",
+            default="FOM (M-particle-steps/sec/node)",
             help="header to compute statistics for",
         )
 
         self.parser.add_argument(
             "-r",
-            "--ranksPerDomain",
+            "--ranks",
             type=str,
-            default="RanksPerDomain",
-            help="header that stores the ranks per domain information",
+            default="No. Ranks",
+            help="header that stores the no. of MPI ranks",
         )
 
         self.parser.add_argument(
             "-p",
             "--PPC",
             type=str,
-            default="PPC",
+            default="Particles Per Cell [PPC]",
             help="header that stores the particles per cell (PPC) information",
         )
 
@@ -133,7 +133,7 @@ class SpartaFomStats(object):
             "is_all",
             "header_fom",
             "header_ppc",
-            "header_ranksperdomain",
+            "header_ranks",
         ]
         needed_attr = [item for item in required_attr if not hasattr(self, item)]
         assert len(needed_attr) == 0, (
@@ -169,7 +169,7 @@ class SpartaFomStats(object):
 
         col_fom = None
         col_ppc = None
-        col_ranksperdomain = None
+        col_ranks = None
         self.cache_fom = {}
         with open(self.file_name, newline="") as csvfile:
             csvfilereader = csv.reader(csvfile, delimiter=",", quotechar='"')
@@ -184,12 +184,12 @@ class SpartaFomStats(object):
                         col_ppc = row.index(self.header_ppc)
                     except ValueError:
                         pass
-                if col_ranksperdomain is None:
+                if col_ranks is None:
                     try:
-                        col_ranksperdomain = row.index(self.header_ranksperdomain)
+                        col_ranks = row.index(self.header_ranks)
                     except ValueError:
                         pass
-                if None in (col_fom, col_ppc, col_ranksperdomain):
+                if None in (col_fom, col_ppc, col_ranks):
                     continue
                 if str(row[col_fom]) == self.header_fom:
                     continue
@@ -197,12 +197,15 @@ class SpartaFomStats(object):
                 key = (
                     str(row[col_ppc]).zfill(3)
                     + "|"
-                    + str(row[col_ranksperdomain]).zfill(2)
+                    + str(row[col_ranks]).zfill(2)
                 )
                 self.logger.debug("key = {}".format(key))
                 if key not in self.cache_fom:
                     self.cache_fom[key] = []
-                self.cache_fom[key].append(float(row[col_fom]))
+                try:
+                    self.cache_fom[key].append(float(row[col_fom]))
+                except ValueError:
+                    self.logger.critical("Bad value: '{}':'{}' (column {})".format(key, row[col_fom], col_fom))
 
     def _compute_stats(self):
         """Compute the stats."""
@@ -259,7 +262,7 @@ if __name__ == "__main__":
         is_all=cl_args.all,
         header_fom=cl_args.figureOfMerit,
         header_ppc=cl_args.PPC,
-        header_ranksperdomain=cl_args.ranksPerDomain,
+        header_ranks=cl_args.ranks,
     )
 
     # do work
