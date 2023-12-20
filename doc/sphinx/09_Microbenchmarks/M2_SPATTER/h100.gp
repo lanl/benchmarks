@@ -1,6 +1,6 @@
 #!/usr/bin/gnuplot
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
-set output "a100_throughput_asteroid_5.png"
+set output "h100_throughput_asteroid_5.png"
 
 set xlabel "Data Transferred (MB)"
 set ylabel "Figure of Merit (Total Bandwidth MB/s)"
@@ -25,16 +25,16 @@ do for [i=11:15] {
 }
 
 
-plot "a100_throughput_asteroid_5.csv" using 1:2 with linespoints linestyle 1
+plot "h100_throughput_asteroid_5.csv" using 1:2 with linespoints linestyle 1
 
-set output "a100_throughput_asteroid_5.png"
+set output "h100_throughput_asteroid_5.png"
 set ylabel "Figure of Merit (Total Bandwidth MB/s)"
-plot "a100_throughput_asteroid_5.csv" using 1:2 with linespoints linestyle 1
+plot "h100_throughput_asteroid_5.csv" using 1:2 with linespoints linestyle 1
 
-set output "a100_throughput_asteroid_9.png"
+set output "h100_throughput_asteroid_9.png"
 set ylabel "Figure of Merit (Total Bandwidth MB/s)"
-plot "a100_throughput_asteroid_5.csv" using 1:2 with linespoints linestyle 1
+plot "h100_throughput_asteroid_5.csv" using 1:2 with linespoints linestyle 1
 
-set output "a100_throughput_asteroid_9.png"
+set output "h100_throughput_asteroid_9.png"
 set ylabel "Figure of Merit (Total Bandwidth MB/s)"
-plot "a100_throughput_asteroid_9.csv" using 1:2 with linespoints linestyle 1
+plot "h100_throughput_asteroid_9.csv" using 1:2 with linespoints linestyle 1
