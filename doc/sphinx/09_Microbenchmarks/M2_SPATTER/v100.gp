@@ -27,14 +27,6 @@ do for [i=11:15] {
 
 plot "v100_throughput_asteroid_5.csv" using 1:2 with linespoints linestyle 1
 
-set output "v100_throughput_asteroid_5.png"
-set ylabel "Figure of Merit (Total Bandwidth MB/s)"
-plot "v100_throughput_asteroid_5.csv" using 1:2 with linespoints linestyle 1
-
-set output "v100_throughput_asteroid_9.png"
-set ylabel "Figure of Merit (Total Bandwidth MB/s)"
-plot "v100_throughput_asteroid_5.csv" using 1:2 with linespoints linestyle 1
-
 set output "v100_throughput_asteroid_9.png"
 set ylabel "Figure of Merit (Total Bandwidth MB/s)"
 plot "v100_throughput_asteroid_9.csv" using 1:2 with linespoints linestyle 1

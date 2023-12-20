@@ -245,62 +245,6 @@ This pattern is a Scatter with a length of 6,664,304 elements with a target vect
    Spatter Weak Scaling Performance for xRAGE Spatter Pattern 9 on Crossroads
 
 
-A100
-------------
-
-Strong-Scaling throughput experiments with plotting enabled.
-
-
-xRAGE Asteroid Spatter Pattern 5
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Throughput experiment for the pattern in patterns/xrage/asteroid/spatter5.json. Results will be found in spatter.strongscaling/A100/xrage/asteroid/spatter5/ and Figures will be found in figures/spatter.strongscaling/A100/xrage/asteroid/spatter5/
-
-.. code-block:: bash
-
-   bash scripts/scaling.sh -a xrage -p asteroid -f spatter5 -n A100 -g -s -t
-
-..
-
-.. csv-table:: Spatter Throughput (MB/s) on A100 xRAGE Asteroid Pattern 5
-   :file: a100_throughput_asteroid_5.csv
-   :align: center
-   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8, 8
-   :header-rows: 1
-
-.. figure:: a100_throughput_asteroid_5.png
-   :align: center
-   :scale: 50%
-   :alt: Spatter Throughput on A100 xRAGE Asteroid Pattern 5 on A100
-
-   Spatter Throughput on A100 xRAGE Asteroid Pattern 5 on A100
-
-
-xRAGE Asteroid Spatter Pattern 9
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Throughput experiment for the pattern in patterns/xrage/asteroid/spatter9.json. Results will be found in spatter.strongscaling/A100/xrage/asteroid/spatter9/ and Figures will be found in figures/spatter.strongscaling/A100/xrage/asteroid/spatter9/
-
-.. code-block:: bash
-
-   bash scripts/scaling.sh -a xrage -p asteroid -f spatter9 -n A100 -g -s -t
-
-..
-
-.. csv-table:: Spatter Throughput (MB/s) on A100 xRAGE Asteroid Pattern 9
-   :file: a100_throughput_asteroid_9.csv
-   :align: center
-   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8, 8
-   :header-rows: 1
-
-.. figure:: a100_throughput_asteroid_9.png
-   :align: center
-   :scale: 50%
-   :alt: Spatter Throughput on A100 xRAGE Asteroid Pattern 9 on A100
-
-   Spatter Throughput on A100 xRAGE Asteroid Pattern 9 on A100
-
-
 H100
 ------------
 
@@ -321,7 +265,7 @@ Throughput experiment for the pattern in patterns/xrage/asteroid/spatter5.json. 
 .. csv-table:: Spatter Throughput (MB/s) on H100 xRAGE Asteroid Pattern 5
    :file: h100_throughput_asteroid_5.csv
    :align: center
-   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8, 8
+   :widths: 5, 5
    :header-rows: 1
 
 .. figure:: h100_throughput_asteroid_5.png
@@ -346,7 +290,7 @@ Throughput experiment for the pattern in patterns/xrage/asteroid/spatter9.json. 
 .. csv-table:: Spatter Throughput (MB/s) on H100 xRAGE Asteroid Pattern 9
    :file: h100_throughput_asteroid_9.csv
    :align: center
-   :widths: 5, 8, 8, 8, 8, 8, 8, 8, 8, 8
+   :widths: 5, 5
    :header-rows: 1
 
 .. figure:: h100_throughput_asteroid_9.png
