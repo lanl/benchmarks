@@ -167,8 +167,10 @@ Microbenchmark Overview
    - Yes
 
 
+.. _GlobalRunRules:
+
 Run Rules Synopsis
-==================
+===============
 
 Single node benchmarks will require respondent to provide estimates on
 
@@ -205,6 +207,9 @@ Source code modification categories:
   * Algorithms fundamental to the program may not be replaced. 
 
   * The modified code must still pass validation tests. 
+
+  * Optimizations will be reviewed by subject matter experts for applicability to the larger application portfolio and other goals such as performance portability and programmer productivity. 
+
 
 Required results: 
 
