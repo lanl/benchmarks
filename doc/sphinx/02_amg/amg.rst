@@ -39,7 +39,7 @@ The parameter k is set to 1 in Problem 1 and to 3 in Problem 2.
 Source code modifications
 ==========================
 
-Please (see :ref:`GlobalRunRules`) for general guidance on allowed modifications. 
+Please see :ref:`GlobalRunRules` for general guidance on allowed modifications. 
 For AMG2023, we define the following restrictions on source code modifications:
 
 * AMG2023 uses Hypre as the solver library, available at https://github.com/hypre-space/hypre .  While source code changes to Hypre can be proposed, Hypre in AMG2023 may not be replaced with any other library.
