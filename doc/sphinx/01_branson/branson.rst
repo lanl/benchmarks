@@ -19,7 +19,7 @@ It contains a particle passing method for domain decomposition.
 
 Source code optimizations
 =========================
-Please see :ref:`_GlobalRunRules` for general guidance on allowed modifications. 
+Please (see :ref:`GlobalRunRules`) for general guidance on allowed modifications. 
 For Branson, aggressive source code modifications are allowed provided that the correctness of the benchmark as detailed below are maintained. 
 
 
