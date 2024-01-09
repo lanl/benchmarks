@@ -1,0 +1,4 @@
+.vscode/
+*.so
+*.o
+memrecord
