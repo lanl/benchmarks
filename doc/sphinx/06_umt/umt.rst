@@ -99,28 +99,26 @@ Results from UMT are provided on the following systems:
 
 Strong scaling data for SPP 1 on Crossroads is shown in the table and figure below
 
-TODO - these are for the old benchmark problem and need to be updated.
-
-.. todo csv-table:: Strong scaling of SPP 1 on Crossroads
+.. csv-table:: Strong scaling of SPP 1 on Crossroads
    :file: spp1_strong_scaling_cts2_abridged.csv
    :align: center
    :widths: 8, 10, 10
    :header-rows: 1
 		 
-.. todo figure:: spp1_strong_scaling_cts2.png
+.. figure:: spp1_strong_scaling_cts2.png
    :alt: Strong scaling of SPP 1 on Crossroads
    :align: center
    :scale: 50%
 
    Strong scaling of SPP 1 on Crossroads
 
-.. todo csv-table:: SPP #2 on CTS-2
+.. csv-table:: SPP #2 on CTS-2
    :file: spp2_strong_scaling_cts2_abridged.csv
    :align: center
    :widths: 8, 10, 10
    :header-rows: 1
 		 
-.. todo figure:: spp2_strong_scaling_cts2.png
+.. figure:: spp2_strong_scaling_cts2.png
    :alt: CPU Strong Scaling (Fixed problem size, SPP #2)
    :align: center
    :scale: 50%
@@ -129,6 +127,8 @@ TODO - these are for the old benchmark problem and need to be updated.
 
 Throughput study of SPP 1 performance on Sierra, single GPU, as a function of problem size:
 
+.. note::
+   Performance data for SPP 1 coming soon.
 .. todo csv-table:: Throughput for SPP 1 on Sierra
    :file: spp1_throughput_V100.csv
    :align: center
