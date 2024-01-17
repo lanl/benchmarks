@@ -225,7 +225,7 @@ The second figure provides memory use on 1 node of CTS-1 (Quartz) using 4 MPI ta
 
 
 Strong Scaling on Crossroads
-----------------------------
+============================
 
 We present strong scaling results for varying problem sizes on Crossroads with HBM below. The code was configured and compiled using hypre v2.29.0 with MPI only and optimization -O2.
 
@@ -347,9 +347,29 @@ Approximate results of the FOM for varying memory usages on Crossroads are provi
    Varying memory usage (estimated) for Problem 1 and 2
 
 
+Multi-node scaling on Crossroads
+================================
+
+The results of the scaling runs performed on rocinante hbm partition nodesare presented below.
+These runs used 32, 64, and 96 nodes with 108 tasks per node.
+Problems 1 and 2 were run with problem sizes per MPI process of 25,25,50 and 36,36,72 respectively.
+The product of the x,y,z process topology must equal the number of processors.
+In this case, x=y=24 for all node counts and z was set to 6, 12, and 18 for 32, 64, and 96 nodes respectively. 
+
+
+.. figure:: cpu_scale_roci.png
+   :align: center
+   :scale: 50%
+   :alt: 
+
+.. csv-table:: Multi Node Scaling problem 1 and 2
+   :file: amg_scale_roci.csv
+   :align: center
+   :widths: 10, 10, 10
+   :header-rows: 1
 
 V-100
------
+=====
 
 We have also performed runs on 1 NVIDIA V-100 GPU increasing the problem size n x n x n.
 For these runs hypre 2.29.0 was configured as follows:

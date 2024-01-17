@@ -170,7 +170,7 @@ Microbenchmark Overview
 .. _GlobalRunRules:
 
 Run Rules Synopsis
-===============
+==================
 
 Single node benchmarks will require respondent to provide estimates on
 

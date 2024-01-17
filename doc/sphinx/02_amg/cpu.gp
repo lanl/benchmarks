@@ -20,6 +20,7 @@ set key autotitle columnheader
 
 set style line 1 linetype 6 dashtype 1 linecolor rgb "#FF0000" linewidth 2 pointtype 6 pointsize 3
 set style line 2 linetype 1 dashtype 2 linecolor rgb "#FF0000" linewidth 2
+set style line 3 linetype 6 dashtype 1 linecolor rgb "#0000FF" linewidth 2 pointtype 6 pointsize 3
 
 plot "roci_1_120.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
 
@@ -42,4 +43,12 @@ plot "roci_2_256.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with 
 set output "roci_2_320.png"
 set title "AMG2023 Strong Scaling for Problem 2, 320 x 320 x 320" font "serif,22"
 plot "roci_2_320.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
+
+set xrange [32:96]
+set xlabel "Number of Nodes"
+set format y "%.1e"
+unset logscale xy
+set output "cpu_scale_roci.png"
+set title "AMG Multi Node Scaling" font "serif,22"
+plot "amg_scale_roci.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
 
