@@ -245,7 +245,8 @@ lose their energy into the material.
 
 
 Crossroads
-------------
+----------
+
 Strong scaling performance of Crossroads 10M Particles is provided within the following table and
 figure.
 
@@ -293,6 +294,23 @@ Strong scaling performance of Branson Crossroads 200M Particles is provided with
 
    Branson Strong Scaling Performance on Crossroads 200M particles
 
+Multi-node scaling
+------------------
+
+The results of the scaling runs performed on rocinante hbm partition nodes are presented below.
+These runs used 32, 64, and 96 nodes with 110 tasks per node.
+
+
+.. figure:: branson_roci_scale.png
+   :align: center
+   :scale: 50%
+   :alt: 
+
+.. csv-table:: Multi Node Scaling problem 1 and 2
+   :file: branson_roci_scale.csv
+   :align: center
+   :widths: 10, 10, 10, 10
+   :header-rows: 1
 
 AMD Epyc + Nvidia A100
 ----------------------

@@ -350,7 +350,7 @@ Approximate results of the FOM for varying memory usages on Crossroads are provi
 Multi-node scaling on Crossroads
 ================================
 
-The results of the scaling runs performed on rocinante hbm partition nodesare presented below.
+The results of the scaling runs performed on rocinante hbm partition nodes are presented below.
 These runs used 32, 64, and 96 nodes with 108 tasks per node.
 Problems 1 and 2 were run with problem sizes per MPI process of 25,25,50 and 36,36,72 respectively.
 The product of the x,y,z process topology must equal the number of processors.

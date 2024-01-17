@@ -20,6 +20,7 @@ set key autotitle columnheader
 
 set style line 1 linetype 6 dashtype 1 linecolor rgb "#FF0000" linewidth 2 pointtype 6 pointsize 3
 set style line 2 linetype 1 dashtype 2 linecolor rgb "#FF0000" linewidth 2
+set style line 3 linetype 6 dashtype 1 linecolor rgb "#0000FF" linewidth 2 pointtype 6 pointsize 3
 
 plot "cpu_10M.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
 
@@ -27,9 +28,14 @@ set output "cpu_66M.png"
 #set title "Branson Strong Scaling Performance on Crossroads, 66M particles" font "serif,22"
 plot "cpu_66M.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
 
-
 set output "cpu_200M.png"
 #set title "Branson Strong Scaling Performance on Crossroads, 200M particles" font "serif,22"
 plot "cpu_200M.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
 
+# Scaling Output
+set output "branson_roci_scale.png"
+set xrange [200:8000]
+unset logscale xy
+set key title "Number of Nodes"
+plot "branson_roci_scale.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2, "" using 1:4 with line linestyle 3
 
