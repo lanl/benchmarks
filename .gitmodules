@@ -24,3 +24,6 @@
 [submodule "miniem_build/spack"]
 	path = miniem_build/spack
 	url = git@github.com:spack/spack
+[submodule "kokkos-tools"]
+	path = kokkos-tools
+	url = git@github.com:kokkos/kokkos-tools.git

@@ -3,16 +3,21 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
+#define BLAS_LIB "nolib"
+
 #ifdef USE_MKL
 #include "mkl.h"
+#define BLAS_LIB "mkl"
 #endif
 
 #ifdef USE_CBLAS
 #include "cblas.h"
+#define BLAS_LIB "cblas"
 #endif
 
 #ifdef USE_ESSL
 #include "essl.h"
+#define BLAS_LIB "essl"
 #endif
 
 #define DGEMM_RESTRICT __restrict__
@@ -107,6 +112,8 @@ int main(int argc, char* argv[]) {
 	}
 
 	printf("Performing multiplication...\n");
+	printf("Using Blas Type: %s\n", BLAS_LIB);
+	printf("Iteration #:\n");
 
 	const double start = get_seconds();
 
@@ -142,7 +149,12 @@ int main(int argc, char* argv[]) {
 			}
 		}
 #endif
+		if ( r%10 == 0 ) {
+			printf("%d, ", r);
+			fflush(stdout); 
+		}
 	}
+	printf("\n");
 
 	// ------------------------------------------------------- //
 	// VENDOR NOTIFICATION: END MODIFIABLE REGION

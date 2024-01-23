@@ -9,7 +9,7 @@ set ylabel "FOM"
 set xrange [10:40]
 set key left top
 
-set yrange [1.0e+6: 1.0e+7]
+set yrange [1.0e+6: 2.0e+7]
 set grid
 show grid
 

@@ -9,7 +9,7 @@ Purpose
 =======
 
 The AMG2023 benchmark consists of a driver (amg.c), a simple Makefile, and documentation. It is available at https://github.com/LLNL/AMG2023 . 
-It requires an installation of hypre 2.27.0 or higher. 
+It requires an installation of hypre 2.30.0 or higher. 
 It uses hypre's parallel algebraic multigrid (AMG) solver BoomerAMG in combination with a Krylov solver to solve 
 two linear systems arising from diffusion problems on a cuboid discretized by finite differences. 
 The problems are set up through hypre's linear-algebraic IJ interface. The problem sizes can be controlled from the command line.`. 
@@ -36,14 +36,24 @@ Since in time dependent problems the AMG preconditioner might be used for severa
 The total FOM is evaluated as follows:   FOM = NNZ / (Setup_time + k * Solve_time).
 The parameter k is set to 1 in Problem 1 and to 3 in Problem 2.
 
+Source code modifications
+==========================
+
+Please see :ref:`GlobalRunRules` for general guidance on allowed modifications. 
+For AMG2023, we define the following restrictions on source code modifications:
+
+* AMG2023 uses Hypre as the solver library, available at https://github.com/hypre-space/hypre .  While source code changes to Hypre can be proposed, Hypre in AMG2023 may not be replaced with any other library.
+
+* Solver parameters should remain unchanged (smoothers, coarsening, etc.).  AMG2023 uses the default Hypre parameters appropriate for each platform.
+
 Building
 ========
 
 The AMG2023 benchmark uses a simple Makefile system for building the driver.
 
-It requires an installation of hypre 2.27.0, which can be downloaded from https://github.com/hypre-space/hypre via
+It requires an installation of hypre 2.30.0 or higher, which can be downloaded from https://github.com/hypre-space/hypre via
 
-   ``git clone -b v2.27.0 https://github.com/hypre-space/hypre.git``
+   ``git clone -b v2.30.0 https://github.com/hypre-space/hypre.git``
 
 Information on how to install hypre is available here: https://hypre.readthedocs.io/en/latest/ 
 
@@ -139,6 +149,10 @@ It specifies the MPI process topology on which to run, requiring a total of  <Px
 
 The '-n' option allows one to specify the local problem size per MPI process, leading to a global problem size of <Px>*<nx> x <Py>*<ny> x <Pz>*<nz>.
 
+Validation
+==========
+
+The validation criteria for AMG2023 is defined as the convergence criteria for the benchmark.
 
 Example Scalability Results 
 ===========================

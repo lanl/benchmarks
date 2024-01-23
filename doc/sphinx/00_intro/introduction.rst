@@ -157,7 +157,7 @@ Microbenchmark Overview
      | interfaces and access patterns. 
    - C
    - MPI
-   - No
+   - Yes
  * - mdtest
    - | Metadata benchmark that performs 
      | open/stat/close operations on 
@@ -167,8 +167,10 @@ Microbenchmark Overview
    - Yes
 
 
+.. _GlobalRunRules:
+
 Run Rules Synopsis
-==================
+===============
 
 Single node benchmarks will require respondent to provide estimates on
 
@@ -179,6 +181,12 @@ Single node benchmarks will require respondent to provide estimates on
 * estimates must be provided for each compute node type (including options).
 
 * Problem size must be changed to meet % of memory requirements. 
+
+* Respondent shall provide CPU strong scaling and GPU throughput results on current generation representative architectures.
+  If no representative architecture exists respondent can provide modeled / projected CPU strong scaling and GPU throughput results. 
+  respondent may provide both results on current generation representative architectures and modeled / projected architectures. 
+
+* For SSNI projections respondent shall use the specific problem size(s) specified for SSNI.  
 
 Source code modification categories: 
 
@@ -199,6 +207,9 @@ Source code modification categories:
   * Algorithms fundamental to the program may not be replaced. 
 
   * The modified code must still pass validation tests. 
+
+  * Optimizations will be reviewed by subject matter experts for applicability to the larger application portfolio and other goals such as performance portability and programmer productivity. 
+
 
 Required results: 
 
@@ -230,6 +241,53 @@ Where:
 *	S = application speedup; Figure of Merit on ATS-5 system / Figure of Merit on reference system (Crossroads); S must be greater than 1, 
 
 *	w = weighting factor. 
+
+
+
+.. _GlobalSSNIWeightsSizes:
+
+SSNI Weights and SSNI problem sizes
+===================================
+
+
+.. list-table::
+
+ * - **SSNI Benchmark**
+   - **SSNI Weight**
+   - **SSNI Problem size - % device memory**
+ * - Branson
+   - TBD
+   - 30
+ * - AMG2023 Problem 1 Setup
+   - TBD
+   - 20
+ * - AMG2023 Problem 2 Setup
+   - TBD
+   - 20
+ * - AMG2023 Problem 1 Solve
+   - TBD
+   - 20
+ * - AMG2023 Problem 2 Solve
+   - TBD
+   - 20
+ * - MiniEM
+   - TBD
+   - TBD
+ * - MLMD Training
+   - TBD
+   - N/A 
+ * - MLMD Simulation
+   - TBD
+   - 60
+ * - Parthenon-VIBE
+   - TBD
+   - 40 
+ * - Sparta
+   - TBD
+   - TBD
+ * - UMT
+   - TBD
+   - TBD
 
 
 System Information

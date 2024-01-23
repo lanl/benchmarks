@@ -1,7 +1,7 @@
 doc/sphinx/_build
 doc/sphinx/output.log
-doc/sphinx/7_miniem/*.png
-doc/sphinx/8_sparta/*.png
+doc/sphinx/07_miniem/*.png
+doc/sphinx/08_sparta/*.png
 doc/sphinx/*/*.png
 doc/sphinx/09_Microbenchmarks/*/*.png
 
@@ -16,3 +16,12 @@ __pycache__/
 *.bak
 *.pdfg
 working_dir/
+
+doc/sphinx/08_sparta/slurm-*.out
+doc/sphinx/08_sparta/run-[0-9]*[0-9]
+doc/sphinx/08_sparta/spa_crossroads_*
+doc/sphinx/08_sparta/runs--*
+
+doc/sphinx/*.log
+
+map_cpu/map_cpu

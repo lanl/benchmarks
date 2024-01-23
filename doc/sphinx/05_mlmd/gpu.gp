@@ -4,7 +4,7 @@ set output "gpu.png"
 
 set title "MLMD throughput performance on Chicoma" font "serif,22"
 set xlabel "No. Atoms"
-set ylabel "Figure of Merit (grads/sec)"
+set ylabel "Figure of Merit (katoms/sec)"
 
 # set xrange [1:64]
 set key right top

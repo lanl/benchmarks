@@ -17,6 +17,11 @@ Branson is a proxy application for parallel Monte Carlo transport.
 It contains a particle passing method for domain decomposition.
 
 
+Source code optimizations
+=========================
+Please (see :ref:`GlobalRunRules`) for general guidance on allowed modifications. 
+For Branson, aggressive source code modifications are allowed provided that the correctness of the benchmark as detailed below are maintained. 
+
 
 Characteristics
 ===============
@@ -28,8 +33,24 @@ It is in replicated mode which means there is very little MPI communication (end
 
 Figure of Merit
 ---------------
-The Figure of Merit is defined as particles/second and is obtained by dividing the number of particles in the problem divided by the `Total transport` value in the output. Future versions will output this number directly.
+The Figure of Merit is defined as particles/second and is obtained by dividing the number of particles in the problem divided by the `Total transport` value. 
+This value is labeled "Photons Per Second (FOM):" in Branson's output. 
 
+
+Problem Sizes
+-------------
+For strong scaling on a CPU, Branson must be run with three different problem sizes such that the memory
+footprint of all Branson processes at the smallest process count per node is approximately: 4 to 5%, 8 to 10%, and 20 to 22%; during step 2 of the simulation.
+
+
+For throughput curves on a GPU the memory footprint of Branson must vary between ~5% and ~80% in increments of at most 5% of the computational device's main memory.
+
+The memory footprint can be controlled by editing "photons" in the input file.
+
+Results of both CPU strong scaling and GPU throughput should be provided on a representative, current-generation hardware configuration used in benchmarking and projections. 
+Results which are projected / modeled should be noted as such. 
+
+See :ref:`GlobalSSNIWeightsSizes` for the problem size for SSNI projection. 
 
 Building
 ========
@@ -104,8 +125,7 @@ It is run with:
 
 ..
 
-For strong scaling on a CPU, Branson should be run with three different problem sizes such that the memory
-footprint at the smallest process count per node is approximately: 4 to 5%, 8 to 10%, and 20 to 22%; during step 2 of the simulation.
+
 Memory footprint is the sum of all Branson processes resident set size (or equivalent) on the node.
 This can be obtained on a CPU system using the following (while the application is in step 2):
 
@@ -116,13 +136,23 @@ This can be obtained on a CPU system using the following (while the application 
    ps -C BRANSON -o rss | awk '{sum+=$1;} END{print sum/1024/1024;}'
 ..
 
-For throughput curves on a GPU the memory footprint of Branson must vary between ~5% and ~60% in increments of at most 5% of the computational device's main memory.
-The memory footprint can be controlled by editing "photons" in the input file.
+
 
 Results from Branson are provided on the following systems:
 
 * Crossroads (see :ref:`GlobalSystemATS3`)
-* Sierra (see :ref:`GlobalSystemATS2`)
+* AMD Epyc + Nvidia A100 (see :ref:`DarwinA100`)
+
+
+
+.. _DarwinA100:
+
+AMD Epyc + Nvidia A100 
+----------------------
+
+Dual socket AMD Epyc 7502 with 32 cores operating at 2.5 GHz with 256 GBytes CPU 
+memory and dual Nvidia Ampere A100-SXM4 GPUs with 40GBytes of memory per GPU. 
+
 
 Correctness
 ------------
@@ -132,6 +162,7 @@ test" to see if a code change has introduced an error. After every timestep, a s
 printed:
 
 .. code-block:: bash
+
   ********************************************************************************
   Step: 5  Start Time: 0.04  End Time: 0.05  dt: 0.01
   source time: 0.166658
@@ -150,6 +181,7 @@ printed:
 Two lines in the block specifically relate to conservation:
 
 .. code-block:: bash
+
   Radiation conservation: -5.83707e-17
   Material conservation: -5.8599e-15
 ..
@@ -170,6 +202,7 @@ The second check on correctness is much simpler. For any changes to Branson, the
 the same temperature in a standard marshak wave problem after 100 cycles. For the `marshak wave input <https://github.com/lanl/branson/blob/develop/inputs/marshak_wave_replicated.xml>`_ file, the following temperature profile should be reproduced to 3% after 100 cycles, as shown below:
 
 .. code-block:: bash
+
   Step: 100  Start Time: 0.99  End Time: 1  dt: 0.01
   source time: 0.094371
   -------- VERBOSE PRINT BLOCK: CELL TEMPERATURE --------
@@ -201,6 +234,7 @@ the same temperature in a standard marshak wave problem after 100 cycles. For th
             24  0.010000281 0.0099765314 2.3568212e-07
   -------------------------------------------------------
 ..
+
 
 This output is expected as long as the spatial, boundary and region blocks are kept the same in the
 input file. The IMC method that Branson uses is stocahstic so changing the random number seed or the
@@ -242,85 +276,9 @@ figure.
    :scale: 50%
    :alt: Branson Strong Scaling Performance on Crossroads 66M particles
 
-   ranson Strong Scaling Performance on Crossroads 66M  particles
+   Branson Strong Scaling Performance on Crossroads 66M  particles  
 
-Strong scaling performance of Branson Crossroads 200M Particles is provided within the following table and
-figure.
-
-.. csv-table:: Branson Strong Scaling Performance on Crossroads 200M particles
-   :file: cpu_200M.csv
-   :align: center
-   :widths: 10, 10, 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cpu_200M.png
-   :align: center
-   :scale: 50%
-   :alt: Branson Strong Scaling Performance on Crossroads 200M particles
-
-   Branson Strong Scaling Performance on Crossroads 200M particles
-
-Sierra
-------------
-
-Throughput performance of Branson on Sierra is provided within the
-following table and figure.
-
-.. csv-table:: Branson Throughput Performance on Sierra
-   :file: gpu.csv
-   :align: center
-   :widths: 10, 10
-   :header-rows: 1
-
-.. figure:: gpu.png
-   :align: center
-   :scale: 50%
-   :alt: Branson Throughput Performance on Sierra
-
-   Branson Throughput Performance on Sierra
-
-
-References
-==========
-
-.. [Branson] Alex R. Long, 'Branson', 2023. [Online]. Available: https://github.com/lanl/branson. [Accessed: 22- Feb- 2023]
-
-Crossroads
-------------
-Strong scaling performance of Crossroads 10M Particles is provided within the following table and
-figure.
-
-.. csv-table:: Branson Strong Scaling Performance on Crossroads 10M particles
-   :file: cpu_10M.csv
-   :align: center
-   :widths: 10, 10, 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cpu_10M.png
-   :align: center
-   :scale: 50%
-   :alt: Branson Strong Scaling Performance on Crossroads 10M particles
-
-   Branson Strong Scaling Performance on Crossroads 10M particles
-
-Strong scaling performance of Branson Crossroads 66M  Particles is provided within the following table and
-figure.
-
-.. csv-table:: Branson Strong Scaling Performance on Crossroads 66M  particles
-   :file: cpu_66M.csv
-   :align: center
-   :widths: 10, 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cpu_66M.png
-   :align: center
-   :scale: 50%
-   :alt: Branson Strong Scaling Performance on Crossroads 66M particles
-
-   ranson Strong Scaling Performance on Crossroads 66M  particles
-
-Strong scaling performance of Branson Crossroads 200M Particles is provided within the following table and
-figure.
+Strong scaling performance of Branson Crossroads 200M Particles is provided within the following table and figure.
 
 .. csv-table:: Branson Strong Scaling Performance on Crossroads 200M particles
    :file: cpu_200M.csv
@@ -335,25 +293,24 @@ figure.
 
    Branson Strong Scaling Performance on Crossroads 200M particles
 
-Sierra
-------------
 
-Throughput performance of Branson on Sierra is provided within the
+AMD Epyc + Nvidia A100
+----------------------
+Throughput performance of Branson on AMD Epyc + Nvidia A100 (using a single GPU) is provided within the
 following table and figure.
 
-.. csv-table:: Branson Throughput Performance on Sierra
+.. csv-table:: Branson Throughput Performance on AMD Epyc + Nvidia A100
    :file: gpu.csv
    :align: center
-   :widths: 10, 10
+   :widths: 15, 15
    :header-rows: 1
 
 .. figure:: gpu.png
    :align: center
    :scale: 50%
-   :alt: Branson Throughput Performance on Sierra
+   :alt: Branson Throughput Performance on AMD Epyc + Nvidia A100
 
-   Branson Throughput Performance on Sierra
-
+   Branson Throughput Performance on AMD Epyc + Nvidia A100
 
 References
 ==========
