@@ -156,7 +156,7 @@ run_try()
 
     # export LD_PRELOAD=libldpxi_mpi.so
     # export LD_PRELOAD=/usr/projects/hpctest/amagela/ldpxi/ldpxi/install/ats3/ldpxi-1.0.1/intel+cray-mpich-8.1.25/lib/libldpxi_mpi.so.1.0.1
-    # export LD_PRELOAD=/usr/projects/hpctest/amagela/ats-5/LDPXI/xr/libldpxi.so
+    export LD_PRELOAD=/usr/projects/hpctest/amagela/ats-5/LDPXI/xr/libldpxi.so
     # /usr/bin/time --verbose --output="${FILE_TIME}" \
     # time \
         srun \
@@ -173,7 +173,7 @@ run_try()
                 --linAlgebra=Tpetra \
                 --inputFile="${dir_current_work}/${APP_INPUT}"
 #                 --solver=MueLu-RefMaxwell \
-    # unset LD_PRELOAD
+    unset LD_PRELOAD
 #             --ntasks-per-socket=$RANKS_PER_SOCKET \
 #             --hint=nomultithread \
 #             --cpu-bind=verbose,ldoms \
