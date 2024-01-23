@@ -167,7 +167,7 @@ class MiniemFom(object):
                     l_line = line.split()
                     emtime = float(l_line[6])
                     emiter = int(l_line[9].strip("[").strip("]"))
-                    fom = float(emiter) / emtime
+                    fom_iter_per_sec = float(emiter) / emtime
                 if "MAX MEMORY ALLOCATED" in line:
                     l_line = line.split()
                     tmp = float(l_line[3])
@@ -178,13 +178,13 @@ class MiniemFom(object):
                     
         if num_ranks is not None and emmaxrss is not None:
             emmaxrss = (emmaxrss * num_ranks) / 1024.0 / 1024.0
-        self.metrics_cache['FOM'] = fom
+        self.metrics_cache['IterPerSec'] = fom_iter_per_sec
         self.metrics_cache['NumRanks'] = num_ranks
         self.metrics_cache['RanksPerDomain'] = num_ranks_per_domain
         self.metrics_cache['Steps'] = emiter
         self.metrics_cache['Time (sec)'] = emtime
         self.metrics_cache['MaxRSS (GiB)'] = emmaxrss
-        self.logger.info("FOM = {}".format(fom))
+        self.logger.info("IterPerSec = {}".format(fom_iter_per_sec))
         self.logger.info("No. Ranks = {}".format(num_ranks))
         self.logger.info("Ranks per Domain = {}".format(num_ranks_per_domain))
         self.logger.info("Steps = {}".format(emiter))
@@ -246,6 +246,8 @@ class MiniemFom(object):
         
         self.metrics_cache['Size'] = emsize
         self.logger.info("Size = {}".format(emsize))
+        self.metrics_cache['FOMElementIterPerSec'] = emsizex * emsizey * emsizez * self.metrics_cache['IterPerSec']
+        self.logger.info("FOMElementIterPerSec = {}".format(self.metrics_cache['FOMElementIterPerSec']))
 
     def _run_csv(self):
         """Put stuff into CSV file."""

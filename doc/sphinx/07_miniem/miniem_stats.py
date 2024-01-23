@@ -77,7 +77,7 @@ class BuildDocHelp(object):
             "-m",
             "--figureOfMerit",
             type=str,
-            default="FOM",
+            default="FOMElementIterPerSec",
             help="header to compute statistics for",
         )
 
