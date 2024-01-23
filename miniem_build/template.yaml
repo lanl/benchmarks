@@ -1,0 +1,106 @@
+# This is a Spack Environment file.
+#
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  config:
+    install_tree:
+      root: install
+      projections:
+        all: '{compiler.name}-{compiler.version}/{name}-{version}-{hash}'
+  view:
+    default:
+      root: views/
+      projections:
+        all: base_tpls/{compiler.name}-{compiler.version}/
+        trilinos build_type=Release: trilinos-{version}/{compiler.name}-{compiler.version}_serial_static_opt
+        trilinos build_type=RelWithDebInfo: trilinos-{version}/{compiler.name}-{compiler.version}_serial_static_asan
+        trilinos build_type=Debug: trilinos-{version}/{compiler.name}-{compiler.version}_serial_static_dbg
+      link_type: symlink
+  specs:
+  - trilinos@develop dev_path='/usr/projects/hpctest/amagela/ats-5/MiniEM/lb/trilinos' +miniem+zoltan+openmp ^netcdf-c ~szip~blosc
+  concretizer:
+    unify: when_possible
+  mirrors:
+    lanl: https://pe-serve.lanl.gov/spack-mirror
+    restricted: http://pe-serve.lanl.gov/restricted-mirror/
+  compilers:
+  - compiler:
+      extra_rpaths:
+      - /opt/intel/oneapi/mkl/2023.1.0/lib/intel64
+      - /opt/intel/oneapi/compiler/2023.1.0/linux/lib
+      - /opt/intel/oneapi/compiler/2023.1.0/linux/lib/x64
+      - /opt/intel/oneapi/compiler/2023.1.0/linux/lib/oclfpga/host/linux64/lib
+      - /opt/intel/oneapi/compiler/2023.1.0/linux/compiler/lib/intel64_lin
+      - /opt/cray/pe/papi/6.0.0.17/lib64
+      - /opt/cray/libfabric/1.15.2.0/lib64
+      modules:
+      - PrgEnv-intel
+      - intel-oneapi@2023.1.0
+      - libfabric
+      flags:
+        cflags: -fp-model=precise -fPIC
+        cxxflags: -fp-model=precise -fPIC
+        fflags: -fpp -fPIC
+        ldlibs: -lz -ldl
+      operating_system: sles15
+      paths:
+        cc: /opt/intel/oneapi/compiler/2023.1.0/linux/bin/icx
+        cxx: /opt/intel/oneapi/compiler/2023.1.0/linux/bin/icpx
+        f77: /opt/intel/oneapi/compiler/2023.1.0/linux/bin/ifx
+        fc: /opt/intel/oneapi/compiler/2023.1.0/linux/bin/ifx
+      spec: oneapi@2023.1.0
+  packages:
+    all:
+      variants: +shared~static build_type=Release generator=ninja
+      compiler: [oneapi@2023.1.0]
+      providers:
+        mpi: [cray-mpich]
+        lapack: [intel-oneapi-mkl]
+        blas: [intel-oneapi-mkl]
+        zlib-api: [zlib]
+    cray-mpich:
+      externals:
+      - spec: cray-mpich@8.1.25
+        prefix: /opt/cray/pe/mpich/8.1.25/ofi/intel/19.0
+      buildable: false
+    intel-oneapi-mkl:
+      buildable: false
+      externals:
+      - spec: intel-oneapi-mkl@2023.1.0+shared
+        prefix: /opt/intel/oneapi
+    openssl:
+      buildable: false
+      externals:
+      - spec: openssl@1.1.1l
+        prefix: /usr
+    m4:
+      buildable: false
+      externals:
+      - spec: m4@1.4.18
+        prefix: /usr
+    perl:
+      buildable: false
+      externals:
+      - spec: perl@5.26.1~cpanm+open+shared+threads
+        prefix: /usr
+    gettext:
+      buildable: false
+      externals:
+      - spec: gettext@0.20.2
+        prefix: /usr
+    gmake:
+      buildable: false
+      externals:
+      - spec: gmake@4.2.1
+        prefix: /usr
+    curl:
+      buildable: false
+      externals:
+      - spec: curl@7.79.1+gssapi+ldap+nghttp2
+        prefix: /usr
+    python:
+      buildable: false
+      externals:
+      - spec: python@3.6.15+bz2+crypt+ctypes~dbm+lzma+nis+pyexpat~pythoncmd+readline+sqlite3+ssl~tkinter+uuid+zlib
+        prefix: /usr
