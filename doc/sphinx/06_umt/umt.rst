@@ -37,6 +37,15 @@ The Figure of Merit is defined as the number of unknowns solved per second, whic
 
 The number of corners in a mesh cell is 8 for the 3D unstructured mesh problem. (For a 2D mesh problem it would be 4.)
 
+Source code modifications
+-------------------------a
+
+Please see :ref:`GlobalRunRules` for general guidance on allowed modifications.
+For UMT, we define the following restrictions on source code modifications:
+
+Solver input in the test driver is includes arrays such as 'thermo_density' and 'electron_specific_heat'.  These arrays currently contain a constant
+value across the array, as the benchmarks use a simplified single material problem.  For example, 1.31 for thermo_density.  These arrays should not
+be collapsed to a scalar, as production problems of interest will have a spread of values in these arrays for multi-material problems.
 
 Building
 ========
