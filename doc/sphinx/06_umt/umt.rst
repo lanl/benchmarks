@@ -33,17 +33,17 @@ The Figure of Merit is defined as the number of unknowns solved per second, whic
 
 .. code-block::
 
-   number of unknowns =  <# mesh cells> * <# sub-cell 'corner' elements per cell> * <# directions> * <number of energy bins>
+   number of unknowns =  <# mesh cells * 8> * <# directions> * <number of energy bins>
 
-The number of corners in a mesh cell is 8 for the 3D unstructured mesh problem. (For a 2D mesh problem it would be 4.)
+Explanation on the '# mesh cells * 8': UMT further decomposes a mesh cell into 'corner' sub-cell spatial elements.  There are 8 'corners' per cell in a 3D mesh.
 
 Source code modifications
--------------------------a
+-------------------------
 
 Please see :ref:`GlobalRunRules` for general guidance on allowed modifications.
 For UMT, we define the following restrictions on source code modifications:
 
-Solver input in the test driver is includes arrays such as 'thermo_density' and 'electron_specific_heat'.  These arrays currently contain a constant
+Solver input in the test driver includes arrays such as 'thermo_density' and 'electron_specific_heat'.  These arrays currently contain a constant
 value across the array, as the benchmarks use a simplified single material problem.  For example, 1.31 for thermo_density.  These arrays should not
 be collapsed to a scalar, as production problems of interest will have a spread of values in these arrays for multi-material problems.
 
@@ -75,7 +75,7 @@ Build Requirements
   * `mvapich2 <https://mvapich.cse.ohio-state.edu>`_
 
 * For CPU threading support, a Fortran compiler that support OpenMP 4.5, and an MPI implementation that supports MPI_THREAD_MULTIPLE.
-* For GPU support, a Fortran compiler will full support for OpenMP 4.5 target offloading.
+* For GPU support, a Fortran compiler with full support for OpenMP 4.5 target offloading.
 
 Instructions for building the code can be found in the UMT github repo under
 `BUILDING.md <https://github.com/LLNL/UMT/blob/master/BUILDING.md>`_
@@ -85,8 +85,10 @@ Running
 
 To run the test problems, select SPP 1 or SPP 2 using the -b command line switch.  Select the mesh size to generate by using
 '-d x,y,z' where x,y,z is the number of tiles to produce in each cartesian axis.  When generating a mesh, the dimensions should
-be equiaxed, within a factor of 1.2.  For example -d 5,5,5 is an ideal dimensioned mesh.  A mesh dimensioned as -d 1,1,125 would
-be an example of the most unideal mesh, which will negatively impact performance and not represent typical cases of interest
+be equiaxed, within a factor of 1.2.
+
+For example -d 5,5,5 is an ideal dimensioned mesh.  A mesh dimensioned as -d 1,1,125 would
+be an example of the most unideal mesh, which will negatively impact performance and not represent cases of interest
 for UMT.
 
 Use '-B global' to specify that the size is for the global mesh, which is suitable for strong scaling studies.  If performing a
@@ -115,7 +117,7 @@ Strong scaling data for SPP 1 and 2 on Crossroads is shown in the tables and fig
 .. csv-table:: Strong scaling of SPP 1 on Crossroads
    :file: spp1_strong_scaling_cts2_abridged.csv
    :align: center
-   :widths: 8, 10, 10
+   :widths: auto
    :header-rows: 1
 		 
 .. figure:: spp1_strong_scaling_cts2.png
@@ -126,7 +128,7 @@ Strong scaling data for SPP 1 and 2 on Crossroads is shown in the tables and fig
 .. csv-table:: SPP #2 on CTS-2
    :file: spp2_strong_scaling_cts2_abridged.csv
    :align: center
-   :widths: 8, 10, 10
+   :widths: auto
    :header-rows: 1
 		 
 .. figure:: spp2_strong_scaling_cts2.png
@@ -141,22 +143,24 @@ Throughput study of SPP 1 and 2 performance on Sierra, single GPU, as a function
 .. csv-table:: Throughput for SPP 1 on Sierra
    :file: spp1_throughput_V100.csv
    :align: center
-   :widths: 10, 10
+   :widths: auto
    :header-rows: 1
 
 .. figure:: spp1_throughput_V100.png
    :alt: Throughput of SPP 1 on Sierra
    :align: center
+   :scale: 50%
 
 .. csv-table:: Throughput for SPP 2 on Sierra
    :file: spp2_throughput_V100.csv
    :align: center
-   :widths: 10, 10, 10
+   :widths: auto
    :header-rows: 1
 
 .. figure:: spp2_throughput_V100.png
    :alt: Throughput of SPP 2 on Sierra
    :align: center
+   :scale: 50%
 
 
 Verification of Results
