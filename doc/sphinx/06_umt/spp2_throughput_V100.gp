@@ -1,6 +1,6 @@
 #!/usr/bin/gnuplot
 set terminal pngcairo enhanced size 1024, 768 dashed font 'Helvetica,18'
-set output "spp1_throughput_V100.png"
+set output "spp2_throughput_V100.png"
 
 # no title needed since we will caption the figure
 #set title "Power9/V100 single GPU throughput as a function of problem size" font "serif,22"
@@ -24,5 +24,5 @@ set key autotitle columnheader
 set style line 1 linetype 6 dashtype 1 linecolor rgb "#FF0000" linewidth 2 pointtype 6 pointsize 3
 set style line 2 linetype 1 dashtype 2 linecolor rgb "#FF0000" linewidth 2
 
-plot "spp1_throughput_V100.csv" using 1:2 with linespoints linestyle 1
+plot "spp2_throughput_V100.csv" using 1:2 with linespoints linestyle 1
 
