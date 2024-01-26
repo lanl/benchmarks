@@ -48,7 +48,7 @@ for count in  8 32 56 88 112; do
     zc=$(grep 'zone-cycles/wallsecond = ' ${outfile} | cut -d '=' -f 2 | xargs)
     echo ${zc}
     if (( ${i} == 0 )); then
-       IDEAL1=$(echo "print(\"%.7e\" % (${zc}/4))" | python3)
+       IDEAL1=$(echo "print(\"%.7e\" % (${zc}/${count}))" | python3)
     fi
     IDEAL=$(echo "print(\"%.7e\" % (${count}*${IDEAL1}))" | python3)
     OUTSTR="${count}, ${zc}, ${IDEAL}"

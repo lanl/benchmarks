@@ -9,8 +9,8 @@ set ylabel "Figure of Merit (Particles/sec)"
 # set xrange [1:64]
 set key right top
 
-# set logscale x 2
-# set logscale y 2
+set logscale x 10
+set logscale y 2
 
 set grid
 show grid
