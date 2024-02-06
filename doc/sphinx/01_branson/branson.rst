@@ -298,15 +298,16 @@ Multi-node scaling
 ------------------
 
 The results of the scaling runs performed on rocinante hbm partition nodes are presented below.
+Branson was built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
 These runs used 32, 64, and 96 nodes with 110 tasks per node.
-
+These runs use 85 million photons per node for a problem size using 25% of the total avalable memory across nodes. 
 
 .. figure:: branson_roci_scale.png
    :align: center
    :scale: 50%
    :alt: 
 
-.. csv-table:: Multi Node Scaling problem 1 and 2
+.. csv-table:: Multi Node Scaling Branson
    :file: branson_roci_scale.csv
    :align: center
    :widths: 10, 10, 10, 10

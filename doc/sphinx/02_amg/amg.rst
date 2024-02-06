@@ -350,19 +350,19 @@ Approximate results of the FOM for varying memory usages on Crossroads are provi
 Multi-node scaling on Crossroads
 ================================
 
-The results of the scaling runs performed on rocinante hbm partition nodes are presented below.
+The results of the scaling runs performed on rocinante hbm partition are presented below.
+Amg and hypre were built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
 These runs used 32, 64, and 96 nodes with 108 tasks per node.
-Problems 1 and 2 were run with problem sizes per MPI process of 25,25,50 and 36,36,72 respectively.
+Problems 1 and 2 were run with problem sizes per MPI process, `-n`, of 25,25,125 and 40,40,200 respectively to use 15% of available memory.
 The product of the x,y,z process topology must equal the number of processors.
 In this case, x=y=24 for all node counts and z was set to 6, 12, and 18 for 32, 64, and 96 nodes respectively. 
-
 
 .. figure:: cpu_scale_roci.png
    :align: center
    :scale: 50%
    :alt: 
 
-.. csv-table:: Multi Node Scaling problem 1 and 2
+.. csv-table:: Multi Node Scaling AMG problem 1 and 2
    :file: amg_scale_roci.csv
    :align: center
    :widths: 10, 10, 10

@@ -109,7 +109,7 @@ System Information
 The platforms utilized for benchmarking activities are listed and described below.
 
 * Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL (see :ref:`MiniEMSystemCTS1`)
+  known as Manzano at SNL.
 * Crossroads (see :ref:`GlobalSystemATS3`)
 * Sierra (see :ref:`GlobalSystemATS2`)
 
