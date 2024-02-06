@@ -63,9 +63,9 @@ UMT can be found on github and cloned via:
 Build Requirements
 ------------------
 
-* C/C++ compiler(s) with support for C++11 and Fortran compiler(s) with support for F2003.
-* `CMake 3.18X <https://cmake.org/download/>`_
-* `Conduit v0.8.9 (pending), or the develop branch as of 1/1/2024. <https://github.com/LLNL/conduit>`_
+* C/C++ compiler(s) with support for C++14 and Fortran compiler(s) with support for F2003.
+* `CMake 3.21X <https://cmake.org/download/>`_
+* `Conduit v0.9.0 <https://github.com/LLNL/conduit>`_
 * `Spack <https://github.com/spack/spack>`_ (optional)
 
 * MPI 3.0+
