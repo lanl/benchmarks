@@ -204,9 +204,29 @@ Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the f
 Validation
 ==========
 
+Parthenon-VIBE prints to a history file (default name ``burgers.hst``) a
+time series of the sum of squares of evolved variables integrated over
+volume for each octant of the domain, as well as the total number of
+meshblocks in the simulation at that time. To compare these quantities
+between runs, we provide the ``burgers_diff.py`` program in the
+benchmark folder. This will diff two history files and report when the
+relative difference is greater than some tolerance.
 
+.. note::
+
+   ``burgers.hst`` is **appended** to when the executable is re-run. So
+   if you want to compare two different history files, rename the
+   history file by changing either ``problem_id`` in the ``parthenon/job``
+   block in the input deck (this can be done on the command line. When
+   you start the program, add ``parthenon/job/problem_id=mynewname`` to
+   the command line argument), or copy the old file to back it up.
+
+To check that a modified calculation is still correct, run
+``burgers_diff.py`` to compare a new run to the fiducial one at the
+default tolerance. If no diffs are reported, the modified calculation
+is correct.
 
 References
 ==========
 
-.. [Parthenon-VIBE] Jonah Miller, 'Parthenon', 2023. [Online]. Available: https://github.com/parthenon-hpc-lab/parthenon. [Accessed: 20- Mar- 2023]
+.. [Parthenon-VIBE] Jonah Miller, 'Parthenon', 2024. [Online]. Available: https://github.com/parthenon-hpc-lab/parthenon. [Accessed: 06- Feb- 2024]
