@@ -63,9 +63,9 @@ UMT can be found on github and cloned via:
 Build Requirements
 ------------------
 
-* C/C++ compiler(s) with support for C++11 and Fortran compiler(s) with support for F2003.
-* `CMake 3.18X <https://cmake.org/download/>`_
-* `Conduit v0.8.9 (pending), or the develop branch as of 1/1/2024. <https://github.com/LLNL/conduit>`_
+* C/C++ compiler(s) with support for C++14 and Fortran compiler(s) with support for F2003.
+* `CMake 3.21X <https://cmake.org/download/>`_
+* `Conduit v0.9.0 <https://github.com/LLNL/conduit>`_
 * `Spack <https://github.com/spack/spack>`_ (optional)
 
 * MPI 3.0+
@@ -94,8 +94,6 @@ for UMT.
 Use '-B global' to specify that the size is for the global mesh, which is suitable for strong scaling studies.  If performing a
 weak scaling study, you can specify '-B local' to specify the size of the mesh per rank instead.
 
-Benchmark problems should target roughly half the node memory (for CPUs) or half the device memory (for GPUs).
-
 For example, to create a global mesh of size 20,20,20 tiles:
 
 .. code-block::
@@ -103,6 +101,34 @@ For example, to create a global mesh of size 20,20,20 tiles:
    mpirun -n 1 test_driver -B global -d 20,20,20 -b $num
 
 where num = 1 for SPP 1 or num = 2 for SPP 2.
+
+Benchmark problems should target roughly half the node memory (for CPUs) or half the device memory (for GPUs).  The problem size
+(and therefore memory used) can be adjusted by increasing or decreasing the number of mesh tiles the problem runs on.
+
+When tuning the problem size, you can check the UMT memory usage in the output.  For example, here is an example output from 
+benchmark #1 with a 10x10x10 tile mesh:
+
+.. code-block::
+
+   =================================================================
+   Solving for 221184000 global unknowns.
+   (24000 spatial elements * 72 directions (angles) * 128 energy groups)
+   CPU memory needed (rank 0) for PSI: 1687.5MB
+   Current CPU memory use (rank 0): 2667.74MB
+   Iteration control: relative tolerance set to 1e-10.
+   =================================================================
+
+When predicting memory usage, a rough ballpark estimate is: 
+
+.. code-block::
+
+   global memory estimate = # global unknowns to solve * 8 bytes ( size of a double data type, typically 8 bytes ) * 175%
+
+   # unknowns to solve = # spatial elements * # directions * # energy bins
+
+Each mesh tile has 192 3d corner spatial elements.  Benchmark #1 has 72 directions and 128 energy bins.  Benchmark #2 has 32
+directions and 16 energy bins.
+
 
 Example FOM Results 
 ===================
