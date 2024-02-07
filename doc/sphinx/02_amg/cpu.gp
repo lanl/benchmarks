@@ -44,11 +44,13 @@ set output "roci_2_320.png"
 set title "AMG2023 Strong Scaling for Problem 2, 320 x 320 x 320" font "serif,22"
 plot "roci_2_320.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
 
+# SCALING PLOTS, Y IS FOM PER NODE
 set xrange [32:96]
 set xlabel "Number of Nodes"
 set format y "%.1e"
+set ylabel "FOM/node"
 unset logscale xy
 set output "cpu_scale_roci.png"
 set title "AMG Multi Node Scaling" font "serif,22"
-plot "amg_scale_roci.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
+plot "amg_scale_roci.csv" using 1:4 with linespoints linestyle 1, "" using 1:5 with line linestyle 2
 
