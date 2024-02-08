@@ -326,9 +326,9 @@ These runs use 85 million photons per node for a problem size using 25% of the t
    :alt: 
 
 .. csv-table:: Multi Node Scaling Branson
-   :file: branson_roci_scale.csv
+   :file: branson_roci_scale_header.csv
    :align: center
-   :widths: 10, 10, 10, 10, 10
+   :widths: 10, 10, 10, 10
    :header-rows: 1
 
 References

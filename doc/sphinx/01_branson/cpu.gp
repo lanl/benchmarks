@@ -50,6 +50,7 @@ set output "branson_roci_scale.png"
 set title "Branson Multi Node Scaling" font "serif,22"
 plot "branson_roci_scale.csv" using 3:5 with linespoints linestyle 1
 
+set yrange [2e5:3e6]
 set output "branson_roci_scale_badnodes.png"
 set title "Branson Multi Node Scaling" font "serif,22"
 plot "branson_roci_badnodes_scale.csv" using 3:5 with linespoints linestyle 1

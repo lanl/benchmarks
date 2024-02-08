@@ -407,7 +407,7 @@ In this case, x=y=24 for all node counts and z was set to 6, 12, and 18 for 32, 
    :alt: 
 
 .. csv-table:: Multi Node Scaling AMG problem 1 and 2
-   :file: amg_scale_roci.csv
+   :file: amg_scale_roci_header.csv
    :align: center
    :widths: 10, 10, 10, 10, 10
    :header-rows: 1
