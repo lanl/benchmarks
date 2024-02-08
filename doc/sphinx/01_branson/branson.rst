@@ -89,6 +89,8 @@ Build requirements:
 
 * If building a CUDA enabled version of Branson use the ``CUDADIR`` environment variable to specify your CUDA directory.
 
+* If building for multi-node runs Metis should be used for mesh partitioning. See README.md from Branson for more details. Single node CPU and single node GPU runs for SSNI should not use Metis. 
+
 .. code-block:: bash
 
    export CXX=`which g++`

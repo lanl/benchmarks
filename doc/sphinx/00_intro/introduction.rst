@@ -256,34 +256,34 @@ SSNI Weights and SSNI problem sizes
    - **SSNI Weight**
    - **SSNI Problem size - % device memory**
  * - Branson
-   - TBD
+   - 10
    - 25 to 30
  * - AMG2023 Problem 1 
-   - TBD
+   - 5
    - 15 to 20   
  * - AMG2023 Problem 2 
-   - TBD
+   - 5
    - 15 to 20
  * - MiniEM
-   - TBD
+   - 15
    - TBD
  * - MLMD Training
-   - TBD
+   - 5
    - N/A 
  * - MLMD Simulation
-   - TBD
+   - 5
    - 55 to 65 
  * - Parthenon-VIBE
-   - TBD
+   - 30
    - 35 to 45  
  * - Sparta
-   - TBD
-   - TBD
+   - 10
+   - 50 to 60 
  * - UMT Problem 1
-   - TBD
+   - 7.5
    - 45 to 55
  * - UMT Problem 2
-   - TBD
+   - 7.5
    - 45 to 55
 
 Note:  % of device memory is approximate please note actual memory footprint used. 
