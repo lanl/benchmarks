@@ -296,25 +296,6 @@ Strong scaling performance of Branson Crossroads 200M Particles is provided with
 
    Branson Strong Scaling Performance on Crossroads 200M particles
 
-Multi-node scaling
-------------------
-
-The results of the scaling runs performed on rocinante hbm partition nodes are presented below.
-Branson was built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
-These runs used 32, 64, and 96 nodes with 110 tasks per node.
-These runs use 85 million photons per node for a problem size using 25% of the total avalable memory across nodes. 
-
-.. figure:: branson_roci_scale.png
-   :align: center
-   :scale: 50%
-   :alt: 
-
-.. csv-table:: Multi Node Scaling Branson
-   :file: branson_roci_scale.csv
-   :align: center
-   :widths: 10, 10, 10, 10
-   :header-rows: 1
-
 AMD Epyc + Nvidia A100
 ----------------------
 Throughput performance of Branson on AMD Epyc + Nvidia A100 (using a single GPU) is provided within the
@@ -332,6 +313,25 @@ following table and figure.
    :alt: Branson Throughput Performance on AMD Epyc + Nvidia A100
 
    Branson Throughput Performance on AMD Epyc + Nvidia A100
+
+Multi-node scaling on Crossroads
+================================
+
+The results of the scaling runs performed on rocinante hbm partition nodes are presented below.
+Branson was built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
+These runs used 32, 64, and 96 nodes with 110 tasks per node.
+These runs use 85 million photons per node for a problem size using 25% of the total avalable memory across nodes. 
+
+.. figure:: branson_roci_scale.png
+   :align: center
+   :scale: 50%
+   :alt: 
+
+.. csv-table:: Multi Node Scaling Branson
+   :file: branson_roci_scale_header.csv
+   :align: center
+   :widths: 10, 10, 10, 10
+   :header-rows: 1
 
 References
 ==========
