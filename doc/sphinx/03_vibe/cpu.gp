@@ -36,3 +36,22 @@ plot "cpu_40.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line
 set output "ats3_60.png"
 plot "cpu_60.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
 
+# Scaling Output
+set output "parthenon_roci_scale_range.png"
+set xrange [380:650]
+unset logscale xy
+set format y "%.1e"
+set xlabel "NX (NX=nx=ny=nz)"
+set key title "Nodes"
+set title "Parthenon Multi Node Scaling" font "serif,22"
+plot "parthenon_roci_scale_nxrange.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2, "" using 1:4 with line linestyle 3
+
+# SCALING PLOTS, Y IS FOM PER NODE
+
+# set xrange [32:96]
+# set yrange [2.5e6:3.5e6]
+# set xlabel "Nodes"
+# set ylabel "FOM/node"
+# # set title "Branson Multi Node Scaling" font "serif,22"
+# set output "parthenon_roci_scale.png"
+# plot "parthenon_roci_scale.csv" using 3:5 with linespoints linestyle 1

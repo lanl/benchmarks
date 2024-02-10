@@ -32,22 +32,31 @@ set output "cpu_200M.png"
 #set title "Branson Strong Scaling Performance on Crossroads, 200M particles" font "serif,22"
 plot "cpu_200M.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
 
+set output "cpu_10M_new.png"
+plot "cpu_10M_new.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
+
+set output "cpu_66M_new.png"
+plot "cpu_66M_new.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
+
+set output "cpu_200M_new.png"
+plot "cpu_200M_new.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
+
 # Scaling Output
 set output "branson_roci_scale_range.png"
 set xrange [200:8000]
+set format y "%.1e"
 unset logscale xy
-set key title "Number of Nodes"
+set key title "Nodes"
+set title "Branson Multi Node Scaling" font "serif,22"
 plot "branson_roci_scale_photonrange.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2, "" using 1:4 with line linestyle 3
 
 # SCALING PLOTS, Y IS FOM PER NODE
 set xrange [32:96]
 set yrange [2.5e6:3.5e6]
-set xlabel "Number of Nodes"
-set format y "%.1e"
+set xlabel "Nodes"
 set ylabel "FOM/node"
-unset logscale xy
+# set title "Branson Multi Node Scaling" font "serif,22"
 set output "branson_roci_scale.png"
-set title "Branson Multi Node Scaling" font "serif,22"
 plot "branson_roci_scale.csv" using 3:5 with linespoints linestyle 1
 
 set yrange [2e5:3e6]
