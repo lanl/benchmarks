@@ -1,0 +1,4 @@
+Nodes,NX,Zcycles/sec,NX/Node,Zcycles/sec/Node
+32,528,2.6e+08,16.5,8.12e+06
+64,672,7.34e+08,10.5,1.15e+07
+96,768,1e+09,8,1.04e+07

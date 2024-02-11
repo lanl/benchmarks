@@ -48,10 +48,10 @@ plot "parthenon_roci_scale_nxrange.csv" using 1:2 with linespoints linestyle 1, 
 
 # SCALING PLOTS, Y IS FOM PER NODE
 
-# set xrange [32:96]
-# set yrange [2.5e6:3.5e6]
-# set xlabel "Nodes"
-# set ylabel "FOM/node"
-# # set title "Branson Multi Node Scaling" font "serif,22"
-# set output "parthenon_roci_scale.png"
-# plot "parthenon_roci_scale.csv" using 3:5 with linespoints linestyle 1
+set xrange [32:96]
+set yrange [7e6:1.5e7]
+set xlabel "Nodes"
+set ylabel "FOM/node"
+# set title "Branson Multi Node Scaling" font "serif,22"
+set output "parthenon_roci_scale_pernode.png"
+plot "parthenon_roci_scale_pernode.csv" using 1:5 with linespoints linestyle 1
