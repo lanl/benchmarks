@@ -207,11 +207,22 @@ Multi-node scaling on Crossroads
 The results of the scaling runs performed on rocinante hbm partition are presented below.
 Parthenon was built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
 These runs used 32, 64, and 96 nodes with 96 tasks per node.
+These runs used approximately 1122 mesh blocks per node for a problem size using 50% of the total avalable memory across nodes.
+The problem size for Parthenon-VIBE is determined by parthenon/mesh/nx{1,2,3} which should be equal to produce a cubic grid.
+To find the appropriate nx value, use:
+
+.. math::
+   \begin{align}
+      \mathbf{blocks\_per\_side} &= \mathbf{int}((\mathbf{number\_of\_nodes}\times\mathbf{blocks\_per\_node})^\frac{1}{3}) \\
+      \mathbf{nx}                &= \mathbf{blocks\_per\_side}\times\mathbf{block\_size\_side}
+   \end{align}
+
+Where :math:`block\_size\_side=parthenon/meshblock/nx1=16`. 
 
 .. figure:: parthenon_roci_scale_pernode.png
    :align: center
    :scale: 50%
-   :alt: 
+   :alt: VIBE Weak scaling per node.
 
 .. csv-table:: Multi Node Scaling Parthenon
    :file: parthenon_roci_scale_pernode.csv
