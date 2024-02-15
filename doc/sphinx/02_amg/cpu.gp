@@ -45,12 +45,13 @@ set title "AMG2023 Strong Scaling for Problem 2, 320 x 320 x 320" font "serif,22
 plot "roci_2_320.csv" using 1:2 with linespoints linestyle 1, "" using 1:3 with line linestyle 2
 
 # SCALING PLOTS, Y IS FOM PER NODE
+unset logscale xy
 set xrange [32:96]
-set xlabel "Number of Nodes"
+set yrange [1e5:3e8]
+set xlabel "Nodes"
 set format y "%.1e"
 set ylabel "FOM/node"
-unset logscale xy
-set output "cpu_scale_roci.png"
+set output "cpu_scale_roci_cubes.png"
 set title "AMG Multi Node Scaling" font "serif,22"
-plot "amg_scale_roci.csv" using 1:4 with linespoints linestyle 1, "" using 1:5 with line linestyle 2
+plot "amg_scale_roci_cubes_pernode.csv" using 1:4 with linespoints linestyle 1, "" using 1:5 with line linestyle 2
 
