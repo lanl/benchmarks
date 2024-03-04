@@ -223,6 +223,47 @@ class MiniemFom(object):
         self.metrics_cache['Try'] = emtry
         self.logger.info("Try = {}".format(emtry))
 
+    def _run_size(self):
+        """Extract the size."""
+        self.logger.debug("Extracting the size...")
+        file_name_input = "maxwell-large.xml"
+        emsize = None
+        empath = os.path.abspath(self.file_name)
+        empath = os.path.dirname(empath)
+        empath = os.path.join(empath, file_name_input)
+        
+        # <ParameterList>
+        #   <ParameterList name="Mesh">
+        #     <ParameterList name="Inline Mesh">
+        #       <ParameterList name="Mesh Factory Parameter List">
+        #         <Parameter name="X Elements" type="int" value="40" />
+        try:
+            tree = ET.parse(empath)
+            root = tree.getroot()
+            for c1 in root:
+                if c1.attrib['name'] == 'Mesh':
+                    for c2 in c1:
+                        if c2.attrib['name'] == 'Inline Mesh':
+                            for c3 in c2:
+                                if c3.attrib['name'] \
+                                    == 'Mesh Factory Parameter List':
+                                    for c4 in c3:
+                                        if c4.attrib['name'] \
+                                            == 'X Elements':
+                                            emsizex = int(c4.attrib['value'])
+                                        if c4.attrib['name'] \
+                                            == 'Y Elements':
+                                            emsizey = int(c4.attrib['value'])
+                                        if c4.attrib['name'] \
+                                            == 'Z Elements':
+                                            emsizez = int(c4.attrib['value'])
+            emsize = int(round(pow(emsizex * emsizey * emsizez, 1/3), 1))
+        except:
+            self.logger.critical("Cannot parse {}!".format(file_name_input))
+        
+        self.metrics_cache['Size'] = emsize
+        self.logger.info("Size = {}".format(emsize))
+
     def _run_csv(self):
         """Put stuff into CSV file."""
         file_csv = self.file_name.replace('.log', '.csv')
@@ -238,6 +279,7 @@ class MiniemFom(object):
         """Extract the FOM."""
         self._run_fom()
         self._run_try()
+        self._run_size()
         self.metrics_cache['File'] = os.path.abspath(self.file_name)
         self._run_csv()
 
