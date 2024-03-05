@@ -18,6 +18,7 @@ import logging
 import xml.etree.ElementTree as ET
 from collections import OrderedDict
 import csv
+import glob
 
 
 assert sys.version_info >= (3, 5), "Please use Python version 3.5 or later."
@@ -264,6 +265,27 @@ class MiniemFom(object):
         self.metrics_cache['Size'] = emsize
         self.logger.info("Size = {}".format(emsize))
 
+    def _run_ldpxi(self):
+        """Extract items from LDPXI output if present"""
+        if self.metrics_cache['MaxRSS (GiB)'] is not None:
+            return
+        emmaxrss = None
+        empath = os.path.abspath(self.file_name)
+        empath = os.path.dirname(empath)
+        empath = os.path.join(empath, '*ldpxi*.csv')
+        for file_ldpxi in glob.glob(empath):
+            with open(file_ldpxi) as fp:
+                line = fp.readline()
+                while line:
+                    if "maxrss(KiB)" in line:
+                        emmaxrss = int(line.split(',')[1])
+                        break
+                    line = fp.readline()
+                if emmaxrss is not None:
+                    break
+        self.metrics_cache['MaxRSS (GiB)'] = emmaxrss
+        self.logger.info("MaxRSS (GiB) = {}".format(emmaxrss))
+
     def _run_csv(self):
         """Put stuff into CSV file."""
         file_csv = self.file_name.replace('.log', '.csv')
@@ -280,6 +302,7 @@ class MiniemFom(object):
         self._run_fom()
         self._run_try()
         self._run_size()
+        self._run_ldpxi()
         self.metrics_cache['File'] = os.path.abspath(self.file_name)
         self._run_csv()
 
