@@ -3,9 +3,9 @@
 
 MemoryRecorder::MemoryRecorder() {
 
-    int k, namelen;
+    int k;
     struct stat st = {0};
-    local_maxrss=0;
+    local_maxrss.val=0;
     global_maxrss=0;
     getrss_summary=0;
     getmeminfo=0;
@@ -13,12 +13,16 @@ MemoryRecorder::MemoryRecorder() {
     MPI_Comm_rank(MPI_COMM_WORLD, &globalrank);
     MPI_Comm_size(MPI_COMM_WORLD, &globalsize);
     MPI_Comm_split_type(MPI_COMM_WORLD, MPI_COMM_TYPE_SHARED, 0,
-        MPI_INFO_NULL, &shmcomm);
+        MPI_INFO_NULL, &eachnode);
 
-    MPI_Comm_rank(shmcomm, &localrank);
-    MPI_Comm_size(shmcomm, &localsize);
+    MPI_Comm_rank(eachnode, &localrank);
+    MPI_Comm_size(eachnode, &localsize);
     MPI_Get_processor_name(hostname, &namelen);
+    MPI_Comm_split(MPI_COMM_WORLD, localrank, globalrank, &bosscomm);
+    MPI_Comm_rank(bosscomm, &bossrank);
+    MPI_Comm_size(bosscomm, &bosssize);
 
+    local_maxrss.index = bossrank;
     nodenum = globalrank/localsize;
     numnodes = globalsize/localsize;
     pid = getpid();
@@ -28,8 +32,11 @@ MemoryRecorder::MemoryRecorder() {
     // Make the hostname a string and add relative host number.
     std::string strhost, strhostnum;
     for (k=0; k<namelen; k++) {
+        if (hostname[k] == '.') break;
         strhost += hostname[k];
     }
+
+    this->gethostlist();
 
     // Get meminfo files to read from.
     if (localrank == 0) {
@@ -75,18 +82,39 @@ void MemoryRecorder::summarizeMaxRSS() {
     // Sum all Max Rss to get global, sum maxrss on node comm to get node MaxRss
     // Collect all Max Rss to print each out individually.
     MPI_Reduce(&maxrss, &global_maxrss, 1, MPI_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Gather(&maxrss, 1, MPI_LONG, rss_collect, 1, MPI_LONG, 0, shmcomm);
-    // MPI_Reduce(&maxrss, &local_maxrss, 1, MPI_LONG, MPI_SUM, 0, shmcomm);
+    MPI_Gather(&maxrss, 1, MPI_LONG, rss_collect, 1, MPI_LONG, 0, eachnode);
+    // MPI_Reduce(&maxrss, &local_maxrss, 1, MPI_LONG, MPI_SUM, 0, eachnode);
 
     if (localrank == 0) {
         for (i=0; i<localsize; i++) {
-            local_maxrss += rss_collect[i];
+            local_maxrss.val += rss_collect[i];
+        }
+    }
+
+    MPI_Reduce(&local_maxrss, &min_maxrss, 1, MPI_LONG_INT, MPI_MINLOC, 0, bosscomm);
+    MPI_Reduce(&local_maxrss, &max_maxrss, 1, MPI_LONG_INT, MPI_MAXLOC, 0, bosscomm);
+}
+
+void MemoryRecorder::gethostlist() {
+    std::string strhost;
+    char hostnames[bosssize][MPI_MAX_PROCESSOR_NAME];
+    MPI_Gather(hostname, MPI_MAX_PROCESSOR_NAME, MPI_CHAR, hostnames,
+        MPI_MAX_PROCESSOR_NAME, MPI_CHAR, 0, bosscomm); 
+    
+    if (globalrank == 0) {
+        for (int k=0; k<bosssize; k++) {
+            for (int b=0; b<namelen; b++) {
+                if (hostnames[k][b] == '.') break;
+                strhost+=hostnames[k][b];
+            }
+            hostlist.push_back(strhost);
+            strhost="";
         }
     }
 }
 
 void MemoryRecorder::read_meminfo(std::string const &loc) {
-    MPI_Barrier(shmcomm);
+    MPI_Barrier(eachnode);
 
     if (localrank == 0) {
         int i;
@@ -155,7 +183,7 @@ void MemoryRecorder::read_meminfo(std::string const &loc) {
         freemem_pct.insert({loc, mempctnow});
     }
     getmeminfo++;
-    MPI_Barrier(shmcomm);
+    MPI_Barrier(eachnode);
 }
 
 void MemoryRecorder::write_meminfo() {
@@ -219,44 +247,52 @@ void MemoryRecorder::write_meminfo() {
 
         outfile.close();
     }
-    MPI_Barrier(shmcomm);
+    MPI_Barrier(eachnode);
 }
 
-void MemoryRecorder::write_rss() {
+void MemoryRecorder::write_rss(int filewrite) {
 
     // Get the RSS MAX and summarize it if you haven't already done so.
     if (getrss_summary == 0) {
         this->summarizeMaxRSS();
     }
 
+    std::cout << std::fixed << std::dec;
     if (localrank == 0) {
         unsigned long noderam = this->getRamSize()/kb;
         unsigned long totalram = noderam * numnodes;
-        double pctnoderam = (double)local_maxrss/noderam;
+        double pctnoderam = (double)local_maxrss.val/noderam;
 
         // Write out Node rss max sum and per rank value.
-        std::ofstream outfile;
-        outfile.open(rssfileOut, std::ios::out);
+        if (filewrite) {
+            std::ofstream outfile;
+            outfile.open(rssfileOut, std::ios::out);
 
-        outfile << "Node Number " << nodenum << "/" << numnodes <<std::endl;
-        outfile << "Mem Used: " << local_maxrss/mb << " (GiB)" << std::endl;
-        outfile << "Total Ram: " << noderam/mb << " (GiB)" << std::endl;
-        outfile << "Fraction Ram Used: " << pctnoderam << std::endl;
-        outfile << "Percent Ram Used: " << round_pct(pctnoderam) << "%" << std::endl;
+            outfile << "Node Number " << nodenum << "/" << numnodes << "  " << local_maxrss.index << std::endl;
+            outfile << "Mem Used: " << local_maxrss.val << " - " << local_maxrss.val/mb << " (GiB)" << std::endl;
+            outfile << "Total Ram: " << noderam/mb << " (GiB)" << std::endl;
+            outfile << "Fraction Ram Used: " << pctnoderam << std::endl;
+            outfile << "Percent Ram Used: " << round_pct(pctnoderam) << "%" << std::endl;
 
-        // Write out Node MaxRSS for each process.
-        for (int i=0; i<localsize; i++) {
-            outfile << "Rank: " << i << " MaxRSS: " << rss_collect[i]/kb << " (MiB)" << std::endl;
+            // Write out Node MaxRSS for each process.
+            for (int i=0; i<localsize; i++) {
+                outfile << "Rank: " << i << " MaxRSS: " << rss_collect[i]/kb << " (MiB)" << std::endl;
+            }
+            outfile.close();
         }
-        outfile.close();
 
         // Write out total program rss max.
         if (globalrank == 0) {
             double pcttotalram = (double)global_maxrss/totalram;
+            double pctminram = (double)min_maxrss.val/noderam;
+            double pctmaxram = (double)max_maxrss.val/noderam;
             std::cout << "Mem Used: " << global_maxrss << " Total Ram: " << totalram << " Fraction Ram: " << round_pct(pcttotalram) << "%" << std::endl;
             std::cout << "TOTAL RSS MAX: " << global_maxrss/mb  << " (GiB) - " << round_pct(pcttotalram) << "%" << std::endl;
+            std::cout << "MIN RSS MAX: " << min_maxrss.val << " " << min_maxrss.val/mb  << " (GiB) - " << round_pct(pctminram) << "%";
+            std::cout << " -- On NODE: " << min_maxrss.index << " - " << hostlist.at(min_maxrss.index) << std::endl;
+            std::cout << "MAX RSS MAX: " << max_maxrss.val << " " << max_maxrss.val/mb  << " (GiB) - " << round_pct(pctmaxram) << "%";
+            std::cout << " -- On NODE: " << max_maxrss.index << " - " << hostlist.at(max_maxrss.index) << std::endl;
         }
-
     }
 }
 

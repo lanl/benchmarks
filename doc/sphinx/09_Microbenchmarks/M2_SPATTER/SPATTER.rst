@@ -109,9 +109,9 @@ This setup script performs the following:
 
    * ranklist is set to sweep from 1-112 ranks respectively for a ATS-3 type system
 
-   * boundarylist is set to reasonable defaults for scaling experiments (specifies the maximum value of a pattern index, limiting the size of the data array)
-
    * sizelist is set to reasonable defaults for strong scaling experiments (specifies the size of the pattern to truncate at)
+
+   * count list is set to defaults of 1.
 
 #. Populates the GPU configuration file (scripts/gpu_config.sh) with reasonable defaults for single-GPU throughput experiments on a V100 or A100 system
 
@@ -123,8 +123,6 @@ This setup script performs the following:
 
    * ranklist is set to a constant of 1 for 8 different runs (8 single-GPU runs)
 
-   * boundarylist is set to reasonable defaults for scaling experiments (specifies the maximum value of a pattern index, limiting the size of the data array)
-
    * sizelist is set to reasonable defaults for strong scaling experiments (specifies the size of the pattern to truncate at)
 
    * countlist is set to reasonable defaults to control the number of gathers/scatters performed by an experiment. This is the parameter that is varied to perform throughput experiments.
@@ -133,7 +131,7 @@ This setup script performs the following:
 
     * You will need CMake, GCC, and MPI loaded into your environment (include them in your modules/cpu.mod if not already included)
 
-    * You will need CMAke, CUDA, and NVCC loaded into your environment for the GPU build (include them in your modules/gpu.mod)
+    * You will need CMake, CUDA, and NVCC loaded into your environment for the GPU build (include them in your modules/gpu.mod)
 
 Optional Manual Build
 ---------------------
@@ -170,9 +168,9 @@ The scripts/scaling.sh script has the following options (a scripts/mpirunscaling
 * p: Problem name
 * f: Pattern name
 * n: User-defined run name (for saving results)
-* b: Toggle boundary limit (option, default: off for weak scaling, will be overridden to on for strong scaling)
 * c: Core binding (optional, default: off)
 * g: Toggle GPU (optional, default: off)
+* r: Toggle count parameter on pattern with countlist (default: off)
 * s: Toggle pattern size limit (optional, default: off for weak scaling, will be overridden to on for strong scaling)
 * t: Toggle throughput plot generation (optional, default: off)
 * w: Toggle weak/strong scaling (optional, default: off = strong scaling)
@@ -258,7 +256,7 @@ Throughput experiment for the pattern in patterns/xrage/asteroid/spatter5.json. 
 
 .. code-block:: bash
 
-   bash scripts/scaling.sh -a xrage -p asteroid -f spatter5 -n H100 -g -s -t
+   bash scripts/scaling.sh -a xrage -p asteroid -f spatter5 -n H100 -g -s -r -t
 
 ..
 
@@ -283,7 +281,7 @@ Throughput experiment for the pattern in patterns/xrage/asteroid/spatter9.json. 
 
 .. code-block:: bash
 
-   bash scripts/scaling.sh -a xrage -p asteroid -f spatter9 -n H100 -g -s -t
+   bash scripts/scaling.sh -a xrage -p asteroid -f spatter9 -n H100 -g -s -r -t
 
 ..
 

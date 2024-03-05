@@ -17,7 +17,7 @@ def collect_args():
         prog='',
         description='Collect and move the files created by memory recorder.'
         )
-    
+
     inwd=os.getcwd()
     parser.add_argument('-i', '--input_dir', type=str, default=inwd,
         help="Result directory holding memrecorder results.")
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     rawmemout = 'memraw'
     pctmemout = 'mempct'
     outfiles = [rssout, rawmemout, pctmemout]
-    
+
     meminfo_pct = {}
     meminfo_raw = {}
     nodelist = {}
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     for csvfile in memrec_ls:
         relpath = os.path.join(memrec_dir, csvfile)
-        
+
         if any([csvfile.startswith(k) for k in outfiles]):
             os.remove(relpath)
 
@@ -95,15 +95,22 @@ if __name__ == "__main__":
     if not outdir:
         outdir = memrec_dir
 
-
     # Add summary subfolder to outdir.
     outdir = os.path.join(outdir, "summary")
-    os.makedirs(outdir, exist_ok=True)
 
-    # Collect and write out rss info
-    outfile = os.path.join(outdir,rssout+".csv")
-    rssframe = pd.DataFrame(rssraw, columns=['NodeNum',"NodeName","RamFraction"]).set_index('NodeNum')
-    rssframe.sort_values("RamFraction").to_csv(outfile)
+    if rssraw:
+        os.makedirs(outdir, exist_ok=True)
+
+        # Collect and write out rss info
+        outfile = os.path.join(outdir,rssout+".csv")
+        rssframe = pd.DataFrame(rssraw, columns=['NodeNum',"NodeName","RamFraction"]).set_index('NodeNum')
+        rssframe.sort_values("RamFraction").to_csv(outfile)
+
+    if not meminfo_pct or not meminfo_raw:
+        print("No meminfo files. RSS summarized.")
+        sys.exit(0)
+
+    os.makedirs(outdir, exist_ok=True)
 
     # Handle meminfo outputs. Concatenate the dataframes.
     codeloc = 'code_location'
@@ -139,7 +146,7 @@ if __name__ == "__main__":
         ddrop.sort_values("Total").to_csv(outfile)
 
     #Find the code location with the minimum mean free RAM percentage.
-    
+
     minfree_loc = pct_means['Total'].idxmin()
     sorted_min_pct_loc = pct_df.loc[idx[:,minfree_loc],:].sort_values("Total").droplevel(codeloc)
     outfile = os.path.join(outdir, f"minloc_{pctmemout}_{minfree_loc}.csv")

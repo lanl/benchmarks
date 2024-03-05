@@ -225,7 +225,7 @@ The second figure provides memory use on 1 node of CTS-1 (Quartz) using 4 MPI ta
 
 
 Strong Scaling on Crossroads
-----------------------------
+============================
 
 We present strong scaling results for varying problem sizes on Crossroads with HBM below. The code was configured and compiled using hypre v2.29.0 with MPI only and optimization -O2.
 
@@ -346,10 +346,8 @@ Approximate results of the FOM for varying memory usages on Crossroads are provi
    
    Varying memory usage (estimated) for Problem 1 and 2
 
-
-
 V-100
------
+=====
 
 We have also performed runs on 1 NVIDIA V-100 GPU increasing the problem size n x n x n.
 For these runs hypre 2.29.0 was configured as follows:
@@ -393,6 +391,26 @@ The FOMs of AMG2023 on V100 for Problem 2 is provided in the following table and
    
    AMG2023 FOM on V100 for Problem 2 (7-pt stencil, AMG-PCG)
 
+Multi-node scaling on Crossroads
+================================
+
+The results of the scaling runs performed on rocinante hbm partition are presented below.
+Amg and hypre were built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
+These runs used 32, 64, and 96 nodes with 108 tasks per node.
+Problems 1 and 2 were run with problem sizes per MPI process, `-n`, of 38,38,38 and 60,60,60 respectively to use roughly 15% of available memory while maintaining a cubic grid.
+The product of the x,y,z process topology must equal the number of processors.
+In this case, x=y=24 for all node counts and z was set to 6, 12, and 18 for 32, 64, and 96 nodes respectively. 
+
+.. figure:: cpu_scale_roci_cubes.png
+   :align: center
+   :scale: 50%
+   :alt: 
+
+.. csv-table:: Multi Node Scaling AMG problem 1 and 2
+   :file: amg_scale_roci_cubes_pernode.csv
+   :align: center
+   :widths: 10, 10, 10, 10, 10
+   :header-rows: 1
 
 References
 ==========

@@ -170,7 +170,7 @@ Microbenchmark Overview
 .. _GlobalRunRules:
 
 Run Rules Synopsis
-===============
+==================
 
 Single node benchmarks will require respondent to provide estimates on
 
@@ -256,39 +256,37 @@ SSNI Weights and SSNI problem sizes
    - **SSNI Weight**
    - **SSNI Problem size - % device memory**
  * - Branson
-   - TBD
-   - 30
- * - AMG2023 Problem 1 Setup
-   - TBD
-   - 20
- * - AMG2023 Problem 2 Setup
-   - TBD
-   - 20
- * - AMG2023 Problem 1 Solve
-   - TBD
-   - 20
- * - AMG2023 Problem 2 Solve
-   - TBD
-   - 20
+   - 10
+   - 25 to 30
+ * - AMG2023 Problem 1 
+   - 5
+   - 15 to 20   
+ * - AMG2023 Problem 2 
+   - 5
+   - 15 to 20
  * - MiniEM
-   - TBD
+   - 15
    - TBD
  * - MLMD Training
-   - TBD
+   - 5
    - N/A 
  * - MLMD Simulation
-   - TBD
-   - 60
+   - 5
+   - 55 to 65 
  * - Parthenon-VIBE
-   - TBD
-   - 40 
+   - 30
+   - 35 to 45  
  * - Sparta
-   - TBD
-   - TBD
- * - UMT
-   - TBD
-   - TBD
+   - 10
+   - 50 to 60 
+ * - UMT Problem 1
+   - 7.5
+   - 45 to 55
+ * - UMT Problem 2
+   - 7.5
+   - 45 to 55
 
+Note:  % of device memory is approximate please note actual memory footprint used. 
 
 System Information
 ==================

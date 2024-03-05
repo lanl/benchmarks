@@ -43,16 +43,16 @@ Building on Chicoma
 
    #Load modules:
    module switch PrgEnv-cray PrgEnv-gnu
-   module load cuda/11.6
+   module load cuda
    module load cpe-cuda
    module load cray-libsci
    module load cray-fftw
-   module load python/3.9-anaconda-2021.11
+   module load python
    module load cmake
-   module load cudatoolkit/22.3_11.6
+   module load cudatoolkit
    
    #Create virtual python environment
-   virtenvpath = <Set Path> 
+   virtenvpath =virt <Set Path> 
    conda create --prefix=${virtenvpath} python=3.10
    source activate ${virtenvpath}
    conda install pytorch-gpu cudatoolkit=11.6 cupy -c pytorch -c nvidia
@@ -261,7 +261,7 @@ Training HIPNN Model
 --------------------
 For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. 
 
-* On Chicoma using a single GPU - FOM Average Epoch time:  0.27951446 
+* On Chicoma using a single GPU - FOM Average Epoch time:  0.24648178 
 * On Crossroads using a single node - FOM Average Epoch time:   2.63468153
 
 Simulation+Inference 
@@ -310,19 +310,19 @@ Single GPU Throughput Scaling on Chicoma
 Throughput performance of MLMD Simulation+Inference is provided within the
 following table and figure.
 
-.. .. csv-table::  MLMD throughput performance on Chicaoma
-..    :file: gpu.csv
-..    :align: center
-..    :widths: 10, 10
-..    :header-rows: 1
+.. csv-table::  MLMD throughput performance on Chicaoma
+   :file: gpu.csv
+   :align: center
+   :widths: 10, 10
+   :header-rows: 1
 
 
-.. .. figure:: gpu.png
-..    :align: center
-..    :scale: 50%
-..    :alt: MLMD throughput performance on Chicaoma
+.. figure:: gpu.png
+   :align: center
+   :scale: 50%
+   :alt: MLMD throughput performance on Chicaoma
 
-..    MLMD throughput performance on Chicaoma 
+   MLMD throughput performance on Chicaoma 
 
 
 References

@@ -201,12 +201,61 @@ Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the f
    VIBE Throughput Performance on A100
 
 
+Multi-node scaling on Crossroads
+================================
+
+The results of the scaling runs performed on rocinante hbm partition are presented below.
+Parthenon was built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
+These runs used 32, 64, and 96 nodes with 96 tasks per node.
+These runs used approximately 1122 mesh blocks per node for a problem size using 50% of the total avalable memory across nodes.
+The problem size for Parthenon-VIBE is determined by parthenon/mesh/nx{1,2,3} which should be equal to produce a cubic grid.
+To find the appropriate nx value, use:
+
+.. math::
+   \begin{align}
+      \mathbf{blocks\_per\_side} &= \mathbf{int}((\mathbf{number\_of\_nodes}\times\mathbf{blocks\_per\_node})^\frac{1}{3}) \\
+      \mathbf{nx}                &= \mathbf{blocks\_per\_side}\times\mathbf{block\_size\_side}
+   \end{align}
+
+Where :math:`block\_size\_side=parthenon/meshblock/nx1=16`. 
+
+.. figure:: parthenon_roci_scale_pernode.png
+   :align: center
+   :scale: 50%
+   :alt: VIBE Weak scaling per node.
+
+.. csv-table:: Multi Node Scaling Parthenon
+   :file: parthenon_roci_scale_pernode.csv
+   :align: center
+   :widths: 10, 10, 10, 10, 10
+   :header-rows: 1
+
 Validation
 ==========
 
+Parthenon-VIBE prints to a history file (default name ``burgers.hst``) a
+time series of the sum of squares of evolved variables integrated over
+volume for each octant of the domain, as well as the total number of
+meshblocks in the simulation at that time. To compare these quantities
+between runs, we provide the ``burgers_diff.py`` program in the
+benchmark folder. This will diff two history files and report when the
+relative difference is greater than some tolerance.
 
+.. note::
+
+   ``burgers.hst`` is **appended** to when the executable is re-run. So
+   if you want to compare two different history files, rename the
+   history file by changing either ``problem_id`` in the ``parthenon/job``
+   block in the input deck (this can be done on the command line. When
+   you start the program, add ``parthenon/job/problem_id=mynewname`` to
+   the command line argument), or copy the old file to back it up.
+
+To check that a modified calculation is still correct, run
+``burgers_diff.py`` to compare a new run to the fiducial one at the
+default tolerance. If no diffs are reported, the modified calculation
+is correct.
 
 References
 ==========
 
-.. [Parthenon-VIBE] Jonah Miller, 'Parthenon', 2023. [Online]. Available: https://github.com/parthenon-hpc-lab/parthenon. [Accessed: 20- Mar- 2023]
+.. [Parthenon-VIBE] Jonah Miller, 'Parthenon', 2024. [Online]. Available: https://github.com/parthenon-hpc-lab/parthenon. [Accessed: 06- Feb- 2024]
