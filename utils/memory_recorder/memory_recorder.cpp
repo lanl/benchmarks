@@ -257,7 +257,9 @@ void MemoryRecorder::write_rss(int filewrite) {
         this->summarizeMaxRSS();
     }
 
-    std::cout << std::fixed << std::dec;
+    std::ios_base::fmtflags fls;
+    fls = std::cout.flags();
+    std::cout << std::fixed << std::dec << std::setprecision(4);
     if (localrank == 0) {
         unsigned long noderam = this->getRamSize()/kb;
         unsigned long totalram = noderam * numnodes;
@@ -267,6 +269,7 @@ void MemoryRecorder::write_rss(int filewrite) {
         if (filewrite) {
             std::ofstream outfile;
             outfile.open(rssfileOut, std::ios::out);
+            outfile << std::setprecision(4);
 
             outfile << "Node Number " << nodenum << "/" << numnodes << "  " << local_maxrss.index << std::endl;
             outfile << "Mem Used: " << local_maxrss.val << " - " << local_maxrss.val/mb << " (GiB)" << std::endl;
@@ -286,14 +289,23 @@ void MemoryRecorder::write_rss(int filewrite) {
             double pcttotalram = (double)global_maxrss/totalram;
             double pctminram = (double)min_maxrss.val/noderam;
             double pctmaxram = (double)max_maxrss.val/noderam;
-            std::cout << "Mem Used: " << global_maxrss << " Total Ram: " << totalram << " Fraction Ram: " << round_pct(pcttotalram) << "%" << std::endl;
-            std::cout << "TOTAL RSS MAX: " << global_maxrss/mb  << " (GiB) - " << round_pct(pcttotalram) << "%" << std::endl;
-            std::cout << "MIN RSS MAX: " << min_maxrss.val << " " << min_maxrss.val/mb  << " (GiB) - " << round_pct(pctminram) << "%";
-            std::cout << " -- On NODE: " << min_maxrss.index << " - " << hostlist.at(min_maxrss.index) << std::endl;
-            std::cout << "MAX RSS MAX: " << max_maxrss.val << " " << max_maxrss.val/mb  << " (GiB) - " << round_pct(pctmaxram) << "%";
-            std::cout << " -- On NODE: " << max_maxrss.index << " - " << hostlist.at(max_maxrss.index) << std::endl;
+            // PRINT TOTAL
+            std::cout << "Mem Used: " << global_maxrss << " Total Ram: " << totalram << " Fraction Ram: ";
+            std::cout << round_pct(pcttotalram) << "%" << std::endl;
+            // PRINT TOTAL SUMMARY
+            std::cout << "TOTAL RSS MAX: " << global_maxrss/mb  << " (GiB) - ";
+            std::cout << round_pct(pcttotalram) << "%" << std::endl;
+            // PRINT MIN
+            std::cout << "MIN RSS MAX: " << min_maxrss.val << " " << min_maxrss.val/mb  << " (GiB) - ";
+            std::cout << round_pct(pctminram) << "%" << " -- On NODE: " << min_maxrss.index;
+            std::cout << " - " << hostlist.at(min_maxrss.index) << std::endl;
+            // PRINT MAX
+            std::cout << "MAX RSS MAX: " << max_maxrss.val << " " << max_maxrss.val/mb  << " (GiB) - ";
+            std::cout << round_pct(pctmaxram) << "%" << " -- On NODE: " << max_maxrss.index;
+            std::cout << " - " << hostlist.at(max_maxrss.index) << std::endl;
         }
     }
+    std::cout.flags(fls);
 }
 
 
