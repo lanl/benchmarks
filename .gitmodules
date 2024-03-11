@@ -21,6 +21,9 @@
 	path = microbenchmarks/spatter
 	url = git@github.com:lanl/spatter.git
 	branch = main
+[submodule "miniem_build/spack"]
+	path = miniem_build/spack
+	url = git@github.com:spack/spack
 [submodule "kokkos-tools"]
 	path = kokkos-tools
 	url = git@github.com:kokkos/kokkos-tools.git

@@ -161,31 +161,39 @@ Results from UMT are provided on the following systems:
 * Crossroads (see :ref:`GlobalSystemATS3`)
 * Sierra (see :ref:`GlobalSystemATS2`)
 
-Strong scaling data for SPP 1 and 2 on Crossroads is shown in the tables and figures below
+Strong scaling data for SPP 1 and 2 on Crossroads is shown in the tables and figures below. 
+
+For SPP1 the mesh size was 14\ :sup:`3` resulting in approximately 50% usage of the available 128 GBytes
+
+For SPP2 the mesh size was 33\ :sup:`3` resulting in approximately 50% usage of the available 128 GBytes
+
 
 .. csv-table:: Strong scaling of SPP 1 on Crossroads
-   :file: spp1_strong_scaling_cts2_abridged.csv
+   :file: spp1_strong_scaling_roci.csv
    :align: center
    :widths: auto
    :header-rows: 1
 		 
-.. figure:: spp1_strong_scaling_cts2.png
+.. figure:: spp1_strong_scaling_roci.png
    :alt: Strong scaling of SPP 1 on Crossroads
    :align: center
    :scale: 50%
 
-.. csv-table:: SPP #2 on CTS-2
-   :file: spp2_strong_scaling_cts2_abridged.csv
+   Strong scaling of SPP 1 on Crossroads
+
+
+.. csv-table:: SPP #2 on Crossroads
+   :file: spp2_strong_scaling_roci.csv
    :align: center
    :widths: auto
    :header-rows: 1
 		 
-.. figure:: spp2_strong_scaling_cts2.png
+.. figure:: spp2_strong_scaling_roci.png
    :alt: Strong scaling of SPP 2 on Crossroads
    :align: center
    :scale: 50%
 	   
-   Strong scaling of SPP 2 on CTS-2
+   Strong scaling of SPP 2 on Crossroads
 
 Throughput study of SPP 1 and 2 performance on 1/4 of a Sierra node (single V100 and 10 Power9 cores), as a function of problem size:
 
@@ -210,6 +218,7 @@ Throughput study of SPP 1 and 2 performance on 1/4 of a Sierra node (single V100
    :alt: Throughput of SPP 2 on 1/4 Sierra node
    :align: center
    :scale: 50%
+
 
 Verification of Results
 =======================

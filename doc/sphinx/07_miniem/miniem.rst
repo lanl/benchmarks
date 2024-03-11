@@ -6,9 +6,7 @@ This is the documentation for the ATS-5 Benchmark MiniEM. The content herein was
 created by the following authors (in alphabetical order).
 
 - `Anthony M. Agelastos <mailto:amagela@sandia.gov>`_
-- `David I. Collins <mailto:dcollin@sandia.gov>`_
 - `Christian A. Glusa <mailto:caglusa@sandia.gov>`_
-- `Douglas M. Pase <mailto:dmpase@sandia.gov>`_
 - `Roger P. Pawlowski <mailto:rppawlo@sandia.gov>`_
 - `Joel O. Stevenson <mailto:josteve@sandia.gov>`_
 
@@ -64,43 +62,37 @@ These parameters are described below.
 ``X Elements, Y Elements, Z Elements``
    This sets the size of the problem, which is the product of these 3
    quantities. These parameters are set to other values with the cases shown
-   herein.
+   herein. These values should be identical for the calculations herein.
 
 
 Figure of Merit
 ---------------
 
-Each MiniEM simulation writes out a timer block to STDOUT. The relevant portion
-of this block is in the below example.
+Each MiniEM simulation writes out a Figure of Merit (FOM) block to
+STDOUT. The relevant portion of this block is in the below example.
 
 .. code-block::
 
-   Mini-EM: 678.6 [1] {min=678.581, max=678.613, std dev=0.00763025} <1, 3, 4, 3, 4, 6, 7, 10, 7, 3>
-   |   Mini-EM: Total Time: 678.6 - 100% [1] {min=678.581, max=678.613, std dev=0.00763291} <1, 3, 4, 3, 4, 6, 7, 10, 7, 3>
-   <snip>
-   |   |   Mini-EM: timestepper: 656.961 - 96.8112% [1] {min=656.96, max=656.961, std dev=0.000231646} <2, 0, 0, 0, 0, 0, 1, 6, 19, 20>
-   |   |   |   Mini-EM: Advance Time Step: 656.961 - 99.9999% [450] {min=656.96, max=656.961, std dev=0.000263652} <1, 0, 1, 0, 0, 0, 0, 5, 17, 24>
+   =================================
+   FOM Calculation
+   =================================
+     Number of cells = 4116000
+     Time for Belos Linear Solve = 705.737 seconds
+     Number of Time Steps (one linear solve per step) = 1541
+     FOM ( num_cells * num_steps / solver_time / 1000) = 8987.42 k-cell-steps per second 
+   =================================
 
-The quantity of interest (QOI) is "time steps per second," which can be computed
-from the above table by extracting the number of timesteps (last line and within
-brackets, is "450" in this example) and dividing by the total time in that
-region (the first floating point number on the same line as the number of
-timesteps, is "656.961" in this example).
+The number of steps, specified with the ``--numTimeSteps`` command
+line option, described below in :ref:`MiniEMRunATS3`), must be large
+enough so the time for the Belos Linear Solve is greater than 600
+seconds, i.e., so the solver runs for at least 10 minutes. The figure
+of merit (FOM) is the bottom entry in this block, i.e., ``FOM (
+num_cells * num_steps / solver_time / 1000)``.
 
-The number of steps must be large enough so the timestepper time exceeds 600
-(i.e., so it runs for at least 10 minutes). The figure of merit (FOM) is the QOI
-for a simulation above the 10 minute mark.
-
-It is desired to capture the FOM for varying problem sizes sized by the memory
-per processing element (PE). A PE is defined as a MPI Rank or software thread.
-The sizes desired are approximately 0.25, 0.50, 1.00, 2.00, etc. GiB/PE (stop
-when there is insufficient memory to carry on). On systems with GPUs or other
-accelerators where this is mapping is unclear, then size the overall problem to
-coincide with the highest total problem size for the GPU case herein and keep
-scaling up in multiples of 2 until it ceases to fit within the GPU (which would
-be the largest problem and stop there). Since the memory varies for MiniEM when
-strong scaling, aim to capture these quantities when the system is fully
-utilized (i.e., get the memory when all PEs on the node are being used).
+It is desired to capture the FOM for varying problem sizes that
+encompass utilizing 35% to 75% of available memory (when all PEs are
+utilized). The ultimate goal is to maximize this throughput FOM while
+utilizing at least 50% of available memory.
 
 
 System Information
@@ -108,61 +100,11 @@ System Information
 
 The platforms utilized for benchmarking activities are listed and described below.
 
-* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL.
 * Crossroads (see :ref:`GlobalSystemATS3`)
-* Sierra (see :ref:`GlobalSystemATS2`)
-
-
-.. _MiniEMSystemCTS3:
-
-CTS-1/Manzano
--------------
-
-.. note::
-   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
-   is available.
-
-The Manzano HPC cluster has 1,488 compute nodes connected together by a
-high-bandwidth, low-latency Intel OmniPath network where each compute node uses
-two Intel Xeon Platinum 8268 (Cascade Lake) processors. Each processor has 24
-cores, and each node has 48 physical cores and 96 virtual cores. Each core has a
-base frequency of 2.9 GHz and a max frequency of 3.9 GHz. Cores support two
-AVX512 SIMD units each, with peak floating-point performance (RPEAK) of 2.9 GHz
-x 32 FLOP/clock x 48 cores = 4.45 TF/s. Measured DGEMM performance is just under
-3.5 TF/s per node (78.5% efficiency).
-
-Compute nodes are a Non-Uniform Memory Access (NUMA) design, with each processor
-representing a separate NUMA domain. Each processor (domain) supports six
-channels of 2,933 MT/s DDR4 memory. Total memory capacity is 4 GB/core, or 192
-GB/node. Memory bandwidth for the node is 12 channels x 8 bytes / channel x
-2.933 GT/s = 281.568 GB/s, and measured STREAM TRIAD throughput for local memory
-access is approximately 215 GB/s (76% efficiency). Cache design uses three
-levels of cache, with L1 using separate instruction and data caches, L2 unifying
-instruction and data, and L3 being shared across all cores in the processor. The
-cache size is 1.5 MB/core, 35.75 MB/processor, or 71.5 MB/node.
-
 
 
 Building
 ========
-
-Instructions are provided on how to build MiniEM for the following systems:
-
-* Generic (see :ref:`MiniEMBuildGeneric`)
-* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL (see :ref:`MiniEMBuildCTS1`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
-  :ref:`MiniEMBuildATS2`)
-
-If submodules were cloned within this repository, then the source code to build
-MiniEM is already present at the top level within the "trilinos" folder.
-
-
-.. _MiniEMBuildGeneric:
-
-Generic
--------
 
 MiniEM is a part of Trilinos, so building Trilinos and its dependencies is
 required. The [TrilinosBuild]_ documentation provides a lot of guidance.
@@ -171,62 +113,42 @@ Information to augment the official Trilinos documentation is provided below.
 The following requirements are present for MiniEM.
 
 * CMake version 3.23 or greater
-* GNU GCC version 8.0 or greater
 * OpenMPI version 3.1 or greater
+* Compilers ca. 2023
 
-Then, a suitable environment will need to be set.
+Detailed instructions are provided on how to build MiniEM for the
+following systems:
 
-* Set ``NETLIB_OPTIMIZED_BLAS_LIBS`` to something suitable on the new system
-* Set the usual ``AR``, ``NM``, ``RANLIB``, ``LD``, ``CXX``, ``CC``, ``FC``, ``F77``, ``F90``, ``CPPFLAGS``, ``CFLAGS``, ``CXXFLAGS``, ``FFLAGS``, ``FCFLAGS``, ``LDFLAGS``
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`MiniEMBuildATS3`)
 
-Then, build zlib, HDF5, PnetCDF, netCDF, Netlib, and Trilinos in a similar
-manner to what's in :ref:`MiniEMBuildRecipe`.
-
-
-.. _MiniEMBuildCTS1:
-
-CTS-1/Manzano
--------------
-
-.. note::
-   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
-   is available.
-
-Instructions for building on Manzano are provided below.
-
-.. code-block:: bash
-
-   module unload intel
-   module unload openmpi-intel
-   module use /apps/modules/modulefiles-apps/cde/v3/
-   module load cde/v3/devpack/gcc-ompi
-   mkdir build-trilinos
-   pushd build-trilinos
-   bash ../helper-scripts/configure_trilinos.sh
-   make -j 16
-   make install
+If submodules were cloned within this repository, then the source code
+to build MiniEM is already present at the top level within the
+"trilinos" and "miniem_build" folders.
 
 
-.. _MiniEMBuildATS2:
+.. _MiniEMBuildATS3:
 
-ATS-2/Vortex
-------------
+Crossroads
+----------
 
-Instructions for building on ATS-2 are provided below.
+Instructions for building on Crossroads are provided below. The
+"miniem_build" folder contains the following items.
 
-.. code-block:: bash
-
-   export BASEPATH=${PWD}
-   export LLNL_USE_OMPI_VARS=y
-   export OMPI_CC=gcc
-   export OMPI_CXX=${BASEPATH}/Trilinos/packages/kokkos/bin/nvcc_wrapper
-   mkdir -p build-trilinos
-   cd build-trilinos
-   cp -p ../files-from-David_used/* .
-   . ./load_matching_env.sh
-   cmake -C vortex-cuda-opt-Volta70-static-rdc.cmake -D CMAKE_INSTALL_PREFIX=/projects/scs/josteve/projects/miniEM/vortex/build-trilinos/tpls/trilinos/miniem-shared-opt /projects/scs/josteve/projects/miniEM/vortex/Trilinos/
-   cmake --build . -j 16
-   cmake --install .
+``build-crossroads.sh``
+   This script carries out the build. All that should be needed is for
+   the `spack.yaml` to be generated from `template.yaml` and then for
+   this script to be executed.
+``spack``
+   This contains a specific checkout of Spack needed to build
+   MiniEM. This will need to be patched; the patch is taken care of
+   via ``build-crossroads.sh``.
+``spack-fixes-v0.21.0.patch``
+   This is the patch file needed to address issues within the Spack
+   checkout.
+``template.yaml``
+   This file needs to be copied into ``spack.yaml`` and edited to
+   contain the paths to the necessary items.
 
 
 Running
@@ -234,78 +156,18 @@ Running
 
 Instructions are provided on how to run MiniEM for the following systems:
 
-* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL (see :ref:`MiniEMRunCTS1`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
-  :ref:`MiniEMRunATS2`)
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`MiniEMRunATS3`)
 
 
-.. _MiniEMRunCTS1:
+.. _MiniEMRunATS3:
 
-CTS-1/Manzano
--------------
+Crossroads
+----------
 
-.. note::
-   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
-   is available.
-
-An example of how to run the test case on Manzano with 450 time steps is
-provided below.
-
-.. code-block:: bash
-
-   basepath=`pwd -P`
-   installpath="build-trilinos/tpls/trilinos/miniem-shared-opt/example/PanzerMiniEM"
-   exe=${basepath}/${installpath}/PanzerMiniEM_BlockPrec.exe
-
-   module unload intel
-   module unload openmpi-intel
-   module use /apps/modules/modulefiles-apps/cde/v3/
-   module load cde/v3/devpack/gcc-ompi
-
-   export OMP_PLACES=threads
-   export OMP_PROC_BIND=true
-   export OMP_NUM_THREADS=1
-
-   mpiexec \
-       --np 48 \
-       --bind-to socket \
-       --map-by socket:span \
-       "${exe}" \
-           --stacked-timer --solver=MueLu-RefMaxwell \
-           --numTimeSteps=450  --linAlgebra=Tpetra \
-           --inputFile="${basepath}/maxwell-large.xml" \
-           >"miniem-sim.out" 2>&1
-
-
-.. _MiniEMRunATS2:
-
-ATS-2/Vortex
-------------
-
-An example of how to run the test case with a single GPU on Sierra is provided
-below.
-
-.. code-block:: bash
-
-   basepath=`pwd -P`
-   installpath="build-trilinos/tpls/trilinos/miniem-shared-opt/example/PanzerMiniEM"
-   exe=${basepath}/${installpath}/PanzerMiniEM_BlockPrec.exe
-
-   # convenience script that loads appropriate modules
-   pushd build-trilinos
-   . ./load_matching_env.sh
-   unset KOKKOS_NUM_DEVICES
-   export TPETRA_ASSUME_CUDA_AWARE_MPI=1
-   popd
-
-   jsrun -M "-gpu -disable_gdr" \
-       -n 1 -a 1 -c 1 -g 1 -d packed \
-       "${exe}" \
-           --stacked-timer --solver=MueLu-RefMaxwell \
-           --numTimeSteps=450 --linAlgebra=Tpetra \
-           --inputFile="{basepath}/maxwell-large.xml" \
-           >"miniem-sim.out" 2>&1
+An example of how to run the test case on Crossroads is provided
+within the script (:download:`run-crossroads-mapcpu.sh
+<run-crossroads-mapcpu.sh>`)
 
 
 Verification of Results
@@ -313,147 +175,100 @@ Verification of Results
 
 Results from MiniEM are provided on the following systems:
 
-* Commodity Technology System 1 (CTS-1) with Intel Cascade Lake processors,
-  known as Manzano at SNL (see :ref:`MiniEMResultsCTS1`)
-* Advanced Technology System 2 (ATS-2), also known as Sierra (see
-  :ref:`MiniEMResultsATS2`)
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`MiniEMResultsATS3`)
 
 
-.. _MiniEMResultsCTS1:
+.. _MiniEMResultsATS3:
 
-CTS-1/Manzano
--------------
+Crossroads
+----------
 
-.. note::
-   The CTS-1/Manzano system is used as a placeholder for when ATS-3/Crossroads
-   is available.
+Strong scaling performance (i.e., fixed problem size being run on
+different MPI rank counts) plots of MiniEM on Crossroads are provided
+within the following subsections.
 
-Strong scaling performance (i.e., fixed problem size being run on different MPI
-rank counts) plots of MiniEM on CTS-1/Manzano are provided within the following
-subsections.
+Problem Size 40 (18-43 GiB)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Problem Size 25x25x25 (0.25 GiB/PE)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This problem size corresponds to X, Y, and Z Element values set to 40
+which results in an overall discretization that contains 768,000
+cells.
 
-.. csv-table:: MiniEM Strong Scaling Performance and Memory on Manzano with 25x25x25 elements (0.25 GiB/PE)
-   :file: cts1-0.25.csv
+.. csv-table:: MiniEM Strong Scaling Performance and Memory on Crossroads with 768k cells (18-43 GiB)
+   :file: ats3-0768k.csv
    :align: center
-   :widths: 10, 10, 10, 10
+   :widths: 10, 10, 10, 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cts1-0.25.png
+.. figure:: ats3-0768k.png
    :align: center
    :scale: 50%
-   :alt: MiniEM Strong Scaling Performance on Manzano with 25x25x25 elements (0.25 GiB/PE)
+   :alt: MiniEM Strong Scaling Performance on Crossroads with 768k cells (18-43 GiB)
 
-   MiniEM Strong Scaling Performance on Manzano with 25x25x25 elements (0.25 GiB/PE)
+   MiniEM Strong Scaling Performance on Crossroads with 768k cells (18-43 GiB)
 
-.. figure:: cts1mem-0.25.png
+.. figure:: ats3-0768k-mem.png
    :align: center
    :scale: 50%
-   :alt: MiniEM Strong Scaling Memory on Manzano with 25x25x25 elements (0.25 GiB/PE)
+   :alt: MiniEM Strong Scaling Memory on Crossroads with 768k cells (18-43 GiB)
 
-   MiniEM Strong Scaling Memory on Manzano with 25x25x25 elements (0.25 GiB/PE)
+   MiniEM Strong Scaling Memory on Crossroads with 768k cells (18-43 GiB)
 
-Problem Size 40x40x40 (0.50 GiB/PE)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Problem Size 60 (57-84 GiB)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. csv-table:: MiniEM Strong Scaling Performance and Memory on Manzano with 40x40x40 elements (0.50 GiB/PE)
-   :file: cts1-0.50.csv
+This problem size corresponds to X, Y, and Z Element values set to 60
+which results in an overall discretization that contains 2,592,000
+cells.
+
+.. csv-table:: MiniEM Strong Scaling Performance and Memory on Crossroads with 2,592k cells (57-84 GiB)
+   :file: ats3-2592k.csv
    :align: center
-   :widths: 10, 10, 10, 10
+   :widths: 10, 10, 10, 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cts1-0.50.png
+.. figure:: ats3-2592k.png
    :align: center
    :scale: 50%
-   :alt: MiniEM Strong Scaling Performance on Manzano with 40x40x40 elements (0.50 GiB/PE)
+   :alt: MiniEM Strong Scaling Performance on Crossroads with 2,592k cells (57-84 GiB)
 
-   MiniEM Strong Scaling Performance on Manzano with 40x40x40 elements (0.50 GiB/PE)
+   MiniEM Strong Scaling Performance on Crossroads with 2,592k cells (57-84 GiB)
 
-.. figure:: cts1mem-0.50.png
+.. figure:: ats3-2592k-mem.png
    :align: center
    :scale: 50%
-   :alt: MiniEM Strong Scaling Memory on Manzano with 40x40x40 elements (0.50 GiB/PE)
+   :alt: MiniEM Strong Scaling Memory on Crossroads with 2,592k cells (57-84 GiB)
 
-   MiniEM Strong Scaling Memory on Manzano with 40x40x40 elements (0.50 GiB/PE)
+   MiniEM Strong Scaling Memory on Crossroads with 2,592k cells (57-84 GiB)
 
-Problem Size 50x50x50 (1.00 GiB/PE)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. csv-table:: MiniEM Strong Scaling Performance and Memory on Manzano with 50x50x50 elements (1.00 GiB/PE)
-   :file: cts1-1.00.csv
+Problem Size 70 (89-118 GiB)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This problem size corresponds to X, Y, and Z Element values set to 70
+which results in an overall discretization that contains 4,116,000
+cells.
+
+.. csv-table:: MiniEM Strong Scaling Performance and Memory on Crossroads with 4,116k cells (57-84 GiB)
+   :file: ats3-4116k.csv
    :align: center
-   :widths: 10, 10, 10, 10
+   :widths: 10, 10, 10, 10, 10, 10, 10
    :header-rows: 1
 
-.. figure:: cts1-1.00.png
+.. figure:: ats3-4116k.png
    :align: center
    :scale: 50%
-   :alt: MiniEM Strong Scaling Performance on Manzano with 50x50x50 elements (1.00 GiB/PE)
+   :alt: MiniEM Strong Scaling Performance on Crossroads with 4,116k cells (57-84 GiB)
 
-   MiniEM Strong Scaling Performance on Manzano with 50x50x50 elements (1.00 GiB/PE)
+   MiniEM Strong Scaling Performance on Crossroads with 4,116k cells (57-84 GiB)
 
-.. figure:: cts1mem-1.00.png
+.. figure:: ats3-4116k-mem.png
    :align: center
    :scale: 50%
-   :alt: MiniEM Strong Scaling Memory on Manzano with 50x50x50 elements (1.00 GiB/PE)
+   :alt: MiniEM Strong Scaling Memory on Crossroads with 4,116k cells (57-84 GiB)
 
-   MiniEM Strong Scaling Memory on Manzano with 50x50x50 elements (1.00 GiB/PE)
-
-Problem Size 72x72x72 (2.00 GiB/PE)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. csv-table:: MiniEM Strong Scaling Performance and Memory on Manzano with 72x72x72 elements (2.00 GiB/PE)
-   :file: cts1-2.00.csv
-   :align: center
-   :widths: 10, 10, 10, 10
-   :header-rows: 1
-
-.. figure:: cts1-2.00.png
-   :align: center
-   :scale: 50%
-   :alt: MiniEM Strong Scaling Performance on Manzano with 72x72x72 elements (2.00 GiB/PE)
-
-   MiniEM Strong Scaling Performance on Manzano with 72x72x72 elements (2.00 GiB/PE)
-
-.. figure:: cts1mem-2.00.png
-   :align: center
-   :scale: 50%
-   :alt: MiniEM Strong Scaling Memory on Manzano with 72x72x72 elements (2.00 GiB/PE)
-
-   MiniEM Strong Scaling Memory on Manzano with 72x72x72 elements (2.00 GiB/PE)
-
-
-.. _MiniEMResultsATS2:
-
-ATS-2/Vortex
-------------
-
-Throughput performance, i.e., changing the problem size but fixing the resources
-being used to a single MPI rank atop the Power9 CPU and a single Nvidia V100
-GPU, of MiniEM on ATS-2/Vortex is provided within the following table and
-figure.
-
-.. csv-table:: MiniEM Throughput Performance and Memory on ATS-2/Vortex
-   :file: ats2.csv
-   :align: center
-   :widths: 10, 10, 10, 10, 10, 10
-   :header-rows: 1
-
-.. figure:: ats2.png
-   :align: center
-   :scale: 50%
-   :alt: MiniEM Throughput Performance on ATS-2/Vortex
-
-   MiniEM Throughput Performance on ATS-2/Vortex
-
-.. figure:: ats2mem.png
-   :align: center
-   :scale: 50%
-   :alt: MiniEM Throughput Memory on ATS-2/Vortex
-
-   MiniEM Throughput Memory on ATS-2/Vortex
+   MiniEM Strong Scaling Memory on Crossroads with 4,116k cells (57-84 GiB)
 
 
 References
@@ -470,14 +285,3 @@ References
                    https://docs.trilinos.org/files/TrilinosBuildReference.html.
                    [Accessed: 26- Mar- 2023]
 .. [Maxwell-Large] Trilinos developers, 'maxwell-large.xml', 2023. [Online]. Available: https://github.com/trilinos/Trilinos/blob/master/packages/panzer/mini-em/example/BlockPrec/maxwell-large.xml. [Accessed: 22- Feb- 2023]
-.. [Sierra-LLNL] Lawrence Livermore National Laboratory, 'Sierra | HPC @ LLNL', 2023. [Online]. Available: https://hpc.llnl.gov/hardware/compute-platforms/sierra. [Accessed: 26- Mar- 2023]
-
-
-.. _MiniEMBuildRecipe:
-
-Build Recipe
-============
-
-.. literalinclude:: recipe.sh
-   :language: bash
-   :linenos:
