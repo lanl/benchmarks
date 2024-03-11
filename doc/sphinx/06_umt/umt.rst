@@ -55,20 +55,7 @@ may cause other problem configurations to fail.
 One example of this is a portion of code in the sweep routines ( source files beginning with 'SweepUCB' ).  There is a loop labelled 'TestOppositeFace'
 which is designed to provide a higher order of accuracy when running a problem with less opaque materials.  The benchmark problems are not impacted by
 this code section, as their material is fairly opaque, but this code should not be removed as it will impact many other problems of interest to our
-productino code when modelling less opaque materials.
-
-One or two benchmark problems in UMT will not hit all our code paths or algorithm behaviors of interest.  Our current two benchmark problems are designed to cover the highest priority areas ( performance on a 3D unstructured mesh, one with a lower unknown count per mesh cell, and one with a higher unknown count per mesh cell ).
-
-This means there is a risk of a vendor removing code that may speed up a run and not impact the correctness check in the benchmark.
-
-An example is a sub-calculation in our sweep algorithm that improves the accuracy on optically thin materials.  Our UMT benchmark is a single material problem, and it is not optically thin materials.
-
-Steve Rennich (NVIDIA) has identified that if he removes this sub-calculation he can speed up the code and still pass our correctness checking because the benchmark isnbt sensitive to it.  Steve has a high degree of familiarity with Teton and knows this will impact our production cases, so naturally does not want to do this, but other vendors will not know this.
-
-I was going to address this by adding a blurb in the benchmark documentation today specifically instructing vendors to not refactor out this portion of code, and why.
-
-There may be other behavior like this that crops up later, but I wasnbt sure if its possible to include generic language to instruct vendors to not remove calculations from the code, even if it doesnbt impact the correctness check.
-
+production code when modelling less opaque materials.
 
 Building
 ========
