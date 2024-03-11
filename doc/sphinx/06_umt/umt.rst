@@ -48,14 +48,13 @@ value across the array, as the benchmarks use a simplified single material probl
 be collapsed to a scalar, as production problems of interest will have a spread of values in these arrays for multi-material problems.
 
 The provided benchmark problems in UMT only model a subset of the problem types and input that UMT can run.  When refactoring or optimizing code in
-UMT, vendors should consult with the RFP team before removing any calculations from code, even if the benchmark problems still pass the correctness
-check.  Removing calculations may not impact the simplified benchmark problems, but all calculations are in the code for a reasion and removing them
-may cause other problem configurations to fail.
+UMT, vendors should consult with the RFP team before removing any exercised calculations in code, even if the benchmark problems still pass the
+correctness check without them.  Some calculations may have negligible impact on the simplified benchmark problem but be very important for other
+problems of interest.
 
-One example of this is a portion of code in the sweep routines ( source files beginning with 'SweepUCB' ).  There is a loop labelled 'TestOppositeFace'
-which is designed to provide a higher order of accuracy when running a problem with less opaque materials.  The benchmark problems are not impacted by
-this code section, as their material is fairly opaque, but this code should not be removed as it will impact many other problems of interest to our
-production code when modelling less opaque materials.
+Ane example of this is a portion of code in the sweep routines ( source files beginning with 'SweepUCB' ).  There is a loop labelled 'TestOppositeFace'
+which is designed to provide a higher order of accuracy when running a problem with a less opaque material.  The benchmark problems are not impacted by
+this code section as their material is fairly opaque, but this code should not be removed as it will impact algorithm accuracy on less opaque material.
 
 Building
 ========
