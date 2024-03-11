@@ -52,7 +52,7 @@ UMT, vendors should consult with the RFP team before removing any exercised calc
 correctness check without them.  Some calculations may have negligible impact on the simplified benchmark problem but be very important for other
 problems of interest.
 
-Ane example of this is a portion of code in the sweep routines ( source files beginning with 'SweepUCB' ).  There is a loop labelled 'TestOppositeFace'
+An example of this is a portion of code in the sweep routines ( source files beginning with 'SweepUCB' ).  There is a loop labelled 'TestOppositeFace'
 which is designed to provide a higher order of accuracy when running a problem with a less opaque material.  The benchmark problems are not impacted by
 this code section as their material is fairly opaque, but this code should not be removed as it will impact algorithm accuracy on less opaque material.
 
