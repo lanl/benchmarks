@@ -266,7 +266,7 @@ SSNI Weights and SSNI problem sizes
    - 15 to 20
  * - MiniEM
    - 15
-   - TBD
+   - 50
  * - MLMD Training
    - 5
    - N/A 
