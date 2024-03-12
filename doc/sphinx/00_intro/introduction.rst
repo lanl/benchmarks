@@ -288,6 +288,14 @@ SSNI Weights and SSNI problem sizes
 
 Note:  % of device memory is approximate please note actual memory footprint used. 
 
+SSNI Baseline
+===================================
+
+The SSNI Baseline spreadsheet linked below  provides draft FOMs and example calculations of FOMs for two hypothetical systems. 
+
+:download:`SSNI-baseline-draft.xlsx <SSNI-baseline-draft.xlsx>`
+
+
 System Information
 ==================
 
