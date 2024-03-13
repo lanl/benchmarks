@@ -8,7 +8,6 @@ was created by the following authors (in alphabetical order).
 - `Anthony M. Agelastos <mailto:amagela@sandia.gov>`_
 - `Michael A. Gallis <mailto:magalli@sandia.gov>`_
 - `Stan Moore <mailto:stamoor@sandia.gov>`_
-- `Douglas M. Pase <mailto:dmpase@sandia.gov>`_
 - `Joel O. Stevenson <mailto:josteve@sandia.gov>`_
 
 This material is based upon work supported by the Sandia National Laboratories
@@ -338,9 +337,6 @@ The platforms utilized for benchmarking activities are listed and described belo
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`GlobalSystemATS3`)
 
-.. note::
-   A GPU system, likely with Nvidia A100s, will be used to provide GPU benchmarking soon.
-
 
 Building
 ========
@@ -353,9 +349,6 @@ the following systems:
 * Generic (see :ref:`BuildGeneric`)
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`BuildATS3`)
-
-.. note::
-   A GPU system, likely with Nvidia A100s, will be used to provide GPU benchmarking soon.
 
 
 .. _BuildGeneric:
@@ -390,9 +383,6 @@ Instructions are provided on how to run SPARTA for the following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`RunATS3`)
-
-.. note::
-   A GPU system, likely with Nvidia A100s, will be used to provide GPU benchmarking soon.
 
 
 .. _RunATS3:
@@ -437,9 +427,6 @@ Results from SPARTA are provided on the following systems:
 
   - As best practices for utilizing Crossroads are developed, its data may be
     updated.
-
-.. note::
-   A GPU system, likely with Nvidia A100s, will be used to provide GPU benchmarking soon.
 
 
 .. _ResultsATS3:
