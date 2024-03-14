@@ -261,8 +261,8 @@ Training HIPNN Model
 --------------------
 For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. 
 
-* On Chicoma using a single GPU - FOM Average Epoch time:  0.24648178 
-* On Crossroads using a single node - FOM Average Epoch time:   2.63468153
+* On Chicoma using a single GPU - 1 / FOM Average Epoch time:  1/0.24648178 = 4.05709
+* On Crossroads using a single node - 1 / FOM Average Epoch time:   1/2.63468153 = .37956426022925681317
 
 Simulation+Inference 
 --------------------
