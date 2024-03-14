@@ -92,7 +92,7 @@ An excerpt from this input file that has its key parameters is
 provided below.
 
 .. code-block::
-   :emphasize-lines: 6,11,17,19
+   :emphasize-lines: 6,11,17,23,25
 
    <snip>
    ###################################
@@ -105,6 +105,12 @@ provided below.
    # Simulation initialization standards
    ###################################
    variable            ppc equal 55
+   <snip>
+   #####################################
+   # Gas/Collision Model Specification #
+   #####################################
+   <snip>
+   collide_modify      vremax 100 yes vibrate no rotate smooth nearcp yes 10
    <snip>
    ###################################
    # Output
@@ -127,6 +133,12 @@ These parameters are described below.
    This sets the **p**\ articles **p**\ er **c**\ ell variable. This variable
    controls the size of the problem and, accordingly, the amount of memory it
    uses.
+
+``collide_modify``
+   The official documentation for this value is `here
+   <https://sparta.github.io/doc/collide_modify.html>`_. This resets
+   the number of collisions and attempts to enable consistent work for
+   each time step.
 
 ``stats``
    This sets the interval at which the output required to compute the
@@ -259,10 +271,21 @@ Assessing the correctness will involve comparing these quantities across
 modified (henceforth denoted with "mod" subscript) and unmodified ("unmod"
 subscript) SPARTA subject to the methodology below.
 
-The **first** step is to adjust the ``run`` input file parameter so that SPARTA\
-:sub:`mod` has ``CPU`` output that exceeds 600 seconds (per
-:ref:`SPARTAFigureOfMerit`). Then, produce output from SPARTA\ :sub:`unmod` with
-the same ``run`` setting.
+The **first** step is to adjust the ``run`` input file parameter so
+that SPARTA\ :sub:`mod` has ``CPU`` output that exceeds 600 seconds
+(per :ref:`SPARTAFigureOfMerit`). Also, adjust the ``stats`` parameter
+to a value of 1 so fine-grained output is generated. Then, produce
+output from SPARTA\ :sub:`unmod` with the same ``run`` and ``stats``
+settings.
+
+.. note::
+   The example above is generating output every 100 time steps, which
+   is also what the value of ``collide_modify`` is set to. This has
+   the side effect of having low attempt and collision values since it
+   is outputting on the reset step. The final value shown at a time
+   step of 4,346 has values that are more inline with the actual
+   problem. This is why output, for this correctness step, needs to
+   occur at each time step.
 
 The **second** step is to compute the absolute differences between modified and
 unmodified SPARTA for ``Np``, ``Natt``, and ``Ncoll`` for each row, *i*, whose
