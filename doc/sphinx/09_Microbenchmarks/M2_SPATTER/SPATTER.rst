@@ -280,7 +280,7 @@ xRAGE Asteroid Spatter Pattern 9
 
 Throughput experiment for the pattern in patterns/xrage/asteroid/spatter9.json. Results will be found in spatter.strongscaling/H100/xrage/asteroid/spatter9/ and Figures will be found in figures/spatter.strongscaling/H100/xrage/asteroid/spatter9/
 
-Note that we need to enable atomics since this is a scatter pattern which overwrites the same location multiple times.
+Note that we need to enable atomics with the `-m` flag since this is a scatter pattern which overwrites the same location multiple times. Results with and without atomics are included, but the results with atomics enabled is the benchmarked performance number of importance.
 
 .. code-block:: bash
 
