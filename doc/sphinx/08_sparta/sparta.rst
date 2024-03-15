@@ -207,6 +207,11 @@ times between 300 and 600 seconds and then divided by the number of nodes, i.e.,
 aid in computing this quantity. Pass it the ``-h`` command line argument to view
 its help page for additional information.
 
+It is desired to capture the FOM for varying problem sizes that
+encompass utilizing 35% to 75% of available memory (when all PEs are
+utilized). The ultimate goal is to maximize this throughput FOM while
+utilizing at least 50% of available memory.
+
 
 .. _SPARTACorrectness:
 
@@ -359,6 +364,8 @@ The platforms utilized for benchmarking activities are listed and described belo
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`GlobalSystemATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`GlobalSystemATS2`)
 
 
 Building
@@ -372,6 +379,8 @@ the following systems:
 * Generic (see :ref:`BuildGeneric`)
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`BuildATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`BuildATS2`)
 
 
 .. _BuildGeneric:
@@ -399,6 +408,23 @@ tools release. The script discussed below is :download:`build-crossroads.sh
    ./build-crossroads.sh
 
 
+.. _BuildATS2:
+
+Sierra
+------
+
+Instructions for building on Sierra are provided below. These
+instructions assume this repository has been cloned and that the
+current working directory is at the top level of this repository. The
+script discussed below is :download:`build-vortex.sh
+<build-vortex.sh>`.
+
+.. code-block:: bash
+
+   cd doc/sphinx/08_sparta
+   ./build-vortex.sh
+
+
 Running
 =======
 
@@ -406,6 +432,8 @@ Instructions are provided on how to run SPARTA for the following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`RunATS3`)
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`RunATS2`)
 
 
 .. _RunATS3:
@@ -428,14 +456,32 @@ ensembles.
    scaling trends.
 
 :download:`scale-crossroads-mapcpu.sh <scale-crossroads-mapcpu.sh>`
-   This script successively executes SPARTA on varying numbers of nodes for the
-   same set of input parameters; there are many environment variables that can
-   be set to control what it runs.
+   This script successively executes SPARTA on a specified number of
+   nodes for the same set of input parameters; there are many
+   environment variables that can be set to control what it runs.
 
-:download:`sbatch-crossroads-mapcpu.sh <sbatch-crossroads-mapcpu-scale.sh>`
-   This script runs the previous script for different numbers of MPI ranks per
-   node, problem size, problem duration, and other parameters to yield several
-   strong scaling trends.
+:download:`sbatch-crossroads-mapcpu-scale.sh <sbatch-crossroads-mapcpu-scale.sh>`
+   This script runs the previous script for different numbers of nodes.
+
+
+.. _RunATS2:
+
+Sierra
+------
+
+Instructions for performing the simulations on Sierra are provided below.
+There are two scripts that facilitate running several single-node strong-scaling
+ensembles.
+
+:download:`run-vortex.sh <run-vortex.sh>`
+   This script successively executes SPARTA on a single node for the same set of
+   input parameters; there are many environment variables that can be set to
+   control what it runs.
+
+:download:`bsub-vortex.sh <bsub-vortex.sh>`
+   This script runs the previous script for differing problem size,
+   problem duration, and other parameters to yield several strong
+   scaling trends.
 
 
 .. _SPARTAResults:
@@ -447,9 +493,8 @@ Results from SPARTA are provided on the following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`ResultsATS3`)
-
-  - As best practices for utilizing Crossroads are developed, its data may be
-    updated.
+* Advanced Technology System 2 (ATS-2), also known as Sierra (see
+  :ref:`ResultsATS2`)
 
 
 .. _ResultsATS3:
@@ -530,6 +575,30 @@ particle steps per second per node.
    :alt: SPARTA Single Node Strong Scaling Memory on Crossroads with ppc=55
 
    SPARTA Single Node Strong Scaling Memory on Crossroads with ppc=55
+
+
+.. _ResultsATS2:
+
+Sierra
+------
+
+Strong single-node scaling throughput for varying problem sizes (i.e.,
+changing ``ppc`` and running on a single Nvidia V100) of SPARTA on
+Sierra are provided below. The throughput corresponds to Mega particle
+steps per second per node.
+
+.. csv-table:: SPARTA Single Node Strong Scaling Throughput and Memory on Sierra Utilizing a Single Nvidia V100
+   :file: ats2.csv
+   :align: center
+   :widths: 10, 10, 10, 10, 10
+   :header-rows: 1
+
+.. figure:: ats2.png
+   :align: center
+   :scale: 50%
+   :alt: SPARTA Single Node Strong Scaling Throughput on Sierra Utilizing a Single Nvidia V100
+
+   SPARTA Single Node Strong Scaling Throughput on Sierra Utilizing a Single Nvidia V100
 
 
 References
