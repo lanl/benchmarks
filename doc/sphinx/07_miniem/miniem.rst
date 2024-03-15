@@ -141,6 +141,9 @@ The platforms utilized for benchmarking activities are listed and described belo
 
 * Crossroads (see :ref:`GlobalSystemATS3`)
 
+.. note::
+   An appropriate system with GPUs will be added shortly.
+
 
 Building
 ========
@@ -160,6 +163,9 @@ following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`MiniEMBuildATS3`)
+
+.. note::
+   An appropriate system with GPUs will be added shortly.
 
 If submodules were cloned within this repository, then the source code
 to build MiniEM is already present at the top level within the
@@ -200,6 +206,9 @@ Instructions are provided on how to run MiniEM for the following systems:
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`MiniEMRunATS3`)
 
+.. note::
+   An appropriate system with GPUs will be added shortly.
+
 
 .. _MiniEMRunATS3:
 
@@ -218,6 +227,9 @@ Results from MiniEM are provided on the following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`MiniEMResultsATS3`)
+
+.. note::
+   An appropriate system with GPUs will be added shortly.
 
 
 .. _MiniEMResultsATS3:
