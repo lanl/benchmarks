@@ -197,7 +197,7 @@ class SpartaFomStats(object):
                 key = (
                     str(row[col_ppc]).zfill(3)
                     + "|"
-                    + str(row[col_ranks]).zfill(2)
+                    + str(row[col_ranks]).zfill(3)
                 )
                 self.logger.debug("key = {}".format(key))
                 if key not in self.cache_fom:
