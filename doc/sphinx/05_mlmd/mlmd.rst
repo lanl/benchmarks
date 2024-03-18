@@ -55,24 +55,26 @@ Building on Chicoma
    virtenvpath =virt <Set Path> 
    conda create --prefix=${virtenvpath} python=3.10
    source activate ${virtenvpath}
-   conda install pytorch-gpu cudatoolkit=11.6 cupy -c pytorch -c nvidia
+   conda install pytorch-gpu=1.11 cudatoolkit=11.6 cupy -c pytorch -c nvidia
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
    
    #Install HIPPYNN
    git clone git@github.com:lanl/hippynn.git
-   cd hippynn
+   pushd hippynn
    git fetch --all --tags
    git checkout tags/hippynn-0.0.3 -b benchmark
    pip install --no-deps -e .
+   popd
    
    #Install Lammps: 
    git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap.git
+   pushd lammps-kokkos-mliap
    git checkout lammps-kokkos-mliap
    mkdir build
    cd build
    export CMAKE_PREFIX_PATH="${FFTW_ROOT}" 
    cmake ../cmake 
-     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+     -DCMAKE_BUILD_TYPE=Release \
      -DCMAKE_VERBOSE_MAKEFILE=ON \
      -DLAMMPS_EXCEPTIONS=ON \
      -DBUILD_SHARED_LIBS=ON \
@@ -96,6 +98,7 @@ Building on Chicoma
      -DMLIAP_ENABLE_PYTHON=on
    make -j 12
    make install-python
+   popd
 
 .. Building on nv-devkit
 .. -------------------------
