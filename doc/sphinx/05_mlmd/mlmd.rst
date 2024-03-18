@@ -34,7 +34,7 @@ Building
 ========
 
 
-Building the Lammps Python interface environment is somewhat challenging. Below is an outline of the process used to get the environment working on Chicoma. Also, in the benchmarks/kokkos_lammps_hippynn/benchmark-env.yml file is a list of the packages installed in the test environment. Most of these will not affect performance, but the pytorch (1.11.0) and cuda (11.2) versions should be kept the same. 
+Building the Lammps Python interface environment is somewhat challenging. Below is an outline of the process used to get the environment working on Chicoma. Also, in the benchmarks/kokkos_lammps_hippynn/benchmark-env.yml file is a list of the packages installed in the test environment. Most of these will not affect performance, but the pytorch (2.2.0) and cuda (11.2) versions should be kept the same. 
 
 Building on Chicoma
 -------------------
@@ -81,7 +81,7 @@ Building on Chicoma
      -DBUILD_MPI=ON \
      -DKokkos_ENABLE_OPENMP=ON \
      -DKokkos_ENABLE_CUDA=ON \
-     -DKokkos_ARCH_ZEN2=ON \
+     -DKokkos_ARCH_AMPERE80=ON \
      -DPKG_KOKKOS=ON \
      -DCMAKE_CXX_STANDARD=17 \
      -DPKG_MANYBODY=ON \
