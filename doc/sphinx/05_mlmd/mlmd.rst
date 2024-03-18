@@ -223,24 +223,24 @@ the model are captured in ``model_results.txt``. An example is shown here::
 
                         train         valid          test
     -----------------------------------------------------
-    EpA-RMSE :        0.46335       0.49286       0.45089
-    EpA-MAE  :        0.36372        0.4036       0.36639
-    EpA-RSQ  :        0.99893       0.99888       0.99884
-    ForceRMSE:         21.255         21.74        20.967
-    ForceMAE :         16.759        17.145        16.591
-    ForceRsq :         0.9992       0.99916       0.99922
-    T-Hier   :     0.00086736    0.00089796    0.00087634
-    L2Reg    :         193.15        193.15        193.15
-    Loss-Err :       0.046285       0.04785      0.045731
-    Loss-Reg :      0.0010605     0.0010911     0.0010695
-    Loss     :       0.047346      0.048941        0.0468
+    EpA-RMSE :        0.63311       0.67692       0.65307
+    EpA-MAE  :        0.49966       0.56358       0.51061
+    EpA-RSQ  :          0.998       0.99789       0.99756
+    ForceRMSE:          31.36        32.088        30.849
+    ForceMAE :         24.665        25.111        24.314
+    ForceRsq :        0.99825       0.99817       0.99831
+    T-Hier   :     0.00084411     0.0008716    0.00085288
+    L2Reg    :         98.231        98.231        98.231
+    Loss-Err :       0.067352      0.069605        0.0668
+    Loss-Reg :     0.00094234    0.00096983    0.00095111
+    Loss     :       0.068294      0.070575      0.067751
     -----------------------------------------------------
 
-The numbers will vary from run to run due random seeds and the non-deterministic nature of multi-threaded / data parallel execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0.40 (meV/atom). The test Force MAE "Force MAE" should be below 18 (meV/Angstrom).
+The numbers will vary from run to run due random seeds and the non-deterministic nature of multi-threaded / data parallel execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0..7 (meV/atom). The test Force MAE "Force MAE" should be below 25 (meV/Angstrom).
 
 The training script will also output the initial box file ``ag_box.data`` as well as an file used to run the resulting potential with LAMMPS, ``hippynn_lammps_model.pt``. Several other files for the training run are put in a directory, ``model_files``.
 
-The "Figure of Merit" for the training task is printed near the end of the ``model_files/model_results.txt`` and is lead with the line "FOM Average Epoch time:" This is the average time to compute an epoch over the training proceedure
+The "Figure of Merit" for the training task is printed near the end of the ``model_files/model_results.txt`` and is lead with the line "FOM Average Epoch time:" This is the average time to compute an epoch over the training proceedure.
 
 Following this process, benchmarks can be run.
 
