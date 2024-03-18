@@ -657,6 +657,115 @@ per node.
    SPARTA Multi-Node Weak Scaling Throughput on Crossroads with ppc=35
 
 
+Timing Breakdown
+^^^^^^^^^^^^^^^^
+
+Timing breakdown information directly from SPARTA is provided for
+various node counts. SPARTA writes out a timer block that resembles
+the following.
+
+.. code-block::
+   
+   Section |  min time  |  avg time  |  max time  |%varavg| %total
+   ---------------------------------------------------------------
+   Move    | 110.5      | 361.59     | 410.76     | 217.4 | 52.41
+   Coll    | 22.174     | 69.358     | 105.6      |  95.0 | 10.05
+   Sort    | 48.822     | 156.12     | 198.1      | 146.5 | 22.63
+   Comm    | 0.57662    | 0.74641    | 1.2112     |  15.3 |  0.11
+   Modify  | 0.044491   | 0.14381    | 0.67954    |  40.0 |  0.02
+   Output  | 0.19404    | 1.0017     | 7.2883     | 105.4 |  0.15
+   Other   |            | 101        |            |       | 14.64
+
+A desription of the work performed for each of the sections is
+provided below.
+
+``Move``
+   Particle advection through the mesh, i.e., particle push
+
+``Coll``
+   Particle collisions
+
+``Sort``
+   Particle sorting (i.e., make a list of all particles in each grid
+   cell) and reorder (i.e., reorder the particle array by grid cell)
+
+``Comm``
+   The bulk of the MPI communications
+
+``Modify``
+   Time spent in diagnostics like "fixes" or "computes"
+
+``Output``
+   Time spent writing statistical output to log, or other, file(s)
+
+``Other``
+   Leftover time not captured by the categories above; this can
+   include load imbalance (i.e., ranks waiting at a collective
+   operation)
+
+These tables are provided below for the various rank counts for
+reference.
+
+
+1 Node
+""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0001.log
+
+
+8 Nodes
+"""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0008.log
+
+
+16 Nodes
+""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0016.log
+
+
+32 Nodes
+""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0032.log
+
+
+64 Nodes
+""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0064.log
+
+
+128 Nodes
+"""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0128.log
+
+
+256 Nodes
+"""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0256.log
+
+
+512 Nodes
+"""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0512.log
+
+
+1024 Nodes
+""""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-1024.log
+
+
+2048 Nodes
+""""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-2048.log
+
 
 References
 ==========
