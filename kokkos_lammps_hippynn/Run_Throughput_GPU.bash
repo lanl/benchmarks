@@ -8,10 +8,6 @@
 #On 1 gpu, run systems of different sizes
 export lmpexec="pathto/lammps-kokkos-mliap/build/lmp"
 
-#source exports.bash #configures environment and sets ${lmpexec}
-export HIPPYNN_USE_CUSTOM_KERNELS="pytorch"
-export HIPPYNN_WARN_LOW_DISTANCES="False"
-
 source exports.bash #configures environment and sets ${lmpexec}
 export HIPPYNN_USE_CUSTOM_KERNELS="pytorch"
 export HIPPYNN_WARN_LOW_DISTANCES="False"
