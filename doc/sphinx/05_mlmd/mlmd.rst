@@ -55,7 +55,7 @@ Building on Chicoma
    virtenvpath =virt <Set Path> 
    conda create --prefix=${virtenvpath} python=3.10
    source activate ${virtenvpath}
-   conda install pytorch-gpu=1.11 cudatoolkit=11.6 cupy -c pytorch -c nvidia
+   conda install pytorch-gpu=2.2.0 cudatoolkit=11.6 cupy -c pytorch -c nvidia
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
    
    #Install HIPPYNN
