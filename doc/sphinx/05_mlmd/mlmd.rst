@@ -52,6 +52,7 @@ Building on Chicoma
    module load cudatoolkit
    
    #Create virtual python environment
+   # You may need to create/update ~/.condarc with appropriate proxy settings 
    virtenvpath =virt <Set Path> 
    conda create --prefix=${virtenvpath} python=3.10
    source activate ${virtenvpath}
@@ -176,18 +177,22 @@ Building on Crossroads
 
    mkdir $HOME/mlmd-env
    virtenv=$HOME/mlmd-env
+   # You may need to create/update ~/.condarc with appropriate proxy settings
    conda create --prefix=${virtenv} python=3.10 
    
    source activate ${virtenv}
-   conda install pytorch 
+   conda install pytorch=2.2.0
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
 
    cd $HOME 
    git clone git@github.com:lanl/hippynn.git 
    cd hippynn/
    git fetch 
-   git checkout f8ed7390beb8261c8eec75580c683f5121226b30
+   git checkout hippynn-0.0.3
    pip install --no-deps -e .
+   # In subsequent execution such as training you can activate this environment using: 
+   #  conda activate ${virtenv}
+   cd $HOME
    git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap.git
    cd  lammps-kokkos-mliap
    mkdir build
@@ -195,7 +200,7 @@ Building on Crossroads
    export CMAKE_PREFIX_PATH="${FFTW_ROOT}"
    export CXX=`which icpx`
    export CC=`which icx` 
-   cmake ../cmake  -DCMAKE_BUILD_TYPE=Release   -DCMAKE_VERBOSE_MAKEFILE=ON   -DLAMMPS_EXCEPTIONS=ON   -DBUILD_SHARED_LIBS=ON   -DBUILD_MPI=ON   -DKokkos_ENABLE_OPENMP=ON   -DKokkos_ENABLE_CUDA=OFF   -DKokkos_ARCH_SPR=ON   -DPKG_KOKKOS=ON   -DCMAKE_CXX_STANDARD=17   -DPKG_MANYBODY=ON   -DPKG_MOLECULE=ON   -DPKG_KSPACE=ON   -DPKG_REPLICA=ON   -DPKG_ASPHERE=ON   -DPKG_RIGID=ON   -DPKG_MPIIO=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON   -DPKG_ML-SNAP=on   -DPKG_ML-IAP=on   -DPKG_PYTHON=on 
+   cmake ../cmake  -DCMAKE_BUILD_TYPE=Release   -DCMAKE_VERBOSE_MAKEFILE=ON   -DLAMMPS_EXCEPTIONS=ON   -DBUILD_SHARED_LIBS=ON   -DBUILD_MPI=ON   -DKokkos_ENABLE_OPENMP=ON   -DKokkos_ENABLE_CUDA=OFF   -DKokkos_ARCH_SPR=ON   -DPKG_KOKKOS=ON   -DCMAKE_CXX_STANDARD=17   -DPKG_MANYBODY=ON   -DPKG_MOLECULE=ON   -DPKG_KSPACE=ON   -DPKG_REPLICA=ON   -DPKG_ASPHERE=ON   -DPKG_RIGID=ON   -DPKG_MPIIO=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON   -DPKG_ML-SNAP=ON   -DPKG_ML-IAP=ON   -DPKG_PYTHON=ON -DMLIAP_ENABLE_PYTHON=ON
    make -j 12
    make install-python
 
@@ -214,6 +219,20 @@ Download the file and put it into the benchmarks/kokkos_lammps_hippynn directory
 Model Training
 --------------
 Train a network using ``python train_model.py``. This will read the dataset downloaded above and train a network to it.
+Training on CPU or GPU is configurable by editing the ``train_model.py`` script. 
+
+.. code-block::
+
+   import torch
+   import ase.io
+   import numpy as np
+   import time
+   torch.set_default_dtype(torch.float32)
+   #SET DEVICE                                                                   
+   #mydevice=torch.cuda.current_device())                                        
+   mydevice=torch.device("cpu")
+
+
 The process can take quite some time. This will write several files to disk. The final errors of
 the model are captured in ``model_results.txt``. An example is shown here::
 
@@ -262,7 +281,7 @@ Training HIPNN Model
 For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. 
 
 * On Chicoma using a single GPU - 1 / FOM Average Epoch time:  1/0.24648178 = 4.05709
-* On Crossroads using a single node - 1 / FOM Average Epoch time:   1/2.63468153 = .37956426022925681317
+* On Crossroads using a single node - 1 / FOM Average Epoch time:   1/1.67033911= .5986808
 
 Simulation+Inference 
 --------------------
