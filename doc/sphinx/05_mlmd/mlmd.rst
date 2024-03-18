@@ -71,9 +71,9 @@ Building on Chicoma
    pushd lammps-kokkos-mliap
    git checkout lammps-kokkos-mliap
    mkdir build
-   cd build
+   pushd build
    export CMAKE_PREFIX_PATH="${FFTW_ROOT}" 
-   cmake ../cmake 
+   cmake ../cmake \
      -DCMAKE_BUILD_TYPE=Release \
      -DCMAKE_VERBOSE_MAKEFILE=ON \
      -DLAMMPS_EXCEPTIONS=ON \
@@ -98,6 +98,7 @@ Building on Chicoma
      -DMLIAP_ENABLE_PYTHON=on
    make -j 12
    make install-python
+   popd
    popd
 
 .. Building on nv-devkit
