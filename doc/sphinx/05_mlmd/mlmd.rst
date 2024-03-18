@@ -61,8 +61,8 @@ Building on Chicoma
    #Install HIPPYNN
    git clone git@github.com:lanl/hippynn.git
    cd hippynn
-   git fetch
-   git checkout f8ed7390beb8261c8eec75580c683f5121226b30
+   git fetch --all --tags
+   git checkout tags/hippynn-0.0.3 -b benchmark
    pip install --no-deps -e .
    
    #Install Lammps: 
