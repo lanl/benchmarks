@@ -67,8 +67,7 @@ To build Parthenon on CPU, including this benchmark, with minimal external depen
 .. code-block:: bash
 
    parthenon$ mkdir build && cd build
-   build$ export CXXFLAGS="-fno-math-errno -march=native"
-   build$ cmake -DPARTHENON_DISABLE_HDF5=ON  -DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF -DREGRESSION_GOLD_STANDARD_SYNC=OFF  -DCMAKE_BUILD_TYPE=Release ../
+   build$ cmake -DPARTHENON_DISABLE_HDF5=ON  -DPARTHENON_ENABLE_PYTHON_MODULE_CHECK=OFF -DREGRESSION_GOLD_STANDARD_SYNC=OFF  -DPARTHENON_ENABLE_TESTING=OFF -DCMAKE_BUILD_TYPE=Release ../
    build$ make -j
 
 ..
@@ -81,11 +80,11 @@ On Crossroads the relevant modules for the results shown here are:
 
 ..
 
-To build for execution on a single GPU, it should be sufficient to add the following flags to the CMake configuration line
+To build for execution on a single GPU, it should be sufficient to add flags similar to the CMake configuration line
 
 .. code-block:: bash
 
-   cmake -DPARTHENON_DISABLE_MPI=ON -DKokkos_ENABLE_CUDA=ON -DKokkos_ARCH_AMPERE80=ON
+   cmake -DKokkos_ENABLE_CUDA=ON -DKokkos_ARCH_AMPERE80=ON
 
 ..
 
@@ -123,7 +122,7 @@ The results presented here use 128 and 160 for  memory footprints of approximate
 Results from Parthenon are provided on the following systems:
 
 * Crossroads (see :ref:`GlobalSystemATS3`)
-* An Nvidia A100 GPU hosted on an [Nvidia Arm HPC Developer Kit](https://developer.nvidia.com/arm-hpc-devkit)
+* A Grace Hopper (Grace ARM CPU 72 cores with 120GB, H100 GPU with 96GB)
 
 The mesh and meshblock size parameters are chosen to balance
 realism/performance with memory footprint. For the following tests we
@@ -182,12 +181,12 @@ Crossroads
 
    VIBE Throughput Performance on Crossroads using ~60% memory
 
-Nvidia testbed with A100
+Nvidia Grace Hopper
 ------------------------
 
-Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the following table and figure.
+Throughput performance of Parthenon-VIBE on a 96 GB H100 is provided within the following table and figure.
 
-.. csv-table:: VIBE Throughput Performance on A100
+.. csv-table:: VIBE Throughput Performance on H100
    :file: gpu.csv
    :align: center
    :widths: 10, 10
@@ -196,9 +195,9 @@ Throughput performance of Parthenon-VIBE on a 40GB A100 is provided within the f
 .. figure:: gpu.png
    :align: center
    :scale: 50%
-   :alt: VIBE Throughput Performance on A100
+   :alt: VIBE Throughput Performance on H100
 
-   VIBE Throughput Performance on A100
+   VIBE Throughput Performance on H100
 
 
 Multi-node scaling on Crossroads

@@ -249,7 +249,6 @@ Where:
 SSNI Weights and SSNI problem sizes
 ===================================
 
-
 .. list-table::
 
  * - **SSNI Benchmark**
@@ -266,7 +265,7 @@ SSNI Weights and SSNI problem sizes
    - 15 to 20
  * - MiniEM
    - 15
-   - TBD
+   - :math:`\geq` 50
  * - MLMD Training
    - 5
    - N/A 
@@ -278,7 +277,7 @@ SSNI Weights and SSNI problem sizes
    - 35 to 45  
  * - Sparta
    - 10
-   - 50 to 60 
+   - :math:`\geq` 50
  * - UMT Problem 1
    - 7.5
    - 45 to 55
@@ -287,6 +286,14 @@ SSNI Weights and SSNI problem sizes
    - 45 to 55
 
 Note:  % of device memory is approximate please note actual memory footprint used. 
+
+SSNI Baseline
+===================================
+
+The SSNI Baseline spreadsheet linked below  provides draft FOMs and example calculations of FOMs for two hypothetical systems. 
+
+:download:`SSNI-baseline-draft.xlsx <SSNI-baseline-draft.xlsx>`
+
 
 System Information
 ==================

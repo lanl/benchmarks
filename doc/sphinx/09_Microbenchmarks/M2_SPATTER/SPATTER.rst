@@ -170,6 +170,7 @@ The scripts/scaling.sh script has the following options (a scripts/mpirunscaling
 * n: User-defined run name (for saving results)
 * c: Core binding (optional, default: off)
 * g: Toggle GPU (optional, default: off)
+* m: Toggle Atomics (optional, default: off)
 * r: Toggle count parameter on pattern with countlist (default: off)
 * s: Toggle pattern size limit (optional, default: off for weak scaling, will be overridden to on for strong scaling)
 * t: Toggle throughput plot generation (optional, default: off)
@@ -279,16 +280,18 @@ xRAGE Asteroid Spatter Pattern 9
 
 Throughput experiment for the pattern in patterns/xrage/asteroid/spatter9.json. Results will be found in spatter.strongscaling/H100/xrage/asteroid/spatter9/ and Figures will be found in figures/spatter.strongscaling/H100/xrage/asteroid/spatter9/
 
+Note that we need to enable atomics with the `-m` flag since this is a scatter pattern which overwrites the same location multiple times. Results with and without atomics are included, but the results with atomics enabled is the benchmarked performance number of importance.
+
 .. code-block:: bash
 
-   bash scripts/scaling.sh -a xrage -p asteroid -f spatter9 -n H100 -g -s -r -t
+   bash scripts/scaling.sh -a xrage -p asteroid -f spatter9 -n H100 -g -s -r -t -m
 
 ..
 
 .. csv-table:: Spatter Throughput (MB/s) on H100 xRAGE Asteroid Pattern 9
    :file: h100_throughput_asteroid_9.csv
    :align: center
-   :widths: 5, 5
+   :widths: 5, 5, 5
    :header-rows: 1
 
 .. figure:: h100_throughput_asteroid_9.png
