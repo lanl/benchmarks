@@ -4,7 +4,7 @@ set output "ats3--scale--main.png"
 
 set title "SPARTA Weak Scaling Throughput w/ ppc=35" font "serif,22"
 set xlabel "No. Nodes"
-set ylabel "Figure of Merit (Mega particle steps per sec)"
+set ylabel "Figure of Merit (Mega particle steps per sec per node)"
 
 set xrange [1:2048]
 set key left bottom
