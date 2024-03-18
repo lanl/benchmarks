@@ -161,6 +161,7 @@ enabled, the following excerpts should be found within the log file.
 
 .. code-block::
    :emphasize-lines: 2,6
+   
    SPARTA (13 Apr 2023)
    KOKKOS mode is enabled (../kokkos.cpp:40)
      requested 0 GPU(s) per node
