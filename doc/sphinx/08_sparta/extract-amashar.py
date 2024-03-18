@@ -134,9 +134,36 @@ class Amashar(object):
             self.logger.critical('Cannot read "{}"'.format(self.file_name))
             sys.exit(EXIT_CODES["no file"])
 
+    def _extract_statistics(self):
+        """Loop through file and gather statistics."""
+
+        # open up file and get lists of files and bundle their contents accordingly
+        files_split = {}
+        path_full = ""
+        with open(self.file_name) as fp:
+            line = fp.readline()
+            while line:
+                if len(line) > 6:
+                    line_check = '##### '
+                    line_front = line[0:len(line_check)]
+                    if line_front == line_check:
+                        path_full = line[len(line_check):].rstrip()
+                        files_split[path_full] = []
+                files_split[path_full].append(line)
+                line = fp.readline()
+            
+        # fill up the bundles
+        for path_full in files_split:
+            path_dirname = os.path.dirname(path_full)
+            os.makedirs(path_dirname)
+            with open(path_full, 'w') as fp:
+                self.logger.info("Writing {}".format(path_full))
+                fp.writelines(files_split[path_full])
+            
+
     def run(self):
         """Read in SHAR and begin to unpack the bundle."""
-        self.logger.info("Information")
+        self._extract_statistics()
 
 
 # do work
