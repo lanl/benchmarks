@@ -140,9 +140,19 @@ System Information
 The platforms utilized for benchmarking activities are listed and described below.
 
 * Crossroads (see :ref:`GlobalSystemATS3`)
+* A GPU build and test system within Sandia National Laboratories
+  named "ascicgpu030" (see :ref:`LocalSystemASCIC`).
 
-.. note::
-   An appropriate system with GPUs will be added shortly.
+
+.. _LocalSystemASCIC:
+
+Sandia National Laboratories' "ascicgpu030"
+-------------------------------------------
+
+This is a desktop-class system with the following details.
+
+* Host CPU information is found at [Intel-8260]_
+* It has a single Nvidia V100 GPU
 
 
 Building
@@ -163,9 +173,8 @@ following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`MiniEMBuildATS3`)
-
-.. note::
-   An appropriate system with GPUs will be added shortly.
+* A GPU build and test system within Sandia National Laboratories
+  named "ascicgpu030" (see :ref:`MiniEMBuildASCIC`)
 
 If submodules were cloned within this repository, then the source code
 to build MiniEM is already present at the top level within the
@@ -196,6 +205,20 @@ Instructions for building on Crossroads are provided below. The
    contain the paths to the necessary items.
 
 
+.. _MiniEMBuildASCIC:
+
+Sandia National Laboratories' "ascicgpu030"
+-------------------------------------------
+
+Instructions for building on "ascicgpu030" are provided below. The
+"miniem_build" folder contains the following item(s).
+
+``build-ascicgpu030.sh``
+   This script carries out the build which leverages already installed
+   third party libraries. This does not rely upon the Crossroads
+   Spack-based methodology.
+
+
 .. _MiniEMRunning:
 
 Running
@@ -205,9 +228,8 @@ Instructions are provided on how to run MiniEM for the following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`MiniEMRunATS3`)
-
-.. note::
-   An appropriate system with GPUs will be added shortly.
+* A GPU build and test system within Sandia National Laboratories
+  named "ascicgpu030" (see :ref:`MiniEMRunASCIC`)
 
 
 .. _MiniEMRunATS3:
@@ -220,6 +242,16 @@ within the script (:download:`run-crossroads-mapcpu.sh
 <run-crossroads-mapcpu.sh>`)
 
 
+.. _MiniEMRunASCIC:
+
+Sandia National Laboratories' "ascicgpu030"
+-------------------------------------------
+
+An example of how to run the test case on "ascicgpu030" is provided
+within the script (:download:`run-ascicgpu030.sh
+<run-ascicgpu030.sh>`)
+
+
 Verification of Results
 =======================
 
@@ -227,9 +259,8 @@ Results from MiniEM are provided on the following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`MiniEMResultsATS3`)
-
-.. note::
-   An appropriate system with GPUs will be added shortly.
+* A GPU build and test system within Sandia National Laboratories
+  named "ascicgpu030" (see :ref:`MiniEMResultsASCIC`)
 
 
 .. _MiniEMResultsATS3:
@@ -324,6 +355,31 @@ cells.
    MiniEM Strong Scaling Memory on Crossroads with 4,116k cells (57-84 GiB)
 
 
+.. _MiniEMResultsASCIC:
+
+Sandia National Laboratories' "ascicgpu030"
+-------------------------------------------
+
+Strong single-node scaling throughput for varying problem sizes (i.e.,
+changing ``X Elements``, ``Y Elements``, and ``Z Elements`` and
+running on a single Nvidia V100) of MiniEM on "ascicgpu030" are
+provided below. The throughput corresponds to kilo cell steps per
+second per node.
+
+.. csv-table:: MiniEM Single Node Strong Scaling Throughput and Memory on "ascicgpu030" Utilizing a Single Nvidia V100
+   :file: ascicgpu030.csv
+   :align: center
+   :widths: 10, 10, 10, 10, 10
+   :header-rows: 1
+
+.. figure:: ascicgpu030.png
+   :align: center
+   :scale: 50%
+   :alt: MiniEM Single Node Strong Scaling Throughput on "ascicgpu030" Utilizing a Single Nvidia V100
+
+   MiniEM Single Node Strong Scaling Throughput on "ascicgpu030" Utilizing a Single Nvidia V100
+
+
 References
 ==========
 
@@ -339,3 +395,4 @@ References
                    [Accessed: 26- Mar- 2023]
 .. [Maxwell-Large] Trilinos developers, 'maxwell-large.xml', 2024. [Online]. Available: https://github.com/trilinos/Trilinos/blob/master/packages/panzer/mini-em/example/BlockPrec/maxwell-large.xml. [Accessed: 22- Feb- 2024]
 .. [Maxwell-AnalyticSolution] Trilinos developers, 'maxwell-analyticSolution.xml', 2024. [Online]. Available: https://github.com/trilinos/Trilinos/blob/master/packages/panzer/mini-em/example/BlockPrec/maxwell-analyticSolution.xml. [Accessed: 22- Feb- 2024]
+.. [Intel-8260] Intel. 'Intel Xeon Platinum 8260 Processor 35.75M Cache 2.40 GHz Product Specifications', 2024. [Online]. Available: https://ark.intel.com/content/www/us/en/ark/products/192474/intel-xeon-platinum-8260-processor-35-75m-cache-2-40-ghz.html. [Accessed: 18- Mar- 2024]

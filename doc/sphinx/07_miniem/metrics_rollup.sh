@@ -1,6 +1,6 @@
 #!/bin/bash
 
-find $1 -name "output-srun*.csv" -type f -print0 \
+find $1 -name "output-*run*.csv" -type f -print0 \
     | xargs -0 -I file cat file \
     | sort \
     | uniq \
