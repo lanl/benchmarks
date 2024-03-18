@@ -296,9 +296,10 @@ subscript) SPARTA subject to the methodology below.
 The **first** step is to adjust the ``run`` input file parameter so
 that SPARTA\ :sub:`mod` has ``CPU`` output that exceeds 600 seconds
 (per :ref:`SPARTAFigureOfMerit`). Also, adjust the ``stats`` parameter
-to a value of 1 so fine-grained output is generated. Then, produce
-output from SPARTA\ :sub:`unmod` with the same ``run`` and ``stats``
-settings.
+to a value of 1 so fine-grained output is generated; if this is
+significantly slowing down computation, then it can be increased to a
+value of 10. Then, produce output from SPARTA\ :sub:`unmod` with the
+same ``run`` and ``stats`` settings.
 
 .. note::
    The example above is generating output every 100 time steps, which
