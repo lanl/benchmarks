@@ -52,6 +52,7 @@ Building on Chicoma
    module load cudatoolkit
    
    #Create virtual python environment
+   # You may need to create/update ~/.condarc with appropriate proxy settings 
    virtenvpath =virt <Set Path> 
    conda create --prefix=${virtenvpath} python=3.10
    source activate ${virtenvpath}
@@ -101,72 +102,6 @@ Building on Chicoma
    popd
    popd
 
-.. Building on nv-devkit
-.. -------------------------
-.. Building on nv-devkit builds the python environment through spack, since conda building is not available. 
-
-.. .. code-block::
-
-..    gcc_ver=11.2.0
-..    gcc_openblas=8.4.0
-..    module load gcc/$gcc_ver
-..    git clone https://github.com/spack/spack.git
-..    source spack/share/spack/setup-env.sh
-   
-..    spack compiler find
-   
-..    module load gcc/$gcc_openblas
-   
-..    spack compiler find
-   
-..    module load gcc/$gcc_ver
-   
-..    spack install py-torch%gcc@$gcc_ver cuda=True cuda_arch=80 mkldnn=False ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-..    spack install py-cupy%gcc@$gcc_ver ^nccl cuda_arch=80 ^py-numpy@1.22.4
-..    spack install py-numba%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-..    spack install py-scipy%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-..    spack install py-matplotlib%gcc@$gcc_ver  ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-..    spack install py-h5py%gcc@$gcc_ver ^py-numpy@1.22.4 ^openblas%gcc@$gcc_openblas
-   
-..    spack load py-torch py-cupy py-numba py-numpy py-scipy py-matplotlib py-h5py
-   
-..    #Install HIPPYNN
-..    git clone git@github.com:lanl/hippynn.git
-..    cd hippynn
-..    git fetch
-..    git checkout f8ed7390beb8261c8eec75580c683f5121226b30
-..    pip install -e --no-deps ./
-   
-..    #Build Lammps instructions
-..    git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap --branch v1.0.0
-..    cd  lammps-kokkos-mliap
-..    mkdir build
-..    cd build
-..    cmake ../cmake \
-..     -DCMAKE_VERBOSE_MAKEFILE=ON \
-..     -DLAMMPS_EXCEPTIONS=ON \
-..     -DBUILD_SHARED_LIBS=ON \
-..     -DBUILD_MPI=ON \
-..     -DKokkos_ARCH_AMPERE90=ON \
-..     -DKokkos_ENABLE_CUDA=ON \
-..     -DCMAKE_CXX_STANDARD=17 \
-..     -DPKG_KOKKOS=ON \
-..     -DPKG_MANYBODY=ON \
-..     -DPKG_MOLECULE=ON \
-..     -DPKG_KSPACE=ON \
-..     -DPKG_REPLICA=ON \
-..     -DPKG_ASPHERE=ON \
-..     -DPKG_RIGID=ON \
-..     -DPKG_MPIIO=ON \
-..     -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-..     -DPKG_ML-SNAP=on \
-..     -DPKG_ML-IAP=on \
-..     -DPKG_PYTHON=on \
-..     -DMLIAP_ENABLE_PYTHON=on \
-   
-..    make -j 12
-..    make install-python
-
 
 
 Building on Crossroads
@@ -180,18 +115,22 @@ Building on Crossroads
 
    mkdir $HOME/mlmd-env
    virtenv=$HOME/mlmd-env
+   # You may need to create/update ~/.condarc with appropriate proxy settings
    conda create --prefix=${virtenv} python=3.10 
    
    source activate ${virtenv}
-   conda install pytorch=2.1.0 
+   conda install pytorch=2.2.0
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
 
    cd $HOME 
    git clone git@github.com:lanl/hippynn.git 
    cd hippynn/
    git fetch 
-   git checkout f8ed7390beb8261c8eec75580c683f5121226b30
+   git checkout hippynn-0.0.3
    pip install --no-deps -e .
+   # In subsequent execution such as training you can activate this environment using: 
+   #  conda activate ${virtenv}
+   cd $HOME
    git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap.git
    cd  lammps-kokkos-mliap
    mkdir build
@@ -199,7 +138,7 @@ Building on Crossroads
    export CMAKE_PREFIX_PATH="${FFTW_ROOT}"
    export CXX=`which icpx`
    export CC=`which icx` 
-   cmake ../cmake  -DCMAKE_BUILD_TYPE=Release   -DCMAKE_VERBOSE_MAKEFILE=ON   -DLAMMPS_EXCEPTIONS=ON   -DBUILD_SHARED_LIBS=ON   -DBUILD_MPI=ON   -DKokkos_ENABLE_OPENMP=ON   -DKokkos_ENABLE_CUDA=OFF   -DKokkos_ARCH_SPR=ON   -DPKG_KOKKOS=ON   -DCMAKE_CXX_STANDARD=17   -DPKG_MANYBODY=ON   -DPKG_MOLECULE=ON   -DPKG_KSPACE=ON   -DPKG_REPLICA=ON   -DPKG_ASPHERE=ON   -DPKG_RIGID=ON   -DPKG_MPIIO=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON   -DPKG_ML-SNAP=on   -DPKG_ML-IAP=on   -DPKG_PYTHON=on 
+   cmake ../cmake  -DCMAKE_BUILD_TYPE=Release   -DCMAKE_VERBOSE_MAKEFILE=ON   -DLAMMPS_EXCEPTIONS=ON   -DBUILD_SHARED_LIBS=ON   -DBUILD_MPI=ON  -DPKG_KOKKOS=OFF   -DCMAKE_CXX_STANDARD=17   -DPKG_MANYBODY=ON   -DPKG_MOLECULE=ON   -DPKG_KSPACE=ON   -DPKG_REPLICA=ON   -DPKG_ASPHERE=ON   -DPKG_RIGID=ON   -DPKG_MPIIO=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON   -DPKG_ML-SNAP=ON   -DPKG_ML-IAP=ON   -DPKG_PYTHON=ON -DMLIAP_ENABLE_PYTHON=ON
    make -j 12
    make install-python
 
@@ -218,23 +157,37 @@ Download the file and put it into the benchmarks/kokkos_lammps_hippynn directory
 Model Training
 --------------
 Train a network using ``python train_model.py``. This will read the dataset downloaded above and train a network to it.
+Training on CPU or GPU is configurable by editing the ``train_model.py`` script. 
+
+.. code-block::
+
+   import torch
+   import ase.io
+   import numpy as np
+   import time
+   torch.set_default_dtype(torch.float32)
+   #SET DEVICE                                                                   
+   #mydevice=torch.cuda.current_device())                                        
+   mydevice=torch.device("cpu")
+
+
 The process can take quite some time. This will write several files to disk. The final errors of
 the model are captured in ``model_results.txt``. An example is shown here::
 
-                        train         valid          test
-    -----------------------------------------------------
-    EpA-RMSE :        0.63311       0.67692       0.65307
-    EpA-MAE  :        0.49966       0.56358       0.51061
-    EpA-RSQ  :          0.998       0.99789       0.99756
-    ForceRMSE:          31.36        32.088        30.849
-    ForceMAE :         24.665        25.111        24.314
-    ForceRsq :        0.99825       0.99817       0.99831
-    T-Hier   :     0.00084411     0.0008716    0.00085288
-    L2Reg    :         98.231        98.231        98.231
-    Loss-Err :       0.067352      0.069605        0.0668
-    Loss-Reg :     0.00094234    0.00096983    0.00095111
-    Loss     :       0.068294      0.070575      0.067751
-    -----------------------------------------------------
+                       train         valid          test     
+-  -----------------------------------------------------
+   EpA-RMSE :        0.53794       0.59717        0.5623
+   EpA-MAE  :        0.42529       0.50263       0.45122
+   EpA-RSQ  :        0.99855       0.99836       0.99819
+   ForceRMSE:         26.569        27.206        26.539
+   ForceMAE :         20.958        21.446        20.891
+   ForceRsq :        0.99874       0.99868       0.99875
+   T-Hier   :     0.00086597    0.00089525    0.00087336
+   L2Reg    :         106.48        106.48        106.48
+   Loss-Err :       0.057159       0.05965      0.057565
+   Loss-Reg :     0.00097245     0.0010017    0.00097983
+   Loss     :       0.058131      0.060652      0.058545
+   -----------------------------------------------------
 
 The numbers will vary from run to run due random seeds and the non-deterministic nature of multi-threaded / data parallel execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0..7 (meV/atom). The test Force MAE "Force MAE" should be below 25 (meV/Angstrom).
 
@@ -266,7 +219,7 @@ Training HIPNN Model
 For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. 
 
 * On Chicoma using a single GPU - 1 / FOM Average Epoch time:  1/0.24648178 = 4.05709
-* On Crossroads using a single node - 1 / FOM Average Epoch time:   1/2.63468153 = .37956426022925681317
+* On Crossroads using a single node - 1 / FOM Average Epoch time:   1/1.67033911= .5986808
 
 Simulation+Inference 
 --------------------

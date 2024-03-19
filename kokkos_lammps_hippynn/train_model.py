@@ -3,11 +3,14 @@ import ase.io
 import numpy as np
 import time
 torch.set_default_dtype(torch.float32)
+#SET DEVICE
+#mydevice=torch.cuda.current_device())
+mydevice=torch.device("cpu")
 
 import hippynn
 from hippynn.experiment import SetupParams, setup_and_train, test_model
 hippynn.settings.WARN_LOW_DISTANCES = False
-
+#set to high enough value for convergence (5000), for testing you may wish to onloy do a few 
 max_epochs=5000
 
 network_params = {
@@ -198,6 +201,6 @@ if __name__=="__main__":
     print("Exporting lammps interfaice")
     ase.io.write('ag_box.data',first_frame,format='lammps-data')
     from hippynn.interfaces.lammps_interface import MLIAPInterface
-    unified = MLIAPInterface(henergy, ["Ag"], model_device=torch.cuda.current_device())
+    unified = MLIAPInterface(henergy, ["Ag"], model_device=mydevice)
     torch.save(unified, "hippynn_lammps_model.pt")    
     print("All done.")

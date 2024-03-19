@@ -151,6 +151,24 @@ These parameters are described below.
    This sets how many iterations it will run for, which also controls the wall
    time required for termination.
 
+This problem exhibits different runtime characteristics whether or not
+Kokkos is enabled. Specifically, there is some work that is performed
+within Kokkos that helps to keep this problem as well behaved from a
+throughput perspective as possible. Ergo, Kokkos must be enabled for
+the simulations regardless of the hardware being used (the cases
+herein have configurations that enable it for reference). If Kokkos is
+enabled, the following excerpts should be found within the log file.
+
+.. code-block::
+   :emphasize-lines: 2,6
+   
+   SPARTA (13 Apr 2023)
+   KOKKOS mode is enabled (../kokkos.cpp:40)
+     requested 0 GPU(s) per node
+     requested 1 thread(s) per MPI task
+   Running on 32 MPI task(s)
+   package kokkos
+
 .. _SPARTAFigureOfMerit:
 
 Figure of Merit
@@ -279,9 +297,10 @@ subscript) SPARTA subject to the methodology below.
 The **first** step is to adjust the ``run`` input file parameter so
 that SPARTA\ :sub:`mod` has ``CPU`` output that exceeds 600 seconds
 (per :ref:`SPARTAFigureOfMerit`). Also, adjust the ``stats`` parameter
-to a value of 1 so fine-grained output is generated. Then, produce
-output from SPARTA\ :sub:`unmod` with the same ``run`` and ``stats``
-settings.
+to a value of 1 so fine-grained output is generated; if this is
+significantly slowing down computation, then it can be increased to a
+value of 10. Then, produce output from SPARTA\ :sub:`unmod` with the
+same ``run`` and ``stats`` settings.
 
 .. note::
    The example above is generating output every 100 time steps, which
@@ -350,11 +369,17 @@ for its own testing. The success criteria are:
 SSNI & SSI
 ----------
 
-The SSNI will focus on the problem with 35 particles per cell running at 100%
-node utilization.
+The SSNI requires the vendor to choose any problem size to maximize
+throughput. The only caveat is that the problem size must be large
+enough so that the high-water memory mark of the simulation uses at
+least 50% of the available memory available to the processing
+elements.
 
-.. note::
-   The SSI problem is being finalized and will be documented herein soon.
+The SSI problem requires applying the methodology of the SSNI and weak
+scaling it up to at least 1/3 of the system. Specifically, any problem
+size can be arbitrarily selected provided the high-water memory mark
+of the simulation is greater than 50% on the processing elements
+across the nodes.
 
 
 System Information
@@ -489,18 +514,23 @@ ensembles.
 Verification of Results
 =======================
 
-Results from SPARTA are provided on the following systems:
+Single-node results from SPARTA are provided on the following systems:
 
 * Advanced Technology System 3 (ATS-3), also known as Crossroads (see
   :ref:`ResultsATS3`)
 * Advanced Technology System 2 (ATS-2), also known as Sierra (see
   :ref:`ResultsATS2`)
 
+Multi-node results from SPARTA are provided on the following system(s):
+
+* Advanced Technology System 3 (ATS-3), also known as Crossroads (see
+  :ref:`ResultsScaleATS3`)
+
 
 .. _ResultsATS3:
 
-Crossroads
-----------
+Crossroads - Single Node
+------------------------
 
 Strong single-node scaling throughput (i.e., fixed problem size being run on
 different MPI rank counts on a single node) plots of SPARTA on Crossroads are
@@ -579,8 +609,8 @@ particle steps per second per node.
 
 .. _ResultsATS2:
 
-Sierra
-------
+Sierra - Single Node
+--------------------
 
 Strong single-node scaling throughput for varying problem sizes (i.e.,
 changing ``ppc`` and running on a single Nvidia V100) of SPARTA on
@@ -599,6 +629,144 @@ steps per second per node.
    :alt: SPARTA Single Node Strong Scaling Throughput on Sierra Utilizing a Single Nvidia V100
 
    SPARTA Single Node Strong Scaling Throughput on Sierra Utilizing a Single Nvidia V100
+
+
+.. _ResultsScaleATS3:
+
+Crossroads - Many Nodes
+-----------------------
+
+Multi-node weak scaling throughput (i.e., fixed problem size being run
+on different node counts) plots of SPARTA on Crossroads are provided
+below. The throughput corresponds to Mega particle steps per second
+per node.
+
+.. note::
+   Data are still being gathered for this. The values herein are
+   considered preliminary and are subject to change.
+
+.. csv-table:: SPARTA Multi-Node Weak Scaling Throughput on Crossroads with ppc=35
+   :file: ats3--scale--main.csv
+   :align: center
+   :widths: 10, 10, 10, 10
+   :header-rows: 1
+
+.. figure:: ats3--scale--main.png
+   :align: center
+   :scale: 50%
+   :alt: SPARTA Multi-Node Weak Scaling Throughput on Crossroads with ppc=35 
+
+   SPARTA Multi-Node Weak Scaling Throughput on Crossroads with ppc=35
+
+
+Timing Breakdown
+^^^^^^^^^^^^^^^^
+
+Timing breakdown information directly from SPARTA is provided for
+various node counts. SPARTA writes out a timer block that resembles
+the following.
+
+.. code-block::
+   
+   Section |  min time  |  avg time  |  max time  |%varavg| %total
+   ---------------------------------------------------------------
+   Move    | 110.5      | 361.59     | 410.76     | 217.4 | 52.41
+   Coll    | 22.174     | 69.358     | 105.6      |  95.0 | 10.05
+   Sort    | 48.822     | 156.12     | 198.1      | 146.5 | 22.63
+   Comm    | 0.57662    | 0.74641    | 1.2112     |  15.3 |  0.11
+   Modify  | 0.044491   | 0.14381    | 0.67954    |  40.0 |  0.02
+   Output  | 0.19404    | 1.0017     | 7.2883     | 105.4 |  0.15
+   Other   |            | 101        |            |       | 14.64
+
+A desription of the work performed for each of the sections is
+provided below.
+
+``Move``
+   Particle advection through the mesh, i.e., particle push
+
+``Coll``
+   Particle collisions
+
+``Sort``
+   Particle sorting (i.e., make a list of all particles in each grid
+   cell) and reorder (i.e., reorder the particle array by grid cell)
+
+``Comm``
+   The bulk of the MPI communications
+
+``Modify``
+   Time spent in diagnostics like "fixes" or "computes"
+
+``Output``
+   Time spent writing statistical output to log, or other, file(s)
+
+``Other``
+   Leftover time not captured by the categories above; this can
+   include load imbalance (i.e., ranks waiting at a collective
+   operation)
+
+These tables are provided below for the various rank counts for
+reference.
+
+
+1 Node
+""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0001.log
+
+
+8 Nodes
+"""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0008.log
+
+
+16 Nodes
+""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0016.log
+
+
+32 Nodes
+""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0032.log
+
+
+64 Nodes
+""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0064.log
+
+
+128 Nodes
+"""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0128.log
+
+
+256 Nodes
+"""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0256.log
+
+
+512 Nodes
+"""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0512.log
+
+
+1024 Nodes
+""""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-1024.log
+
+
+2048 Nodes
+""""""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-2048.log
 
 
 References

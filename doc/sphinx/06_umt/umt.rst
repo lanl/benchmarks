@@ -112,7 +112,8 @@ For example, to create a global mesh of size 20,20,20 tiles:
 where num = 1 for SPP 1 or num = 2 for SPP 2.
 
 Benchmark problems should target roughly half the node memory (for CPUs) or half the device memory (for GPUs).  The problem size
-(and therefore memory used) can be adjusted by increasing or decreasing the number of mesh tiles the problem runs on.
+(and therefore memory used) can be adjusted by increasing or decreasing the number of mesh tiles the problem runs on.  Modifying the
+benchmark parameters specifying the # angles and # energy groups is not allowed, as that changes the nature of the problems.
 
 When tuning the problem size, you can check the UMT memory usage in the output.  For example, here is an example output from 
 benchmark #1 with a 10x10x10 tile mesh:
