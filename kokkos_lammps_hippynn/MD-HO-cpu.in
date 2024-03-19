@@ -11,9 +11,8 @@ atom_style 	atomic
 read_data	ag_box.data
 timestep  	0.001 # picoseconds (units metal)
 
-pair_style hybrid/overlay mliap unified hippynn_lammps_model.pt zbl 2.0 2.5
-pair_coeff * * mliap Ag
-pair_coeff * * zbl 47.0 47.0
+pair_style mliap unified hippynn_lammps_model.pt 
+pair_coeff * * Ag
 mass 1 107.8682
 
 #scale atom positions to required lattice
