@@ -54,9 +54,9 @@ Building on Chicoma
    #Create virtual python environment
    # You may need to create/update ~/.condarc with appropriate proxy settings 
    virtenvpath =virt <Set Path> 
-   conda create --prefix=${virtenvpath} python=3.10
+   conda create --prefix=${virtenvpath} python=3.11
    source activate ${virtenvpath}
-   conda install pytorch-gpu=2.1.0 cudatoolkit=11.6 cupy -c pytorch -c nvidia
+   conda install pytorch-gpu=2.1 cudatoolkit=11.6 cupy -c pytorch -c nvidia
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
    
    #Install HIPPYNN
@@ -116,7 +116,7 @@ Building on Crossroads
    mkdir $HOME/mlmd-env
    virtenv=$HOME/mlmd-env
    # You may need to create/update ~/.condarc with appropriate proxy settings
-   conda create --prefix=${virtenv} python=3.10 
+   conda create --prefix=${virtenv} python=3.11 
    
    source activate ${virtenv}
    conda install pytorch=2.2.0
