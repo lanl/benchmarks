@@ -197,9 +197,11 @@ Training on CPU or GPU is configurable by editing the ``train_model.py`` script.
 
 
 The process can take quite some time. This will write several files to disk. The final errors of
-the model are captured in ``model_results.txt``. An example is shown here::
+the model are captured in ``model_results.txt``. Examples for Crossroads and Chicoma are shown here::
 
-                       train         valid          test     
+Training Accuracy on Crossroads:
+
+                       train         valid          test
    -----------------------------------------------------
    EpA-RMSE :        0.53794       0.59717        0.5623
    EpA-MAE  :        0.42529       0.50263       0.45122
@@ -212,6 +214,22 @@ the model are captured in ``model_results.txt``. An example is shown here::
    Loss-Err :       0.057159       0.05965      0.057565
    Loss-Reg :     0.00097245     0.0010017    0.00097983
    Loss     :       0.058131      0.060652      0.058545
+   -----------------------------------------------------
+
+Training Accuracy on Chicoma:
+                       train         valid          test
+   -----------------------------------------------------
+   EpA-RMSE :        0.63311       0.67692       0.65307
+   EpA-MAE  :        0.49966       0.56358       0.51061
+   EpA-RSQ  :          0.998       0.99789       0.99756
+   ForceRMSE:          31.36        32.088        30.849
+   ForceMAE :         24.665        25.111        24.314
+   ForceRsq :        0.99825       0.99817       0.99831
+   T-Hier   :     0.00084411     0.0008716    0.00085288
+   L2Reg    :         98.231        98.231        98.231
+   Loss-Err :       0.067352      0.069605        0.0668
+   Loss-Reg :     0.00094234    0.00096983    0.00095111
+   Loss     :       0.068294      0.070575      0.067751
    -----------------------------------------------------
 
 The numbers will vary from run to run due random seeds and the non-deterministic nature of multi-threaded / data parallel execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0.7 (meV/atom). The test Force MAE "Force MAE" should be below 25 (meV/Angstrom).
