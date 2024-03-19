@@ -197,11 +197,11 @@ Training on CPU or GPU is configurable by editing the ``train_model.py`` script.
 
 
 The process can take quite some time. This will write several files to disk. The final errors of
-the model are captured in ``model_results.txt``. 
+the model are captured in ``model_results.txt``. Examples for Crossroads and Chicoma are shown here::
 
-An example from Crossroads is shown here::
+Training Accuracy on Crossroads:
 
-                       train         valid          test     
+                       train         valid          test
    -----------------------------------------------------
    EpA-RMSE :        0.53794       0.59717        0.5623
    EpA-MAE  :        0.42529       0.50263       0.45122
@@ -216,23 +216,23 @@ An example from Crossroads is shown here::
    Loss     :       0.058131      0.060652      0.058545
    -----------------------------------------------------
 
-And example from Chicaoma is show here::
-
-                       train         valid          test     
-   -----------------------------------------------------
-   EpA-RMSE :        0.53794       0.59717        0.5623
-   EpA-MAE  :        0.42529       0.50263       0.45122
-   EpA-RSQ  :        0.99855       0.99836       0.99819
-   ForceRMSE:         26.569        27.206        26.539
-   ForceMAE :         20.958        21.446        20.891
-   ForceRsq :        0.99874       0.99868       0.99875
-   T-Hier   :     0.00086597    0.00089525    0.00087336
-   L2Reg    :         106.48        106.48        106.48
-   Loss-Err :       0.057159       0.05965      0.057565
-   Loss-Reg :     0.00097245     0.0010017    0.00097983
-   Loss     :       0.058131      0.060652      0.058545
-   -----------------------------------------------------
    
+Training Accuracy on Chicoma:
+                       train         valid          test
+   -----------------------------------------------------
+   EpA-RMSE :        0.63311       0.67692       0.65307
+   EpA-MAE  :        0.49966       0.56358       0.51061
+   EpA-RSQ  :          0.998       0.99789       0.99756
+   ForceRMSE:          31.36        32.088        30.849
+   ForceMAE :         24.665        25.111        24.314
+   ForceRsq :        0.99825       0.99817       0.99831
+   T-Hier   :     0.00084411     0.0008716    0.00085288
+   L2Reg    :         98.231        98.231        98.231
+   Loss-Err :       0.067352      0.069605        0.0668
+   Loss-Reg :     0.00094234    0.00096983    0.00095111
+   Loss     :       0.068294      0.070575      0.067751
+   -----------------------------------------------------
+
 The numbers will vary from run to run due random seeds and the non-deterministic nature of multi-threaded / data parallel execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0.7 (meV/atom). The test Force MAE "Force MAE" should be below 25 (meV/Angstrom).
 
 The training script will also output the initial box file ``ag_box.data`` as well as an file used to run the resulting potential with LAMMPS, ``hippynn_lammps_model.pt``. Several other files for the training run are put in a directory, ``model_files``.
