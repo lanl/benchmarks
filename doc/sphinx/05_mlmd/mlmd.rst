@@ -34,7 +34,7 @@ Building
 ========
 
 
-Building the Lammps Python interface environment is somewhat challenging. Below is an outline of the process used to get the environment working on Chicoma. Also, in the benchmarks/kokkos_lammps_hippynn/benchmark-env.yml file is a list of the packages installed in the test environment. Most of these will not affect performance, but the pytorch (2.2.0) and cuda (11.2) versions should be kept the same. 
+Building the Lammps Python interface environment is somewhat challenging. Below is an outline of the process used to get the environment working on Chicoma. Also, in the benchmarks/kokkos_lammps_hippynn/benchmark-env.yml file is a list of the packages installed in the test environment. Most of these will not affect performance, but the pytorch (2.1.0) and cuda (11.2) versions should be kept the same. 
 
 Building on Chicoma
 -------------------
@@ -54,9 +54,9 @@ Building on Chicoma
    #Create virtual python environment
    # You may need to create/update ~/.condarc with appropriate proxy settings 
    virtenvpath =virt <Set Path> 
-   conda create --prefix=${virtenvpath} python=3.10
+   conda create --prefix=${virtenvpath} python=3.11
    source activate ${virtenvpath}
-   conda install pytorch-gpu=1.11 cudatoolkit=11.6 cupy -c pytorch -c nvidia
+   conda install pytorch-gpu=2.1 cudatoolkit=11.6 cupy -c pytorch -c nvidia
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
    
    #Install HIPPYNN
@@ -113,10 +113,11 @@ Building on Crossroads
    module load cray-fftw
    module load python/3.10-anaconda-2023.03
 
+
    #Create virtual python environment
    virtenv==virt <Set Path>
    # You may need to create/update ~/.condarc with appropriate proxy and other settings
-   conda create --prefix=${virtenv} python=3.10 
+   conda create --prefix=${virtenv} python=3.11 
    source activate ${virtenv}
    conda install pytorch=2.2.0
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
@@ -213,7 +214,7 @@ the model are captured in ``model_results.txt``. An example is shown here::
    Loss     :       0.058131      0.060652      0.058545
    -----------------------------------------------------
 
-The numbers will vary from run to run due random seeds and the non-deterministic nature of multi-threaded / data parallel execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0..7 (meV/atom). The test Force MAE "Force MAE" should be below 25 (meV/Angstrom).
+The numbers will vary from run to run due random seeds and the non-deterministic nature of multi-threaded / data parallel execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0.7 (meV/atom). The test Force MAE "Force MAE" should be below 25 (meV/Angstrom).
 
 The training script will also output the initial box file ``ag_box.data`` as well as an file used to run the resulting potential with LAMMPS, ``hippynn_lammps_model.pt``. Several other files for the training run are put in a directory, ``model_files``.
 
@@ -242,7 +243,7 @@ Training HIPNN Model
 --------------------
 For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. 
 
-* On Chicoma using a single GPU - 1 / FOM Average Epoch time:  1/0.24648178 = 4.05709
+* On Chicoma using a single GPU - 1 / FOM Average Epoch time:  1/0.24505662 = 4.05709
 * On Crossroads using a single node - 1 / FOM Average Epoch time:   1/1.67033911= .5986808
 
 Simulation+Inference 
