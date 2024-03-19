@@ -197,8 +197,26 @@ Training on CPU or GPU is configurable by editing the ``train_model.py`` script.
 
 
 The process can take quite some time. This will write several files to disk. The final errors of
-the model are captured in ``model_results.txt``. An example is shown here::
+the model are captured in ``model_results.txt``. Examples for Crossroads and Chicoma are shown here::
 
+Training Accuracy on Crossroads:
+
+                       train         valid          test
+   -----------------------------------------------------
+   EpA-RMSE :        0.53794       0.59717        0.5623
+   EpA-MAE  :        0.42529       0.50263       0.45122
+   EpA-RSQ  :        0.99855       0.99836       0.99819
+   ForceRMSE:         26.569        27.206        26.539
+   ForceMAE :         20.958        21.446        20.891
+   ForceRsq :        0.99874       0.99868       0.99875
+   T-Hier   :     0.00086597    0.00089525    0.00087336
+   L2Reg    :         106.48        106.48        106.48
+   Loss-Err :       0.057159       0.05965      0.057565
+   Loss-Reg :     0.00097245     0.0010017    0.00097983
+   Loss     :       0.058131      0.060652      0.058545
+   -----------------------------------------------------
+
+Training Accuracy on Chicoma:
                        train         valid          test
    -----------------------------------------------------
    EpA-RMSE :        0.63311       0.67692       0.65307
