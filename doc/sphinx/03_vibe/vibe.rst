@@ -84,7 +84,7 @@ To build for execution on a single GPU, it should be sufficient to add flags sim
 
 .. code-block:: bash
 
-   cmake -DKokkos_ENABLE_CUDA=ON -DKokkos_ARCH_AMPERE80=ON
+   cmake -DKokkos_ENABLE_CUDA=ON -DKokkos_ARCH_HOPPER90=ON
 
 ..
 
