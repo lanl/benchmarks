@@ -138,7 +138,27 @@ Building on Crossroads
    export CMAKE_PREFIX_PATH="${FFTW_ROOT}"
    export CXX=`which icpx`
    export CC=`which icx` 
-   cmake ../cmake  -DCMAKE_BUILD_TYPE=Release   -DCMAKE_VERBOSE_MAKEFILE=ON   -DLAMMPS_EXCEPTIONS=ON   -DBUILD_SHARED_LIBS=ON   -DBUILD_MPI=ON  -DPKG_KOKKOS=OFF   -DCMAKE_CXX_STANDARD=17   -DPKG_MANYBODY=ON   -DPKG_MOLECULE=ON   -DPKG_KSPACE=ON   -DPKG_REPLICA=ON   -DPKG_ASPHERE=ON   -DPKG_RIGID=ON   -DPKG_MPIIO=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON   -DPKG_ML-SNAP=ON   -DPKG_ML-IAP=ON   -DPKG_PYTHON=ON -DMLIAP_ENABLE_PYTHON=ON
+   cmake ../cmake  \
+     -DCMAKE_BUILD_TYPE=Release \
+     -DCMAKE_VERBOSE_MAKEFILE=ON \
+     -DLAMMPS_EXCEPTIONS=ON \
+     -DBUILD_SHARED_LIBS=ON \
+     -DBUILD_MPI=ON \
+     -DPKG_KOKKOS=OFF \
+     -DCMAKE_CXX_STANDARD=17 \
+     -DPKG_MANYBODY=ON \
+     -DPKG_MOLECULE=ON \
+     -DPKG_KSPACE=ON \
+     -DPKG_REPLICA=ON \
+     -DPKG_ASPHERE=ON  \
+     -DPKG_RIGID=ON \
+     -DPKG_MPIIO=ON \
+     -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+     -DPKG_ML-SNAP=ON \
+     -DPKG_ML-IAP=ON \
+     -DPKG_PYTHON=ON \
+     -DMLIAP_ENABLE_PYTHON=ON
+   
    make -j 12
    make install-python
 
@@ -175,7 +195,7 @@ The process can take quite some time. This will write several files to disk. The
 the model are captured in ``model_results.txt``. An example is shown here::
 
                        train         valid          test     
--  -----------------------------------------------------
+   -----------------------------------------------------
    EpA-RMSE :        0.53794       0.59717        0.5623
    EpA-MAE  :        0.42529       0.50263       0.45122
    EpA-RSQ  :        0.99855       0.99836       0.99819
