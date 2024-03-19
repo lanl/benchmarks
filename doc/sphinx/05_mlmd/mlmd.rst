@@ -199,7 +199,7 @@ Training on CPU or GPU is configurable by editing the ``train_model.py`` script.
 The process can take quite some time. This will write several files to disk. The final errors of
 the model are captured in ``model_results.txt``. Examples for Crossroads and Chicoma are shown here::
 
-Training Accuracy on Crossroads:
+Training Accuracy on Crossroads::
 
                        train         valid          test
    -----------------------------------------------------
@@ -217,7 +217,8 @@ Training Accuracy on Crossroads:
    -----------------------------------------------------
 
    
-Training Accuracy on Chicoma:
+Training Accuracy on Chicoma::
+   
                        train         valid          test
    -----------------------------------------------------
    EpA-RMSE :        0.63311       0.67692       0.65307
