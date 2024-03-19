@@ -113,35 +113,60 @@ Building on Crossroads
    module load cray-fftw
    module load python/3.10-anaconda-2023.03
 
-   mkdir $HOME/mlmd-env
-   virtenv=$HOME/mlmd-env
-   # You may need to create/update ~/.condarc with appropriate proxy settings
+
+   #Create virtual python environment
+   virtenv==virt <Set Path>
+   # You may need to create/update ~/.condarc with appropriate proxy and other settings
    conda create --prefix=${virtenv} python=3.11 
-   
    source activate ${virtenv}
    conda install pytorch=2.2.0
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
 
-   cd $HOME 
+   #Install HIPPYNN
    git clone git@github.com:lanl/hippynn.git 
-   cd hippynn/
-   git fetch 
-   git checkout hippynn-0.0.3
+   pushd hippynn
+   git fetch --all --tags
+   git checkout tags/hippynn-0.0.3 -b benchmark
    pip install --no-deps -e .
+   popd
+   
    # In subsequent execution such as training you can activate this environment using: 
    #  conda activate ${virtenv}
-   cd $HOME
+   
+   #Install Lammps:
    git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap.git
-   cd  lammps-kokkos-mliap
+   pushd lammps-kokkos-mliap
+   git checkout lammps-kokkos-mliap
    mkdir build
-   cd build/
+   pushd build
    export CMAKE_PREFIX_PATH="${FFTW_ROOT}"
    export CXX=`which icpx`
    export CC=`which icx` 
-   cmake ../cmake  -DCMAKE_BUILD_TYPE=Release   -DCMAKE_VERBOSE_MAKEFILE=ON   -DLAMMPS_EXCEPTIONS=ON   -DBUILD_SHARED_LIBS=ON   -DBUILD_MPI=ON  -DPKG_KOKKOS=OFF   -DCMAKE_CXX_STANDARD=17   -DPKG_MANYBODY=ON   -DPKG_MOLECULE=ON   -DPKG_KSPACE=ON   -DPKG_REPLICA=ON   -DPKG_ASPHERE=ON   -DPKG_RIGID=ON   -DPKG_MPIIO=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON   -DPKG_ML-SNAP=ON   -DPKG_ML-IAP=ON   -DPKG_PYTHON=ON -DMLIAP_ENABLE_PYTHON=ON
+   cmake ../cmake  \
+     -DCMAKE_BUILD_TYPE=Release \
+     -DCMAKE_VERBOSE_MAKEFILE=ON \
+     -DLAMMPS_EXCEPTIONS=ON \
+     -DBUILD_SHARED_LIBS=ON \
+     -DBUILD_MPI=ON \
+     -DPKG_KOKKOS=OFF \
+     -DCMAKE_CXX_STANDARD=17 \
+     -DPKG_MANYBODY=ON \
+     -DPKG_MOLECULE=ON \
+     -DPKG_KSPACE=ON \
+     -DPKG_REPLICA=ON \
+     -DPKG_ASPHERE=ON  \
+     -DPKG_RIGID=ON \
+     -DPKG_MPIIO=ON \
+     -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+     -DPKG_ML-SNAP=ON \
+     -DPKG_ML-IAP=ON \
+     -DPKG_PYTHON=ON \
+     -DMLIAP_ENABLE_PYTHON=ON
+   
    make -j 12
    make install-python
-
+   popd
+   popd
 
 Running
 =======
@@ -175,7 +200,7 @@ The process can take quite some time. This will write several files to disk. The
 the model are captured in ``model_results.txt``. An example is shown here::
 
                        train         valid          test     
--  -----------------------------------------------------
+   -----------------------------------------------------
    EpA-RMSE :        0.53794       0.59717        0.5623
    EpA-MAE  :        0.42529       0.50263       0.45122
    EpA-RSQ  :        0.99855       0.99836       0.99819
