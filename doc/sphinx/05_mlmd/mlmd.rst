@@ -113,28 +113,31 @@ Building on Crossroads
    module load cray-fftw
    module load python/3.10-anaconda-2023.03
 
-   mkdir $HOME/mlmd-env
-   virtenv=$HOME/mlmd-env
-   # You may need to create/update ~/.condarc with appropriate proxy settings
+   #Create virtual python environment
+   virtenv==virt <Set Path>
+   # You may need to create/update ~/.condarc with appropriate proxy and other settings
    conda create --prefix=${virtenv} python=3.10 
-   
    source activate ${virtenv}
    conda install pytorch=2.2.0
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
 
-   cd $HOME 
+   #Install HIPPYNN
    git clone git@github.com:lanl/hippynn.git 
-   cd hippynn/
-   git fetch 
-   git checkout hippynn-0.0.3
+   pushd hippynn
+   git fetch --all --tags
+   git checkout tags/hippynn-0.0.3 -b benchmark
    pip install --no-deps -e .
+   popd
+   
    # In subsequent execution such as training you can activate this environment using: 
    #  conda activate ${virtenv}
-   cd $HOME
+   
+   #Install Lammps:
    git clone git@github.com:bnebgen-LANL/lammps-kokkos-mliap.git
-   cd  lammps-kokkos-mliap
+   pushd lammps-kokkos-mliap
+   git checkout lammps-kokkos-mliap
    mkdir build
-   cd build/
+   pushd build
    export CMAKE_PREFIX_PATH="${FFTW_ROOT}"
    export CXX=`which icpx`
    export CC=`which icx` 
@@ -161,7 +164,8 @@ Building on Crossroads
    
    make -j 12
    make install-python
-
+   popd
+   popd
 
 Running
 =======
