@@ -189,7 +189,7 @@ the model are captured in ``model_results.txt``. An example is shown here::
    Loss     :       0.058131      0.060652      0.058545
    -----------------------------------------------------
 
-The numbers will vary from run to run due random seeds and the non-deterministic nature of multi-threaded / data parallel execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0..7 (meV/atom). The test Force MAE "Force MAE" should be below 25 (meV/Angstrom).
+The numbers will vary from run to run due random seeds and the non-deterministic nature of multi-threaded / data parallel execution. However you should find that the Energy Per Atom mean absolute error "EpA-MAE" for test is below 0.7 (meV/atom). The test Force MAE "Force MAE" should be below 25 (meV/Angstrom).
 
 The training script will also output the initial box file ``ag_box.data`` as well as an file used to run the resulting potential with LAMMPS, ``hippynn_lammps_model.pt``. Several other files for the training run are put in a directory, ``model_files``.
 
@@ -218,7 +218,7 @@ Training HIPNN Model
 --------------------
 For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. 
 
-* On Chicoma using a single GPU - 1 / FOM Average Epoch time:  1/0.24648178 = 4.05709
+* On Chicoma using a single GPU - 1 / FOM Average Epoch time:  1/0.24505662 = 4.05709
 * On Crossroads using a single node - 1 / FOM Average Epoch time:   1/1.67033911= .5986808
 
 Simulation+Inference 
