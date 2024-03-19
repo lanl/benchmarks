@@ -34,7 +34,7 @@ Building
 ========
 
 
-Building the Lammps Python interface environment is somewhat challenging. Below is an outline of the process used to get the environment working on Chicoma. Also, in the benchmarks/kokkos_lammps_hippynn/benchmark-env.yml file is a list of the packages installed in the test environment. Most of these will not affect performance, but the pytorch (2.2.0) and cuda (11.2) versions should be kept the same. 
+Building the Lammps Python interface environment is somewhat challenging. Below is an outline of the process used to get the environment working on Chicoma. Also, in the benchmarks/kokkos_lammps_hippynn/benchmark-env.yml file is a list of the packages installed in the test environment. Most of these will not affect performance, but the pytorch (2.1.0) and cuda (11.2) versions should be kept the same. 
 
 Building on Chicoma
 -------------------
@@ -55,7 +55,7 @@ Building on Chicoma
    virtenvpath =virt <Set Path> 
    conda create --prefix=${virtenvpath} python=3.10
    source activate ${virtenvpath}
-   conda install pytorch-gpu=2.2.0 cudatoolkit=11.6 cupy -c pytorch -c nvidia
+   conda install pytorch-gpu=2.1.0 cudatoolkit=11.6 cupy -c pytorch -c nvidia
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
    
    #Install HIPPYNN
@@ -183,7 +183,7 @@ Building on Crossroads
    conda create --prefix=${virtenv} python=3.10 
    
    source activate ${virtenv}
-   conda install pytorch 
+   conda install pytorch=2.1.0 
    conda install matplotlib h5py tqdm python-graphviz cython numba scipy ase -c conda-forge
 
    cd $HOME 
