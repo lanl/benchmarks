@@ -23,11 +23,12 @@ done
 echo "numas: ${numas} cores: ${cores} nphper: ${nphper} ht: ${ht} mynodes: ${mynodes}"
 
 
-
+SUFFIX="numas_${numas}_cores_${cores}_nphper_${nphper}"
 input=3D_hohlraum_multi_node.xml
-
-
-cp ../inputs/${input} .
+workdir=${SUFFIX}_${SLURM_JOB_ID}
+mkdir ${workdir}
+cd ${workdir}
+cp ../../inputs/${input} .
 
 echo ${input}
 sed -i 's/<t_stop>.*<\/t_stop>/<t_stop>'.010'\<\/t_stop>/g' ${input}
@@ -35,7 +36,7 @@ sed -i 's/<n_omp_threads>.*<\/n_omp_threads>/<n_omp_threads>'${cores}'\<\/n_omp_
 sed -i 's/<use_gpu_transporter>.*<\/use_gpu_transporter>/<use_gpu_transporter>'FALSE'\<\/use_gpu_transporter>/g' ${input}
 
 HEADER="No. Cores, Actual"
-SUFFIX="numas_${numas}_cores_${cores}_nphper_${nphper}"
+
 TIMING_FILE_NAME="cpu_${SUFFIX}.csv"
 echo "Saving timing to ${TIMING_FILE_NAME}"
 echo "${HEADER}"
@@ -57,7 +58,7 @@ for nodes in 1 4 8 16 32 40 64 96; do
     errfile=$(printf "weakscale_${SUFFIX}-%d-%d.err" ${size} ${threads})
     grep photons ${input}
     MPICH_SMP_SINGLE_COPY_MODE=NONE FI_CXI_RX_MATCH_MODE=software OMP_NUM_THREADS=14
-    srun ${ht}  -N ${nodes} -n ${ranks} --ntasks-per-node=${numas} -c ${cores} -o ${outfile} -e ${errfile}  ./BRANSON ./3D_hohlraum_multi_node.xml  
+    srun ${ht}  -N ${nodes} -n ${ranks} --ntasks-per-node=${numas} -c ${cores} -o ${outfile} -e ${errfile}  ../BRANSON ./3D_hohlraum_multi_node.xml  
     fom=$(grep 'Photons Per Second (FOM): ' ${outfile} | cut -d ':' -f 2 | xargs)
     echo ${fom}
     
