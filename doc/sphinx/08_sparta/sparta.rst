@@ -642,8 +642,12 @@ below. The throughput corresponds to Mega particle steps per second
 per node.
 
 .. note::
-   Data are still being gathered for this. The values herein are
-   considered preliminary and are subject to change.
+   Weak-scaled data with nodes increasing by powers of 2 have been
+   gathered. The single-node data for this particular weak-scaling
+   bundle is more performant than the data gathered for the
+   single-node benchmarks (see :ref:`ResultsATS3` above). The
+   single-node data within that section will not be updated at this
+   time to avoid churn.
 
 .. csv-table:: SPARTA Multi-Node Weak Scaling Throughput on Crossroads with ppc=35
    :file: ats3--scale--main.csv
@@ -713,6 +717,18 @@ reference.
 """"""
 
 .. literalinclude:: ats3--scale--breakdown--nodes-0001.log
+
+
+2 Nodes
+"""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0002.log
+
+
+4 Nodes
+"""""""
+
+.. literalinclude:: ats3--scale--breakdown--nodes-0004.log
 
 
 8 Nodes

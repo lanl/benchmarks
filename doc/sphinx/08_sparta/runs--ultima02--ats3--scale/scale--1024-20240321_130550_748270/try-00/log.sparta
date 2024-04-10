@@ -1,0 +1,397 @@
+##### ./scale--1024-20240321_130550_748270/try-00/log.sparta
+SPARTA (13 Apr 2023)
+KOKKOS mode is enabled (../kokkos.cpp:40)
+  requested 0 GPU(s) per node
+  requested 1 thread(s) per MPI task
+Running on 114688 MPI task(s)
+package kokkos
+# advect particles on uniform Cartesian grid
+# single-step moves that cross grid cell boundaries are detected
+# particle effectively moves from cell to cell
+# particles reflect off global box boundaries
+#
+###################################
+# Constants
+###################################
+variable            boltz equal 1.380658E-23
+
+###################################
+# Gas parameters (Ar)
+###################################
+variable            mue equal 1.656E-5
+variable            mass equal 46.5E-27
+variable            visc equal 1.656E-5
+variable            gamma equal 1.400
+variable            To equal 293.
+variable            pi equal 3.14159
+
+variable            cbar equal sqrt(8.*${boltz}*${To}/${mass}/${pi})
+variable            cbar equal sqrt(8.*1.380658e-23*${To}/${mass}/${pi})
+variable            cbar equal sqrt(8.*1.380658e-23*293/${mass}/${pi})
+variable            cbar equal sqrt(8.*1.380658e-23*293/4.65e-26/${pi})
+variable            cbar equal sqrt(8.*1.380658e-23*293/4.65e-26/3.14159)
+variable            uspeed equal sqrt(${gamma}*${boltz}*${To}/${mass})
+variable            uspeed equal sqrt(1.4*${boltz}*${To}/${mass})
+variable            uspeed equal sqrt(1.4*1.380658e-23*${To}/${mass})
+variable            uspeed equal sqrt(1.4*1.380658e-23*293/${mass})
+variable            uspeed equal sqrt(1.4*1.380658e-23*293/4.65e-26)
+
+###################################
+# Trajectory inputs
+###################################
+variable            mach equal 1.71
+variable L equal 32
+variable            Vo equal ${mach}*${uspeed}
+variable            Vo equal 1.71*${uspeed}
+variable            Vo equal 1.71*348.991145588143
+variable            nden equal 1.E20
+variable            Vo equal ${mach}*${uspeed}
+variable            Vo equal 1.71*${uspeed}
+variable            Vo equal 1.71*348.991145588143
+
+variable            surftemp equal 293.
+variable            temp equal 293.00
+variable            beta equal 0.000
+
+###################################
+# Simulation initialization standards
+###################################
+variable ppc equal 35
+variable            cpmfp equal 4
+
+###################################
+# Parameter calculations
+###################################
+variable            Vx equal ${Vo}*cos(${beta}*2*PI/360)
+variable            Vx equal 596.774858955725*cos(${beta}*2*PI/360)
+variable            Vx equal 596.774858955725*cos(0*2*PI/360)
+variable            Vy equal ${Vo}*sin(${beta}*2*PI/360)
+variable            Vy equal 596.774858955725*sin(${beta}*2*PI/360)
+variable            Vy equal 596.774858955725*sin(0*2*PI/360)
+
+
+variable            mfp equal 2*${mue}/(${nden}*${mass}*${cbar})
+variable            mfp equal 2*1.656e-05/(${nden}*${mass}*${cbar})
+variable            mfp equal 2*1.656e-05/(1e+20*${mass}*${cbar})
+variable            mfp equal 2*1.656e-05/(1e+20*4.65e-26*${cbar})
+variable            mfp equal 2*1.656e-05/(1e+20*4.65e-26*470.674457970473)
+
+variable            xmin equal -5.0*${L}
+variable            xmin equal -5.0*32
+variable            xmax equal  5.1*${L}
+variable            xmax equal  5.1*32
+variable            ymin equal -5.1*${L}
+variable            ymin equal -5.1*32
+variable            ymax equal  5.1*${L}
+variable            ymax equal  5.1*32
+
+variable            xncells equal (${xmax}-${xmin})/${mfp}*${cpmfp}
+variable            xncells equal (163.2-${xmin})/${mfp}*${cpmfp}
+variable            xncells equal (163.2--160)/${mfp}*${cpmfp}
+variable            xncells equal (163.2--160)/0.0151327112073885*${cpmfp}
+variable            xncells equal (163.2--160)/0.0151327112073885*4
+variable            yncells equal (${ymax}-${ymin})/${mfp}*${cpmfp}
+variable            yncells equal (163.2-${ymin})/${mfp}*${cpmfp}
+variable            yncells equal (163.2--163.2)/${mfp}*${cpmfp}
+variable            yncells equal (163.2--163.2)/0.0151327112073885*${cpmfp}
+variable            yncells equal (163.2--163.2)/0.0151327112073885*4
+
+variable            Fnum equal  ${nden}*(${xmax}-${xmin})*(${ymax}-${ymin})/${ppc}/${xncells}/${yncells}
+variable            Fnum equal  1e+20*(${xmax}-${xmin})*(${ymax}-${ymin})/${ppc}/${xncells}/${yncells}
+variable            Fnum equal  1e+20*(163.2-${xmin})*(${ymax}-${ymin})/${ppc}/${xncells}/${yncells}
+variable            Fnum equal  1e+20*(163.2--160)*(${ymax}-${ymin})/${ppc}/${xncells}/${yncells}
+variable            Fnum equal  1e+20*(163.2--160)*(163.2-${ymin})/${ppc}/${xncells}/${yncells}
+variable            Fnum equal  1e+20*(163.2--160)*(163.2--163.2)/${ppc}/${xncells}/${yncells}
+variable            Fnum equal  1e+20*(163.2--160)*(163.2--163.2)/35/${xncells}/${yncells}
+variable            Fnum equal  1e+20*(163.2--160)*(163.2--163.2)/35/85430.824806119/${yncells}
+variable            Fnum equal  1e+20*(163.2--160)*(163.2--163.2)/35/85430.824806119/86276.6745566746
+
+variable            tstep equal (-${xmin}+${xmax})/${Vx}/${xncells}/10/4
+variable            tstep equal (--160+${xmax})/${Vx}/${xncells}/10/4
+variable            tstep equal (--160+163.2)/${Vx}/${xncells}/10/4
+variable            tstep equal (--160+163.2)/596.774858955725/${xncells}/10/4
+variable            tstep equal (--160+163.2)/596.774858955725/85430.824806119/10/4
+
+###################################
+# Print variable values to log file
+###################################
+print               " Velocity  = ${Vo}"
+ Velocity  = 596.774858955725
+print               " Density  = ${nden}"
+ Density  = 1e+20
+print               " X-Velocity  = ${Vx}"
+ X-Velocity  = 596.774858955725
+print               " Y-Velocity  = ${Vy}"
+ Y-Velocity  = 0
+print               " Temp  = ${temp}"
+ Temp  = 293
+print               " cbar  = ${cbar}"
+ cbar  = 470.674457970473
+print               " mean free path  = ${mfp}"
+ mean free path  = 0.0151327112073885
+print               " cells per free stream mean free path = ${cpmfp}"
+ cells per free stream mean free path = 4
+print               " sound speed  = ${uspeed}"
+ sound speed  = 348.991145588143
+#print               " number of mean free paths = ${nmfp}"
+print               " x-min = ${xmin}"
+ x-min = -160
+print               " x-max = ${xmax}"
+ x-max = 163.2
+print               " y-min = ${ymin}"
+ y-min = -163.2
+print               " y-max = ${ymax}"
+ y-max = 163.2
+print               " x-cells = ${xncells}"
+ x-cells = 85430.824806119
+print               " y-cells = ${yncells}"
+ y-cells = 86276.6745566746
+print               " Simulation Ratio = ${Fnum}"
+ Simulation Ratio = 40892669372539.5
+print               " Timestep = ${tstep}"
+ Timestep = 1.584842987717e-07
+
+###################################
+# Simulation parameters
+###################################
+seed	    	    847384
+dimension   	    2
+global		    nrho ${nden}
+global		    nrho 1e+20
+global              fnum ${Fnum}
+global              fnum 40892669372539.5
+
+timestep            ${tstep}
+timestep            1.584842987717e-07
+global              gridcut 1.E-1 particle/reorder 100 comm/sort yes
+
+###################################
+# Grid generation
+###################################
+boundary	    o o p
+create_box          ${xmin} ${xmax} ${ymin} ${ymax} -0.5 0.5
+create_box          -160 ${xmax} ${ymin} ${ymax} -0.5 0.5
+create_box          -160 163.2 ${ymin} ${ymax} -0.5 0.5
+create_box          -160 163.2 -163.2 ${ymax} -0.5 0.5
+create_box          -160 163.2 -163.2 163.2 -0.5 0.5
+Created orthogonal box = (-160 -163.2 -0.5) to (163.2 163.2 0.5)
+create_grid 	    ${xncells} ${yncells} 1 block * * *
+create_grid 	    85430.824806119 ${yncells} 1 block * * *
+create_grid 	    85430.824806119 86276.6745566746 1 block * * *
+Created 7370558680 child grid cells
+  CPU time = 0.22728 secs
+  create/ghost percent = 14.9599 85.0401
+
+#####################################
+# Gas/Collision Model Specification #
+#####################################
+species             air.species N2
+mixture             air vstream ${Vx} ${Vy} 0.0 temp ${temp}
+mixture             air vstream 596.774858955725 ${Vy} 0.0 temp ${temp}
+mixture             air vstream 596.774858955725 0 0.0 temp ${temp}
+mixture             air vstream 596.774858955725 0 0.0 temp 293
+mixture             air N2 frac 1.0
+
+mixture             air vstream ${Vx} ${Vy} 0.0 temp ${temp}
+mixture             air vstream 596.774858955725 ${Vy} 0.0 temp ${temp}
+mixture             air vstream 596.774858955725 0 0.0 temp ${temp}
+mixture             air vstream 596.774858955725 0 0.0 temp 293
+
+collide             vss all air.vss relax variable
+collide_modify      vremax 100 yes vibrate no rotate smooth nearcp yes 10
+
+#####################################################
+# Surface generation and collision specification
+#####################################################
+read_surf	    circle_R0.5_P10000.surf group 1 invert
+  10000 points
+  10000 lines
+  -0.5 0.5 xlo xhi
+  -0.5 0.5 ylo yhi
+  0 0 zlo zhi
+  0.000314159 min line length
+  1060 = cells with surfs
+  11061 = total surfs in all grid cells
+  18 = max surfs in one grid cell
+  0.0830403 = min surf-size/cell-size ratio
+  1060 0 = cells overlapping surfs, overlap cells with unmarked corner pts
+  -1219431312 54340 1060 = cells outside/inside/overlapping surfs
+  1060 = surf cells with 1,2,etc splits
+  105492 105492 = cell-wise and global flow volume
+  CPU time = 0.462615 secs
+  read/check/sort/surf2grid/ghost/inout/particle percent = 3.98358 3.2218 1.02677 60.4731 31.2948 662.864 1.20541
+  surf2grid time = 0.279757 secs
+  map/comm1/comm2/comm3/comm4/split percent = 95.3108 0 0 0 0 0.854478
+surf_collide	    1 diffuse ${surftemp} 1.0
+surf_collide	    1 diffuse 293 1.0
+surf_modify         1 collide 1
+
+###################################
+# Boundary conditions
+###################################
+fix                 in emit/face air xlo xhi ylo yhi twopass
+
+# adapt the grid around the surface before running the simulation
+adapt_grid          all refine surf all 0.00001 iterate 5
+Adapting grid ...
+WARNING: One or more fix inflow faces oppose streaming velocity (../fix_emit_face.cpp:195)
+  -1219398858 87446 33834 = cells outside/inside/overlapping surfs
+  33834 = surf cells with 1,2,etc splits
+  105492 105492 = cell-wise and global flow volume
+  32778 cells refined, 0 cells coarsened
+  adapted to 7370657014 grid cells
+  CPU time = 0.388678 secs
+  adapt/redo percent = 31.8017 68.1983
+
+balance_grid        rcb cell
+WARNING: One or more fix inflow faces oppose streaming velocity (../fix_emit_face.cpp:195)
+Balance grid migrated 7370336931 cells
+  CPU time = 0.833806 secs
+  reassign/sort/migrate/ghost percent = 44.2419 0.0869812 28.8098 26.8613
+
+###################################
+# Initialize simulation
+###################################
+create_particles    air n 0 twopass
+WARNING: Created unexpected # of particles: 257972140768 versus 257972140778 (../create_particles.cpp:346)
+Created 257972140768 particles
+  CPU time = 1.57602 secs
+
+###################################
+# Output
+###################################
+stats_style         step cpu np nattempt ncoll maxlevel
+
+stats 100
+
+run 6866
+WARNING: One or more fix inflow faces oppose streaming velocity (../fix_emit_face.cpp:195)
+Memory usage per proc in Mbytes:
+  particles (ave,min,max) = 243.345 43.7689 243.35
+  grid      (ave,min,max) = 18.3637 15.9894 28.4894
+  surf      (ave,min,max) = 1.02997 1.02997 1.02997
+  total     (ave,min,max) = 262.738 64.4271 272.869
+Step CPU Np Natt Ncoll Maxlevel 
+       0            0 257972140768        0        0        6 
+     100    13.063864 257972144007        2        1        6 
+     200    25.790913 257972147105       38       31        6 
+     300    37.632877 257972150064      105       94        6 
+     400    49.375949 257972158924      193      156        6 
+     500    61.068438 257972169447      287      252        6 
+     600    72.798896 257972185211      395      349        6 
+     700    84.698407 257972200854      507      432        6 
+     800    96.382182 257972213593      612      527        6 
+     900    108.12155 257972226227      732      627        6 
+    1000    119.84384 257972241147      828      718        6 
+    1100    131.53982 257972253243      941      799        6 
+    1200    143.27768 257972269333     1057      916        6 
+    1300    155.00764 257972282185     1141      968        6 
+    1400    166.72974 257972299466     1275     1091        6 
+    1500    178.46115 257972312106     1368     1179        6 
+    1600    190.16562 257972330634     1476     1253        6 
+    1700    201.86238 257972345307     1562     1335        6 
+    1800    213.60929 257972360408     1662     1441        6 
+    1900    225.32279 257972374788     1777     1537        6 
+    2000    237.03628 257972393939     1851     1595        6 
+    2100    248.78989 257972408123     1955     1664        6 
+    2200    260.50703 257972426585     2063     1766        6 
+    2300    272.23925 257972448479     2145     1833        6 
+    2400     284.0548 257972463414     2230     1910        6 
+    2500    295.74525 257972485975     2293     1969        6 
+    2600    307.49185 257972502599     2370     1999        6 
+    2700    319.22215 257972521886     2456     2091        6 
+    2800    330.89123 257972533977     2512     2150        6 
+    2900    342.57484 257972539402     2582     2208        6 
+    3000    354.30416 257972544555     2672     2289        6 
+    3100    365.94268 257972555886     2745     2322        6 
+    3200    377.64066 257972574167     2805     2400        6 
+    3300    389.35551 257972591702     2871     2463        6 
+    3400    401.01066 257972597851     2912     2498        6 
+    3500    412.73386 257972608544     2971     2515        6 
+    3600     424.4564 257972614786     3023     2593        6 
+    3700    436.10578 257972626802     3076     2648        6 
+    3800    447.82597 257972647589     3129     2679        6 
+    3900    459.54622 257972662660     3174     2738        6 
+    4000    471.18641 257972668981     3236     2770        6 
+    4100     482.8848 257972687018     3274     2793        6 
+    4200    494.63167 257972706610     3226     2749        6 
+    4300    506.32619 257972720648     3313     2814        6 
+    4400    518.05916 257972734250     3396     2934        6 
+    4500    529.76125 257972746012     3445     2976        6 
+    4600    541.47453 257972764564     3443     2935        6 
+    4700    553.19587 257972785679     3478     2956        6 
+    4800    564.91942 257972805337     3510     2958        6 
+    4900    576.69836 257972821083     3532     3045        6 
+    5000    588.42711 257972842739     3577     3052        6 
+    5100    600.15252 257972857112     3653     3166        6 
+    5200     611.9156 257972873037     3677     3121        6 
+    5300    623.65428 257972884085     3642     3130        6 
+    5400    635.36361 257972903939     3658     3134        6 
+    5500    647.11222 257972912629     3669     3147        6 
+    5600    658.81224 257972917239     3709     3141        6 
+    5700    670.70116 257972934508     3744     3214        6 
+    5800    682.45502 257972950717     3770     3222        6 
+    5900    694.14531 257972959600     3825     3248        6 
+    6000     705.7978 257972976725     3783     3216        6 
+    6100    717.51141 257972992262     3846     3308        6 
+    6200    729.19378 257973007489     3863     3328        6 
+    6300    740.87293 257973021023     3892     3387        6 
+    6400    753.57858 257973031094     3839     3304        6 
+    6500    765.24589 257973039560     3853     3262        6 
+    6600    776.97851 257973053145     3887     3363        6 
+    6700    788.71829 257973064903     3928     3326        6 
+    6800     800.4562 257973077829     3930     3381        6 
+    6866    808.09434 257973093220 930772466 693164023        6 
+Loop time of 808.116 on 114688 procs for 6866 steps with 257973093220 particles
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Move    | 99.131     | 353.48     | 423.59     |  50.1 | 43.74
+Coll    | 22.265     | 64.798     | 106.47     |  12.9 |  8.02
+Sort    | 45.521     | 155.02     | 197.76     |  30.2 | 19.18
+Comm    | 2.1529     | 2.3408     | 3.1588     |   3.5 |  0.29
+Modify  | 0.036206   | 0.055022   | 0.65327    |  13.0 |  0.01
+Output  | 1.1107     | 2.1747     | 8.9164     |  23.0 |  0.27
+Other   |            | 230.3      |            |       | 28.49
+
+Particle moves    = 1771240616258669 (1.77P)
+Cells touched     = 0 (0K)
+Particle comms    = 0 (0K)
+Boundary collides = 0 (0K)
+Boundary exits    = 0 (0K)
+SurfColl checks   = 0 (0K)
+SurfColl occurs   = 0 (0K)
+Surf reactions    = 0 (0K)
+Collide attempts  = 6002681476965 (6T)
+Collide occurs    = 4550085401342 (4.55T)
+Reactions         = 0 (0K)
+Particles stuck   = 0
+Axisymm bad moves = 0
+
+Particle-moves/CPUsec/proc: 1.91111e+07
+Particle-moves/step: 2.57973e+11
+Cell-touches/particle/step: 0
+Particle comm iterations/step: 1
+Particle fraction communicated: 0
+Particle fraction colliding with boundary: 0
+Particle fraction exiting boundary: 0
+Surface-checks/particle/step: 0
+Surface-collisions/particle/step: 0
+Surf-reactions/particle/step: 0
+Collision-attempts/particle/step: 0.00338897
+Collisions/particle/step: 0.00256887
+Reactions/particle/step: 0
+
+Particles: 2.24935e+06 ave 2.31088e+06 max 622466 min
+Histogram: 1 1 0 1 0 0 2 1 0 114682
+Cells:      64267 ave 64268 max 64266 min
+Histogram: 30 0 0 0 0 111310 0 0 0 3348
+GhostCell: 31263.2 ave 44405 max 14733 min
+Histogram: 4 0 886 514 0 113280 0 1 2 1
+EmptyCell: 0 ave 0 max 0 min
+Histogram: 114688 0 0 0 0 0 0 0 0 0
+Surfs:    10000 ave 10000 max 10000 min
+Histogram: 114688 0 0 0 0 0 0 0 0 0
+GhostSurf: 0 ave 0 max 0 min
+Histogram: 114688 0 0 0 0 0 0 0 0 0
