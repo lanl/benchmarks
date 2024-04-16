@@ -4,5 +4,5 @@
 #SBATCH --time=00:30:00
 #SBATCH -p hbm
 echo "$@"
-#export CALI_CONFIG="spot,time.exclusive,profile.mpi"
+export CALI_CONFIG="spot,time.exclusive,profile.mpi"
 ./weak_scale_cpu_threads.sh "$@"

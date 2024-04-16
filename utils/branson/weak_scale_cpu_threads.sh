@@ -29,6 +29,8 @@ workdir=${SUFFIX}_${SLURM_JOB_ID}
 mkdir ${workdir}
 cd ${workdir}
 cp ../../inputs/${input} .
+export OMP_PROC_BIND=spread
+export OMP_PLACES=threads
 
 echo ${input}
 sed -i 's/<t_stop>.*<\/t_stop>/<t_stop>'.010'\<\/t_stop>/g' ${input}
@@ -57,8 +59,8 @@ for nodes in 1 4 8 16 32 40 64 96; do
     outfile=$(printf "weakscale_${SUFFIX}-%d-%d.out" ${size} ${threads})
     errfile=$(printf "weakscale_${SUFFIX}-%d-%d.err" ${size} ${threads})
     grep photons ${input}
-    MPICH_SMP_SINGLE_COPY_MODE=NONE FI_CXI_RX_MATCH_MODE=software OMP_NUM_THREADS=14
-    srun ${ht}  -N ${nodes} -n ${ranks} --ntasks-per-node=${numas} -c ${cores} -o ${outfile} -e ${errfile}  ../BRANSON ./3D_hohlraum_multi_node.xml  
+    MPICH_SMP_SINGLE_COPY_MODE=NONE FI_CXI_RX_MATCH_MODE=software 
+    OMP_NUM_THREADS=${cores}  srun ${ht}  -N ${nodes} -n ${ranks} --ntasks-per-node=${numas} -c ${cores} -o ${outfile} -e ${errfile}  ../BRANSON ./3D_hohlraum_multi_node.xml  
     fom=$(grep 'Photons Per Second (FOM): ' ${outfile} | cut -d ':' -f 2 | xargs)
     echo ${fom}
     
