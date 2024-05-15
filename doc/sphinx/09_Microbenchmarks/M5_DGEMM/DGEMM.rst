@@ -44,14 +44,14 @@ Load the compiler; make and enter a build directory.
 
 .. code-block:: bash
 
-    cmake -DBLAS_NAME=<blas library name> ..
+    cmake -DBLAS_NAME=<blas library name> -DBLAS_ROOT=<root path to blas library> ..
     make
 
 ..
 
-Current `BLAS_NAME` options are mkl, cblas (openblas), essl, or the raw coded (OpenMP threaded) dgemm.
+Current `BLAS_NAME` options are mkl, cblas (openblas), essl, libsci, libsci_acc, cublas, cublasxt or the raw coded (OpenMP threaded) dgemm.
 The `BLAS_NAME` argument is required.
-If the headers or libraries aren't found provide `BLAS_LIB_DIR`, `BLAS_INCLUDE_DIR`, or `BLAS_ROOT` to cmake.
+If the headers or libraries aren't found provide `BLAS_LIB_DIR` or `BLAS_INCLUDE_DIR` to cmake.
 If using a different blas library, modify the C source file to use the correct header and dgemm command.
 
 Running
