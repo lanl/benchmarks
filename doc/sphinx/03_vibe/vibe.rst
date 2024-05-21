@@ -138,6 +138,8 @@ script, which takes one argument, specifying the desired memory
 footprint on a system with 128GB system memory. Running it will generate a csv file
 containing scaling numbers.
 
+Also included with this respository under ``doc/sphinx/03_vibe/scaling/scripts/weak_scale_cpu_threads.sh``
+
 Crossroads
 -------------------
 
@@ -203,31 +205,42 @@ Throughput performance of Parthenon-VIBE on a 96 GB H100 is provided within the 
 Multi-node scaling on Crossroads
 ================================
 
-The results of the scaling runs performed on rocinante hbm partition are presented below.
+The results of the scaling runs performed on Crossroads hbm partition are presented below.
 Parthenon was built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
-These runs used 32, 64, and 96 nodes with 96 tasks per node.
-These runs used approximately 1122 mesh blocks per node for a problem size using 50% of the total avalable memory across nodes.
-The problem size for Parthenon-VIBE is determined by parthenon/mesh/nx{1,2,3} which should be equal to produce a cubic grid.
-To find the appropriate nx value, use:
+These runs used between 2 and 4096 nodes with 8 ranks per node and 14 threads (using Kokkos OpenMP) per rank.
+NXs=(208 256 320 400 512 640 800 1024 1280 1616 2048 2576)  
+NODES=(2 4 8 16 32 64 128 256 512 1024 2048 4096)
+Output files can be found in ``./docs/sphinx/03_vibe/scaling/output/``
 
-.. math::
-   \begin{align}
-      \mathbf{blocks\_per\_side} &= \mathbf{int}((\mathbf{number\_of\_nodes}\times\mathbf{blocks\_per\_node})^\frac{1}{3}) \\
-      \mathbf{nx}                &= \mathbf{blocks\_per\_side}\times\mathbf{block\_size\_side}
-   \end{align}
-
-Where :math:`block\_size\_side=parthenon/meshblock/nx1=16`. 
-
-.. figure:: parthenon_roci_scale_pernode.png
+.. figure:: ./scaling/weak.png
    :align: center
    :scale: 50%
    :alt: VIBE Weak scaling per node.
 
 .. csv-table:: Multi Node Scaling Parthenon
-   :file: parthenon_roci_scale_pernode.csv
+   :file: ./scaling/weak.csv
    :align: center
-   :widths: 10, 10, 10, 10, 10
+   :widths: 10, 10, 10, 10
    :header-rows: 1
+
+Timings were captured using Caliper and are presented below. 
+Caliper files can be found in ``./doc/sphinx/03_vibe/scaling/plots/Caliper``
+
+.. figure:: ./scaling/plots/parthenon-totaltime-line.png
+   :align: center
+   :scale: 50%
+   :alt: VIBE time spent (exclusive) in each function/region.
+
+
+.. figure:: ./scaling/plots/parthenon-totaltime-area.png
+   :align: center
+   :scale: 50%
+   :alt: VIBE time spent (exclusive) in each function/region (Area plot).
+
+.. figure:: ./scaling/plots/parthenon-pct.png
+   :align: center
+   :scale: 50%
+   :alt: Percentage of VIBE time spent (exclusive) in each function/region.
 
 Validation
 ==========
