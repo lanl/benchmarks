@@ -20,7 +20,6 @@ set key autotitle columnheader
 set style line 1 linetype 6 dashtype 1 linecolor rgb "#FF0000" linewidth 2 pointtype 6 pointsize 3
 set style line 2 linetype 1 dashtype 2 linecolor rgb "#FF0000" linewidth 2
 
-set xrange [4:120]
 
 set output "weak.png"
 plot "weak.csv" using 1:3 with linespoints linestyle 1, "" using 1:4 with line linestyle 2

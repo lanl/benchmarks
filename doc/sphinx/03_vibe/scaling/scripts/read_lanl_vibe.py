@@ -63,7 +63,7 @@ plt.style.use('fivethirtyeight')
 ax = df_filtered.loc[[(r, "perc") for r in ranks],:].reset_index(1, drop=True).plot(
     kind="area",
     title=f"Parthenon-VIBE (Weak Scaling)",
-    xlabel="Number of Nodes",
+    xlabel="Number of Ranks (14 OpenMP threads per Rank)",
     ylabel="% of Runtime (Exclusive)",
     figsize=(10,5), 
     colormap="tab20"
@@ -91,7 +91,7 @@ for p in problem_sizes:
     ax = df_filtered.loc[[(r, "Avg time/rank (exc)") for r in ranks],:].reset_index(1, drop=True).plot(
         kind="line",
         title=f"Parthenon-VIBE (Weak Scaling)",
-        xlabel="Number of Nodes",
+        xlabel="Number of Ranks (14 OpenMP threads per Rank)",
         ylabel="Runtime (sec) (Exclusive)",
         figsize=(10,5),
         colormap="tab20"
@@ -114,7 +114,7 @@ for p in problem_sizes:
     ax = df_filtered.loc[[(r, "Avg time/rank (exc)") for r in ranks],:].reset_index(1, drop=True).plot(
         kind="area",
         title=f"Parthenon-VIBE (Weak Scaling)",
-        xlabel="Number of Nodes",
+        xlabel="Number of Ranks (14 OpenMP threads per Rank)",
         ylabel="Runtime (sec) (Exclusive)",
         figsize=(10,5),
         colormap="tab20"
