@@ -205,7 +205,7 @@ Throughput performance of Parthenon-VIBE on a 96 GB H100 is provided within the 
 Multi-node scaling on Crossroads
 ================================
 
-The results of the scaling runs performed on Crossroads hbm partition are presented below.
+The results of the scaling runs performed on Crossroads are presented below.
 Parthenon was built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
 These runs used between 2 and 4096 nodes with 8 ranks per node and 14 threads (using Kokkos OpenMP) per rank.
 NXs=(208 256 320 400 512 640 800 1024 1280 1616 2048 2576)  
