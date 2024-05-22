@@ -1,5 +1,7 @@
 "Program","Description","Msg Size","Num Nodes","Rank Config"
-"osu_latency","P2p Latency","8 B","2","1 per node"
+"osu_latency","P2p Latency","8 B","2","2 tests per node:
+    - Longest Path (worst case)
+    - Shortest Path (best case)"
 "osu_bibw","P2p Bi-directional BW","16 kB","2","1 per node"
 "osu_mbw_mr","P2p Multi-BW & Msg Rate","16 KB","2","Host-to-Host (two tests): 
     - 1 per NIC  

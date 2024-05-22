@@ -60,6 +60,8 @@ For example, on HPE-Cray systems:
 Running
 =======
 
+For any GPU enabled system, please also include the GPU variants of the following benchmarks.
+
 .. csv-table:: OSU Microbenchmark Tests
    :file: OSU_req.csv
    :align: center
