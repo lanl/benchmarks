@@ -1,0 +1,108 @@
+   --------------------- --------------------- 
+srun -N 64 --ntasks-per-node=108 --hint=nomultithread --distribution=block:block /usr/projects/hpctools/agood/projects/ats5-testing/SSI-scripts-main/bin/amg -problem 1 -n 38 38 38 -P 24 24 12
+Running with these driver parameters:
+  Problem ID    = 1
+
+=============================================
+Hypre init times:
+=============================================
+Hypre init:
+  wall clock time = 0.000016 seconds
+  Laplacian_27pt:
+    (Nx, Ny, Nz) = (912, 912, 456)
+    (Px, Py, Pz) = (24, 24, 12)
+
+=============================================
+Generate Matrix:
+=============================================
+Spatial Operator:
+  wall clock time = 0.046526 seconds
+  RHS vector has unit components
+  Initial guess is 0
+=============================================
+IJ Vector Setup:
+=============================================
+RHS and Initial Guess:
+  wall clock time = 0.002100 seconds
+=============================================
+Problem 1: AMG Setup Time:
+=============================================
+GMRES Setup:
+  wall clock time = 2.085731 seconds
+
+FOM_Setup: nnz_AP / Setup Phase Time: 1.236172e+10
+
+=============================================
+Problem 1: AMG-GMRES Solve Time:
+=============================================
+GMRES Solve:
+  wall clock time = 1.502563 seconds
+
+Iterations = 12
+Final Relative Residual Norm = 5.847058e-13
+
+
+FOM_Solve: nnz_AP / Solve Phase Time: 1.715950e+10
+
+
+
+Figure of Merit (FOM): nnz_AP / (Setup Phase Time + Solve Phase Time) 7.185370e+09
+
+Mem Used: 1566461320 Total Ram: 8392315136 Fraction Ram: 18.670000%
+TOTAL RSS MAX: 1493 (GiB) - 18.670000%
+MIN RSS MAX: 24127200 23 (GiB) - 18.400000% -- On NODE: 58 - nid001315
+MAX RSS MAX: 24645948 23 (GiB) - 18.800000% -- On NODE: 23 - nid001278
+   ______------ ------_____ 
+srun -N 64 --ntasks-per-node=108 --hint=nomultithread --distribution=block:block /usr/projects/hpctools/agood/projects/ats5-testing/SSI-scripts-main/bin/amg -problem 2 -n 60 60 60 -P 24 24 12
+Running with these driver parameters:
+  Problem ID    = 2
+
+=============================================
+Hypre init times:
+=============================================
+Hypre init:
+  wall clock time = 0.000019 seconds
+  Laplacian_7pt:
+    (Nx, Ny, Nz) = (1440, 1440, 720)
+    (Px, Py, Pz) = (24, 24, 12)
+
+=============================================
+Generate Matrix:
+=============================================
+Spatial Operator:
+  wall clock time = 0.063936 seconds
+  RHS vector has unit components
+  Initial guess is 0
+=============================================
+IJ Vector Setup:
+=============================================
+RHS and Initial Guess:
+  wall clock time = 0.006608 seconds
+=============================================
+Problem 2: AMG Setup Time:
+=============================================
+PCG Setup:
+  wall clock time = 1.816815 seconds
+
+FOM_Setup: nnz_AP / Setup Phase Time: 9.821587e+09
+
+=============================================
+Problem 2: AMG-PCG Solve Time:
+=============================================
+PCG Solve:
+  wall clock time = 2.190714 seconds
+
+Iterations = 28
+Final Relative Residual Norm = 4.746854e-09
+
+
+FOM_Solve: nnz_AP * iterations / Solve Phase Time: 8.145294e+09
+
+
+
+Figure of Merit (FOM): nnz_AP / (Setup Phase Time + 3 * Solve Phase Time) 2.127083e+09
+
+Mem Used: 1551855652 Total Ram: 8392315136 Fraction Ram: 18.490000%
+TOTAL RSS MAX: 1479 (GiB) - 18.490000%
+MIN RSS MAX: 24201704 23 (GiB) - 18.460000% -- On NODE: 21 - nid001276
+MAX RSS MAX: 24285368 23 (GiB) - 18.520000% -- On NODE: 58 - nid001315
