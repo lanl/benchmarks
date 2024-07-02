@@ -29,11 +29,11 @@ The benchmark problem is a single node sweep performance problem (SPP) on a 3D u
 Figure of Merit
 ---------------
 
-The Figure of Merit is defined as the number of unknowns solved per second, which is calculated by:
+The Figure of Merit is defined as the number of unknowns solved per second, normalized by the number of iterations, which is calculated by:
 
 .. code-block::
 
-   number of unknowns =  <# mesh cells * 8> * <# directions> * <number of energy bins>
+   number of unknowns =  <# mesh cells * 8> * <# directions> * <number of energy bins> / <number of iterations>
 
 Explanation on the '# mesh cells * 8': UMT further decomposes a mesh cell into 'corner' sub-cell spatial elements.  There are 8 'corners' per cell in a 3D mesh.
 
