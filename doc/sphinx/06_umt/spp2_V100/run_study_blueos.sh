@@ -1,0 +1,9 @@
+srun -n1 ./install/bin/test_driver -b 2 -g -B global -d 1,1,1 |& tee run.blueos.1.log
+srun -n1 ./install/bin/test_driver -b 2 -g -B global -d 2,2,2 |& tee run.blueos.2.log
+srun -n1 ./install/bin/test_driver -b 2 -g -B global -d 3,3,3 |& tee run.blueos.3.log
+srun -n1 ./install/bin/test_driver -b 2 -g -B global -d 4,4,4 |& tee run.blueos.4.log
+srun -n1 ./install/bin/test_driver -b 2 -g -B global -d 5,5,5 |& tee run.blueos.5.log
+srun -n1 ./install/bin/test_driver -b 2 -g -B global -d 6,6,6 |& tee run.blueos.6.log
+srun -n1 ./install/bin/test_driver -b 2 -g -B global -d 7,7,7 |& tee run.blueos.7.log
+srun -n1 ./install/bin/test_driver -b 2 -g -B global -d 8,8,8 |& tee run.blueos.8.log
+srun -n1 ./install/bin/test_driver -b 2 -g -B global -d 9,9,9 |& tee run.blueos.9.log
