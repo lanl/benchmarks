@@ -1,0 +1,54 @@
+# Sn box
+
+units 		metal # angstroms, picoseconds, eV, kelvin
+boundary  	p p p
+variable tau equal 1111
+
+neigh_modify 	every 1 delay 0 check yes
+
+atom_style 	atomic
+
+read_data	ag_box.data
+timestep  	0.001 # picoseconds (units metal)
+
+pair_style mliap unified hippynn_lammps_model.pt 
+pair_coeff * * Ag
+mass 1 107.8682
+
+#scale atom positions to required lattice
+change_box      all x scale 1.0 y scale 1.0 z scale 1.0 remap units box
+replicate      ${xrep} ${yrep} ${zrep}
+
+thermo 		1000
+thermo_style	custom step pe ke temp pxx pyy pzz pxy pxz pyz
+
+#dump		        1 all custom 1000 dump.Zn.equil.${tau}K.*.lammpstrj id type xu yu zu
+#dump_modify     1 sort id
+
+#restart		1000 restart.Ag.equil.${tau}K.*
+
+#Thermalisation steps
+fix             1 all nvt temp ${tau} ${tau} $(100.0*dt)
+velocity        all create ${tau} 8971317 mom yes rot yes dist gaussian
+run             10000
+unfix           1
+
+
+timestep        .005
+fix             2 all nvt temp ${tau} ${tau} $(100.0*dt)
+#fix_modify      1 Tdamp $(100.0*dt)cx
+run             10000
+unfix           2
+
+fix             3 all nve
+fix             4 all temp/rescale 100 ${tau} ${tau} 1.0 1.0
+run             10000
+unfix           4
+
+#write_restart   Ag-equil.restart
+
+#Run Equilibration
+run             5000
+
+#Run Timings
+run             10000

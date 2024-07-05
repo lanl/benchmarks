@@ -1,0 +1,88 @@
+# Variables in use:
+# Package: parthenon::resolved_state
+# ---------------------------------------------------
+# Variables:
+# Name	Metadata flags
+# ---------------------------------------------------
+derived                   Cell,Provides,Real,Derived,OneCopy,burgers_package,parthenon::resolved_state
+Urz                       Cell,Provides,Real,Derived,OneCopy,burgers_package,parthenon::resolved_state
+Ulz                       Cell,Provides,Real,Derived,OneCopy,burgers_package,parthenon::resolved_state
+Ury                       Cell,Provides,Real,Derived,OneCopy,burgers_package,parthenon::resolved_state
+Urx                       Cell,Provides,Real,Derived,OneCopy,burgers_package,parthenon::resolved_state
+Ulx                       Cell,Provides,Real,Derived,OneCopy,burgers_package,parthenon::resolved_state
+Uly                       Cell,Provides,Real,Derived,OneCopy,burgers_package,parthenon::resolved_state
+U                         Cell,Provides,Real,Independent,Conserved,Intensive,FillGhost,WithFluxes,burgers_package,parthenon::resolved_state
+# ---------------------------------------------------
+# Sparse Variables:
+# Name	sparse id	Metadata flags
+# ---------------------------------------------------
+# ---------------------------------------------------
+# Swarms:
+# Swarm	Value	metadata
+# ---------------------------------------------------
+
+
+Setup complete, executing driver...
+
+cycle=0 time=0.0000000000000000e+00 dt=7.1182008185240690e-05 zone-cycles/wsec_step=0.00e+00 wsec_total=6.27e-02 wsec_step=6.59e+00 zone-cycles/wsec=0.00e+00 wsec_AMR=0.00e+00
+---------------------- Current Mesh structure ----------------------
+Root grid = 64 x 64 x 64 MeshBlocks
+Total number of MeshBlocks = 275528
+Number of physical refinement levels = 2
+Number of logical  refinement levels = 8
+  Physical level = 0 (logical level = 6): 261424 MeshBlocks, cost = 261424
+  Physical level = 1 (logical level = 7): 4568 MeshBlocks, cost = 4568
+  Physical level = 2 (logical level = 8): 9536 MeshBlocks, cost = 9536
+--------------------------------------------------------------------
+cycle=10 time=7.1041012709203890e-04 dt=7.0881177357293295e-05 zone-cycles/wsec_step=3.02e+09 wsec_total=5.18e+00 wsec_step=3.74e+00 zone-cycles/wsec=2.20e+09 wsec_AMR=1.38e+00
+cycle=20 time=1.4147068665534195e-03 dt=6.9584409951730592e-05 zone-cycles/wsec_step=1.98e+09 wsec_total=1.73e+01 wsec_step=5.77e+00 zone-cycles/wsec=9.40e+08 wsec_AMR=6.35e+00
+cycle=30 time=2.1095963147398852e-03 dt=6.9341623156009500e-05 zone-cycles/wsec_step=1.65e+09 wsec_total=3.41e+01 wsec_step=7.36e+00 zone-cycles/wsec=7.23e+08 wsec_AMR=9.40e+00
+cycle=40 time=2.8006557666287761e-03 dt=6.8789455997025968e-05 zone-cycles/wsec_step=1.69e+09 wsec_total=5.13e+01 wsec_step=7.45e+00 zone-cycles/wsec=7.31e+08 wsec_AMR=9.78e+00
+cycle=50 time=3.4863846041643179e-03 dt=6.9061362391379798e-05 zone-cycles/wsec_step=1.71e+09 wsec_total=6.88e+01 wsec_step=7.54e+00 zone-cycles/wsec=7.38e+08 wsec_AMR=9.95e+00
+cycle=60 time=4.1847347729933870e-03 dt=6.9602260023876971e-05 zone-cycles/wsec_step=1.71e+09 wsec_total=8.67e+01 wsec_step=7.65e+00 zone-cycles/wsec=7.33e+08 wsec_AMR=1.03e+01
+cycle=70 time=4.8775814605231827e-03 dt=6.8906715149052615e-05 zone-cycles/wsec_step=1.75e+09 wsec_total=1.04e+02 wsec_step=7.61e+00 zone-cycles/wsec=7.60e+08 wsec_AMR=9.90e+00
+cycle=80 time=5.5638206803346338e-03 dt=6.8338500732741141e-05 zone-cycles/wsec_step=1.84e+09 wsec_total=1.21e+02 wsec_step=7.33e+00 zone-cycles/wsec=7.95e+08 wsec_AMR=9.61e+00
+cycle=90 time=6.2552587493612290e-03 dt=6.9552691069142206e-05 zone-cycles/wsec_step=1.78e+09 wsec_total=1.38e+02 wsec_step=7.63e+00 zone-cycles/wsec=7.86e+08 wsec_AMR=9.64e+00
+cycle=100 time=6.9479228737888421e-03 dt=6.8944296877768065e-05 zone-cycles/wsec_step=1.72e+09 wsec_total=1.55e+02 wsec_step=7.97e+00 zone-cycles/wsec=8.07e+08 wsec_AMR=9.03e+00
+---------------------- Current Mesh structure ----------------------
+Root grid = 64 x 64 x 64 MeshBlocks
+Total number of MeshBlocks = 336092
+Number of physical refinement levels = 2
+Number of logical  refinement levels = 8
+  Physical level = 0 (logical level = 6): 259581 MeshBlocks, cost = 259581
+  Physical level = 1 (logical level = 7): 12503 MeshBlocks, cost = 12503
+  Physical level = 2 (logical level = 8): 64008 MeshBlocks, cost = 64008
+--------------------------------------------------------------------
+cycle=110 time=7.6346004081685008e-03 dt=6.8274428726555346e-05 zone-cycles/wsec_step=1.84e+09 wsec_total=1.72e+02 wsec_step=7.49e+00 zone-cycles/wsec=8.17e+08 wsec_AMR=9.41e+00
+cycle=120 time=8.3130647067087837e-03 dt=6.7331342990996021e-05 zone-cycles/wsec_step=1.87e+09 wsec_total=1.89e+02 wsec_step=7.43e+00 zone-cycles/wsec=8.40e+08 wsec_AMR=9.13e+00
+cycle=130 time=8.9833715016407172e-03 dt=6.6733040053044119e-05 zone-cycles/wsec_step=1.87e+09 wsec_total=2.06e+02 wsec_step=7.48e+00 zone-cycles/wsec=8.25e+08 wsec_AMR=9.48e+00
+cycle=140 time=9.6485210485903385e-03 dt=6.6245203025248225e-05 zone-cycles/wsec_step=1.81e+09 wsec_total=2.22e+02 wsec_step=7.74e+00 zone-cycles/wsec=8.50e+08 wsec_AMR=8.79e+00
+cycle=150 time=1.0308575161384052e-02 dt=6.5631369875994425e-05 zone-cycles/wsec_step=1.82e+09 wsec_total=2.39e+02 wsec_step=7.75e+00 zone-cycles/wsec=8.24e+08 wsec_AMR=9.36e+00
+cycle=160 time=1.0961779563246028e-02 dt=6.4973421123972597e-05 zone-cycles/wsec_step=1.80e+09 wsec_total=2.57e+02 wsec_step=7.87e+00 zone-cycles/wsec=8.04e+08 wsec_AMR=9.77e+00
+cycle=170 time=1.1609043904640124e-02 dt=6.4424556004075400e-05 zone-cycles/wsec_step=1.91e+09 wsec_total=2.74e+02 wsec_step=7.43e+00 zone-cycles/wsec=8.58e+08 wsec_AMR=9.14e+00
+cycle=180 time=1.2250950049022411e-02 dt=6.3976464305564996e-05 zone-cycles/wsec_step=1.89e+09 wsec_total=2.91e+02 wsec_step=7.57e+00 zone-cycles/wsec=8.45e+08 wsec_AMR=9.33e+00
+cycle=190 time=1.2894137658731226e-02 dt=6.4434495823130302e-05 zone-cycles/wsec_step=1.87e+09 wsec_total=3.08e+02 wsec_step=7.65e+00 zone-cycles/wsec=8.38e+08 wsec_AMR=9.43e+00
+cycle=200 time=1.3538243628138229e-02 dt=6.4088675125210877e-05 zone-cycles/wsec_step=1.90e+09 wsec_total=3.25e+02 wsec_step=7.55e+00 zone-cycles/wsec=8.29e+08 wsec_AMR=9.77e+00
+---------------------- Current Mesh structure ----------------------
+Root grid = 64 x 64 x 64 MeshBlocks
+Total number of MeshBlocks = 351408
+Number of physical refinement levels = 2
+Number of logical  refinement levels = 8
+  Physical level = 0 (logical level = 6): 259054 MeshBlocks, cost = 259054
+  Physical level = 1 (logical level = 7): 15058 MeshBlocks, cost = 15058
+  Physical level = 2 (logical level = 8): 77296 MeshBlocks, cost = 77296
+--------------------------------------------------------------------
+cycle=210 time=1.4176547909577465e-02 dt=6.3525522188761022e-05 zone-cycles/wsec_step=1.90e+09 wsec_total=3.41e+02 wsec_step=7.57e+00 zone-cycles/wsec=8.90e+08 wsec_AMR=8.61e+00
+cycle=220 time=1.4809307368565113e-02 dt=6.2953174726910558e-05 zone-cycles/wsec_step=1.90e+09 wsec_total=3.59e+02 wsec_step=7.58e+00 zone-cycles/wsec=8.24e+08 wsec_AMR=9.92e+00
+cycle=230 time=1.5436093958020924e-02 dt=6.2354036584795760e-05 zone-cycles/wsec_step=1.83e+09 wsec_total=3.76e+02 wsec_step=7.93e+00 zone-cycles/wsec=8.43e+08 wsec_AMR=9.23e+00
+cycle=240 time=1.6057127332213667e-02 dt=6.1799668555205021e-05 zone-cycles/wsec_step=1.93e+09 wsec_total=3.93e+02 wsec_step=7.51e+00 zone-cycles/wsec=8.50e+08 wsec_AMR=9.54e+00
+cycle=250 time=1.6672668497514854e-02 dt=6.1253347179259223e-05 zone-cycles/wsec_step=1.86e+09 wsec_total=4.10e+02 wsec_step=7.83e+00 zone-cycles/wsec=8.59e+08 wsec_AMR=9.08e+00
+
+Driver completed.
+time=1.67e-02 cycle=250
+tlim=4.00e-01 nlim=250
+
+Number of MeshBlocks = 354600; 166537  created, 74081 destroyed during this simulation.
+
+walltime used = 4.10e+02
+zone-cycles/wallsecond = 8.32e+08

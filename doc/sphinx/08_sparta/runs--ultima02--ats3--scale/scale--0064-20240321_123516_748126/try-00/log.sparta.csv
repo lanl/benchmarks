@@ -1,0 +1,2 @@
+FOM (M-particle-steps/sec/node),No. Ranks,No. Nodes,Wall Time (sec),No. Steps,No. Particles,Particles Per Cell [PPC],Length Scaling Factor [L],File
+2284.6777760666937,7168,64,753.194,6866,16121699806,35,8.0,/Users/amagela/Work/git/lanl-benchmarks-ultima01/doc/sphinx/08_sparta/runs--ultima02--ats3--scale/scale--0064-20240321_123516_748126/try-00/log.sparta

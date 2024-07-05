@@ -394,23 +394,67 @@ The FOMs of AMG2023 on V100 for Problem 2 is provided in the following table and
 Multi-node scaling on Crossroads
 ================================
 
-The results of the scaling runs performed on rocinante hbm partition are presented below.
+The results of the scaling runs performed on Crossroadsare presented below.
 Amg and hypre were built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
-These runs used 32, 64, and 96 nodes with 108 tasks per node.
+These runs used 32 to 2048 nodes with 108 tasks per node.
 Problems 1 and 2 were run with problem sizes per MPI process, `-n`, of 38,38,38 and 60,60,60 respectively to use roughly 15% of available memory while maintaining a cubic grid.
 The product of the x,y,z process topology must equal the number of processors.
 In this case, x=y=24 for all node counts and z was set to 6, 12, and 18 for 32, 64, and 96 nodes respectively. 
+Output files can be found in ``./docs/sphinx/02_amg/scaling/output/``
 
-.. figure:: cpu_scale_roci_cubes.png
+.. figure:: ./scaling/p1weak.png
+   :align: center
+   :scale: 50%
+   :alt: 
+
+.. figure:: ./scaling/p2weak.png
    :align: center
    :scale: 50%
    :alt: 
 
 .. csv-table:: Multi Node Scaling AMG problem 1 and 2
-   :file: amg_scale_roci_cubes_pernode.csv
+   :file: ./scaling/weak.csv
    :align: center
-   :widths: 10, 10, 10, 10, 10
+   :widths: 10, 10, 10, 10, 10, 10, 10
    :header-rows: 1
+
+Timings were captured using Caliper and are presented below. 
+Caliper files can be found in ``./doc/sphinx/02_amg/scaling/plots/Caliper``
+
+.. figure:: ./scaling/plots/prob1-totaltime-line.png
+   :align: center
+   :scale: 50%
+   :alt: AMG P1 time spent (exclusive) in each function/region.
+
+
+.. figure:: ./scaling/plots/prob1-totaltime-area.png
+   :align: center
+   :scale: 50%
+   :alt: AMG P1 time spent (exclusive) in each function/region (Area plot).
+
+.. figure:: ./scaling/plots/prob1-pct.png
+   :align: center
+   :scale: 50%
+   :alt: Percentage of AMG P1  time spent (exclusive) in each function/region.
+
+
+.. figure:: ./scaling/plots/prob2-totaltime-line.png
+   :align: center
+   :scale: 50%
+   :alt: AMG P2 time spent (exclusive) in each function/region.
+
+
+.. figure:: ./scaling/plots/prob2-totaltime-area.png
+   :align: center
+   :scale: 50%
+   :alt: AMG prob2-totaltime-line time spent (exclusive) in each function/region (Area plot).
+
+.. figure:: ./scaling/plots/prob2-pct.png
+   :align: center
+   :scale: 50%
+   :alt: Percentage of AMG P2 time spent (exclusive) in each function/region.
+
+
 
 References
 ==========

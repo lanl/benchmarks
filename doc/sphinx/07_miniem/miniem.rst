@@ -134,6 +134,65 @@ provided below (also note that this case exited with an exit code of
    what():  /path/to/trilinos/packages/panzer/mini-em/example/BlockPrec/main.cpp:690:
 
 
+Permissable Modifications
+-------------------------
+
+The authors of this benchmark invite vendors to propose any
+algorithmic improvements that: (1.) do not alter the current Multigrid
+solver approach; and (2.) follow the advice given in previous
+subsections. Please email the authors with any questions about what is
+or is not in scope. Some additional guidance is provided below.
+
+A minimum of one level of V-cycle is required for both sub-hierarchies
+to ensure the Trilinos MueLu Algebraic Multigrid (AMG) code path is
+exercised. This behavior is reflected in the benchmark problem and
+needs to be preserved with vendor changes. In essence, the solver sets
+up two sub-problems, and each is solved using AMG. Example Multigrid
+output that demonstrates this is below. It is appropriate for the
+following characteristics of this output to be preserved.
+ 
+* ``Scalar`` should be ``double`` (e.g., line 838)
+* ``Number of levels`` should be at least ``2`` (e.g., line 839)
+* ``Cycle type`` should be ``V`` (e.g., line 842)
+ 
+.. code-block::
+
+   835 --------------------------------------------------------------------------------
+   836 ---                            Multigrid Summary RefMaxwell coarse (1,1)     ---
+   837 --------------------------------------------------------------------------------
+   838 Scalar              = double
+   839 Number of levels    = 2
+   840 Operator complexity = 1.02
+   841 Smoother complexity = 1.07
+   842 Cycle type          = V
+   843
+   844 level  rows   nnz      nnz/row  c ratio  procs
+   845   0  21510  1840968  85.59                 5
+   846   1  687    29525    42.98    31.31        1
+
+Additionally, there are a couple of parameters within
+"solverMueLu.xml" that should not be altered since changes will impact
+the Multigrid work. The specified target size for the coarse grid
+problems should not be modified.  These parameters are highlighted
+below for reference.
+
+.. code-block::
+   :emphasize-lines: 10,12
+
+   <ParameterList name="Linear Solver">
+     <ParameterList name="Preconditioner Types">
+       <ParameterList name="Teko">
+         <ParameterList name="Inverse Factory Library">
+           <ParameterList name="Maxwell">
+             <ParameterList name="S_E Preconditioner">
+               <ParameterList name="Preconditioner Types">
+                 <ParameterList name="MueLuRefMaxwell">
+                   <ParameterList name="refmaxwell: 11list">
+                     <Parameter name="coarse: max size" type="int" value="2500"/>
+                   <ParameterList name="refmaxwell: 22list">
+                     <Parameter name="coarse: max size" type="int" value="2500"/>
+
+
 System Information
 ==================
 

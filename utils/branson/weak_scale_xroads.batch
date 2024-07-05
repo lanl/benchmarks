@@ -1,0 +1,10 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH --job-name=weak
+#SBATCH --time=00:30:00
+#SBATCH -p hbm
+echo "$@"
+#export CALI_CONFIG="spot,time.exclusive,profile.mpi"
+export CALI_CONFIG="spot,time.exclusive"
+
+./weak_scale_cpu_threads.sh "$@"

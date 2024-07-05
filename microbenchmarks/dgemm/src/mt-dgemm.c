@@ -10,6 +10,29 @@
 #define BLAS_LIB "mkl"
 #endif
 
+#ifdef USE_CUBLAS
+#include <cublas_v2.h>
+#include <cuda_runtime.h>
+#define BLAS_LIB "cublas"
+#endif
+
+#ifdef USE_CUBLASXT
+#include <cublasXt.h>
+#include <cuda_runtime.h>
+#define BLAS_LIB "cublasXt"
+#endif
+
+#ifdef USE_LIBSCI
+#include <cblas.h>
+#define BLAS_LIB "libsci"
+#endif
+
+#ifdef USE_LIBSCI_ACC
+#include <libsci_acc.h>
+#define BLAS_LIB "libsci_acc"
+#endif
+
+
 #ifdef USE_CBLAS
 #include "cblas.h"
 #define BLAS_LIB "cblas"
@@ -50,15 +73,16 @@ int main(int argc, char* argv[]) {
 	// DO NOT CHANGE CODE BELOW
 	// ------------------------------------------------------- //
 
-	int N = 256;
+	size_t N = 256;
 	int repeats = 8;
+	size_t block_size = 0;
 
-    	double alpha = 1.0;
-    	double beta  = 1.0;
+    double alpha = 1.0;
+    double beta  = 1.0;
 
 	if(argc > 1) {
 		N = atoi(argv[1]);
-		printf("Matrix size input by command line: %d\n", N);
+		printf("Matrix size input by command line: %zu\n", N);
 
 		if(argc > 2) {
 			repeats = atoi(argv[2]);
@@ -72,50 +96,94 @@ int main(int argc, char* argv[]) {
 
             if(argc > 3) {
                 alpha = (double) atof(argv[3]);
-
                 if(argc > 4) {
                     beta = (double) atof(argv[4]);
+                    if(argc > 5) block_size = atoi(argv[5]);
                 }
             }
 		} else {
 			printf("Repeat multiply defaulted to %d\n", repeats);
 		}
 	} else {
-		printf("Matrix size defaulted to %d\n", N);
+		printf("Matrix size defaulted to %zu\n", N);
 	}
-
-    	printf("Alpha =    %f\n", alpha);
-    	printf("Beta  =    %f\n", beta);
 
 	if(N < 128) {
-		printf("Error: N (%d) is less than 128, the matrix is too small.\n", N);
+		printf("Error: N (%zu) is less than 128, the matrix is too small.\n", N);
 		exit(-1);
 	}
+    
+    const size_t matrixsize = sizeof(double) * N * N;
+	if (block_size == 0) block_size = N/2;
 
+    printf("Alpha =    %.2f\n", alpha);
+    printf("Beta  =    %.2f\n", beta);
+    printf("BlockSize  =    %zu\n", block_size);
 	printf("Allocating Matrices...\n");
 
-	double* DGEMM_RESTRICT matrixA = (double*) malloc(sizeof(double) * N * N);
-	double* DGEMM_RESTRICT matrixB = (double*) malloc(sizeof(double) * N * N);
-	double* DGEMM_RESTRICT matrixC = (double*) malloc(sizeof(double) * N * N);
+	double* DGEMM_RESTRICT matrixA = (double*) malloc(matrixsize);
+	double* DGEMM_RESTRICT matrixB = (double*) malloc(matrixsize);
+	double* DGEMM_RESTRICT matrixC = (double*) malloc(matrixsize);
 
-	printf("Allocation complete, populating with values...\n");
+	printf("Allocation complete, populating with values...");
 
-	int i, j, k, r;
+	size_t i, j, k, r;
+    double start, end, time_taken, time_section;
 
-	#pragma omp parallel for
+    start = get_seconds();
+    #pragma omp parallel for private(i,j,k)
 	for(i = 0; i < N; i++) {
 		for(j = 0; j < N; j++) {
-			matrixA[i*N + j] = 2.0;
-			matrixB[i*N + j] = 0.5;
-			matrixC[i*N + j] = 1.0;
+            k=i*N + j;
+			matrixA[k] = 2.0;
+			matrixB[k] = 0.5;
+			matrixC[k] = 1.0;
 		}
 	}
+
+#if defined(USE_CUBLAS)
+    // Create Cublas Handle
+    cublasHandle_t handle;
+    cublasCreate(&handle);
+	printf("-- CUDA!!\nAllocating and transferring values...");
+    double *dMatrixA, *dMatrixB, *dMatrixC;
+    cudaMalloc((void **)&dMatrixA, matrixsize);
+    cudaMalloc((void **)&dMatrixB, matrixsize);
+    cudaMalloc((void **)&dMatrixC, matrixsize);
+
+    cudaMemcpy(dMatrixA, matrixA, matrixsize, cudaMemcpyHostToDevice);
+    cudaMemcpy(dMatrixB, matrixB, matrixsize, cudaMemcpyHostToDevice);
+    cudaMemcpy(dMatrixC, matrixC, matrixsize, cudaMemcpyHostToDevice);
+#endif
+
+#ifdef USE_CUBLASXT
+// Create CublasXt Handle and select all available devices.
+// You don't want to use explicit device memory here because it needs
+// to be distributed across all devices and cudaMalloc only assigns
+// to the current device.
+    int *devices = NULL;
+    cublasXtHandle_t handle;
+    int device_count, blockdim;
+    cudaGetDeviceCount(&device_count);
+    devices = (int *)malloc(sizeof(int) * device_count);
+    cublasXtCreate(&handle);
+    for (int i=0; i<device_count; i++) devices[i] = i;
+    cublasXtDeviceSelect(handle, device_count, devices);
+    cublasXtSetPinningMemMode(handle, CUBLASXT_PINNING_ENABLED);
+    cublasXtSetBlockDim(handle, block_size);
+    cublasXtGetBlockDim(handle, &blockdim);
+    printf("CUBLASXT has block dim: %d\n", blockdim);
+#endif
+
+    end = get_seconds();
+    time_section = (end - start);
+    printf(" %g seconds\n", time_section);
 
 	printf("Performing multiplication...\n");
 	printf("Using Blas Type: %s\n", BLAS_LIB);
 	printf("Iteration #:\n");
 
-	const double start = get_seconds();
+	start = get_seconds();
 
 	// ------------------------------------------------------- //
 	// VENDOR NOTIFICATION: START MODIFIABLE REGION
@@ -129,14 +197,22 @@ int main(int argc, char* argv[]) {
 
 	// Repeat multiple times
 	for(r = 0; r < repeats; r++) {
-#if defined(USE_MKL) || defined(USE_CBLAS)
+#if defined(USE_MKL) || defined(USE_CBLAS) || defined(USE_LIBSCI)
         cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
             N, N, N, alpha, matrixA, N, matrixB, N, beta, matrixC, N);
-#elif USE_ESSL
-        dgemm("N", "N",
+#elif defined(USE_CUBLAS)
+        cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, N, N, N, &alpha, dMatrixA, N, dMatrixB, N,
+                     &beta, dMatrixC, N);
+        cudaDeviceSynchronize();
+#elif defined(USE_CUBLASXT)
+        cublasXtDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, N, N, N, &alpha, matrixA, N, matrixB, N,
+                     &beta, matrixC, N);
+        cudaDeviceSynchronize();
+#elif defined(USE_ESSL) || defined(USE_LIBSCI_ACC)
+        dgemm('N', 'N',
             N, N, N, alpha, matrixA, N, matrixB, N, beta, matrixC, N);
 #else
-		#pragma omp parallel for private(sum)
+        #pragma omp parallel for private(sum, j, k)
 		for(i = 0; i < N; i++) {
 			for(j = 0; j < N; j++) {
 				sum = 0;
@@ -150,11 +226,15 @@ int main(int argc, char* argv[]) {
 		}
 #endif
 		if ( r%10 == 0 ) {
-			printf("%d, ", r);
+			printf("%zu, ", r);
 			fflush(stdout); 
 		}
 	}
 	printf("\n");
+
+#if defined(USE_CUBLAS)
+    cudaMemcpy(matrixC, dMatrixC, matrixsize, cudaMemcpyDeviceToHost);
+#endif
 
 	// ------------------------------------------------------- //
 	// VENDOR NOTIFICATION: END MODIFIABLE REGION
@@ -164,14 +244,29 @@ int main(int argc, char* argv[]) {
 	// DO NOT CHANGE CODE BELOW
 	// ------------------------------------------------------- //
 
-	const double end = get_seconds();
+	end = get_seconds();
+    time_taken = (end - start);
 
-	printf("Calculating matrix check...\n");
+#ifdef USE_CUBLAS
+    cublasDestroy(handle);
+    cudaFree(dMatrixA);
+    cudaFree(dMatrixB);
+    cudaFree(dMatrixC);
+    cudaDeviceSynchronize();
+#endif
+
+#ifdef USE_CUBLASXT
+    cublasXtDestroy(handle);
+    free(devices);
+#endif
+
+	printf("Calculating matrix check...");
 
 	double final_sum = 0;
 	double count     = 0;
+    start = get_seconds();
 
-	#pragma omp parallel for reduction(+:final_sum, count)
+	#pragma omp parallel for reduction(+:final_sum, count) private(i,j)
 	for(i = 0; i < N; i++) {
 		for(j = 0; j < N; j++) {
 			final_sum += matrixC[i*N + j];
@@ -179,27 +274,30 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	double N_dbl = (double) N;
-	double matrix_memory = (3 * N_dbl * N_dbl) * ((double) sizeof(double));
+    end = get_seconds();
+    time_section = (end - start);
+    printf(" %g seconds\n", time_section);
+
+	double matrix_memory = (3 * matrixsize);
 
 	printf("\n");
 	printf("===============================================================\n");
 
 	printf("Final Sum is:         %f\n", (final_sum / (count * repeats)));
-	printf("Memory for Matrices:  %f MB\n",
+	printf("Memory for Matrices:  %.0f MB\n",
 		(matrix_memory / (1024 * 1024)));
 
-	const double time_taken = (end - start);
+    double N_dbl = (double) N;
 
-	printf("Multiply time:        %f seconds\n", time_taken);
+	printf("Multiply time:        %.6g seconds\n", time_taken);
 
 	// O(N**3) elements each with one add and three multiplies
     	// (alpha, beta and A_i*B_i).
-	const double flops_computed = (N_dbl * N_dbl * N_dbl * 2.0 * (double)(repeats)) +
-        (N_dbl * N_dbl * 2 * (double)(repeats));
+	double flops_computed = (N_dbl * N_dbl * 2.0 * (double)repeats)*(N_dbl+1.0);
+    double total_time = ( flops_computed / time_taken) / 1.0e9;
 
-	printf("FLOPs computed:       %f\n", flops_computed);
-	printf("GFLOP/s rate:         %f GF/s\n", (flops_computed / time_taken) / 1000000000.0);
+	printf("FLOPs computed:       %.0g\n", flops_computed);
+	printf("GFLOP/s rate:         %.8g GF/s\n", (total_time));
 
 	printf("===============================================================\n");
 	printf("\n");
