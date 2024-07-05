@@ -1,0 +1,430 @@
+Teton driver: number of MPI ranks: 1
+Teton driver: Running predefined benchmark problem UMT SP#1
+Detected UMT run, fixing temperature iterations to one and increasing max flux iterations to enable convergence.
+Teton driver: Using older GTA kernel, version 1.
+Teton driver: -g arg detected, enabling gpu kernels and associated options.
+Teton driver: Enabling use of Umpire for separate memory pools for host and accelerator (cuda or hip).
+Teton driver: Umpire pool size: :  0.0000 GB
+Teton driver: Umpire device pool size: :  0.0000 GB
+Teton: setting verbosity to 1
+Teton: Quadrature set 1 supports sweeping up to 72 sweep directions concurrently and has 128 energy group bins.
+Teton: Will create up to 80 phase-space sets (limit requested by user).
+Teton: Distributing angles and groups across 72 phase-space sets...
+       Phase-Angle Set ID =  1   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs =  1 -  1 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID =  2   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs =  2 -  2 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID =  3   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs =  3 -  3 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID =  4   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs =  4 -  4 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID =  5   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs =  5 -  5 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID =  6   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs =  6 -  6 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID =  7   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs =  7 -  7 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID =  8   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs =  8 -  8 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID =  9   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs =  9 -  9 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 10   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 10 - 10 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 11   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 11 - 11 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 12   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 12 - 12 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 13   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 13 - 13 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 14   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 14 - 14 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 15   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 15 - 15 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 16   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 16 - 16 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 17   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 17 - 17 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 18   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 18 - 18 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 19   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 19 - 19 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 20   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 20 - 20 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 21   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 21 - 21 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 22   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 22 - 22 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 23   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 23 - 23 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 24   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 24 - 24 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 25   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 25 - 25 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 26   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 26 - 26 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 27   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 27 - 27 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 28   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 28 - 28 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 29   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 29 - 29 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 30   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 30 - 30 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 31   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 31 - 31 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 32   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 32 - 32 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 33   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 33 - 33 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 34   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 34 - 34 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 35   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 35 - 35 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 36   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 36 - 36 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 37   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 37 - 37 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 38   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 38 - 38 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 39   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 39 - 39 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 40   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 40 - 40 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 41   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 41 - 41 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 42   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 42 - 42 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 43   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 43 - 43 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 44   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 44 - 44 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 45   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 45 - 45 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 46   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 46 - 46 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 47   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 47 - 47 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 48   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 48 - 48 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 49   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 49 - 49 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 50   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 50 - 50 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 51   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 51 - 51 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 52   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 52 - 52 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 53   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 53 - 53 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 54   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 54 - 54 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 55   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 55 - 55 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 56   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 56 - 56 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 57   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 57 - 57 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 58   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 58 - 58 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 59   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 59 - 59 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 60   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 60 - 60 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 61   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 61 - 61 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 62   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 62 - 62 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 63   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 63 - 63 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 64   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 64 - 64 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 65   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 65 - 65 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 66   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 66 - 66 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 67   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 67 - 67 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 68   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 68 - 68 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 69   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 69 - 69 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 70   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 70 - 70 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 71   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 71 - 71 | # Groups =128 | Group IDs =   1 -128
+       Phase-Angle Set ID = 72   | Quadrature Set ID = 1   | # Angles =   1 | Angle IDs = 72 - 72 | # Groups =128 | Group IDs =   1 -128
+Teton: Angle and energy group distribution breakdown (grey acceleration sweep):
+       Phase-Angle Set ID =  1   | Quadrature Set ID = 2   | # Angles =   1 | Angle IDs =  1 -  1 | # Groups =  1 | Group IDs =   1 -  1
+       Phase-Angle Set ID =  2   | Quadrature Set ID = 2   | # Angles =   1 | Angle IDs =  2 -  2 | # Groups =  1 | Group IDs =   1 -  1
+       Phase-Angle Set ID =  3   | Quadrature Set ID = 2   | # Angles =   1 | Angle IDs =  3 -  3 | # Groups =  1 | Group IDs =   1 -  1
+       Phase-Angle Set ID =  4   | Quadrature Set ID = 2   | # Angles =   1 | Angle IDs =  4 -  4 | # Groups =  1 | Group IDs =   1 -  1
+       Phase-Angle Set ID =  5   | Quadrature Set ID = 2   | # Angles =   1 | Angle IDs =  5 -  5 | # Groups =  1 | Group IDs =   1 -  1
+       Phase-Angle Set ID =  6   | Quadrature Set ID = 2   | # Angles =   1 | Angle IDs =  6 -  6 | # Groups =  1 | Group IDs =   1 -  1
+       Phase-Angle Set ID =  7   | Quadrature Set ID = 2   | # Angles =   1 | Angle IDs =  7 -  7 | # Groups =  1 | Group IDs =   1 -  1
+       Phase-Angle Set ID =  8   | Quadrature Set ID = 2   | # Angles =   1 | Angle IDs =  8 -  8 | # Groups =  1 | Group IDs =   1 -  1
+ 
+hyper-domains for rank =    0: high-order =    1, GTA =   10
+ 
+=================================================================
+=================================================================
+Test driver starting time steps
+=================================================================
+Solving for 47775744 global unknowns.
+(5184 spatial elements * 72 directions (angles) * 128 energy groups)
+CPU memory needed per rank (average) for radiation intensity (PSI): 364.5MB
+Current CPU memory use (rank 0): 1705.44MB
+Iteration control: relative tolerance set to 1e-07.
+=================================================================
+
+ TETON GPU mem estimate: rank  0 host rzansel43, Problem requires:  1198 MB.  Currently free:  15820 MB.  Currently used:  307 MB
+ TETON GPU used mem: rank  0 host rzansel43, currently free:  13396 MB, currently used:  2731 MB
+ TETON UMPIRE allocator size:  1198 MB
+ TETON UMPIRE device allocator size:  1198 MB
+ 
+ >>>>>>>>>>>>>>>     End of Radiation Step Report    <<<<<<<<<<<<<<<
+ TIME STEP        1  timerad =       0.0010000000  dtrad =   1.0000000000E-03
+ 
+ FluxIters =  2
+ TrMax =       0.0480557328 in Zone     541 on Process     0
+ TeMax =       0.5000000000 in Zone       1 on Process     0
+ Energy deposited in material =    0.0000000000E+00 ERad total =    5.5536337757E-08 Energy check =   9.8383507273E-22
+ Recommended time step for next rad cycle =   5.9862780522E-04
+ 
+ *****************     Threading     ****************
+ # threads per rank, cpu        =     1
+ # thread teams over zone sets  =    80
+ # thread teams over sweep sets =    72
+  
+ *****************     Run Time     *****************
+                     Cycle (min)     Accumulated (min)
+ RADTR          =     0.01854097         0.01854097
+ Sweep(CPU)     =     0.00117139         0.00117139
+ Sweep(GPU)     =     0.00053840         0.00053840
+ Initialization =     0.01116306         0.01116306
+ Finalization   =     0.00564498         0.00564498
+  
+ *****************   Convergence    *****************
+     Controlled by =  Intensity 
+     ProcessID     =       0
+     Zone          =       1
+     Rel Error     =  0.00000000000E+00
+     Tr            =  3.79481662011E-02
+     Te            =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  2.5000E-02  2.5000E-02  1.6667E-01
+  
+ *****************  Time Step Vote  *****************
+     For Cycle     =       2
+     Controlled by =  Rad Energy Density
+     ProcessID     =       0
+     Control Zone  =       1
+     Recommend Dt  =  5.98627805221E-04
+     Max Change    =  6.68194822411E-01
+     Tr            =  3.79481662011E-02
+     Tr Old        =  5.00000000000E-02
+     Te            =  5.00000000000E-01
+     Te Old        =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  2.5000E-02  2.5000E-02  1.6667E-01
+  
+Teton driver: CPU MEM USE (rank 0): 2137.81MB
+ TETON GPU mem estimate: rank  0 host rzansel43, Problem requires:  1198 MB.  Currently free:  13674 MB.  Currently used:  2453 MB
+ TETON GPU used mem: rank  0 host rzansel43, currently free:  13666 MB, currently used:  2461 MB
+ TETON UMPIRE allocator size:  1198 MB
+ TETON UMPIRE device allocator size:  1198 MB
+ 
+ >>>>>>>>>>>>>>>     End of Radiation Step Report    <<<<<<<<<<<<<<<
+ TIME STEP        2  timerad =       0.0020000000  dtrad =   1.0000000000E-03
+ 
+ FluxIters =  2
+ TrMax =       0.0435724690 in Zone     541 on Process     0
+ TeMax =       0.5000000000 in Zone       1 on Process     0
+ Energy deposited in material =    0.0000000000E+00 ERad total =    3.3428973222E-08 Energy check =   1.1292380172E-23
+ Recommended time step for next rad cycle =   8.0000000000E-04
+ 
+ *****************     Threading     ****************
+ # threads per rank, cpu        =     1
+ # thread teams over zone sets  =    80
+ # thread teams over sweep sets =    72
+  
+ *****************     Run Time     *****************
+                     Cycle (min)     Accumulated (min)
+ RADTR          =     0.01193655         0.03047752
+ Sweep(CPU)     =     0.00114811         0.00231949
+ Sweep(GPU)     =     0.00053489         0.00107329
+ Initialization =     0.00563454         0.01679760
+ Finalization   =     0.00459736         0.01024235
+  
+ *****************   Convergence    *****************
+     Controlled by =  Intensity 
+     ProcessID     =       0
+     Zone          =       1
+     Rel Error     =  0.00000000000E+00
+     Tr            =  3.31951163735E-02
+     Te            =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  2.5000E-02  2.5000E-02  1.6667E-01
+  
+ *****************  Time Step Vote  *****************
+     For Cycle     =       3
+     Controlled by =  No Convergence    
+     ProcessID     =       0
+     Control Zone  =       1
+     Recommend Dt  =  8.00000000000E-04
+     Max Change    =  0.00000000000E+00
+     Tr            =  3.31951163735E-02
+     Tr Old        =  3.79481662011E-02
+     Te            =  5.00000000000E-01
+     Te Old        =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  2.5000E-02  2.5000E-02  1.6667E-01
+  
+Teton driver: Umpire pool size: :  1.1386 GB
+Teton driver: Umpire device pool size: :  0.0000 GB
+Teton driver: CPU MEM USE (rank 0): 2138.25MB
+ TETON GPU mem estimate: rank  0 host rzansel43, Problem requires:  1198 MB.  Currently free:  13668 MB.  Currently used:  2459 MB
+ TETON GPU used mem: rank  0 host rzansel43, currently free:  13668 MB, currently used:  2459 MB
+ TETON UMPIRE allocator size:  1198 MB
+ TETON UMPIRE device allocator size:  1198 MB
+ 
+ >>>>>>>>>>>>>>>     End of Radiation Step Report    <<<<<<<<<<<<<<<
+ TIME STEP        3  timerad =       0.0030000000  dtrad =   1.0000000000E-03
+ 
+ FluxIters =  2
+ TrMax =       0.0373672746 in Zone     285 on Process     0
+ TeMax =       0.5000000000 in Zone       1 on Process     0
+ Energy deposited in material =    0.0000000000E+00 ERad total =    1.8502703706E-08 Energy check =   9.3772239326E-24
+ Recommended time step for next rad cycle =   8.0000000000E-04
+ 
+ *****************     Threading     ****************
+ # threads per rank, cpu        =     1
+ # thread teams over zone sets  =    80
+ # thread teams over sweep sets =    72
+  
+ *****************     Run Time     *****************
+                     Cycle (min)     Accumulated (min)
+ RADTR          =     0.01231150         0.04278901
+ Sweep(CPU)     =     0.00115367         0.00347317
+ Sweep(GPU)     =     0.00053917         0.00161246
+ Initialization =     0.00576606         0.02256366
+ Finalization   =     0.00483062         0.01507297
+  
+ *****************   Convergence    *****************
+     Controlled by =  Intensity 
+     ProcessID     =       0
+     Zone          =       1
+     Rel Error     =  0.00000000000E+00
+     Tr            =  3.01634207828E-02
+     Te            =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  2.5000E-02  2.5000E-02  1.6667E-01
+  
+ *****************  Time Step Vote  *****************
+     For Cycle     =       4
+     Controlled by =  No Convergence    
+     ProcessID     =       0
+     Control Zone  =       1
+     Recommend Dt  =  8.00000000000E-04
+     Max Change    =  0.00000000000E+00
+     Tr            =  3.01634207828E-02
+     Tr Old        =  3.31951163735E-02
+     Te            =  5.00000000000E-01
+     Te Old        =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  2.5000E-02  2.5000E-02  1.6667E-01
+  
+Teton driver: Umpire pool size: :  1.1386 GB
+Teton driver: Umpire device pool size: :  0.0000 GB
+Teton driver: CPU MEM USE (rank 0): 2138.62MB
+ TETON GPU mem estimate: rank  0 host rzansel43, Problem requires:  1198 MB.  Currently free:  13668 MB.  Currently used:  2459 MB
+ TETON GPU used mem: rank  0 host rzansel43, currently free:  13668 MB, currently used:  2459 MB
+ TETON UMPIRE allocator size:  1198 MB
+ TETON UMPIRE device allocator size:  1198 MB
+ 
+ >>>>>>>>>>>>>>>     End of Radiation Step Report    <<<<<<<<<<<<<<<
+ TIME STEP        4  timerad =       0.0040000000  dtrad =   1.0000000000E-03
+ 
+ FluxIters =  2
+ TrMax =       0.0304867005 in Zone     285 on Process     0
+ TeMax =       0.5000000000 in Zone       1 on Process     0
+ Energy deposited in material =    0.0000000000E+00 ERad total =    9.3462428084E-09 Energy check =   8.4782456874E-24
+ Recommended time step for next rad cycle =   7.1019291792E-04
+ 
+ *****************     Threading     ****************
+ # threads per rank, cpu        =     1
+ # thread teams over zone sets  =    80
+ # thread teams over sweep sets =    72
+  
+ *****************     Run Time     *****************
+                     Cycle (min)     Accumulated (min)
+ RADTR          =     0.01201710         0.05480611
+ Sweep(CPU)     =     0.00114887         0.00462204
+ Sweep(GPU)     =     0.00053688         0.00214934
+ Initialization =     0.00568661         0.02825027
+ Finalization   =     0.00462261         0.01969558
+  
+ *****************   Convergence    *****************
+     Controlled by =  Intensity 
+     ProcessID     =       0
+     Zone          =       1
+     Rel Error     =  0.00000000000E+00
+     Tr            =  2.71539179455E-02
+     Te            =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  2.5000E-02  2.5000E-02  1.6667E-01
+  
+ *****************  Time Step Vote  *****************
+     For Cycle     =       5
+     Controlled by =  Rad Energy Density
+     ProcessID     =       0
+     Control Zone  =     455
+     Recommend Dt  =  7.10192917923E-04
+     Max Change    =  5.63227244183E-01
+     Tr            =  2.98485902594E-02
+     Tr Old        =  3.67163870274E-02
+     Te            =  5.00000000000E-01
+     Te Old        =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  6.3333E-01  4.2083E-01  5.0000E-01
+  
+Teton driver: Umpire pool size: :  1.1386 GB
+Teton driver: Umpire device pool size: :  0.0000 GB
+Teton driver: CPU MEM USE (rank 0): 2166.06MB
+ TETON GPU mem estimate: rank  0 host rzansel43, Problem requires:  1198 MB.  Currently free:  13668 MB.  Currently used:  2459 MB
+ TETON GPU used mem: rank  0 host rzansel43, currently free:  13668 MB, currently used:  2459 MB
+ TETON UMPIRE allocator size:  1198 MB
+ TETON UMPIRE device allocator size:  1198 MB
+ 
+ >>>>>>>>>>>>>>>     End of Radiation Step Report    <<<<<<<<<<<<<<<
+ TIME STEP        5  timerad =       0.0050000000  dtrad =   1.0000000000E-03
+ 
+ FluxIters =  2
+ TrMax =       0.0242177042 in Zone      15 on Process     0
+ TeMax =       0.5000000000 in Zone       1 on Process     0
+ Energy deposited in material =    0.0000000000E+00 ERad total =    4.2864215848E-09 Energy check =  -1.7297450539E-23
+ Recommended time step for next rad cycle =   6.3156566719E-04
+ 
+ *****************     Threading     ****************
+ # threads per rank, cpu        =     1
+ # thread teams over zone sets  =    80
+ # thread teams over sweep sets =    72
+  
+ *****************     Run Time     *****************
+                     Cycle (min)     Accumulated (min)
+ RADTR          =     0.01236661         0.06717272
+ Sweep(CPU)     =     0.00115726         0.00577931
+ Sweep(GPU)     =     0.00053807         0.00268741
+ Initialization =     0.00579299         0.03404326
+ Finalization   =     0.00485522         0.02455081
+  
+ *****************   Convergence    *****************
+     Controlled by =  Intensity 
+     ProcessID     =       0
+     Zone          =       1
+     Rel Error     =  0.00000000000E+00
+     Tr            =  2.39147026802E-02
+     Te            =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  2.5000E-02  2.5000E-02  1.6667E-01
+  
+ *****************  Time Step Vote  *****************
+     For Cycle     =       6
+     Controlled by =  Rad Energy Density
+     ProcessID     =       0
+     Control Zone  =     190
+     Recommend Dt  =  6.31565667192E-04
+     Max Change    =  6.33346650679E-01
+     Tr            =  2.35316534341E-02
+     Tr Old        =  3.02404694960E-02
+     Te            =  5.00000000000E-01
+     Te Old        =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  4.1250E-01  4.6667E-01  5.0000E-01
+  
+Teton driver: Umpire pool size: :  1.1386 GB
+Teton driver: Umpire device pool size: :  0.0000 GB
+Teton driver: CPU MEM USE (rank 0): 2217.56MB
+Teton driver: Umpire pool size: :  1.1386 GB
+Teton driver: Umpire device pool size: :  0.0000 GB
+
+=================================================================
+=================================================================
+Test driver finished time steps
+=================================================================
+Average throughput of single iteration of iterative solver was 1.17868e+08 unknowns calculated per second.
+Throughput of iterative solver was 5.89338e+07 unknowns calculated per second.
+(average throughput of single iteration * # iterations for solver to produce answer
+
+Total number of flux solver iterations for run: 10
+Total wall time for run: 4.05334 seconds.
+=================================================================
+
+RESULT CHECK PASSED: Energy check (this is relative to total energy) 4.03541e-15 within tolerance of +/- 1e-09; check './unnamed.csv' for tally details
+
+Path                                        Min time/rank Max time/rank Avg time/rank Time %     
+Teton_Test_Driver                                5.293362      5.293362      5.293362 100.000000 
+  Teton_Build_Tiled_Mesh                         0.009308      0.009308      0.009308   0.175834 
+  Teton_Initialize                               1.218357      1.218357      1.218357  23.016703 
+    Teton_Construct_Corner_Mesh                  0.795659      0.795659      0.795659  15.031266 
+    setMeshConnectivity                          0.001436      0.001436      0.001436   0.027125 
+  Teton_Cycle_Loop                               4.053291      4.053291      4.053291  76.573088 
+    Teton_Cycle                                  4.030728      4.030728      4.030728  76.146852 
+      Teton_Initialize_Sets                      2.041871      2.041871      2.041871  38.574184 
+      Teton_Sweep                                0.508632      0.508632      0.508632   9.608872 
+        Teton_Init_Comm_Order                    0.000975      0.000975      0.000975   0.018422 
+        Teton_Comm_Boundary_Fluxes               0.001392      0.001392      0.001392   0.026302 
+        Teton_Update_Reflecting_Fluxes           0.037065      0.037065      0.037065   0.700223 
+        Teton_OpenMP_Updates                     0.209262      0.209262      0.209262   3.953294 
+        Teton_Calc_Rad_Energy_Density            0.142078      0.142078      0.142078   2.684086 
+        Teton_Update_Total_Scalar_Intensity      0.018262      0.018262      0.018262   0.345005 
+        Teton_Sweep_Test_Conv                    0.001232      0.001232      0.001232   0.023273 
+      Teton_Finalize_Sets                        1.472512      1.472512      1.472512  27.818087 
