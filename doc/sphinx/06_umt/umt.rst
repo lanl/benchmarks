@@ -35,6 +35,12 @@ The Figure of Merit is defined as the number of unknowns solved per second, whic
 
    number of unknowns =  <# mesh cells * 8> * <# directions> * <number of energy bins>
 
+This value is displayed at the end of the run in the output line:
+
+.. code-block::
+
+   Average throughput of single iteration of iterative solver was <FOM> unknowns calculated per second.
+
 Explanation on the '# mesh cells * 8': UMT further decomposes a mesh cell into 'corner' sub-cell spatial elements.  There are 8 'corners' per cell in a 3D mesh.
 
 Source code modifications
@@ -152,16 +158,16 @@ Strong scaling data for SPP 1 and 2 on Crossroads is shown in the tables and fig
 
 For SPP1 the mesh size was 14\ :sup:`3` resulting in approximately 50% usage of the available 128 GBytes
 
-For SPP2 the mesh size was 33\ :sup:`3` resulting in approximately 50% usage of the available 128 GBytes
+For SPP2 the mesh size was 31\ :sup:`3` resulting in approximately 50% usage of the available 128 GBytes
 
 
 .. csv-table:: Strong scaling of SPP 1 on Crossroads
-   :file: spp1_strong_scaling_roci.csv
+   :file: roci_spr_p1_plot.csv
    :align: center
    :widths: auto
    :header-rows: 1
 		 
-.. figure:: spp1_strong_scaling_roci.png
+.. figure:: spr_p1_roci.png
    :alt: Strong scaling of SPP 1 on Crossroads
    :align: center
    :scale: 50%
@@ -170,12 +176,12 @@ For SPP2 the mesh size was 33\ :sup:`3` resulting in approximately 50% usage of 
 
 
 .. csv-table:: SPP #2 on Crossroads
-   :file: spp2_strong_scaling_roci.csv
+   :file: roci_spr_p2_plot.csv
    :align: center
    :widths: auto
    :header-rows: 1
 		 
-.. figure:: spp2_strong_scaling_roci.png
+.. figure:: spr_p2_roci.png
    :alt: Strong scaling of SPP 2 on Crossroads
    :align: center
    :scale: 50%
