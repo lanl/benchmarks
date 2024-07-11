@@ -1,0 +1,2 @@
+# mpi ranks, Mem for PSI (kb), process rss mem (kb), # solver unknowns (extents of PSI), total # flux iterations, # time steps, walltime(seconds),energy check, energy in radiation field, maximum electron temperature, maximum radiation temperature, incident power, escaping power, power absorbed, power emitted
+112, 204281.140625, 573328, 2928574464, 46, 5, 31.2779654699998, 1.797211970954812e-23, 4.49872990287675e-09, 0.5000000000000002, 0.0252402763881051, 0, 5.127606786184056e-06, 0, 0

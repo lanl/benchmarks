@@ -1,0 +1,276 @@
+srun -N 1 -n 88 ./installs/bin/test_driver -B global -d 31,31,31 -b 2
+Teton driver: number of MPI ranks: 88
+Teton driver: Running predefined benchmark problem UMT SP#2
+Teton driver: Using older GTA kernel, version 1.
+Teton: setting verbosity to 1
+=================================================================
+=================================================================
+Test driver starting time steps
+=================================================================
+Solving for 2928574464 global unknowns.
+(5719872 spatial elements * 32 directions (angles) * 16 energy groups)
+CPU memory needed per rank (average) for radiation intensity (PSI): 253.901MB
+Current CPU memory use (rank 0): 620.566MB
+Iteration control: relative tolerance set to 1e-07.
+=================================================================
+
+ 
+ >>>>>>>>>>>>>>>     End of Radiation Step Report    <<<<<<<<<<<<<<<
+ TIME STEP        1  timerad =       0.0010000000  dtrad =   1.0000000000E-03
+ 
+ FluxIters =            9
+ TrMax =       0.0479810101 in Zone      78 on Process    32
+ TeMax =       0.5000000000 in Zone    8680 on Process    87
+ Energy deposited in material =    0.0000000000E+00 ERad total =    5.5683591379E-08 Energy check =   1.1065304856E-22
+ Recommended time step for next rad cycle =   5.0000000000E-04
+ 
+ *****************     Threading     ****************
+ # threads per rank, cpu        =     1
+ *****************     Run Time     *****************
+                     Cycle (min)     Accumulated (min)
+ RADTR          =     0.13476113         0.13476113
+ Sweep(CPU)     =     0.12795384         0.12795384
+ Sweep(GPU)     =     0.00000000         0.00000000
+ Initialization =     0.00654382         0.00654382
+ Finalization   =     0.00027570         0.00027570
+  
+ *****************   Convergence    *****************
+     Controlled by =  Intensity 
+     ProcessID     =      87
+     Zone          =       1
+     Rel Error     =  0.00000000000E+00
+     Tr            =  4.45406753927E-02
+     Te            =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  9.3790E-01  7.4435E-01  5.3226E-01
+  
+ *****************  Time Step Vote  *****************
+     For Cycle     =       2
+     Controlled by =  Rad Energy Density
+     ProcessID     =      87
+     Control Zone  =    5760
+     Recommend Dt  =  5.00000000000E-04
+     Max Change    =  8.45899370175E-01
+     Tr            =  3.13271659561E-02
+     Tr Old        =  5.00000000000E-02
+     Te            =  5.00000000000E-01
+     Te Old        =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  9.9758E-01  9.9758E-01  9.8387E-01
+  
+Teton driver: CPU MEM USE (rank 0): 640.855MB
+ 
+ >>>>>>>>>>>>>>>     End of Radiation Step Report    <<<<<<<<<<<<<<<
+ TIME STEP        2  timerad =       0.0020000000  dtrad =   1.0000000000E-03
+ 
+ FluxIters =            9
+ TrMax =       0.0432867167 in Zone      83 on Process    32
+ TeMax =       0.5000000000 in Zone    1007 on Process    87
+ Energy deposited in material =    0.0000000000E+00 ERad total =    3.3708352131E-08 Energy check =  -1.3937085491E-22
+ Recommended time step for next rad cycle =   7.1080930358E-04
+ 
+ *****************     Threading     ****************
+ # threads per rank, cpu        =     1
+ *****************     Run Time     *****************
+                     Cycle (min)     Accumulated (min)
+ RADTR          =     0.11294706         0.24770819
+ Sweep(CPU)     =     0.10655851         0.23451235
+ Sweep(GPU)     =     0.00000000         0.00000000
+ Initialization =     0.00612569         0.01266951
+ Finalization   =     0.00026795         0.00054365
+  
+ *****************   Convergence    *****************
+     Controlled by =  Intensity 
+     ProcessID     =      87
+     Zone          =       1
+     Rel Error     =  0.00000000000E+00
+     Tr            =  3.89561386109E-02
+     Te            =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  9.3790E-01  7.4435E-01  5.3226E-01
+  
+ *****************  Time Step Vote  *****************
+     For Cycle     =       3
+     Controlled by =  Rad Energy Density
+     ProcessID     =      87
+     Control Zone  =    5285
+     Recommend Dt  =  7.10809303578E-04
+     Max Change    =  5.62738835840E-01
+     Tr            =  3.16016065805E-02
+     Tr Old        =  3.88618915446E-02
+     Te            =  5.00000000000E-01
+     Te Old        =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  9.4315E-01  9.4839E-01  9.5161E-01
+  
+Teton driver: CPU MEM USE (rank 0): 660.914MB
+ 
+ >>>>>>>>>>>>>>>     End of Radiation Step Report    <<<<<<<<<<<<<<<
+ TIME STEP        3  timerad =       0.0030000000  dtrad =   1.0000000000E-03
+ 
+ FluxIters =            9
+ TrMax =       0.0368415233 in Zone      11 on Process    31
+ TeMax =       0.5000000000 in Zone    8393 on Process    87
+ Energy deposited in material =    0.0000000000E+00 ERad total =    1.8820018007E-08 Energy check =  -4.3654189810E-23
+ Recommended time step for next rad cycle =   8.1747200725E-04
+ 
+ *****************     Threading     ****************
+ # threads per rank, cpu        =     1
+ *****************     Run Time     *****************
+                     Cycle (min)     Accumulated (min)
+ RADTR          =     0.10555703         0.35326522
+ Sweep(CPU)     =     0.09903241         0.33354476
+ Sweep(GPU)     =     0.00000000         0.00000000
+ Initialization =     0.00624680         0.01891631
+ Finalization   =     0.00026475         0.00080840
+  
+ *****************   Convergence    *****************
+     Controlled by =  Intensity 
+     ProcessID     =      87
+     Zone          =       1
+     Rel Error     =  0.00000000000E+00
+     Tr            =  3.38364264332E-02
+     Te            =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  9.3790E-01  7.4435E-01  5.3226E-01
+  
+ *****************  Time Step Vote  *****************
+     For Cycle     =       4
+     Controlled by =  Rad Energy Density
+     ProcessID     =       9
+     Control Zone  =    4124
+     Recommend Dt  =  8.17472007246E-04
+     Max Change    =  4.89313391106E-01
+     Tr            =  3.04522415033E-02
+     Tr Old        =  3.60230638465E-02
+     Te            =  5.00000000000E-01
+     Te Old        =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  1.2137E-01  8.9032E-01  1.1290E-01
+  
+Teton driver: CPU MEM USE (rank 0): 661.191MB
+ 
+ >>>>>>>>>>>>>>>     End of Radiation Step Report    <<<<<<<<<<<<<<<
+ TIME STEP        4  timerad =       0.0040000000  dtrad =   1.0000000000E-03
+ 
+ FluxIters =           10
+ TrMax =       0.0307495758 in Zone     139 on Process    30
+ TeMax =       0.5000000000 in Zone    2949 on Process    82
+ Energy deposited in material =    0.0000000000E+00 ERad total =    9.6263366891E-09 Energy check =  -2.6039121719E-23
+ Recommended time step for next rad cycle =   6.8869345770E-04
+ 
+ *****************     Threading     ****************
+ # threads per rank, cpu        =     1
+ *****************     Run Time     *****************
+                     Cycle (min)     Accumulated (min)
+ RADTR          =     0.12062694         0.47389216
+ Sweep(CPU)     =     0.11429975         0.44784451
+ Sweep(GPU)     =     0.00000000         0.00000000
+ Initialization =     0.00606132         0.02497764
+ Finalization   =     0.00027127         0.00107967
+  
+ *****************   Convergence    *****************
+     Controlled by =  Intensity 
+     ProcessID     =      87
+     Zone          =       1
+     Rel Error     =  0.00000000000E+00
+     Tr            =  2.89953071979E-02
+     Te            =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  9.3790E-01  7.4435E-01  5.3226E-01
+  
+ *****************  Time Step Vote  *****************
+     For Cycle     =       5
+     Controlled by =  Rad Energy Density
+     ProcessID     =      32
+     Control Zone  =      92
+     Recommend Dt  =  6.88693457698E-04
+     Max Change    =  5.80809931514E-01
+     Tr            =  2.95469392722E-02
+     Tr Old        =  3.67205986976E-02
+     Te            =  5.00000000000E-01
+     Te Old        =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  5.0847E-01  5.0323E-01  5.0000E-01
+  
+Teton driver: CPU MEM USE (rank 0): 661.359MB
+ 
+ >>>>>>>>>>>>>>>     End of Radiation Step Report    <<<<<<<<<<<<<<<
+ TIME STEP        5  timerad =       0.0050000000  dtrad =   1.0000000000E-03
+ 
+ FluxIters =           10
+ TrMax =       0.0252402764 in Zone    7568 on Process    49
+ TeMax =       0.5000000000 in Zone    8393 on Process    87
+ Energy deposited in material =    0.0000000000E+00 ERad total =    4.4987299029E-09 Energy check =  -1.3487213347E-23
+ Recommended time step for next rad cycle =   6.1406701377E-04
+ 
+ *****************     Threading     ****************
+ # threads per rank, cpu        =     1
+ *****************     Run Time     *****************
+                     Cycle (min)     Accumulated (min)
+ RADTR          =     0.11982491         0.59371706
+ Sweep(CPU)     =     0.11355228         0.56139679
+ Sweep(GPU)     =     0.00000000         0.00000000
+ Initialization =     0.00600395         0.03098159
+ Finalization   =     0.00027047         0.00135014
+  
+ *****************   Convergence    *****************
+     Controlled by =  Intensity 
+     ProcessID     =      87
+     Zone          =       1
+     Rel Error     =  0.00000000000E+00
+     Tr            =  2.43606971700E-02
+     Te            =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  9.3790E-01  7.4435E-01  5.3226E-01
+  
+ *****************  Time Step Vote  *****************
+     For Cycle     =       6
+     Controlled by =  Rad Energy Density
+     ProcessID     =      32
+     Control Zone  =      77
+     Recommend Dt  =  6.14067013770E-04
+     Max Change    =  6.51394702907E-01
+     Tr            =  2.27036663097E-02
+     Tr Old        =  2.95469392722E-02
+     Te            =  5.00000000000E-01
+     Te Old        =  5.00000000000E-01
+     Rho           =  1.31000000000E+00
+     Cv            =  5.01000000000E-01
+     Source Rate   =  0.00000000000E+00
+     Coordinates   =  4.9153E-01  4.9677E-01  5.0000E-01
+  
+Teton driver: CPU MEM USE (rank 0): 661.52MB
+
+=================================================================
+=================================================================
+Test driver finished time steps
+=================================================================
+Average throughput of single iteration of iterative solver was 3.86146e+09 unknowns calculated per second.
+Throughput of iterative solver was 4.10793e+08 unknowns calculated per second.
+(average throughput of single iteration * # iterations for solver to produce answer
+
+Total number of flux solver iterations for run: 47
+Total wall time for run: 35.6454 seconds.
+=================================================================
+
+RESULT CHECK PASSED: Energy check (this is relative to total energy) 2.998e-15 within tolerance of +/- 1e-09; check './unnamed.csv' for tally details
+
