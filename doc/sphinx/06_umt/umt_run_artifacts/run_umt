@@ -1,0 +1,41 @@
+#!/bin/bash
+
+get_rslt() {
+    fout=$1
+    mem=$(awk '/CPU\ MEM\ USE/ {print $NF}' $fout | tail -n 1 | tr -d 'MB')
+    unknowns=$(awk '/global\ unknowns/ {print $3}' $fout)
+    iters=$(awk '/flux\ solver\ iterations\ for/ {print $NF}' $fout)
+    wtime=$(awk '/Total\ wall\ time/ {print $6}' $fout)
+    singlefom=$(awk '/single\ iteration\ of\ iterative/ {print $10}' $fout)
+    totalfom=$(awk '/Throughput\ of\ iterative/ {print $6}' $fout)
+    rslt_string="${iters},${unknowns}${mem},${wtime},${singlefom},${totalfom}"
+    echo $rslt_string
+}
+
+UMT=./installs/bin/test_driver
+nprocs="1 8 32 56 88 112"
+d1=14
+d2=31
+da1="$d1,$d1,$d1"
+da2="$d2,$d2,$d2"
+rslt_dir="umt_result"
+mkdir -p $rslt_dir/checks
+
+summaryf="${rslt_dir}/umt_summary.csv"
+echo "Problem,nprocs,iterations,unknowns,memory,wall_time,single_throughput,total_throughput" > $summaryf
+
+for n in $nprocs; do
+    outf="${rslt_dir}/${n}-p1.out"
+    echo "srun -N 1 -n $n $UMT -B global -d $da1 -b 1" > $outf
+    srun -N 1 -n $n $UMT -B global -d $da1 -b 1 >> $outf
+    rslt_grab=$(get_rslt $outf)
+    echo "1,${n},${rslt_grab}" >> $summaryf
+    mv unnamed.csv "${rslt_dir}/checks/n${n}-p1.check"
+
+    outf="${rslt_dir}/${n}-p2.out"
+    echo "srun -N 1 -n $n $UMT -B global -d $da2 -b 2" > $outf
+    srun -N 1 -n $n $UMT -B global -d $da2 -b 2 >> $outf
+    rslt_grab=$(get_rslt $outf)
+    echo "2,${n},${rslt_grab}" >> $summaryf
+    mv unnamed.csv "${rslt_dir}/checks/n${n}-p2.check"
+done
