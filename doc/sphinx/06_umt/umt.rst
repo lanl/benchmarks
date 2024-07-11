@@ -185,23 +185,23 @@ For SPP2 the mesh size was 33\ :sup:`3` resulting in approximately 50% usage of 
 Throughput study of SPP 1 and 2 performance on 1/4 of a Sierra node (single V100 and 10 Power9 cores), as a function of problem size:
 
 .. csv-table:: Throughput for SPP 1 on 1/4 Sierra node
-   :file: spp1_throughput_V100.csv
+   :file: ./spp1_V100/spp1_throughput_V100.csv
    :align: center
    :widths: auto
    :header-rows: 1
 
-.. figure:: spp1_throughput_V100.png
+.. figure:: ./spp1_V100/spp1_throughput_V100.png
    :alt: Throughput of SPP 1 on 1/4 Sierra node
    :align: center
    :scale: 50%
 
 .. csv-table:: Throughput for SPP 2 on 1/4 Sierra node
-   :file: spp2_throughput_V100.csv
+   :file: ./spp2_V100/spp2_throughput_V100.csv
    :align: center
    :widths: auto
    :header-rows: 1
 
-.. figure:: spp2_throughput_V100.png
+.. figure:: ./spp2_V100/spp2_throughput_V100.png
    :alt: Throughput of SPP 2 on 1/4 Sierra node
    :align: center
    :scale: 50%
