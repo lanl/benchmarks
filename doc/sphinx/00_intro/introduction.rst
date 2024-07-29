@@ -180,6 +180,10 @@ Single node benchmarks will require respondent to provide estimates on
 
 * estimates must be provided for each compute node type (including options).
 
+* a subset of the SSNI benchmarks may be used for different node types proposed as long as the full set of SSNI benchmarks is provided for at least the primary node type proposed for the ATS-5 solution.
+
+* if a subset of benchmarks are used for any node types the weights in the SSNI calculation for those benchmarks shall be normalized to 1.
+
 * Problem size must be changed to meet % of memory requirements. 
 
 * Respondent shall provide CPU strong scaling and GPU throughput results on current generation representative architectures.
@@ -292,7 +296,7 @@ SSNI Baseline
 
 The SSNI Baseline spreadsheet linked below  provides draft FOMs and example calculations of FOMs for two hypothetical systems. 
 
-:download:`SSNI-baseline-draft.xlsx <SSNI-baseline-draft.xlsx>`
+:download:`SSNI-baseline-draft-v2.xlsx <SSNI-baseline-draft-v2.xlsx>`
 
 
 System Information
