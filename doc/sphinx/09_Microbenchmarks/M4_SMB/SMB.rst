@@ -101,6 +101,7 @@ We define some system specific variables for these tests.
 * PPN - the number of processes per node.
 * CACHE - 2x the size of the largest cache size (note: we use 2x here to be thourough)
 
+Note: these tests can be memory intensive, with memory usage growing as $O(message\_size*number\_of\_messages*number\_of\_peers*processes\_per\_node)$. If memory issues occur, use the -m flag to reduce the number of messages per itteration at higher message sizes. 
 
 * 9 point stencil
 
