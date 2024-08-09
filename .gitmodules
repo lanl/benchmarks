@@ -23,3 +23,6 @@
 [submodule "kokkos-tools"]
 	path = kokkos-tools
 	url = git@github.com:kokkos/kokkos-tools.git
+[submodule "microbenchmarks/spatter"]
+	path = microbenchmarks/spatter
+	url = git@github.com:lanl/spatter.git
