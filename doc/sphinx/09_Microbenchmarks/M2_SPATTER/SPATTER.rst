@@ -81,17 +81,17 @@ To setup and build for both the CPU and GPU, run the following:
 
 This setup script performs the following:
 
-#. Untars the Pattern JSON files located in the patterns directory
+#. Untars the Pattern JSON files located in the datafiles directory
 
-   * patterns/flag/static_2d/001.fp.json
+   * datafiles/flag/static_2d/001.fp.json
 
-   * patterns/flag/static_2d/001.nonfp.json
+   * datafiles/flag/static_2d/001.nonfp.json
 
-   * patterns/flag/static_2d/001.json
+   * datafiles/flag/static_2d/001.json
 
-   * patterns/xrage/asteroid/spatter.json
+   * datafiles/xrage/asteroid/spatter.json
 
-#. Extracts patterns from patterns/xrage/asteroid/spatter.json to separate JSON files located at patterns/xrage/asteroid/spatter{1-9}.json
+#. Extracts patterns from datafiles/xrage/asteroid/spatter.json to separate JSON files located at datafiles/xrage/asteroid/spatter{1-9}.json
 
 #. Generates default module files located in modules/cpu.mod and modules/gpu.mood
 
@@ -192,7 +192,7 @@ These experiments were ran with core-binding turned on and plotting enabled.
 xRAGE Asteroid Spatter Pattern 5
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Weak-scaling experiment for the pattern in patterns/xrage/asteroid/spatter5.json. Results will be found in spatter.weakscaling/Crossroads/xrage/asteroid/spatter5/ and Figures will be found in figures/spatter.weakscaling/Crossroads/xrage/asteroid/spatter5
+Weak-scaling experiment for the pattern in datafiles/xrage/asteroid/spatter5.json. Results will be found in spatter.weakscaling/Crossroads/xrage/asteroid/spatter5/ and Figures will be found in figures/spatter.weakscaling/Crossroads/xrage/asteroid/spatter5
 
 This pattern is a Gather with a length of 8,368,968 elements with a target vector length of 1,120,524.
 
@@ -220,7 +220,7 @@ This pattern is a Gather with a length of 8,368,968 elements with a target vecto
 xRAGE Asteroid Spatter Pattern 9
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Weak-scaling experiment for the pattern in patterns/xrage/asteroid/spatter5.json. Results will be found in spatter.weakscaling/Crossroads/xrage/asteroid/spatter9/ and Figures will be found in figures/spatter.weakscaling/Crossroads/xrage/asteroid/spatter9
+Weak-scaling experiment for the pattern in datafiles/xrage/asteroid/spatter5.json. Results will be found in spatter.weakscaling/Crossroads/xrage/asteroid/spatter9/ and Figures will be found in figures/spatter.weakscaling/Crossroads/xrage/asteroid/spatter9
 
 This pattern is a Scatter with a length of 6,664,304 elements with a target vector length of 2,051,100.
 
@@ -253,7 +253,7 @@ Strong-Scaling throughput experiments with plotting enabled.
 xRAGE Asteroid Spatter Pattern 5
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Throughput experiment for the pattern in patterns/xrage/asteroid/spatter5.json. Results will be found in spatter.strongscaling/H100/xrage/asteroid/spatter5/ and Figures will be found in figures/spatter.strongscaling/H100/xrage/asteroid/spatter5/
+Throughput experiment for the pattern in datafiles/xrage/asteroid/spatter5.json. Results will be found in spatter.strongscaling/H100/xrage/asteroid/spatter5/ and Figures will be found in figures/spatter.strongscaling/H100/xrage/asteroid/spatter5/
 
 .. code-block:: bash
 
@@ -278,7 +278,7 @@ Throughput experiment for the pattern in patterns/xrage/asteroid/spatter5.json. 
 xRAGE Asteroid Spatter Pattern 9
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Throughput experiment for the pattern in patterns/xrage/asteroid/spatter9.json. Results will be found in spatter.strongscaling/H100/xrage/asteroid/spatter9/ and Figures will be found in figures/spatter.strongscaling/H100/xrage/asteroid/spatter9/
+Throughput experiment for the pattern in datafiles/xrage/asteroid/spatter9.json. Results will be found in spatter.strongscaling/H100/xrage/asteroid/spatter9/ and Figures will be found in figures/spatter.strongscaling/H100/xrage/asteroid/spatter9/
 
 Note that we need to enable atomics with the `-m` flag since this is a scatter pattern which overwrites the same location multiple times. Results with and without atomics are included, but the results with atomics enabled is the benchmarked performance number of importance.
 
