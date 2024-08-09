@@ -17,12 +17,12 @@
 [submodule "utils/pavilion"]
 	path = utils/pavilion
 	url = git@github.com:hpc/pavilion2.git
-[submodule "microbenchmarks/spatter"]
-	path = microbenchmarks/spatter
-	url = git@github.com:lanl/spatter.git
 [submodule "miniem_build/spack"]
 	path = miniem_build/spack
 	url = git@github.com:spack/spack
 [submodule "kokkos-tools"]
 	path = kokkos-tools
 	url = git@github.com:kokkos/kokkos-tools.git
+[submodule "microbenchmarks/spatter"]
+	path = microbenchmarks/spatter
+	url = git@github.com:lanl/spatter.git
