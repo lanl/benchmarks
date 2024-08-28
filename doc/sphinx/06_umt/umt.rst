@@ -23,7 +23,7 @@ The benchmark problem is a single node sweep performance problem (SPP) on a 3D u
 - SPP 1, a configuration with a high number of unknowns per spatial element with 72 directions and 128 energy bins to solve per
   mesh cell.
 - SPP 2, a configuration with a low number of unknowns per spatial element with 32 directions and 16 energy bins to solve per mesh
-  cell.  SPP 2 is still a work in progress.
+  cell.
 
 
 Figure of Merit

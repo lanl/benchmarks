@@ -294,9 +294,9 @@ Note:  % of device memory is approximate please note actual memory footprint use
 SSNI Baseline
 ===================================
 
-The SSNI Baseline spreadsheet linked below provides draft FOMs and example calculations of FOMs for two hypothetical systems with different primary node types and a third hypothetical system with a secondary node type using a subset of the SSNI benchmarks.
+The SSNI Baseline spreadsheet linked below provides FOMs and example calculations of FOMs for two hypothetical systems with different primary node types and a third hypothetical system with a secondary node type using a subset of the SSNI benchmarks.
 
-:download:`SSNI-baseline-draft-v2.xlsx <SSNI-baseline-draft-v2.xlsx>`
+:download:`SSNI-baseline.xlsx <SSNI-baseline.xlsx>`
 
 
 System Information

@@ -261,10 +261,10 @@ Results from MLMD are provided on the following systems:
 
 Training HIPNN Model
 --------------------
-For the training task, only a single FOM needs to be reported, the average epoch time found in the ``model_results.txt`` file. 
+For the training task, only a single FOM needs to be reported, the 1 / average epoch time found in the ``model_results.txt`` file. 
 
-* On Chicoma using a single GPU - 1 / FOM Average Epoch time:  1/0.24505662 = 4.05709
-* On Crossroads using a single node - 1 / FOM Average Epoch time:   1/1.67033911= .5986808
+* On Chicoma using a single GPU - 1 / Average Epoch time:  1/0.24505662 = 4.05709
+* On Crossroads using a single node - 1 /  Average Epoch time:   1/1.67033911= .5986808
 
 Simulation+Inference 
 --------------------
