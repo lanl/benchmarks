@@ -207,18 +207,24 @@ Multi-node scaling on Crossroads
 
 The results of the scaling runs performed on Crossroads are presented below.
 Parthenon was built with intel oneapi 2023.1.0 and cray-mpich 8.1.25.
-These runs used between 2 and 4096 nodes with 8 ranks per node and 14 threads (using Kokkos OpenMP) per rank.
-NXs=(208 256 320 400 512 640 800 1024 1280 1616 2048 2576)  
-NODES=(2 4 8 16 32 64 128 256 512 1024 2048 4096)
+These runs used between 4 and 4096 nodes with 8 ranks per node and 14 threads per rank (using Kokkos OpenMP) with the following problem sizes. 
+
+.. code-block:: bash
+
+NXs=(256 320 400 512 640 800 1024 1280 1616 2048 2576)
+NODES=(4 8 16 32 64 128 256 512 1024 2048 4096)
+
+..
+
 Output files can be found in ``./docs/sphinx/03_vibe/scaling/output/``
 
-.. figure:: ./scaling/weak.png
+.. figure:: ./scaling/weak-august.png
    :align: center
    :scale: 50%
    :alt: VIBE Weak scaling per node.
 
 .. csv-table:: Multi Node Scaling Parthenon
-   :file: ./scaling/weak.csv
+   :file: ./scaling/weak-august.csv
    :align: center
    :widths: 10, 10, 10, 10
    :header-rows: 1
