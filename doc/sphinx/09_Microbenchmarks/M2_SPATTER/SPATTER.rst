@@ -45,7 +45,12 @@ Accessing the benchmark, memory access patterns, and scaling scripts [LANL-Spatt
 
 Set-up:
 
-The setup script will initialize your CPU configuration file (scripts/cpu_config.sh) with ATS-3 defaults and the GPU configurationo file (scripts/gpu_config.sh) with V100/A100 defaults, and will buid Spatter for CPU and GPU. See the Spatter documentation and other build scripts (scripts/build_cpu.sh and scripts/build_cuda.sh) for further instructions for building with different compilers or for GPUs.
+The setup script will 
+
+1. Download, untar, and prepare the Spatter input decks for the static_2d and asteroid problems.
+2. Initialize your CPU configuration file (scripts/cpu_config.sh) with ATS-3 defaults and the GPU configurationo file (scripts/gpu_config.sh) with V100/A100 defaults
+3. Will build Spatter for CPU and GPU. See the Spatter documentation and other build scripts (scripts/build_cpu.sh and scripts/build_cuda.sh) for further instructions for building with different compilers or for GPUs.
+
 
 The scripts/setup.sh scripts has the following options
 
