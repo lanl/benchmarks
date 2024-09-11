@@ -3,6 +3,7 @@ doc/sphinx/output.log
 doc/sphinx/07_miniem/*.png
 doc/sphinx/08_sparta/*.png
 doc/sphinx/*/*.png
+doc/sphinx/*/*/*.png
 doc/sphinx/09_Microbenchmarks/*/*.png
 
 doc/sphinx/07_miniem/PanzerMiniEM_BlockPrec.exe
