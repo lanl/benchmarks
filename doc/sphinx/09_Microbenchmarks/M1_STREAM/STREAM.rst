@@ -12,7 +12,8 @@ Characteristics
 
 STREAM is available in the benchmarks repository.
 
-* `Benchmarks https://github.com/lanl/benchmarks/tree/main/microbenchmarks/stream>`_ 
+* LANL Benchmarks: `Benchmarks <https://github.com/lanl/benchmarks/tree/main/microbenchmarks/stream>`_
+
 .. * Github: `STREAM_github <https://github.com/jeffhammond/STREAM>`_ 
 .. * Github: `STREAM_github <https://github.com/jeffhammond/STREAM>`_ 
 .. * Official site: `STREAM_official <https://www.cs.virginia.edu/stream/>`_
