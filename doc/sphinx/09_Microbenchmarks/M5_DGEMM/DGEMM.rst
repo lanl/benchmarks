@@ -7,10 +7,15 @@ Purpose
 
 The DGEMM benchmark measures the sustained floating-point rate of a single node.
 
+* `Benchmarks https://github.com/lanl/benchmarks/tree/main/microbenchmarks/dgemm`
+
 Characteristics
 ===============
 
-- LANL Crossroads Site: `DGEMM <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/mtdgemm-crossroads-v1.0.0.tgz>`_
+DGEMM is available in the benchmarks repository:
+
+- 
+.. - LANL Crossroads Site: `DGEMM <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/mtdgemm-crossroads-v1.0.0.tgz>`_
 
 Problem
 -------

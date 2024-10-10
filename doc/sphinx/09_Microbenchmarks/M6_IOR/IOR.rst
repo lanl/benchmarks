@@ -10,10 +10,11 @@ IOR is used for testing performance of parallel file systems using various inter
 Characteristics
 ===============
 
-IOR is available:
+IOR is available in the benchmarks repository.
 
-- Github: `IOR Public <https://github.com/hpc/ior>`_
-- LANL Crossroads Site: `IOR <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/ior-3.0.1-xroads_v1.0.0.tgz>`_
+* `Benchmarks https://github.com/lanl/benchmarks/tree/main/microbenchmarks/ior>`_ 
+* Github: `IOR Public <https://github.com/hpc/ior>`_
+.. - LANL Crossroads Site: `IOR <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/ior-3.0.1-xroads_v1.0.0.tgz>`_
 
 The github repo also contains mdtest.
 

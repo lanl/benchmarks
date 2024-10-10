@@ -10,11 +10,13 @@ The `STREAM <https://github.com/jeffhammond/STREAM>`_ benchmark is a widely used
 Characteristics
 ===============
 
-STREAM is available from several sources.
+STREAM is available in the benchmarks repository.
 
-* Github: `STREAM_github <https://github.com/jeffhammond/STREAM>`_ 
-* Official site: `STREAM_official <https://www.cs.virginia.edu/stream/>`_
-* LANL Crossroads site: `STREAM_LANL <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/stream-bench-crossroads-v1.0.0.tgz>`_
+* `Benchmarks https://github.com/lanl/benchmarks/tree/main/microbenchmarks/stream>`_ 
+.. * Github: `STREAM_github <https://github.com/jeffhammond/STREAM>`_ 
+.. * Github: `STREAM_github <https://github.com/jeffhammond/STREAM>`_ 
+.. * Official site: `STREAM_official <https://www.cs.virginia.edu/stream/>`_
+.. * LANL Crossroads site: `STREAM_LANL <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/stream-bench-crossroads-v1.0.0.tgz>`_
 
 Problem
 -------

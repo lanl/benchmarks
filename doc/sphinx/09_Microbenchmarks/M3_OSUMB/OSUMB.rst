@@ -11,6 +11,7 @@ Characteristics
 ===============
 
 - Official site: `OSUMB <https://mvapich.cse.ohio-state.edu/download/mvapich/osu-micro-benchmarks-7.2.tar.gz>`_
+- LANL Benchmarks: `Benchmarks Repository <https://github.com/lanl/benchmarks/tree/main/microbenchmarks/osumb>`_
 
 Problem
 -------
