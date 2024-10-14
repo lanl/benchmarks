@@ -12,7 +12,11 @@ It can be run on any type of POSIX-compliant file system but has been designed t
 Characteristics
 ===============
 
-LANL Crossroads Site: `MDTEST <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/mdtest-1.8.4-xroads_v1.0.0.tgz>`_
+MDTEST is available in the benchmarks repository.
+
+* LANL Benchmarks: `Benchmarks <https://github.com/lanl/benchmarks/tree/main/microbenchmarks/mdtest>`_ 
+
+.. LANL Crossroads Site: `MDTEST <https://www.lanl.gov/projects/crossroads/_assets/docs/micro/mdtest-1.8.4-xroads_v1.0.0.tgz>`_
 
 Problem
 -------
