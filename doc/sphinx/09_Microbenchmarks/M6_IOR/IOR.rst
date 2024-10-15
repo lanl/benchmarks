@@ -58,6 +58,7 @@ The ior tests can be run using the following command:
 .. code-block:: bash
 
 srun -n <nnodes> --ntasks-per node=<cores_per_node> <INSTALL_DIR>/bin/ior -f <BENCHMARK_PATH>/microbenchmarks/ior/inputs.xroads/<load_type>-<io_type>-<access_type>.ior
+
 ..
 
 Where `load_type` is `load1` for sequential loads and `load2` for random loads, `io_type` is `posix` or `mpiio`, and `access_type` is `filepertask` and `sharedfile` for per task and shared accesses respectively.
