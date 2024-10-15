@@ -42,7 +42,7 @@ Ensure that the MPI compiler wrappers (e.g., `mpicc`) are in `$PATH`. Then creat
 
 .. code-block:: bash
     
-    ${BENCHMARK_PATH}/microbenchmarks/ior/configure --prefix=<INSTALL_DIR>
+    <BENCHMARK_PATH>/microbenchmarks/ior/configure --prefix=<INSTALL_DIR>
     make
     #make install
 ..
@@ -53,7 +53,17 @@ IOR executable at `src/ior`.
 Running
 =======
 
-The file ``Xrds_acceptance_script.sh`` in the IOR source directory, ``microbenchmarks/ior``, will run the read and write IOR benchmarks for a particular compiler, mpi, and number of nodes set beforehand.
+The ior tests can be run using the following command:
+
+.. code-block:: bash
+
+srun -n <nnodes> --ntasks-per node=<cores_per_node> <INSTALL_DIR>/bin/ior -f <BENCHMARK_PATH>/microbenchmarks/ior/inputs.xroads/<load_type>-<io_type>-<access_type>.ior
+..
+
+Where `load_type` is `load1` for sequential loads and `load2` for random loads, `io_type` is `posix` or `mpiio`, and `access_type` is `filepertask` and `sharedfile` for per task and shared accesses respectively.
+There are six input decks in the `inputs.xroads` directory; each should be run on a single node and across the full system in parallel.
+
+"*Note: Benchmark values for random loads are not presented here.*"
 
 Input
 -----
