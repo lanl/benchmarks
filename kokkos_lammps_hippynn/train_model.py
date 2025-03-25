@@ -15,8 +15,8 @@ max_epochs=5000
 
 network_params = {
     "possible_species": [0, 47],
-    "n_features": 8,
-    "n_sensitivities": 16,
+    "n_features": 128,
+    "n_sensitivities": 20,
     "dist_soft_min": 2.3,
     "dist_soft_max": 3.75,
     "dist_hard_max": 4,
