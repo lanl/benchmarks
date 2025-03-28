@@ -5,7 +5,7 @@ import time
 torch.set_default_dtype(torch.float32)
 #SET DEVICE
 #mydevice=torch.cuda.current_device())
-mydevice=torch.device("cpu")
+mydevice=torch.device("cuda0")
 
 import hippynn
 from hippynn.experiment import SetupParams, setup_and_train, test_model
@@ -15,11 +15,11 @@ max_epochs=5000
 
 network_params = {
     "possible_species": [0, 47],
-    "n_features": 8,
-    "n_sensitivities": 16,
+    "n_features": 192,
+    "n_sensitivities": 24,
     "dist_soft_min": 2.3,
-    "dist_soft_max": 3.75,
-    "dist_hard_max": 4,
+    "dist_soft_max": 4.5,
+    "dist_hard_max": 6.0,
     "n_interaction_layers": 1,
     "n_atom_layers": 3,
     "sensitivity_type": "inverse",
