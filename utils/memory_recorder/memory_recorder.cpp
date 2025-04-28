@@ -308,7 +308,75 @@ void MemoryRecorder::write_rss(int filewrite) {
     std::cout.flags(fls);
 }
 
-
 MemoryRecorder::~MemoryRecorder() {
     free(rss_collect);
+}
+
+// ------------------------------------------------
+//
+// LD_PRELOAD INTERFACE
+//
+// ------------------------------------------------
+
+// int MPI_Init(int *argc, char ***argv) MPICH_API_PUBLIC;
+// int MPI_Finalize(void) MPICH_API_PUBLIC;
+
+extern "C" {
+int MPI_Finalize(void) {
+    // MPI_Barrier(MPI_COMM_WORLD);
+    static int (*real_mpi_finalize)() = reinterpret_cast<int (*)()>(dlsym(RTLD_NEXT, "MPI_Finalize"));
+    MemoryRecorder mem_record = MemoryRecorder();
+    mem_record.write_rss();
+    int final_code = real_mpi_finalize();
+    std::cout << "USING MEM RECORDER FINALIZE." << std::flush;
+    std::cout << std::endl;
+    return final_code;
+}
+}
+
+// ------------------------------------------------
+//
+// FORTRAN INTERFACE
+//
+// ------------------------------------------------
+
+typedef void *OpaqueMemory;
+
+extern "C" {
+    OpaqueMemory start_memrecorder_ftn();
+    void read_meminfo_ftn( OpaqueMemory, char* );
+    void write_meminfo_ftn( OpaqueMemory );
+    void write_rss_ftn( OpaqueMemory, int );
+    void free_memrecorder_ftn( OpaqueMemory );
+}
+
+OpaqueMemory start_memrecorder_ftn() {
+    MemoryRecorder *mem_record = new MemoryRecorder();
+    return (OpaqueMemory)mem_record;
+}
+
+// Need to figure out what char from fortran is in C++, should be std string.
+void read_meminfo_ftn( OpaqueMemory mem_record, char* loc ) {
+    MemoryRecorder *mem_record_local = (MemoryRecorder *) mem_record;
+    std::string lstr(loc);
+    mem_record_local->read_meminfo(lstr);
+    return;
+}
+
+void write_meminfo_ftn( OpaqueMemory mem_record ) {
+    MemoryRecorder *mem_record_local = (MemoryRecorder *) mem_record;
+    mem_record_local->write_meminfo();
+    return;
+}
+
+void write_rss_ftn( OpaqueMemory mem_record, int flag ) {
+    MemoryRecorder *mem_record_local = (MemoryRecorder *) mem_record;
+    mem_record_local->write_rss(flag);
+    return;
+}
+
+void free_memrecorder_ftn( OpaqueMemory mem_record ) {
+    MemoryRecorder *mem_record_local = (MemoryRecorder *) mem_record;
+    delete(mem_record_local);
+    return;
 }

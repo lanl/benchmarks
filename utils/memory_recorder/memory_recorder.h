@@ -15,6 +15,7 @@
 #include <sys/sysinfo.h>
 #include <sys/resource.h>
 #include <unistd.h>
+#include <dlfcn.h>
 
 #include <mpi.h>
 
