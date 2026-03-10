@@ -1,0 +1,9 @@
+[Core]
+Name = IOR Summary Table Result Parser
+Module = ior_table
+
+[Documentation]
+Description = Parses IOR Summary Table
+Author = Francine Lapid
+Version = 1.0
+Website =

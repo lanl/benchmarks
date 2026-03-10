@@ -14,12 +14,8 @@ class HostArch(sys_vars.SystemPlugin):
     def _get(self):
         """Base method for determining the host architecture."""
 
-        try:
-            out = subprocess.check_output(
-                ['/usr/projects/hpcsoft/utilities/bin/sys_arch'])
-        except:
-            out = subprocess.check_output(
-                ['/projects/hpcsoft/utilities/bin/sys_arch'])
+        out = subprocess.check_output([
+            '/usr/projects/hpcsoft/utilities/bin/sys_arch'])
 
         return out.strip().decode('utf8')
 

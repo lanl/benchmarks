@@ -18,14 +18,9 @@ class HostOS(sys_vars.SystemPlugin):
 
         os = {}
 
-        try:
-            os_all = subprocess.check_output(
-                ['/usr/projects/hpcsoft/utilities/bin/sys_os']
-                ).strip().decode('UTF-8')
-        except:
-            os_all = subprocess.check_output(
-                ['/projects/hpcsoft/utilities/bin/sys_os']
-                ).strip().decode('UTF-8')
+        os_all = subprocess.check_output(
+            ['/usr/projects/hpcsoft/utilities/bin/sys_os']
+            ).strip().decode('UTF-8')
 
         if 'toss' in os_all:
             os['name'] = 'toss'
@@ -33,5 +28,4 @@ class HostOS(sys_vars.SystemPlugin):
         elif 'cle' in os_all:
             os['name'] = 'cle'
             os['version'] = os_all[3:]
-
         return os

@@ -1,9 +1,0 @@
-[Core]
-Name = OpenMPI Module Wrapper
-Module = openmpi
-
-[Documentation]
-Description = Wrapper for the OpenMPI module.
-Author = Nicholas Sly/Paul Ferrell
-Version = 1.0
-Website =

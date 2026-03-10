@@ -14,11 +14,13 @@ class SystemNetwork(sys_vars.SystemPlugin):
     def _get(self):
         """Base method for determining the system network."""
 
-        try:
-            network = subprocess.check_output(
-                ['/usr/projects/hpcsoft/utilities/bin/sys_network'])
-        except:
-            network = subprocess.check_output(
-                ['/projects/hpcsoft/utilities/bin/sys_network'])
-
-        return network.strip().decode('utf8')
+        # sys_network script doesn't work on Venado for some reason
+        name = subprocess.check_output([
+            '/usr/projects/hpcsoft/utilities/bin/sys_name'])
+        name = name.strip().decode('UTF-8')
+        if name == 'venado':
+            return 'red'
+        else:
+            network = subprocess.check_output([
+                '/usr/projects/hpcsoft/utilities/bin/sys_network'])
+            return network.strip().decode('utf8')

@@ -95,7 +95,7 @@ _base:
 
     scheduler: slurm
     schedule:
-        nodes: '10' # 'ALL'
+        nodes: '2' # 'ALL'
         tasks_per_node: 1
         share_allocation: false
 

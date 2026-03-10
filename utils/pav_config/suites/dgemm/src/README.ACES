@@ -1,0 +1,60 @@
+===================================================================
+ACES DGEMM Benchmark
+===================================================================
+
+The purpose of the DGEMM benchmark is to provide an evaluation 
+mechanism for running numerically intensive appplications on 
+hardware systems with active thermal throttling and dynamic clock
+frequencies.
+
+The benchmark runs on a single node (i.e. there is no distributed
+MPI) but is threaded.
+
+Source code is contained in the "src" directory.
+
+===================================================================
+
+Modifications Permitted:
+
+- Vendors are permitted to change the source code in the region
+marked in the source.
+- Optimized BLAS/DGEMM routines are permitted (and encouraged) to
+demonstrated the highest performance.
+- Vendors may modify the Makefile(s) as required
+
+===================================================================
+
+Running the Benchmark:
+
+Example:
+
+export OMP_NUM_THREADS=32
+export OMP_PLACES=cores
+export OMP_PROC_BIND=close
+
+./mt-dgemm 5004 100
+
+
+- This runs the benchmark with a matrix input size of 5004 and
+100 repetitions. 
+- The vendor is free to select the matrix size but smaller matrices
+will often produce lower performance results
+- ACES will perform run the benchmark with a minimum repetition
+of 500 to ensure consistent processor performance that is unaffected
+by thermal throttling.
+
+===================================================================
+
+Example Output of Interest:
+
+Final Sum is:         5004.010000
+Memory for Matrices:  573.120483 MB
+Multiply time:        26.925897 seconds
+FLOPs computed:       25065056016000.000000
+GFLOP/s rate:         930.890292 GF/s
+
+- The GFLOP/s rate is the FOM of interest for this benchmark
+- The *entire* output should be provided by the Offeror
+
+===================================================================
+

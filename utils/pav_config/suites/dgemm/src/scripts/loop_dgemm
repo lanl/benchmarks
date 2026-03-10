@@ -1,0 +1,32 @@
+#!/bin/sh 
+CNT=${1:-10}		#Number of iterations at each Affinity; default is 10
+EXE_PATH="."            #Directory path to dgemm executable
+KEY=GFLOP		#Search key
+CSV=dgemm-summary.csv	#Name of file that can be imported into Excel
+LOG=dgemm.log		#Full output; TODO: search for errors or reasonableness
+rm -f $LOG
+VENDOR=intel
+# Search loaded modules for active compiler version
+COMP=`module --terse list 2>&1 | grep $VENDOR | awk -F/ '{print $NF}'`
+# Header in csv file
+# Comment out next line if you want to append to an existing file
+echo "Date, Command, compiler, node, $KEY" > $CSV
+for AFF in "0-15" "16-31" 
+do
+# Would love to use this in command line. Tried alias and back ticks. No luck.
+CMD="OMP_NUM_THREADS=16 GOMP_CPU_AFFINITY=$AFF $EXE_PATH/mt-dgemm-icc 2048"
+i=1
+while [ "$i" -le $CNT ]
+do
+# Put static stuff in cvs file with no new line
+echo -n `date` ", " $CMD ", " $VENDOR $COMP ", " `hostname` ", " >> $CSV
+# Do it
+OMP_NUM_THREADS=16 GOMP_CPU_AFFINITY=$AFF $EXE_PATH/mt-dgemm-icc 2048 | tee -a $LOG | grep $KEY | awk '{print $3}' >> $CSV
+# Still alive feedback
+echo -n AFF=$AFF " "
+grep $KEY $LOG | tail -1
+i=`expr $i + 1`
+done #while
+done #for
+#cat $CSV
+echo Comma delimited file $CSV is ready

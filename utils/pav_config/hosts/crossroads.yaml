@@ -1,37 +1,106 @@
-################################################
-# TOSS 3 YELLOW CONFIG (snow)
-################################################
 variables:
-    intelversion: "2023.2.0"
-    crayversion: "16.0.0"
-    craympichversion: "8.1.26"
-    partn: 'standard'
-
-    mpis:
-        - { name: "cray-mpich", version: "{{craympichversion}}", mpicc: "cc", mpicxx: "CC", mpifc: "ftn", mpival: "cray"}
-    compilers:
-        - { name: "intel-classic", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn", blas_cflags: '-DUSE_CBLAS=1 -O3 -qopenmp', arch_opt: ''}
-        - { name: "intel-oneapi", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn", blas_cflags: '-DUSE_CBLAS=1 -O3 -fopenmp', arch_opt: ''}
-        - { name: "intel", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn", blas_cflags: '-DUSE_CBLAS=1 -O3 -qopenmp', arch_opt: ''}
-        - { name: "cce", version: "{{crayversion}}", cc: "cc", cxx: "CC", pe_env: cray, fc: "ftn", blas_cflags: '-DUSE_CBLAS=1 -O3 -openmp', arch_opt: ''}
-        # - { name: "gcc", version: "12.2.0", pe_env: "PrgEnv-gnu", cc: "cc", cxx: "CC", fc: "ftn", blas_cflags: '-DUSE_CBLAS=1 -O3 -fopenmp', arch_opt: ''}
     scratch:
-        - name: xrscratch
+        - name: scratch5
           path: "/lustre/xrscratch1/{{pav.user}}"
-    scratch_all:
-        - name: xrscratch
-          path: "/lustre/xrscratch1/{{pav.user}}"
-    srun_opts: ''
+    compilers: [cce, gcc, intel, intel-classic, intel-oneapi]
+    compiler_libs:
+        - name: cce
+          library_path: "/opt/cray/pe/papi/7.0.0.1/lib64:/opt/cray/libfabric/1.15.2.0/lib64"
+        - name: gcc
+          library_path: "/opt/cray/pe/papi/7.0.0.1/lib64:/opt/cray/libfabric/1.15.2.0/lib64"
+        - name: aocc
+          library_path: "/opt/cray/pe/papi/7.0.0.1/lib64:/opt/cray/libfabric/1.15.2.0/lib64"
+    mpis: [cray-mpich]
+    srun_opts: '' #'--mpi=pmix'
     srun_opts_verbose: ''
+    build_env:
+        - {compiler: gcc/12.3.0, mpi: cray-mpich/8.1.28}
+        - {compiler: gcc/12.3.0, mpi: cray-mpich/8.1.28.1}
+        - {compiler: intel/2023.2.0, mpi: cray-mpich/8.1.28}
+        - {compiler: intel/2023.2.0, mpi: cray-mpich/8.1.28.1}
+        - {compiler: intel/2024.1, mpi: cray-mpich/8.1.28}
+        - {compiler: intel-classic/2023.2.0, mpi: cray-mpich/8.1.28}
+        - {compiler: intel-oneapi/2023.2.0, mpi: cray-mpich/8.1.28}
+        - {compiler: intel-oneapi/2024.1, mpi: cray-mpich/8.1.28}
+        - {compiler: cce/17.0.0, mpi: cray-mpich/8.1.28}
+    module_timing:
+        raw_time_limit: 10
+        slurm_time_limit: 30
+    local_rpms:
+        - { distro: "hpcsoft", name: "give", version: "3.1-6", command: "give --help", where: "everywhere" }
+        - { distro: "hpcsoft", name: "fstools", version: "2.7-*", command: "chkhome", where: "everywhere" }
+    distro_rpms:
+        - { distro: "sles15", name: "iso-codes", version: "", command: "[ -f /usr/share/xml/iso-codes/iso_639.xml ]", where: "everywhere" }
+        - { distro: "sles15", name: "krb5-devel", version: "", command: "zypper -n info krb5-devel 2>\dev\null | grep -qE 'Installed +: +Yes'", where: "fes" }
+        - { distro: "sles15", name: "krb5-plugin-preauth-pkinit", version: "", command: "zypper -n info krb5-plugin-preauth-pkinit 2>\dev\null | grep -qE 'Installed +: +Yes'", where: "fes" }
+        - { distro: "sles15", name: "libtirpc-devel", version: "", command: "zypper -n info libtirpc-devel 2>\dev\null | grep -qE 'Installed +: +Yes'", where: "fes" }
+        - { distro: "sles15", name: "libtirpc3", version: "", command: "zypper -n info libtirpc3 2>\dev\null | grep -qE 'Installed +: +Yes'", where: "fes" }
+        - { distro: "sles15", name: "meld", version: "", command: "which meld", where: "everywhere" }
+        - { distro: "sles15", name: "ncurses-devel", version: "", command: "tic -V", where: "everywhere" }
+        - { distro: "sles15", name: "pdsh", version: "", command: "pdsh -L", where: "computes" }
+        - { distro: "sles15", name: "perl-XML-LibXML", version: "", command: "[ -f /usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/XML/LibXML.pm ]", where: "everywhere" }
+
+module_wrappers:
+    intel:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-intel'
+            - 'intel->intel'
+    intel-oneapi:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-intel'
+            - 'intel->intel-oneapi'
+    intel-classic:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-intel'
+            - 'intel->intel-classic'
+    gcc:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-gnu'
+            - 'gcc->gcc'
+    cce:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-cray'
+            - 'cce->cce'
+    cray-mpich:
+        env:
+            PAV_MPI_CC: cc
+            PAV_MPI_CXX: CC
+        modules:
+            - 'cray-mpich->cray-mpich'
+    cray-mpich/8.1.25:
+        env:
+            PAV_MPI_CC: cc
+            PAV_MPI_CXX: CC
+        modules:
+            - 'cpe->cpe/23.03'
+            - 'cray-mpich->cray-mpich'
+    cray-mpich/8.1.28:
+        env:
+            PAV_MPI_CC: cc
+            PAV_MPI_CXX: CC
+        modules:
+            - 'cpe->cpe/23.12'
+            - 'cray-mpich->cray-mpich'
+    cray-mpich/8.1.28.1:
+        env:
+            PAV_MPI_CC: cc
+            PAV_MPI_CXX: CC
+        modules:
+            - 'cpe->cpe/23.12'
+            - 'cray-mpich->cray-mpich'
 
 build:
     specificity: '{{sys_name}}'
 
 scheduler: slurm
+
 schedule:
-    nodes: 'all'
-    account: hpctest
+    nodes: '95%'
+    tasks_per_node: 32
     partition: standard
-    qos: standard
-    time_limit: 3
-    core_spec: 0
+
