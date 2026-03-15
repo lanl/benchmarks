@@ -38,6 +38,11 @@
 #define BLAS_LIB "cblas"
 #endif
 
+#ifdef USE_BLIS
+#include "blis.h"
+#define BLAS_LIB "blis"
+#endif
+
 #ifdef USE_ESSL
 #include "essl.h"
 #define BLAS_LIB "essl"
@@ -197,7 +202,7 @@ int main(int argc, char* argv[]) {
 
 	// Repeat multiple times
 	for(r = 0; r < repeats; r++) {
-#if defined(USE_MKL) || defined(USE_CBLAS) || defined(USE_LIBSCI)
+#if defined(USE_MKL) || defined(USE_CBLAS) || defined(USE_LIBSCI) || defined(USE_BLIS)
         cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
             N, N, N, alpha, matrixA, N, matrixB, N, beta, matrixC, N);
 #elif defined(USE_CUBLAS)
