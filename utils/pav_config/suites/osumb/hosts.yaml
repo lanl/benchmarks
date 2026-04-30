@@ -1,0 +1,164 @@
+rocinante:
+    variables:
+        scratch:
+            - name: roscratch1
+              path: "/lustre/roscratch1/{{pav.user}}"
+        compilers: [cce, gcc, intel, intel-classic, intel-oneapi]
+        mpis: [cray-mpich]
+        srun_opts: ''
+        srun_opts_verbose: ''
+        build_env:
+            - {prgenv: PrgEnv-gnu, compiler: gcc/12.3.0, mpi: cray-mpich/8.1.28}
+            - {prgenv: PrgEnv-gnu, compiler: gcc/12.3.0, mpi: cray-mpich/8.1.28.1}
+            - {prgenv: PrgEnv-intel, compiler: intel/2023.2.0, mpi: cray-mpich/8.1.28}
+            - {prgenv: PrgEnv-intel, compiler: intel/2023.2.0, mpi: cray-mpich/8.1.28.1}
+            #- {compiler: intel/2024.1, mpi: cray-mpich/8.1.28}
+            - {prgenv: PrgEnv-intel, compiler: intel-classic/2023.2.0, mpi: cray-mpich/8.1.28}
+            - {prgenv: PrgEnv-intel, compiler: intel-oneapi/2023.2.0, mpi: cray-mpich/8.1.28}
+            #- {compiler: intel-oneapi/2024.1, mpi: cray-mpich/8.1.28}
+            - {prgenv: PrgEnv-cray, compiler: cce/17.0.0, mpi: cray-mpich/8.1.28}
+    module_wrappers:
+        intel:
+            modules:
+                - 'intel->intel'
+        intel-oneapi:
+            modules:
+                - 'intel->intel-oneapi'
+        intel-classic:
+            modules:
+                - 'intel->intel-classic'
+        gcc:
+            env:
+                PAV_CC: cc
+                PAV_CXX: CC
+                PAV_MPI_CC: mpicc
+                PAV_MPIC_CXX: mpicxx
+            modules:
+                - 'PrgEnv-intel->PrgEnv-gnu'
+                - 'gcc-native->gcc'
+        cce:
+            modules:
+                - 'PrgEnv-intel->PrgEnv-cray'
+                - 'cce->cce'
+        cray-mpich:
+            env:
+                PAV_MPI_CC: cc
+                PAV_MPI_CXX: CC
+            modules:
+                - 'cray-mpich->cray-mpich'
+        cray-mpich/8.1.25:
+            env:
+                PAV_MPI_CC: cc
+                PAV_MPI_CXX: CC
+            modules:
+                - 'cpe->cpe/23.03'
+                - 'cray-mpich->cray-mpich'
+        cray-mpich/8.1.28:
+            env:
+                PAV_MPI_CC: cc
+                PAV_MPI_CXX: CC
+            modules:
+                - 'cpe->cpe/23.12'
+                - 'cray-mpich->cray-mpich'
+        cray-mpich/8.1.28.1:
+            env:
+                PAV_MPI_CC: cc
+                PAV_MPI_CXX: CC
+            modules:
+                - 'cpe->cpe/23.12'
+                - 'cray-mpich->cray-mpich'
+    
+    build:
+        specificity: '{{sys_name}}-{{sys_os.name}}-{{sys_os.version}}-{{sys_arch}}'
+    
+    scheduler: slurm
+    
+    # schedule:
+    #     nodes: '95%'
+    #     partition: standard
+    #     qos: standard
+
+selene:
+    variables:
+        compilers: [gcc]
+        mpis: [openmpi]
+        srun_opts: ''
+        srun_opts_verbose: ''
+        build_env:
+            - {compiler: gcc/12.3.0, mpi: openmpi/5.0.6}
+        scratch:
+            - name: sescratch
+              path: '/net/sescratch1/$USER'
+    module_wrappers:
+        gcc:
+            modules:
+                - 'lanlpe'
+                - 'gcc'
+        openmpi:
+            env:
+                PAV_MPI_CC: mpicc
+                PAV_MPI_CXX: mpicxx
+            modules:
+                - 'openmpi'
+    
+    build:
+        specificity: '{{sys_name}}'
+    
+    scheduler: slurm
+    
+    schedule:
+        # nodes: all
+        partition: standard
+        qos: standard
+        # tasks: 1
+        slurm:
+          up_states: [ALLOCATED, COMPLETING, PLANNED, MAINTENANCE, IDLE, MAINT, MIXED]
+          avail_states: [PLANNED, MAINTENANCE, IDLE, MAINT, MIXED] 
+          sbatch_extra:
+            - '--cpus-per-task=26'
+            - '--mem-per-gpu=120G'
+            - '--gpus-per-task=1'
+    
+venadito:
+    variables:
+        scratch:
+            - name: vtscratch1
+              path: "/lustre/vtscratch1/{{pav.user}}"
+        compilers: [gcc, cce]
+        mpis: [cray-mpich]
+        srun_opts: ''
+        srun_opts_verbose: ''
+        build_env:
+            - {prgenv: PrgEnv-gnu, compiler: gcc/12.3.0, mpi: cray-mpich/8.1.30}
+            - {prgenv: PrgEnv-cray, compiler: cce/18.0.0, mpi: cray-mpich/8.1.30}
+
+    module_wrappers:
+        gcc:
+            modules:
+                - 'PrgEnv-intel->PrgEnv-gnu'
+                - 'gcc->gcc'
+        cce:
+            modules:
+                - 'PrgEnv-intel->PrgEnv-cray'
+                - 'cce->cce'
+
+        cray-mpich:
+            env:
+                PAV_MPI_CC: cc
+                PAV_MPI_CXX: CC
+            modules:
+                - 'cray-mpich->cray-mpich'
+
+        cudatoolkit:
+            modules:
+                - 'PrgEnv-nvidia->PrgEnv-nvidia'
+
+    build:
+        specificity: '{{sys_name}}'
+
+    scheduler: slurm
+
+    schedule:
+        # nodes: '95%'
+        qos: 'standard'
+        partition: standard

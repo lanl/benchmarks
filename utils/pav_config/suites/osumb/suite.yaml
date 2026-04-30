@@ -1,0 +1,156 @@
+_base:
+  summary: "OSU C micro-benchmark, runs alltoall"
+  variables:
+    config_cmd: './configure CC=${PAV_MPI_CC} CXX=${PAV_MPI_CXX} --prefix=${PWD}/install'
+    test:
+      - {name: osu_latency, category: pt2pt, ntasks_per_node: 1, msg_size_b: 8, nnodes: 2, run_args: '-G png -x 10'}
+      - {name: osu_bibw, category: pt2pt, ntasks_per_node: 1, msg_size_b: 1024*1024, nnodes: 2, run_args: '-G png -x 10'}
+      - {name: osu_mbw_mr, category: pt2pt, ntasks_per_node: 1, msg_size_b: 16*1024, nnodes: 2, run_args: '-G png -x 10'}
+    # # "osu_latency","1 per node","8 B","2",
+# "osu_bibw","1 per node","1 MB","2",
+# "osu_mbw_mr","1 per NIC","16 KB","2",
+# "osu_get_acc_latency","1 per node","8 B","2",
+# "osu_barrier","1 per physical core","N/A","full-system",
+# "osu_ibarrier","1 per physical core","N/A","full-system",
+# "osu_put","1 per node","8 B","2",
+# "osu_get","1 per node","8 B","2",
+# "osu_allreduce","1 per physical core","8B, 25 MB","full-system",
+# "osu_alltoall","1 per physical core","1 MB","full-system",
+  build:
+    # env:
+    #   PAV_MPI_CC: mpicc
+    #   PAV_MPI_CXX: mpicxx
+    modules:
+      - '{{build_env.compiler}}'
+      - '{{build_env.mpi}}'
+    cmds:
+      - 'echo "PAV_MPI_CC: ${PAV_MPI_CC}"'
+      - 'echo "PAV_MPI_CXX: ${PAV_MPI_CXX}"'
+      - 'module list'
+      - 'pushd src'
+      - tar -xzvf osumb-from-lanl-benchmarks.tgz
+      - pushd osumb
+      - 'rm -f aclocal.m4 configure libtool'
+      - 'aclocal'
+      - 'autoconf'
+      - 'autoreconf --force --install'
+      - '{{config_cmd}}'
+      - 'make -j'
+      - 'make install'
+      - 'env'
+      - 'popd'
+  run:
+    modules:
+      - '{{build_env.compiler}}'
+      - '{{build_env.mpi}}'
+    cmds:
+      - 'echo "requested compiler: {{build_env.compiler}}"'
+      - 'echo "requested mpi: {{build_env.mpi}}"'
+      - 'echo "FI_MR_CACHE_MONITOR: $FI_MR_CACHE_MONITOR"'
+      - 'echo "Running {{test.category}}/{{test.name}}"'
+      - '{{sched.test_cmd}} src/osumb/install/libexec/osu-micro-benchmarks/mpi/{{test.category}}/{{test.name}} {{test.run_args}}'
+  scheduler: slurm
+  # permute_on: sched.chunk_ids
+  # chunk: '{{sched.chunk_ids}}'
+  permute_on: 
+    # - compilers
+    - test
+  schedule:
+    account: hpcdev
+    partition: standard
+    qos: standard
+    tasks_per_node: '{{test.ntasks_per_node}}'
+    nodes: '{{test.nnodes}}'
+
+  result_parse:
+    regex:
+#      _latencies_us:
+#        files: 'latency_output_*.txt'
+#        per_file: name
+#        match_select: all
+#        regex: 'Iteration \d+: (.+) us'
+      fi_mr_cache_monitor:
+        regex: 'FI_MR_CACHE_MONITOR: (.+)'
+      requested_compiler:
+        regex: 'requested compiler: (.+)'
+      requested_mpi:
+        regex: 'requested mpi: (.+)'
+
+#  result_evaluate:
+#    num_spikes: 'outliers2(per_file.*._latencies_us, 2)'
+
+_slurm_base:
+  inherits_from: _base
+  scheduler: slurm
+  # permute_on: sched.chunk_ids
+  # chunk: '{{sched.chunk_ids}}'
+
+cos:
+  inherits_from: _slurm_base
+  not_if:
+    '{{sys_name}}': ['fog', 'cyclone']
+  # schedule:
+  #   nodes: 2
+#    chunking:
+#      size: 256
+
+hbm:
+  inherits_from: cos
+  only_if:
+    '{{sys_name}}': 'rocinante'
+  schedule:
+    partition: hbm
+
+gpu-cuda:
+  inherits_from: cos
+  only_if:
+    '{{sys_name}}': ['chicoma', 'venado', 'venadito']
+  schedule:
+    partition: gpu
+    nodes: 2
+    tasks_per_node: 1
+    slurm:
+      srun_extra: ['--gpus-per-task=1', '--mem=40G']
+  variables:
+    config_cmd: >-
+        ./configure CC=${PAV_MPI_CC} CXX=${PAV_MPI_CXX} --prefix=${PWD}/install --enable-cuda
+        --with-cuda-include=${CRAY_CUDATOOLKIT_PREFIX}/include
+        --with-cuda-libpath=${CRAY_CUDATOOLKIT_PREFIX}/compat
+        LDFLAGS="-L${CRAY_CUDATOOLKIT_PREFIX}/compat -Wl,-rpath,${CRAY_CUDATOOLKIT_PREFIX}/compat
+        -L${CRAY_CUDATOOLKIT_PREFIX}/lib64 -Wl,-rpath,${CRAY_CUDATOOLKIT_PREFIX}/lib64"
+  build:
+    env:
+      LD_LIBRARY_PATH: "$CRAY_CUDATOOLKIT_PREFIX/compat:$LD_LIBRARY_PATH"
+    modules+:
+      - 'cudatoolkit'
+  run:
+    modules+:
+      - 'cudatoolkit'
+
+gpu-cuda-selene:
+  inherits_from: gpu-cuda
+  only_if:
+    '{{sys_name}}': ['selene']
+  build:
+    modules:
+      - '{{build_env.compiler}}'
+      - '{{build_env.mpi}}'
+      - 'cudatoolkit'
+  run:
+    modules:
+      - '{{build_env.compiler}}'
+      - '{{build_env.mpi}}'
+      - 'cudatoolkit'
+
+_debug:
+  inherits_from: _slurm_base
+  schedule:
+    nodes: 2
+    partition: debug
+    reservation: debug
+    chunking:
+      size: all
+
+_gitlab_ci:
+  inherits_from: _base
+  scheduler: raw
