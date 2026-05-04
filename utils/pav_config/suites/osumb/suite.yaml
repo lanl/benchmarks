@@ -1,7 +1,20 @@
 _base:
-  summary: "OSU C micro-benchmark, runs alltoall"
+  maintainer:
+    name: Carola I. Ellinger
+    email: cellinger@lanl.gov
+
+  summary: "OSU C micro-benchmark, runs ATS5 microbenchmarks"
+
+  subtitle: "{{title_string}}"
+
+  permute_on: 
+    - compilers
+    - mpis
+    - test
+
   variables:
     config_cmd: './configure CC=${PAV_MPI_CC} CXX=${PAV_MPI_CXX} --prefix=${PWD}/install'
+    title_string: "{{test.name}}-{{compilers}}-{{mpis}}"
     test:
       - {name: osu_latency, category: pt2pt, ntasks_per_node: 1, msg_size_b: 8, nnodes: 2, run_args: '-G png -x 10'}
       - {name: osu_bibw, category: pt2pt, ntasks_per_node: 1, msg_size_b: 1024*1024, nnodes: 2, run_args: '-G png -x 10'}
@@ -16,20 +29,35 @@ _base:
 # "osu_get","1 per node","8 B","2",
 # "osu_allreduce","1 per physical core","8B, 25 MB","full-system",
 # "osu_alltoall","1 per physical core","1 MB","full-system",
+
+  scheduler: slurm
+  # permute_on: sched.chunk_ids
+  # chunk: '{{sched.chunk_ids}}'
+  
+  schedule:
+    account: hpcdev
+    partition: standard
+    qos: standard
+    tasks_per_node: '{{test.ntasks_per_node}}'
+    nodes: '{{test.nnodes}}'
+
   build:
-    # env:
-    #   PAV_MPI_CC: mpicc
-    #   PAV_MPI_CXX: mpicxx
+    env:
+      CC: "$PAV_CC"
+
     modules:
-      - '{{build_env.compiler}}'
-      - '{{build_env.mpi}}'
+      - "{{compilers}}"
+      - "{{mpis}}"
+
+    purge_modules: true
+
     cmds:
       - 'echo "PAV_MPI_CC: ${PAV_MPI_CC}"'
       - 'echo "PAV_MPI_CXX: ${PAV_MPI_CXX}"'
       - 'module list'
       - 'pushd src'
-      - tar -xzvf osumb-from-lanl-benchmarks.tgz
-      - pushd osumb
+      # - tar -xzvf osumb-from-lanl-benchmarks.tgz
+      # - pushd osumb
       - 'rm -f aclocal.m4 configure libtool'
       - 'aclocal'
       - 'autoconf'
@@ -39,29 +67,21 @@ _base:
       - 'make install'
       - 'env'
       - 'popd'
+      
   run:
     modules:
-      - '{{build_env.compiler}}'
-      - '{{build_env.mpi}}'
+      - '{{compilers}}'
+      - '{{mpis}}'
+    
+    purge_modules: true
+
     cmds:
       - 'echo "requested compiler: {{build_env.compiler}}"'
       - 'echo "requested mpi: {{build_env.mpi}}"'
       - 'echo "FI_MR_CACHE_MONITOR: $FI_MR_CACHE_MONITOR"'
       - 'echo "Running {{test.category}}/{{test.name}}"'
       - '{{sched.test_cmd}} src/osumb/install/libexec/osu-micro-benchmarks/mpi/{{test.category}}/{{test.name}} {{test.run_args}}'
-  scheduler: slurm
-  # permute_on: sched.chunk_ids
-  # chunk: '{{sched.chunk_ids}}'
-  permute_on: 
-    # - compilers
-    - test
-  schedule:
-    account: hpcdev
-    partition: standard
-    qos: standard
-    tasks_per_node: '{{test.ntasks_per_node}}'
-    nodes: '{{test.nnodes}}'
-
+  
   result_parse:
     regex:
 #      _latencies_us:
@@ -131,6 +151,8 @@ gpu-cuda-selene:
   inherits_from: gpu-cuda
   only_if:
     '{{sys_name}}': ['selene']
+  schedule:
+    partition: standard
   build:
     modules:
       - '{{build_env.compiler}}'
