@@ -26,3 +26,6 @@
 [submodule "microbenchmarks/spatter"]
 	path = microbenchmarks/spatter
 	url = git@github.com:lanl/spatter.git
+[submodule "utils/pav_config/suites/spatter/src"]
+	path = utils/pav_config/suites/spatter/src
+	url = git@github.com:hpcgarage/spatter.git

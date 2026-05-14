@@ -1,0 +1,16 @@
+spatter:
+    maintainer:
+        name: Hank Wikle
+        email: hwikle@lanl.gov
+
+    summary: Benchmark for measuring the performance of sparse and irregular memory access. 
+
+    build:
+        modules:
+            - cmake
+
+        cmds:
+            - cd src
+            - cmake -DUSE_OPENMP=1 -DUSE_MPI=1 -B build_openmp_mpi -S .
+            - cd build_openmp_mpi
+            - make -j 8
