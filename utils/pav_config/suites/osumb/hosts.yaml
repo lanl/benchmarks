@@ -1,5 +1,9 @@
 rocinante:
     scheduler: slurm
+    variables:
+        compilers: [gcc, intel]
+        #, intel, intel-classic, intel-oneapi]
+        mpis: [cray-mpich]
     
     # schedule:
     #     nodes: '95%'

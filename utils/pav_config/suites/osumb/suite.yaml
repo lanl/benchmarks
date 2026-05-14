@@ -42,9 +42,9 @@ _base:
         nodes: '{{test.nnodes}}'
 
     build:
-        specificity: '{{sys_name}}-{{sys_os.name}}-{{sys_os.version}}-{{sys_arch}}-{{compilers}}-{{mpis}}'
-        env:
-            CC: "$PAV_CC"
+        # specificity: '{{sys_name}}-{{sys_os.name}}-{{sys_os.version}}-{{sys_arch}}-{{compilers}}-{{mpis}}'
+        # env:
+        #     CC: "$PAV_CC"
 
         modules:
             - "{{compilers}}"
