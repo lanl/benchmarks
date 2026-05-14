@@ -14,43 +14,8 @@ selene:
     variables:
         compilers: [gcc]
         mpis: [openmpi]
-        srun_opts: ''
-        srun_opts_verbose: ''
-        build_env:
-            - {compiler: gcc/12.3.0, mpi: openmpi/5.0.6}
-        scratch:
-            - name: sescratch
-              path: '/net/sescratch1/$USER'
-    module_wrappers:
-        gcc:
-            modules:
-                - 'lanlpe'
-                - 'gcc'
-        openmpi:
-            env:
-                PAV_MPI_CC: mpicc
-                PAV_MPI_CXX: mpicxx
-            modules:
-                - 'openmpi'
-    
-    build:
-        specificity: '{{sys_name}}'
-    
-    scheduler: slurm
-    
-    schedule:
-        # nodes: all
-        partition: standard
-        qos: standard
-        # tasks: 1
-        slurm:
-          up_states: [ALLOCATED, COMPLETING, PLANNED, MAINTENANCE, IDLE, MAINT, MIXED]
-          avail_states: [PLANNED, MAINTENANCE, IDLE, MAINT, MIXED] 
-          sbatch_extra:
-            - '--cpus-per-task=26'
-            - '--mem-per-gpu=120G'
-            - '--gpus-per-task=1'
-    
+
+
 venadito:
     variables:
         scratch:
