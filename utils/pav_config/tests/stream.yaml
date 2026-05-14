@@ -109,12 +109,11 @@ _base:
         - omp_num_threads
 
     build:
-        source_path: stream
-        on_nodes: true
-        preamble:
-            - 'module load friendly-testing'
-            - 'module load {{compilers.name}}/{{compilers.version}}'
-            - 'module load {{mpis.name}}/{{mpis.version}}'
+        source_path: src
+        modules:
+            - "{{compilers}}"
+            - "{{mpis}}"
+
         cmds:
             - 'NTIMES={{ntimes}}'
             - 'N={{stream_array_size}}000000'

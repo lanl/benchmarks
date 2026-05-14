@@ -1,0 +1,187 @@
+_base:
+    summary: Run STREAM test.
+    maintainer:
+        name: Francine Lapid
+        email: lapid@lanl.gov
+
+    doc: |
+
+        The STREAM source code has a parameter, N, that represents the length of the arrays used in the tests.
+        It is important to set N such that the test touches a large enough portion of the memory.
+        The vectors are of type DOUBLE PRECISION and there are three vectors A,B,C of this length. So for 8 byte doubles 3*8*N bytes are required.
+        Required Runs for Trinity/NERSC-8
+
+        On a multi-core node with "n" hardware cores and M bytes of main memory STREAM must be executed as follows:
+
+        The parameter N adjusted such that the used memory is 0.6*M. Note that three arrays of length N are allocated, so N has to be approximately 0.6*M/3.
+        Two results must be reported
+
+          a) maximum bandwidth with enough OpenMP threads to utilize all hardware cores and hardware threads (fully packed)
+          b) bandwidth for a vendor determined minimum number of cores and threads that achieves maximum bandwidth
+
+        If results a) and b) are the same, only report a single result. In both cases, report the number of cores and threads used as well as their placement and affinity, if applicable.
+
+        This test exercises the communication speeds between nodes/ranks.
+
+        The only verification that this test does of the results is to find the
+        string 'Solution Validates:' in the output.  If that isn't found but the
+        test did run, it will take a deeper investigation of the results to
+        determine the issue.  The other results will be captured by Splunk and
+        could be compared against previous results to see if any significant
+        differences can be found.  If so, there may be an issue with the High
+        Speed Network backbone.
+
+    scheduler: slurm
+
+    schedule:
+        tasks_per_node: '{{stream.taskspernode}}'
+
+    variables:
+        stream?:
+            - { ompnumthreads: "4", taskspernode: "4" }
+
+    build:
+        source_path: src
+        modules:
+            - "{{compilers}}"
+            - "{{mpis}}"
+
+        cmds:
+            - 'make clean'
+            - "memory=$(vmstat -S K | tail -n1 | awk '{print $4}')"
+            # Use awk because bc is not installed on all systems
+            - 'N=$( awk "BEGIN {print 0.6 * $memory / 3}" )'
+            - 'NTIMES=${NTIMES:=10}'
+            - 'N=${N:=50000000}'
+            - 'echo "MEMORY REPORTED is $memory; MEMORY REQUESTED is $N"'
+            - 'target=${target:=stream_c.exe}'
+            - 'if [[ "{{compilers}}" =\~ intel ]] ; then '
+            - '   PAV_CFLAGS="-O2 -ffreestanding -qopenmp -DSTREAM_ARRAY_SIZE=$N -DNTIMES=$NTIMES -mcmodel=medium"'
+            - '   PAV_FFLAGS="-O2"'
+            - 'else'
+            - '   PAV_CFLAGS="-O2 -ffreestanding -fopenmp -DSTREAM_ARRAY_SIZE=$N -DNTIMES=$NTIMES"'
+            - '   PAV_FFLAGS="-O2"'
+            - 'fi'
+            - 'export PAV_CFLAGS PAV_FFLAGS PAV_CC PAV_FC'
+            - "$PAV_MPI_CC -O stream.c -o stream || exit 1"
+
+    result_parse:
+        constant:
+            num_tasks:
+                const: "{{stream.taskspernode}}"
+            omp_num_threads:
+                const: "{{stream.ompnumthreads}}"
+        regex:
+            result:
+                regex: 'Solution Validates:'
+                action: store_true
+                files: '*stream.out'
+                per_file: all
+            memory:
+                regex: 'memory=(.*)'
+                action: store
+            ARRAY_SIZE:
+                regex: 'N=(.*)'
+                action: store
+            NTIMES:
+                regex: 'NTIMES=(.*)'
+                action: store
+            units:
+                regex: '(.B/s)'
+                action: store
+                match_select: last
+                files: '*stream.out'
+                per_file: name
+            copy:
+                regex: '^Copy: *([0-9\.]*) '
+                action: store
+                match_select: last
+                files: '*stream.out'
+                per_file: name
+            scale:
+                regex: '^Scale: *([0-9\.]*) '
+                action: store
+                match_select: last
+                files: '*stream.out'
+                per_file: name
+            add:
+                regex: '^Add: *([0-9\.]*) '
+                action: store
+                match_select: last
+                files: '*stream.out'
+                per_file: name
+            triad:
+                regex: '^Triad: *([0-9\.]*) '
+                action: store
+                match_select: last
+                files: '*stream.out'
+                per_file: name
+        table:
+            stream_table:
+                files: '*stream.out'
+                per_file: name
+                by_column: False
+                delimiter_re: '  '
+                has_row_labels: True
+                col_names: ['Function', 'Best Rate MB/s', 'Avg time', 'Min time', 'Max time']
+
+per_node:
+
+    inherits_from: _base
+    summary: Each node runs STREAM once.
+
+    schedule:
+        tasks_per_node: '{{stream.taskspernode}}'
+
+    variables:
+        node_stagger: '20'
+        wait_time: '1s'
+
+    run:
+        modules:
+            - "{{compilers}}"
+            - "{{mpis}}"
+        env:
+            OMP_NUM_THREADS: '{{stream.ompnumthreads}}'
+        cmds:
+            - "memory=$(vmstat -S K | tail -n1 | awk '{print $4}')"
+            # Use awk because bc is not installed on all systems
+            - 'N=$( awk "BEGIN {print 0.6 * $memory / 3}" )'
+            - 'NTIMES=${NTIMES:=10}'
+            - 'N=${N:=50000000}'
+            - 'echo memory=$memory'
+            - 'echo N=$N'
+            - 'echo NTIMES=$NTIMES'
+            - 'count=0'
+            - 'for node in $(scontrol show hostname)'
+            - 'do'
+            - '  srun -w $node -N1 -n{{stream.taskspernode}} ./stream &>$node-stream.out & '
+            - '  count=$(expr $count + 1)'
+            - '  if [ $(expr $count % {{node_stagger}}) -eq "0" ]'
+            - '  then'
+            - '    sleep {{wait_time}}'
+            - '  fi'
+            - 'done'
+            - 'wait'
+
+mpi:
+    inherits_from: _base
+    summary: Run STREAM test via mpi.
+    schedule:
+        tasks_per_node: '{{stream.taskspernode}}'
+    run:
+        modules:
+            - "{{compilers}}"
+            - "{{mpis}}"
+        env:
+            OMP_NUM_THREADS: '{{stream.ompnumthreads}}'
+        cmds:
+            - "memory=$(vmstat -S K | tail -n1 | awk '{print $4}')"
+            # Use awk because bc is not installed on all systems
+            - 'N=$( awk "BEGIN {print 0.6 * $memory / 3}" )'
+            - 'NTIMES=${NTIMES:=10}'
+            - 'N=${N:=50000000}'
+            - 'echo memory=$memory'
+            - 'echo N=$N'
+            - 'echo NTIMES=$NTIMES'
+            - "{{sched.test_cmd}} ./stream |tee stream.out"

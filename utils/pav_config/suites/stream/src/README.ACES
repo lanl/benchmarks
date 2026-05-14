@@ -1,0 +1,74 @@
+========================================================================================
+Crossroads Memory Bandwidth Benchmark
+========================================================================================
+Benchmark Version: 1.0.0
+
+========================================================================================
+Benchmark Description:
+========================================================================================
+The Crossroads Memory Bandwidth benchmark is a modified version of the STREAM 
+benchmark originally written by John D. McCalpin. The modifications have been made to 
+simplify the code. All memory bandwidth projections/results provided in the vendor 
+response should be measured using the kernels in this benchmark implementation and 
+not the original STREAM code.
+
+========================================================================================
+Permitted Modifications:
+========================================================================================
+Offerers are permitted to modify the benchmark in the following ways:
+
+OpenMP Pragmas - the Offeror may modify the OpenMP pragmas in the benchmark as required 
+to permit execution on the proposed system provided: (1) all modified sources and build 
+scripts are included in the RFP response; (2) any modified code used for the response 
+must continue to be a valid OpenMP program (compliant to the standard being proposed in 
+the Offeror's response).
+
+Memory Allocation Routines - memory allocation routines including modified allocations 
+to specify the level of the memory hierarchy or placement of the data are permitted 
+provided: (1) all modified sources and build scripts are included in the RFP response; 
+(2) the use of any specific libraries to provide allocation services must be provided 
+in the proposed system.
+
+Array/Allocation Sizes - the sizes of the allocated arrays may be modified to exercise 
+the appropriate size and level of the memory hierarchy provided the benchmark correctly 
+exercises the memory system being targeted. 
+
+Index Type - the range of the index type is configured for a 32-bit signed integer ("int") 
+via the preprocessor define STREAM_INDEX_TYPE. If very large memories are benchmarked 
+the Offeror is permitted to change to a larger integer type. The Offeror should indicate 
+in their response that this modification has been made.
+
+Accumulation Error Checking Type - the basic accumulation error type is configured for a 
+64-bit double precision value via the STREAM_CHECK_TYPE preprocessor define. This may be 
+modified to a higher precision type ("long double") if a large memory (requiring a 64-bit 
+integer for STREAM_INDEX_TYPE) is used. The Offeror should indicate in their response 
+that this modification has been made.
+
+========================================================================================
+Run Rules:
+========================================================================================
+The Offeror may utilize any number of threads, affinity and memory binding options for 
+execution of the benchmark provided: (1) details of all command line parameters, 
+environment variables and binding tools are included in the response.
+
+The vendor is expected to provide memory bandwidth projections/benchmarked results using 
+the Crossroads memory bandwidth benchmark to each level of the memory hierarchy 
+accessible from each compute resource.
+
+========================================================================================
+How to Compile, Run and Verify:
+========================================================================================
+To build simply type modify the file Makefile for your compiler and type make. To run, 
+execute the file xroads-stream. xroads-stream performs self verification.
+
+$ make
+<lots of make output>
+$ export OMP_NUM_THREADS=12
+$ ./xroads-stream
+<xroads-stream output>
+
+========================================================================================
+How to report
+========================================================================================
+The primary FOM is the Triad rate (MB/s). Report all data printed to stdout.
+

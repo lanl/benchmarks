@@ -1,0 +1,98 @@
+  <row>
+    <panel>
+      <title>Stream Benchmarks</title>
+      <input type="dropdown" token="OMP_NUM_THREADS" searchWhenChanged="true">
+        <label>OMP_NUM_THREADS</label>
+        <fieldForLabel>OMP_NUM_THREADS</fieldForLabel>
+        <fieldForValue>OMP_NUM_THREADS</fieldForValue>
+        <default>*</default>
+        <search>
+          <query>index=hpctest sourcetype=pavilion2 sys_name=$machine$ name=stream* omp_num_threads=* |
+table omp_num_threads |
+dedup omp_num_threads</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+      </input>
+      <input type="dropdown" token="calc" searchWhenChanged="true">
+        <label>Calculation</label>
+        <choice value="triad">triad</choice>
+        <choice value="copy">copy</choice>
+        <choice value="add">add</choice>
+        <default>triad</default>
+      </input>
+      <input type="dropdown" token="streamsort" searchWhenChanged="true">
+        <label>Sort by</label>
+        <choice value="|sort node">node</choice>
+        <choice value="|sort max(triad)">max(triad)</choice>
+        <choice value="|sort min(triad)">min(triad)</choice>
+        <choice value="|sort avg(triad)">avg(triad)</choice>
+        <choice value="|sort stdev(triad)">stdev(triad)</choice>
+        <choice value="|sort max(copy)">max(copy)</choice>
+        <choice value="|sort min(copy)">min(copy)</choice>
+        <choice value="|sort avg(copy)">avg(copy)</choice>
+        <choice value="|sort stdev(copy)">stdev(copy)</choice>
+        <choice value="|sort max(add)">max(add)</choice>
+        <choice value="|sort min(add)">min(add)</choice>
+        <choice value="|sort avg(add)">avg(add)</choice>
+        <choice value="|sort stdev(add)">stdev(add)</choice>
+        <initialValue>|sort node</initialValue>
+        <search>
+          <query/>
+        </search>
+        <default>|sort node</default>
+      </input>
+      <chart>
+        <title>Stream Triad Performance by OMP configuration $machine$</title>
+        <search>
+          <query>index=hpctest sourcetype=pavilion2 sys_name=$machine$ name=stream* omp_num_threads=$OMP_NUM_THREADS$ |
+rex field=file "(?&lt;node&gt;\w+\d+)-stream.out" | 
+chart max($calc$) min($calc$) avg($calc$) stdev($calc$) by node|
+sort max($calc$)</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.axisTitleY.text">MB/s</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.overlayFields">stdev($calc$)</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+      <chart>
+        <title>Stream Single Node $machine$ $calc$ Rate</title>
+        <search>
+          <query>index=hpctest sourcetype=pavilion2 sys_name=$machine$ name=stream* omp_num_threads=$OMP_NUM_THREADS$ |
+rex field=file "(?&lt;node&gt;\w+\d+)-stream.out" | 
+chart max($calc$) min($calc$) avg($calc$) stdev($calc$) by node $streamsort$</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.axisTitleY.text">MB/s</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.overlayFields">stdev($calc$)</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>HPL GFLOP/s Full System</title>
+      <chart>
+        <title>HPL Full System Performance $machine$</title>
+        <search>
+          <query>index=hpctest sourcetype=pavilion2 sys_name=$machine$ name=hpl-full* gflops!=null|
+chart max(gflops) as "MAX GFLOP/s"  min(gflops) as "MIN GFLOP/s" avg(gflops) as "AVG GFLOP/s" by valn|
+sort max(gflops)</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.axisTitleY.text">GFLOP/s</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>

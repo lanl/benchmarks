@@ -1,0 +1,4 @@
+rocinante:
+  variables:
+    stream:
+      - { ompnumthreads: "32", taskspernode: "4" }

@@ -130,6 +130,7 @@ cpu:
 
     schedule:
         nodes: "1"
+        partition: "hbm"
         #nodes: "all"
 
 _gpu:
