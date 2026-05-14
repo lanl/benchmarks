@@ -1,35 +1,87 @@
-################################################
-# TOSS 3 YELLOW CONFIG (snow)
-################################################
+# Rocinante
 variables:
-    intelversion: "2023.1.0"
-    crayversion: "15.0.1"
-    craympichversion: "8.1.25"
-    partn: ['hbm', 'standard']
-    mpis:
-        - { name: "cray-mpich", version: "{{craympichversion}}", mpicc: "cc", mpicxx: "CC", mpifc: "ftn", mpival: "cray"}
-    compilers:
-        - { name: "intel-classic", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn" }
-        - { name: "intel-oneapi", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn" }
-        - { name: "intel", version: "{{intelversion}}", cc: "cc", cxx: "CC", pe_env: intel, fc: "ftn" }
-        - { name: "cce", version: "{{crayversion}}", cc: "cc", cxx: "CC", pe_env: cray, fc: "ftn" }
-
     scratch:
-        - name: roscratch
+        - name: roscratch1
           path: "/lustre/roscratch1/{{pav.user}}"
-    scratch_all:
-        - name: roscratch
-          path: "/lustre/roscratch1/{{pav.user}}"
+    compilers: [cce, gcc, intel, intel-classic, intel-oneapi]
+    mpis: [cray-mpich]
     srun_opts: ''
     srun_opts_verbose: ''
+    build_env:
+        - {compiler: gcc/12.3.0, mpi: cray-mpich/8.1.28}
+        - {compiler: gcc/12.3.0, mpi: cray-mpich/8.1.28.1}
+        - {compiler: intel/2023.2.0, mpi: cray-mpich/8.1.28}
+        - {compiler: intel/2023.2.0, mpi: cray-mpich/8.1.28.1}
+        #- {compiler: intel/2024.1, mpi: cray-mpich/8.1.28}
+        - {compiler: intel-classic/2023.2.0, mpi: cray-mpich/8.1.28}
+        - {compiler: intel-oneapi/2023.2.0, mpi: cray-mpich/8.1.28}
+        #- {compiler: intel-oneapi/2024.1, mpi: cray-mpich/8.1.28}
+        - {compiler: cce/17.0.0, mpi: cray-mpich/8.1.28}
+module_wrappers:
+    intel:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-intel'
+            - 'intel->intel'
+    intel-oneapi:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-intel'
+            - 'intel->intel-oneapi'
+    intel-classic:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-intel'
+            - 'intel->intel-classic'
+    gcc:
+        env:
+            PAV_CC: cc
+            PAV_CXX: CC
+            PAV_MPI_CC: mpicc
+            PAV_MPIC_CXX: mpicxx
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-gnu'
+            - 'gcc-native->gcc'
+    cce:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-cray'
+            - 'cce->cce'
+    cray-mpich:
+        env:
+            PAV_MPI_CC: cc
+            PAV_MPI_CXX: CC
+        modules:
+            - 'cray-mpich->cray-mpich'
+    cray-mpich/8.1.25:
+        env:
+            PAV_MPI_CC: cc
+            PAV_MPI_CXX: CC
+        modules:
+            - 'cpe->cpe/23.03'
+            - 'cray-mpich->cray-mpich'
+    cray-mpich/8.1.28:
+        env:
+            PAV_MPI_CC: cc
+            PAV_MPI_CXX: CC
+        modules:
+            - 'cpe->cpe/23.12'
+            - 'cray-mpich->cray-mpich'
+    cray-mpich/8.1.28.1:
+        env:
+            PAV_MPI_CC: cc
+            PAV_MPI_CXX: CC
+        modules:
+            - 'cpe->cpe/23.12'
+            - 'cray-mpich->cray-mpich'
 
 build:
-    specificity: '{{sys_name}}'
+    specificity: '{{sys_name}}-{{sys_os.name}}-{{sys_os.version}}'
 
 scheduler: slurm
+
 schedule:
-    nodes: 'all'
-    account: hpctest
-    qos: high
-    time_limit: 4
-    core_spec: 0
+    nodes: '95%'
+    partition: standard
+    qos: standard

@@ -15,11 +15,6 @@ class SystemName(sys_vars.SystemPlugin):
     def _get(self):
         """Base method for determining the system name."""
 
-        try:
-            name = subprocess.check_output(
-                ['/usr/projects/hpcsoft/utilities/bin/sys_name'])
-        except:
-            name = subprocess.check_output(
-                ['/projects/hpcsoft/utilities/bin/sys_name'])
-
+        name = subprocess.check_output([
+            '/usr/projects/hpcsoft/utilities/bin/sys_name'])
         return name.strip().decode('UTF-8')

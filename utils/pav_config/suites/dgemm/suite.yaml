@@ -1,0 +1,244 @@
+_base:
+    maintainer:
+        name: Hank Wikle
+        email: hwikle@lanl.gov
+    summary: DGEMM runs and times various BLAS DGEMM implementations
+    subtitle: "{{title_string}}"
+
+    doc: |
+        This test executes the ACES DGEMM benchmark across multiple BLAS implementations to
+        compare numerical correctness and performance characteristics. It provides a consistent
+        workload for evaluating differences in throughput, scalability, and behavior across vendor
+        and open-source libraries. The results help validate integration and identify regressions
+        or configuration issues in the BLAS stack.
+
+    permute_on:
+        - compilers
+        - nthreads
+        - base_matrix_size
+
+    variables:
+        base_matrix_size?: 2500
+        matrix_size: "{{base_matrix_size}}"
+        cpu_mathlibs?:
+            - { name: "openblas", blas_root: "/usr", module: "", version: "" }
+        nthreads: [8, 16, 32, 56, 96, 112]
+        repeats: 500
+        title_string: "{{compilers}}-blas={{blas_name}}-mod={{blas_module}}-sz={{matrix_size}}-nth={{nthreads}}"
+
+    schedule:
+        nodes: 1
+        tasks_per_node: 1
+        share_allocation: false
+        time_limit: 2
+        slurm:
+            sbatch_extra: ''
+
+    build:
+        env:
+            BLAS_MODULE: "{{blas_module}}/{{blas_version}}"
+            CC: "$PAV_CC"
+
+        modules:
+            - "{{compilers}}"
+
+        purge_modules: true
+
+        cmds:
+            - "if [[ $BLAS_MODULE != '/' ]]; then"
+            - "    module load $BLAS_MODULE"
+            - "fi"
+            - "mkdir build"
+            - "pushd build"
+            - "cmake -DBLAS_NAME={{blas_name}} -DBLAS_ROOT={{blas_root}} ../src/src"
+            - "make -j 8"
+
+    run:
+        env:
+            BLAS_MODULE: "{{blas_module}}/{{blas_version}}"
+            OPENBLAS_NUM_THREADS: "{{nthreads}}"
+            OMP_NUM_THREADS: "{{nthreads}}"
+
+        modules:
+            - "{{compilers}}"
+
+        purge_modules: true
+
+        cmds:
+            - "if [[ $BLAS_MODULE != '/' ]]; then"
+            - "    module load $BLAS_MODULE"
+            - "fi"
+            - '# Clear caches for more consistent performance'
+            - 'srun --drop-caches=slab -N {{sched.test_nodes}} --ntasks-per-node=1 true'
+            - 'srun --drop-caches=pagecache -N {{sched.test_nodes}} --ntasks-per-node=1 true'
+            - 'for node in [~ {{sched.test_node_list}} ~]; do'
+            - '  # Exclude control node to keep test nodes homogenous'
+            - '  if [[ {{sched.test_nodes}} != 1 && $node == $SLURMD_NODENAME ]]; then'
+            - '       continue'
+            - '  fi'
+            - '  # Bind tasks to physical cores only (disable use of hyperthreads)'
+            - '  srun -w $node -N 1 -n 1 --msg-timeout=60 --cpus-per-task={{nthreads}} --hint=nomultithread --output=${node}.out --error=${node}.out ./build/dgemm {{matrix_size}} {{repeats}} &'
+            - '  # Stagger launches to reduce congestion'
+            - '  sleep 0.5'
+            - 'done'
+            - 'wait'
+
+    result_parse:
+        regex:
+            flop_total:
+                regex: 'FLOPs computed: (.*)'
+                per_file: name
+                files: '*.out'
+            gflops:
+                regex: 'GFLOP/s rate: (.*) G'
+                per_file: name
+                files: '*.out'
+            time:
+                regex: 'Multiply time: (.*) seconds'
+                per_file: name
+                files: '*.out'
+            matrix_mem:
+                regex: "Memory for Matrices: (.*) MB"
+                per_file: name
+                files: '*.out'
+
+    result_evaluate:
+        gflops_avg: avg(per_file.*.gflops)
+        gflops_max: max(per_file.*.gflops)
+        gflops_min: min(per_file.*.gflops)
+        gflops_range: (gflops_max-gflops_min)
+        gflops_pctrange: (gflops_range/gflops_avg)*100.0
+        time_avg: avg(per_file.*.time)
+        time_max: max(per_file.*.time)
+        mem_avg: avg(per_file.*.matrix_mem)
+        flop_avg: avg(per_file.*.flop_total)
+        # TODO: Fix outliers plugin for n=1
+        # gflops_outliers: outliers(per_file.*.gflops, keys(per_file), 2)
+        # noutliers: len(keys(gflops_outliers))
+
+cpu:
+    inherits_from: _base
+
+    permute_on+:
+        - cpu_mathlibs
+
+    variables:
+        blas_name: "{{cpu_mathlibs.name}}"
+        blas_root: "{{cpu_mathlibs.blas_root}}"
+        blas_module: "{{cpu_mathlibs.module}}"
+        blas_version: "{{cpu_mathlibs.version}}"
+
+    schedule:
+        nodes: "1"
+        #nodes: "all"
+
+_gpu:
+    inherits_from: _base
+
+    not_if:
+        "{{gpu_partition}}": ""
+
+    permute_on+:
+        - gpu_mathlibs
+
+    variables:
+        gpu_partition?: ""
+        gpu_mathlibs?:
+            - { name: "", blas_root: "", module: "", version: "" }
+        blas_name: "{{gpu_mathlibs.name}}"
+        blas_root: "{{gpu_mathlibs.blas_root}}"
+        blas_module: "{{gpu_mathlibs.module}}"
+        blas_version: "{{gpu_mathlibs.version}}"
+        matrix_size: "{{base_matrix_size * 10}}"
+        nthreads: 16
+
+    schedule:
+        nodes: "all"
+        partition: "{{gpu_partition}}"
+
+    build:
+        on_nodes: true
+
+gpu_nvidia:
+    inherits_from: _gpu
+
+    not_if:
+        "{{gpu_partition}}": ""
+
+    only_if:
+        "{{compilers}}": "PrgEnv-nvidia" 
+
+    variables:
+        # TODO: Pavilion isn't properly applying this override. Fix it.
+        gpu_mathlibs:
+            - { name: "", blas_root: "", module: "", version: "" }
+        blas_name: nvhpc
+        title_string: ""
+
+gpu_hgx:
+    inherits_from: _gpu
+
+    only_if:
+        "{{sys_name}}": ["selene", "helios"]
+     
+    not_if:
+        "{{compilers}}": "PrgEnv-nvidia"
+
+    build:
+        modules+:
+            - cudatoolkit
+
+    run:
+        modules+:
+            - cudatoolkit
+
+gpu_cos:
+    inherits_from: _gpu
+
+    only_if:
+        "{{sys_name}}": ["chicoma", "venado"]
+
+    not_if:
+        "{{compilers}}": "PrgEnv-nvidia"
+
+    variables:
+        gpu_cc?: ""
+
+    build:
+        modules+:
+            - cudatoolkit
+            - "craype-accel-nvidia/{{gpu_cc}}"
+
+    run:
+        modules+:
+            - cudatoolkit
+            - "craype-accel-nvidia/{{gpu_cc}}"
+
+size_scan_cpu:
+    inherits_from: cpu
+
+    variables:
+        nthreads: [56, 112]
+        base_matrix_size: [2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000]
+
+short_ssc:
+    inherits_from: size_scan_cpu
+
+    variables:
+        base_matrix_size: [2000, 3000, 4000, 6000, 8000]
+
+_debug:
+    inherits_from: cpu
+
+    permute_on:
+        - compilers
+        - cpu_mathlibs
+
+    variables:
+        matrix_size: 128
+
+    schedule:
+        nodes: 1
+
+_gitlab-ci:
+    inherits_from: _debug

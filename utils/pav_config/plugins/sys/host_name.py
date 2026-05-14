@@ -15,12 +15,7 @@ class HostName(sys_vars.SystemPlugin):
     def _get(self):
         """Base method for determining the host name."""
 
-        try:
-            out = subprocess.check_output(
-                ['/usr/projects/hpcsoft/utilities/bin/sys_name'])
-        except:
-            out = subprocess.check_output(
-                ['/projects/hpcsoft/utilities/bin/sys_name'])
-
+        out = subprocess.check_output([
+            '/usr/projects/hpcsoft/utilities/bin/sys_name'])
         return out.strip().decode('UTF-8')
 

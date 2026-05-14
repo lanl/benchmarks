@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <math.h>
 
 #define BLAS_LIB "nolib"
 
@@ -22,6 +23,11 @@
 #define BLAS_LIB "cublasXt"
 #endif
 
+#ifdef USE_NVPL
+#include "nvpl_blas_cblas.h"
+#define BLAS_LIB "nvpl"
+#endif
+
 #ifdef USE_LIBSCI
 #include <cblas.h>
 #define BLAS_LIB "libsci"
@@ -31,7 +37,6 @@
 #include <libsci_acc.h>
 #define BLAS_LIB "libsci_acc"
 #endif
-
 
 #ifdef USE_CBLAS
 #include "cblas.h"
@@ -118,7 +123,6 @@ int main(int argc, char* argv[]) {
 
     printf("Alpha =    %.2f\n", alpha);
     printf("Beta  =    %.2f\n", beta);
-    printf("BlockSize  =    %zu\n", block_size);
 	printf("Allocating Matrices...\n");
 
 	double* DGEMM_RESTRICT matrixA = (double*) malloc(matrixsize);
@@ -156,6 +160,12 @@ int main(int argc, char* argv[]) {
     cudaMemcpy(dMatrixC, matrixC, matrixsize, cudaMemcpyHostToDevice);
 #endif
 
+#ifdef USE_LIBSCI_ACC
+    libsci_acc_HostRegister(matrixA, matrixsize);
+    libsci_acc_HostRegister(matrixB, matrixsize);
+    libsci_acc_HostRegister(matrixC, matrixsize);
+#endif
+
 #ifdef USE_CUBLASXT
 // Create CublasXt Handle and select all available devices.
 // You don't want to use explicit device memory here because it needs
@@ -163,22 +173,21 @@ int main(int argc, char* argv[]) {
 // to the current device.
     int *devices = NULL;
     cublasXtHandle_t handle;
-    int device_count, blockdim;
+    int device_count;
     cudaGetDeviceCount(&device_count);
+    if ( device_count > 4 ) block_size=block_size/2;
     devices = (int *)malloc(sizeof(int) * device_count);
     cublasXtCreate(&handle);
     for (int i=0; i<device_count; i++) devices[i] = i;
     cublasXtDeviceSelect(handle, device_count, devices);
     cublasXtSetPinningMemMode(handle, CUBLASXT_PINNING_ENABLED);
     cublasXtSetBlockDim(handle, block_size);
-    cublasXtGetBlockDim(handle, &blockdim);
-    printf("CUBLASXT has block dim: %d\n", blockdim);
 #endif
 
     end = get_seconds();
     time_section = (end - start);
     printf(" %g seconds\n", time_section);
-
+    printf("BlockSize  =    %zu\n", block_size);
 	printf("Performing multiplication...\n");
 	printf("Using Blas Type: %s\n", BLAS_LIB);
 	printf("Iteration #:\n");
@@ -197,7 +206,7 @@ int main(int argc, char* argv[]) {
 
 	// Repeat multiple times
 	for(r = 0; r < repeats; r++) {
-#if defined(USE_MKL) || defined(USE_CBLAS) || defined(USE_LIBSCI)
+#if defined(USE_MKL) || defined(USE_CBLAS) || defined(USE_LIBSCI) || defined(USE_NVPL)
         cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
             N, N, N, alpha, matrixA, N, matrixB, N, beta, matrixC, N);
 #elif defined(USE_CUBLAS)
@@ -301,6 +310,12 @@ int main(int argc, char* argv[]) {
 
 	printf("===============================================================\n");
 	printf("\n");
+
+#ifdef USE_LIBSCI_ACC
+    libsci_acc_HostUnregister(matrixA);
+    libsci_acc_HostUnregister(matrixB);
+    libsci_acc_HostUnregister(matrixC);
+#endif
 
 	free(matrixA);
 	free(matrixB);

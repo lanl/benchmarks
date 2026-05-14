@@ -1,14 +1,7 @@
 #!/bin/bash
+umask 002
 
-#OPTIONAL ARG. Default pavilion.yaml is yellow.yaml in base_configs.
-pavconf=${1:-"yellow.yaml"}
-
-# # Resolves all symlinks in the given or current (no arg) path.
-# realpath() {
-#     tpth=${1:-$(pwd)}
-#     echo $(python3 -c "import os; print(os.path.realpath('$tpth'))")
-# }
-
+_dir=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")")
 realpath() {
     tpth=${1:-$(pwd)}
 	echo $(/usr/bin/realpath $tpth)
@@ -29,7 +22,7 @@ export BMARK_TOP="$(dirname $BMARK_UTIL)"
 # Set PAV_CONFIG_DIR to the directory with this file.
 # Set PAVBIN to the direcotry with the pavilion binaries in this repo.
 export PAV_CONFIG_DIR="${BMARK_UTIL}/pav_config"
-export PAVBIN="${BMARK_UTIL}/pavilion/bin"
+PAVBIN="${BMARK_UTIL}/pavilion/bin"
 
 echo "BENCHMARK PAVILION ACTIVATION PATHS:"
 echo "  THISPATH:    $(realpath $PWD)"
@@ -49,9 +42,6 @@ else
 	echo "ERROR: PAVBIN NOT SET: ${PAVBIN} is not a directory."
     echo "       PERHAPS git submodule --init --recursive hasn't been run."
 fi
-
-# Symlink desired configuration yaml to top directory.
-ln -sfn ${PAV_CONFIG_DIR}/base_configs/${pavconf} ${PAV_CONFIG_DIR}/pavilion.yaml
 
 echo "  -----------------------  "
 echo "Success:"

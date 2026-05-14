@@ -1,0 +1,42 @@
+variables:
+    scratch:
+        - name: vescratch1
+          path: "/lustre/vescratch1/{{pav.user}}"
+    compilers: [gcc, cce]
+    mpis: [cray-mpich]
+    gpu_partition: gpu
+    gpu_cc: 90
+    srun_opts: ''
+    srun_opts_verbose: ''
+    build_env:
+        - {compiler: gcc/12.3.0, mpi: cray-mpich/8.1.30}
+        - {compiler: cce/18.0.0, mpi: cray-mpich/8.1.30}
+
+module_wrappers:
+    gcc:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-gnu'
+            - 'gcc->gcc'
+    cce:
+        modules:
+            - 'cpe->cpe'
+            - 'PrgEnv-intel->PrgEnv-cray'
+            - 'cce->cce'
+
+    cray-mpich:
+        env:
+            PAV_MPI_CC: cc
+            PAV_MPI_CXX: CC
+        modules:
+            - 'cray-mpich->cray-mpich'
+
+build:
+    specificity: '{{sys_name}}'
+
+scheduler: slurm
+
+schedule:
+    nodes: '95%'
+    qos: 'standard'
+    partition: standard

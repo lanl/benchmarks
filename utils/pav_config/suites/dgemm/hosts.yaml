@@ -1,0 +1,67 @@
+chicoma:
+    variables:
+        cpu_mathlibs:
+            - { name: "openblas", module: "", version: "", blas_root: "/usr" }
+            - { name: "libsci", module: "cray-libsci", version: "23.12.5", blas_root: "" }
+            - { name: "intel-mkl", module: "intel-mkl", version: "2023.2.0", blas_root: "" }
+        gpu_mathlibs:
+            - { name: "cublas", module: "cudatoolkit", version: "12.9.0", blas_root: "${CUDA_HOME}" }
+            - { name: "cublasxt", module: "cudatoolkit", version: "12.9.0", blas_root: "${CUDA_HOME}" }
+crossroads:
+    variables:
+        cpu_mathlibs:
+            - { name: "openblas", module: "", version: "", blas_root: "/usr" }
+            - { name: "libsci", module: "cray-libsci", version: "23.12.5", blas_root: "" }
+            - { name: "intel-mkl", module: "intel-mkl", version: "2023.2.0", blas_root: "" }
+helios:
+    variables:
+        cpu_mathlibs:
+            - { name: "openblas", module: "", version: "", blas_root: "/usr" }
+        gpu_mathlibs:
+            - { name: "cublas", module: "cudatoolkit", version: "12.9.0", blas_root: "${CUDA_HOME}" }
+            - { name: "cublasxt", module: "cudatoolkit", version: "12.9.0", blas_root: "${CUDA_HOME}" }
+    schedule:
+        slurm:
+            sbatch_extra:
+                - "--cpus-per-task=16"
+                - "--hint=nomultithread"
+                - "--mem-per-gpu=120G"
+                - "--gpus-per-task=1"
+rocinante:
+    variables:
+        cpu_mathlibs:
+            - { name: "openblas", module: "", version: "", blas_root: "/usr" }
+            - { name: "libsci", module: "cray-libsci", version: "23.12.5", blas_root: "" }
+            - { name: "intel-mkl", module: "intel-mkl", version: "2023.2.0", blas_root: "" }
+selene:
+    variables:
+        cpu_mathlibs:
+            - { name: "openblas", module: "", version: "", blas_root: "/usr" }
+        gpu_mathlibs:
+            - { name: "cublas", module: "cudatoolkit", version: "12.9.0", blas_root: "${CUDA_HOME}" }
+            - { name: "cublasxt", module: "cudatoolkit", version: "12.9.0", blas_root: "${CUDA_HOME}" }
+    schedule:
+        slurm:
+            sbatch_extra:
+                - "--cpus-per-task=16"
+                - "--hint=nomultithread"
+                - "--mem-per-gpu=120G"
+                - "--gpus-per-task=1"
+tycho:
+    variables:
+        cpu_mathlibs:
+            - { name: "openblas", module: "", version: "", blas_root: "/usr" }
+            - { name: "libsci", module: "cray-libsci", version: "23.12.5", blas_root: "" }
+            - { name: "intel-mkl", module: "intel-mkl", version: "2023.2.0", blas_root: "" }
+venado:
+    variables:
+        base_matrix_size: 6400
+        cpu_mathlibs:
+            - { name: "openblas", module: "", version: "", blas_root: "/usr" }
+            - { name: "libsci", module: "cray-libsci", version: "24.07.0", blas_root: "" }
+        gpu_mathlibs:
+            - { name: "cublas", module: "cudatoolkit", version: "24.7_12.5", blas_root: "${CUDA_HOME}/../../math_libs/12.2" }
+            - { name: "cublasxt", module: "cudatoolkit", version: "24.7_12.5", blas_root: "${CUDA_HOME}/../../math_libs/12.2" }
+            # This appears to present but broken
+            # - { name: "libsci_acc", module: "cray-libsci_acc", version: "24.07.0", blas_root: "" }
+
