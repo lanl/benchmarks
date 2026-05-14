@@ -16,9 +16,9 @@ _base:
         config_cmd: './configure CC=${PAV_MPI_CC} CXX=${PAV_MPI_CXX} --prefix=${PWD}/install'
         title_string: "{{test.name}}.{{compilers}}-{{mpis}}"
         test:
-            - {name: osu_latency, category: pt2pt, ntasks_per_node: 1, msg_size_b: 8, nnodes: 2, run_args: '-G png -x 10'}
-            - {name: osu_bibw, category: pt2pt, ntasks_per_node: 1, msg_size_b: 1024*1024, nnodes: 2, run_args: '-G png -x 10'}
-            - {name: osu_mbw_mr, category: pt2pt, ntasks_per_node: 1, msg_size_b: 16*1024, nnodes: 2, run_args: '-G png -x 10'}
+            - {name: osu_latency, category: pt2pt, sub_category: standard, ntasks_per_node: 1, msg_size_b: 8, nnodes: 2, run_args: '-G png -x 10'}
+            - {name: osu_bibw, category: pt2pt, sub_category: standard, ntasks_per_node: 1, msg_size_b: 1024*1024, nnodes: 2, run_args: '-G png -x 10'}
+            - {name: osu_mbw_mr, category: pt2pt, sub_category: standard, ntasks_per_node: 1, msg_size_b: 16*1024, nnodes: 2, run_args: '-G png -x 10'}
         # # "osu_latency","1 per node","8 B","2",
 # "osu_bibw","1 per node","1 MB","2",
 # "osu_mbw_mr","1 per NIC","16 KB","2",
@@ -42,6 +42,8 @@ _base:
         nodes: '{{test.nnodes}}'
 
     build:
+        # building on Venadito takes a long time
+        timeout: 90
         specificity: '{{sys_name}}-{{sys_os.name}}-{{sys_os.version}}-{{sys_arch}}-{{compilers}}-{{mpis}}'
         # env:
         #     CC: "$PAV_CC"
@@ -81,7 +83,7 @@ _base:
             - 'echo "requested mpi: {{build_env.mpi}}"'
             - 'echo "FI_MR_CACHE_MONITOR: $FI_MR_CACHE_MONITOR"'
             - 'echo "Running {{test.category}}/{{test.name}}"'
-            - '{{sched.test_cmd}} src/install/libexec/osu-micro-benchmarks/mpi/{{test.category}}/{{test.name}} {{test.run_args}}'
+            - '{{sched.test_cmd}} c/mpi/{{test.category}}/{{test.sub_category}}/{{test.name}} {{test.run_args}}'
     
     result_parse:
         regex:
@@ -154,8 +156,6 @@ gpu-cuda-selene:
         '{{sys_name}}': ['selene']
     schedule:
         partition: standard
-    build:
-        timeout: 60
 
 _debug:
     inherits_from: _slurm_base

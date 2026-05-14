@@ -21,7 +21,7 @@ venadito:
         scratch:
             - name: vtscratch1
               path: "/lustre/vtscratch1/{{pav.user}}"
-        compilers: [gcc, cce]
+        compilers: [gcc]
         mpis: [cray-mpich]
         srun_opts: ''
         srun_opts_verbose: ''
@@ -32,11 +32,12 @@ venadito:
     module_wrappers:
         gcc:
             modules:
-                - 'PrgEnv-intel->PrgEnv-gnu'
+                - cpe->cpe
+                - 'PrgEnv-cray->PrgEnv-gnu'
                 - 'gcc->gcc'
         cce:
             modules:
-                - 'PrgEnv-intel->PrgEnv-cray'
+                - 'PrgEnv-cray->PrgEnv-cray'
                 - 'cce->cce'
 
         cray-mpich:
@@ -49,6 +50,11 @@ venadito:
         cudatoolkit:
             modules:
                 - 'PrgEnv-nvidia->PrgEnv-nvidia'
+        
+        nvhpc:
+            modules:
+                - cpe->cpe
+                - PrgEnv-cray->PrgEnv-nvidia
 
     build:
         specificity: '{{sys_name}}'
