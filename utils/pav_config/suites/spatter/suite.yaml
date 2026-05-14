@@ -5,6 +5,14 @@ _base:
 
     summary: Benchmark for measuring the performance of sparse and irregular memory access. 
 
+    variables:
+        pattern_params:
+            type: UNIFORM
+            length: 8
+            jump_size: 1
+        pattern: "{{pattern_params.type}}:{{pattern_params.length}}:{{pattern_params.jump_size}}"
+        num_gathers: 48
+
     schedule:
         qos: debug
         partition: debug
@@ -32,7 +40,7 @@ _base:
 
         cmds:
             - "cd src/build_{{ backend }}"
-            - "./spatter -pUNIFORM:8:1 -l$((2**24))"
+            - "./spatter -p{{ pattern }} -l{{ num_gathers }}"
 
 serial:
     inherits_from: _base
@@ -48,6 +56,11 @@ serial:
     variables:
         backend: serial
         cmake_opts: ""
+
+    result_parse:
+        split:
+            "_, bytes, time, bandwidth":
+                preceded_by: "^config"
 
 openmp_mpi:
     inherits_from: _base
@@ -65,6 +78,11 @@ openmp_mpi:
     variables:
         backend: openmp_mpi
         cmake_opts: -DUSE_OPENMP=1 -DUSE_MPI=1
+
+    result_parse:
+        split:
+            "_, avg_bytes, total_bytes, avg_time, avg_bandwidth, total_bandwidth":
+                preceded_by: "^config"
 
 cuda:
     inherits_from: _base
