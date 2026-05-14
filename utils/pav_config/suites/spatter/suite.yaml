@@ -1,16 +1,88 @@
-spatter:
+_base:
     maintainer:
         name: Hank Wikle
         email: hwikle@lanl.gov
 
     summary: Benchmark for measuring the performance of sparse and irregular memory access. 
 
+    schedule:
+        qos: debug
+        partition: debug
+        reservation: debug
+        nodes: 2
+
     build:
+        purge_modules: True
+
         modules:
+            - cpe/23.12
             - cmake
 
         cmds:
-            - cd src
-            - cmake -DUSE_OPENMP=1 -DUSE_MPI=1 -B build_openmp_mpi -S .
-            - cd build_openmp_mpi
-            - make -j 8
+            - "cd src"
+            - "cmake {{ cmake_opts }} -B build_{{ backend }} -S ."
+            - "cd build_{{ backend }}"
+            - "make -j 8"
+
+    run:
+        purge_modules: True
+
+        modules:
+            - cpe/23.12
+
+        cmds:
+            - "cd src/build_{{ backend }}"
+            - "./spatter -pUNIFORM:8:1 -l$((2**24))"
+
+serial:
+    inherits_from: _base
+
+    build:
+        modules+:
+            - gcc
+
+    run:
+        modules+:
+            - gcc
+
+    variables:
+        backend: serial
+        cmake_opts: ""
+
+openmp_mpi:
+    inherits_from: _base
+
+    build:
+      modules+:
+          - gcc
+          - "{{ mpis }}"
+
+    run:
+      modules+:
+          - gcc
+          - "{{ mpis }}"
+
+    variables:
+        backend: openmp_mpi
+        cmake_opts: -DUSE_OPENMP=1 -DUSE_MPI=1
+
+cuda:
+    inherits_from: _base
+
+    only_if:
+        "{{ sys_name }}": [venado, venadito]
+
+    build:
+      modules+:
+        - cudatoolkit
+
+    variables:
+        backend: cuda
+        cmake_opts: -DUSE_CUDA=1
+
+_debug:
+    inherits_from: _base
+
+    variables:
+        backend: serial
+        cmake_opts: -DCMAKE_BUILD_TYPE=Debug
