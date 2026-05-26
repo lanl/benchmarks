@@ -83,9 +83,12 @@ _base:
             - 'echo "requested mpi: {{build_env.mpi}}"'
             - 'echo "FI_MR_CACHE_MONITOR: $FI_MR_CACHE_MONITOR"'
             - 'echo "Running {{test.category}}/{{test.name}}"'
-            - '{{sched.test_cmd}} c/mpi/{{test.category}}/{{test.sub_category}}/{{test.name}} {{test.run_args}}'
+            - '{{sched.test_cmd}} src/c/mpi/{{test.category}}/{{test.sub_category}}/{{test.name}} {{test.run_args}}'
     
     result_parse:
+        constant:
+            testing_type:
+                const: "acceptance testing development"
         regex:
 #            _latencies_us:
 #                files: 'latency_output_*.txt'
@@ -98,6 +101,17 @@ _base:
                 regex: 'requested compiler: (.+)'
             requested_mpi:
                 regex: 'requested mpi: (.+)'
+            mpi_datatype:
+                regex: '# Datatype: (.*)\.'
+        table:
+            osu_data:
+                row_ignore_re: '# Datatype: .*'
+                for_lines_matching: '# Size .*'
+                table_end_re: '\(pav\) .*'
+                delimiter_re: '\s\s+'
+                has_row_labels: 'False'
+                match_select: 'all'
+
 
 #    result_evaluate:
 #        num_spikes: 'outliers2(per_file.*._latencies_us, 2)'
