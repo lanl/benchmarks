@@ -26,7 +26,8 @@ venadito:
               path: "/lustre/vtscratch1/{{pav.user}}"
         compilers: [gcc]
         mpis: [cray-mpich]
-        cores_per_node: 72
+        # same as sbatch_extra in selene.yaml specifies
+        cores_per_node: 26
         srun_opts: ''
         srun_opts_verbose: ''
         build_env:
