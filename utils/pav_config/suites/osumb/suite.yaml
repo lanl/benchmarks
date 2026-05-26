@@ -15,20 +15,19 @@ _base:
     variables:
         config_cmd: './configure CC=${PAV_MPI_CC} CXX=${PAV_MPI_CXX} --prefix=${PWD}/install'
         title_string: "{{test.name}}.{{compilers}}-{{mpis}}"
+        # taken from 'src/ats5_bm.sh'
         test:
             - {name: osu_latency, category: pt2pt, sub_category: standard, ntasks_per_node: 1, msg_size_b: 8, nnodes: 2, run_args: '-G png -x 10'}
             - {name: osu_bibw, category: pt2pt, sub_category: standard, ntasks_per_node: 1, msg_size_b: 1024*1024, nnodes: 2, run_args: '-G png -x 10'}
             - {name: osu_mbw_mr, category: pt2pt, sub_category: standard, ntasks_per_node: 1, msg_size_b: 16*1024, nnodes: 2, run_args: '-G png -x 10'}
-        # # "osu_latency","1 per node","8 B","2",
-# "osu_bibw","1 per node","1 MB","2",
-# "osu_mbw_mr","1 per NIC","16 KB","2",
-# "osu_get_acc_latency","1 per node","8 B","2",
-# "osu_barrier","1 per physical core","N/A","full-system",
-# "osu_ibarrier","1 per physical core","N/A","full-system",
-# "osu_put","1 per node","8 B","2",
-# "osu_get","1 per node","8 B","2",
-# "osu_allreduce","1 per physical core","8B, 25 MB","full-system",
-# "osu_alltoall","1 per physical core","1 MB","full-system",
+            - {name: osu_mbw_mr, category: pt2pt, sub_category: standard, ntasks_per_node: "{{cores_per_node}}", msg_size_b: 16*1024, nnodes: 2, run_args: ''}
+            - {name: osu_get_acc_latency, category: one-sided, sub_category: '', ntasks_per_node: 1, msg_size_b: 8, nnodes: 2, run_args: ''}
+            # - {name: osu_barrier, category: one-sided, sub_category: '', ntasks_per_node: "{{host_cpus}}/2", msg_size_b: '', nnodes: 'all', run_args: ''}
+            # - {name: osu_ibarrier, category: one-sided, sub_category: '', ntasks_per_node: "{{host_cpus}}/2", msg_size_b: '', nnodes: 'all', run_args: ''}
+            # - {name: osu_put, category: one-sided, sub_category: '', ntasks_per_node: 1, msg_size_b: 8, nnodes: 2, run_args: ''} ??
+            # - {name: osu_get, category: one-sided, sub_category: '', ntasks_per_node: 1, msg_size_b: 8, nnodes: 2, run_args: ''} ??
+            # - {name: osu_allreduce, category: one-sided, sub_category: '', ntasks_per_node: "{{host_cpus}}/2", msg_size_b: 8, nnodes: 'all', run_args: ''}
+            # - {name: osu_alltoall, category: one-sided, sub_category: '', ntasks_per_node: "{{host_cpus}}/2", msg_size_b: 8, nnodes: 'all', run_args: ''}
 
     scheduler: slurm
     # permute_on: sched.chunk_ids
@@ -45,8 +44,6 @@ _base:
         # building on Venadito takes a long time
         timeout: 90
         specificity: '{{sys_name}}-{{sys_os.name}}-{{sys_os.version}}-{{sys_arch}}-{{compilers}}-{{mpis}}'
-        # env:
-        #     CC: "$PAV_CC"
 
         modules:
             - "{{compilers}}"
@@ -59,8 +56,6 @@ _base:
             - 'echo "PAV_MPI_CXX: ${PAV_MPI_CXX}"'
             - 'module list'
             - 'pushd src'
-            # - tar -xzvf osumb-from-lanl-benchmarks.tgz
-            # - pushd osumb
             - 'rm -f aclocal.m4 configure libtool'
             - 'aclocal'
             - 'autoconf'
@@ -126,10 +121,6 @@ cos:
     inherits_from: _slurm_base
     not_if:
         '{{sys_name}}': ['fog', 'cyclone']
-    # schedule:
-    #     nodes: 2
-#        chunking:
-#            size: 256
 
 hbm:
     inherits_from: cos

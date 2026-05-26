@@ -4,6 +4,8 @@ rocinante:
         compilers: [gcc, intel]
         #, intel, intel-classic, intel-oneapi]
         mpis: [cray-mpich]
+        # Is there a Pavilion variable that has this info?
+        cores_per_node: 112
     
     # schedule:
     #     nodes: '95%'
@@ -14,6 +16,7 @@ selene:
     variables:
         compilers: [gcc]
         mpis: [openmpi]
+        cores_per_node: 96
 
 
 venadito:
@@ -23,6 +26,7 @@ venadito:
               path: "/lustre/vtscratch1/{{pav.user}}"
         compilers: [gcc]
         mpis: [cray-mpich]
+        cores_per_node: 72
         srun_opts: ''
         srun_opts_verbose: ''
         build_env:
