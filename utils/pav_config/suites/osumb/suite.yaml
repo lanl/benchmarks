@@ -63,7 +63,6 @@ _base:
             - '{{config_cmd}}'
             - 'make -j'
             - 'make install'
-            - 'env'
             - 'popd'
             
     run:
@@ -74,8 +73,6 @@ _base:
         purge_modules: true
 
         cmds:
-            - 'echo "requested compiler: {{build_env.compiler}}"'
-            - 'echo "requested mpi: {{build_env.mpi}}"'
             - 'echo "FI_MR_CACHE_MONITOR: $FI_MR_CACHE_MONITOR"'
             - 'echo "Running {{test.category}}/{{test.name}}"'
             - '{{sched.test_cmd}} src/c/mpi/{{test.category}}/{{test.sub_category}}/{{test.name}} {{test.run_args}}'
