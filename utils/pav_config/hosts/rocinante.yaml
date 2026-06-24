@@ -82,6 +82,6 @@ build:
 scheduler: slurm
 
 schedule:
-    nodes: '95%'
+    nodes: 2
     partition: standard
     qos: standard

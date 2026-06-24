@@ -1,0 +1,72 @@
+rocinante:
+    scheduler: slurm
+    variables:
+        compilers: [gcc, intel]
+        #, intel, intel-classic, intel-oneapi]
+        mpis: [cray-mpich]
+        # Is there a Pavilion variable that has this info?
+        cores_per_node: 112
+    
+    # schedule:
+    #     nodes: '95%'
+    #     partition: standard
+    #     qos: standard
+
+selene:
+    variables:
+        compilers: [gcc]
+        mpis: [openmpi]
+        cores_per_node: 96
+
+
+venadito:
+    variables:
+        scratch:
+            - name: vtscratch1
+              path: "/lustre/vtscratch1/{{pav.user}}"
+        compilers: [gcc]
+        mpis: [cray-mpich]
+        # same as sbatch_extra in selene.yaml specifies
+        cores_per_node: 26
+        srun_opts: ''
+        srun_opts_verbose: ''
+        build_env:
+            - {prgenv: PrgEnv-gnu, compiler: gcc/12.3.0, mpi: cray-mpich/8.1.30}
+            - {prgenv: PrgEnv-cray, compiler: cce/18.0.0, mpi: cray-mpich/8.1.30}
+
+    module_wrappers:
+        gcc:
+            modules:
+                - cpe->cpe
+                - 'PrgEnv-cray->PrgEnv-gnu'
+                - 'gcc->gcc'
+        cce:
+            modules:
+                - 'PrgEnv-cray->PrgEnv-cray'
+                - 'cce->cce'
+
+        cray-mpich:
+            env:
+                PAV_MPI_CC: cc
+                PAV_MPI_CXX: CC
+            modules:
+                - 'cray-mpich->cray-mpich'
+
+        cudatoolkit:
+            modules:
+                - 'PrgEnv-nvidia->PrgEnv-nvidia'
+        
+        nvhpc:
+            modules:
+                - cpe->cpe
+                - PrgEnv-cray->PrgEnv-nvidia
+
+    build:
+        specificity: '{{sys_name}}'
+
+    scheduler: slurm
+
+    schedule:
+        # nodes: '95%'
+        qos: 'standard'
+        partition: standard
