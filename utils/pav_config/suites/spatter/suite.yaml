@@ -1,0 +1,106 @@
+_base:
+    maintainer:
+        name: Hank Wikle
+        email: hwikle@lanl.gov
+
+    summary: Benchmark for measuring the performance of sparse and irregular memory access. 
+
+    variables:
+        pattern_params:
+            type: UNIFORM
+            length: 8
+            jump_size: 1
+        pattern: "{{pattern_params.type}}:{{pattern_params.length}}:{{pattern_params.jump_size}}"
+        num_gathers: 48
+
+    schedule:
+        qos: debug
+        partition: debug
+        reservation: debug
+        nodes: 2
+
+    build:
+        purge_modules: True
+
+        modules:
+            - cpe/23.12
+            - cmake
+
+        cmds:
+            - "cd src"
+            - "cmake {{ cmake_opts }} -B build_{{ backend }} -S ."
+            - "cd build_{{ backend }}"
+            - "make -j 8"
+
+    run:
+        purge_modules: True
+
+        modules:
+            - cpe/23.12
+
+        cmds:
+            - "cd src/build_{{ backend }}"
+            - "./spatter -p{{ pattern }} -l{{ num_gathers }}"
+
+serial:
+    inherits_from: _base
+
+    build:
+        modules+:
+            - gcc
+
+    run:
+        modules+:
+            - gcc
+
+    variables:
+        backend: serial
+        cmake_opts: ""
+
+    result_parse:
+        split:
+            "_, bytes, time, bandwidth":
+                preceded_by: "^config"
+
+openmp_mpi:
+    inherits_from: _base
+
+    build:
+      modules+:
+          - gcc
+          - "{{ mpis }}"
+
+    run:
+      modules+:
+          - gcc
+          - "{{ mpis }}"
+
+    variables:
+        backend: openmp_mpi
+        cmake_opts: -DUSE_OPENMP=1 -DUSE_MPI=1
+
+    result_parse:
+        split:
+            "_, avg_bytes, total_bytes, avg_time, avg_bandwidth, total_bandwidth":
+                preceded_by: "^config"
+
+cuda:
+    inherits_from: _base
+
+    only_if:
+        "{{ sys_name }}": [venado, venadito]
+
+    build:
+      modules+:
+        - cudatoolkit
+
+    variables:
+        backend: cuda
+        cmake_opts: -DUSE_CUDA=1
+
+_debug:
+    inherits_from: _base
+
+    variables:
+        backend: serial
+        cmake_opts: -DCMAKE_BUILD_TYPE=Debug
